@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Kim Jhone",
+    "role": "CEO of joyhome",
+    "review": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.",
+    "avatar": "/img/review1.png",
+    "rating": 5
+  },
+  {
+    "id": 2,
+    "name": "Ruri Kylia",
+    "role": "CEO of joyhome",
+    "review": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.",
+    "avatar": "/img/review2.png",
+    "rating": 4
+  }
+]

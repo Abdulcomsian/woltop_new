@@ -13,7 +13,7 @@ export default function topBar({ time }: { time: TimeProps }) {
 <div className=" mx-auto">
 
  <div className="w-full bg-gradient-to-r from-pink-700 via-pink-700 via-[60%]
-   to-purple-700 text-white text-center py-2">
+   to-purple-700 text-white text-center py-2 px-5 lg:px-6 xl:px-8">
     <div className="lg:container lg:m-auto flex flex-row justify-between items-center
      ">
        <div className="flex justify-items-start  text-left lg:w-1/2  sm:w-80 p-1">FREE Delivery on orders over ₹1099 (T&amp;Cs apply)</div>
