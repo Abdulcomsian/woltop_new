@@ -1,7 +1,15 @@
 
 import mainLogo from'../../../assets/img/logo.webp';
+import React, { useState } from 'react'; 
 
 export default function navbar() {
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
     return (
       <div>
   
@@ -22,7 +30,7 @@ export default function navbar() {
         </div>
 
         {/* <!-- primary nav --> */}
-        <div className="hidden md:flex items-center space-x-1">
+        <div className="hidden md:flex items-center space-x-1"  >
           <a href="#" className="py-5 px-3 text-gray-700 hover:text-gray-900">New Arrival</a>
           <a href="#" className="py-5 px-3 text-gray-700 hover:text-gray-900">About</a>
           <a href="#" className="py-5 px-3 text-gray-700 hover:text-gray-900">Tools</a>
@@ -56,24 +64,67 @@ export default function navbar() {
       </div>
 
           {/* <!-- mobile button goes here --> */}
-          <div className="md:hidden flex items-center">
-            <button className="mobile-menu-button">
+          {/* <div className="md:hidden flex items-center">
+            <button className="mobile-menu-button"  onClick={toggleMenu}>
               <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" 
                 viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-          </div>
-
+          </div> */}
+          <div className="md:hidden flex items-center">
+              <button
+                className="mobile-menu-button"
+                onClick={toggleMenu}
+              >
+                {isMobileMenuOpen ? (
+                  <svg
+                    className="w-6 h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="w-6 h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
     </div>
   </div>
 
           {/* <!-- mobile menu --> */}
-          <div className="mobile-menu hidden md:hidden">
-            <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">Features</a>
-            <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">Pricing</a>
-          </div>
+          <div  className={`mobile-menu ${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden`}  >
+          <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">Features</a>
+          <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">New Arrival</a>
+          <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">About</a>
+          <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">Tools</a>
+          <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">Careers</a>
+          <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">Contact</a>
+          
+        </div>
+
         </nav>
 
 

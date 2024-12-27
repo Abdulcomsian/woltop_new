@@ -32,8 +32,7 @@ export default function reeling() {
   return (
     
     <div className="container mx-auto">
-         <h3 className='text-xl font-semibold lg:text-[27px] 3xl:text-3xl font-poppins text-left mb-4 mt-4 ' >
-         Unreeling Some Wolpin Stories</h3>
+         
    
 
 <div className="grid grid-flow-col md:gap-4 auto-cols-[minmax(145px,1fr)] overflow-x-auto

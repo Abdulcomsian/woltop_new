@@ -94,11 +94,16 @@ export default function PopularWallpaper() {
 
 
   return (
-    <div className="flex w-full flex-col  pb-[20px]  lg:pb-[40px] lg:px-7 xl:px-10 xl:pb-[54px] 3xl:pb-[60px] lg:container lg:m-auto">
-     <h3 className='text-xl font-semibold lg:text-[27px] 3xl:text-3xl font-poppins  mt-5  mb-5  text-center' >Popular Wallpaper</h3>
+    <div className="flex w-full flex-col  pb-[20px]  lg:pb-[40px] 
+     xl:pb-[54px] 3xl:pb-[60px] ">
+
     {/* <div className="grid grid-cols-2 gap-4 lg:gap-2 px-3 lg:px-0 md:gap-6 gap-y-10 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] 3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))]"> */}
 <div className='w-full'>
-<div className='grid grid-cols-2 gap-5 lg:gap-2 px-3 lg:px-0 md:gap-6 gap-y-10 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] 3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))]'>
+<div className='grid grid-cols-2 gap-5 lg:gap-2 px-3 lg:px-0 md:gap-6 gap-y-10
+ lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] 
+ xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 
+ 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]
+  3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))]'>
          
             {cardData.map((card) => (
               <a >

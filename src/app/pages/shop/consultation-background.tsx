@@ -24,7 +24,7 @@ const ConsultationSection = () => {
       </div>
         
            <img src={consultantgirl.src}  
-            className="object-contain absolute left-20 bottom-0"
+            className="object-contain absolute left-20 bottom-0 hidden lg:block  block"
            width={470}
           height={550} alt="" />
       {/* Right Side - Content */}
