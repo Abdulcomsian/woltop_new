@@ -1,4 +1,7 @@
-import banner from'../../../assets/banner/banner.png';
+import banner from'../assets/cards/bill.png';
+import Shashank_Mishra  from "../assets/cards/Shashank_Mishra.png";
+import Jonaed_Hasan  from "../assets/cards/Jonaed_Hasan.png";
+import Md_RezaulKarim  from "../assets/cards/Md_RezaulKarim.png";
 
 
 export default function ourTeam() {
@@ -54,7 +57,7 @@ export default function ourTeam() {
                     <div className="img-contain-about">
                     <div className="bg-img-contain"></div>
                     <img className=" main-img mx-auto object-contain   h-48 w-46  md:h-148 md:w-196"
-                     src="assets/card/Shashank_Mishra.png" alt="Sunset in the mountains"/>
+                     src={Jonaed_Hasan.src} alt="Sunset in the mountains 1"/>
                     </div>
                     <div className="px-6 py-4">
                       <div className="font-bold text-xl mb-2">Shashank Mishra</div>
@@ -76,7 +79,7 @@ export default function ourTeam() {
                     <div className="img-contain-about">
                     <div className="bg-img-contain"></div>
                     <img className=" main-img mx-auto object-contain   h-48 w-46  md:h-148 md:w-196"
-                     src="assets/card/Md_RezaulKarim.png" alt="Sunset in the mountains"/>
+                     src={Md_RezaulKarim.src} alt="Sunset in the mountains"/>
                     </div>
                     <div className="px-6 py-4">
                       <div className="font-bold text-xl mb-2">Shashank Mishra</div>
@@ -87,7 +90,7 @@ export default function ourTeam() {
                     <div className="pt-1 pl-3 pb-2">
                       <span className="inline-block  px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><img src="assets/card/linkedin.svg" alt="" /></span>
                       <span className="inline-block   px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        <img src="assets/card/twitter.svg" alt="" /></span>
+                        <img src="../assets/card/twitter.svg" alt="" /></span>
                     </div>
                   </div>
                    </article>
@@ -98,7 +101,7 @@ export default function ourTeam() {
                     <div className="img-contain-about">
                     <div className="bg-img-contain"></div>
                     <img className=" main-img mx-auto object-contain   h-48 w-46  md:h-148 md:w-196"
-                     src="assets/card/Jonaed_Hasan.png" alt="Sunset in the mountains"/>
+                     src={Shashank_Mishra.src} alt="Sunset in the mountains"/>
                     </div>
                     <div className="px-6 py-4">
                       <div className="font-bold text-xl mb-2">Shashank Mishra</div>
@@ -109,7 +112,7 @@ export default function ourTeam() {
                     <div className="pt-1 pl-3 pb-2">
                       <span className="inline-block  px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><img src="assets/card/linkedin.svg" alt="" /></span>
                       <span className="inline-block   px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        <img src="assets/card/twitter.svg" alt="" /></span>
+                        <img src="../assets/card/twitter.svg" alt="" /></span>
                     </div>
                   </div>
                    </article>
@@ -120,7 +123,7 @@ export default function ourTeam() {
                     <div className="img-contain-about">
                     <div className="bg-img-contain"></div>
                     <img className=" main-img mx-auto object-contain   h-48 w-46  md:h-148 md:w-196"
-                     src="assets/card/Shashank_Mishra.png" alt="Sunset in the mountains"/>
+                     src="../assets/card/Shashank_Mishra.png" alt="Sunset in the mountains"/>
                     </div>
                     <div className="px-6 py-4">
                       <div className="font-bold text-xl mb-2">Shashank Mishra</div>
@@ -131,7 +134,7 @@ export default function ourTeam() {
                     <div className="pt-1 pl-3 pb-2">
                       <span className="inline-block  px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><img src="assets/card/linkedin.svg" alt="" /></span>
                       <span className="inline-block   px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        <img src="assets/card/twitter.svg" alt="" /></span>
+                        <img src="../assets/card/twitter.svg" alt="" /></span>
                     </div>
                   </div>
                    </article>
@@ -142,7 +145,7 @@ export default function ourTeam() {
                     <div className="img-contain-about">
                     <div className="bg-img-contain"></div>
                     <img className=" main-img mx-auto object-contain   h-48 w-46  md:h-148 md:w-196"
-                     src="assets/card/Md_RezaulKarim.png" alt="Sunset in the mountains"/>
+                     src="../assets/card/Md_RezaulKarim.png" alt="Sunset in the mountains"/>
                     </div>
                     <div className="px-6 py-4">
                       <div className="font-bold text-xl mb-2">Shashank Mishra</div>
@@ -153,7 +156,7 @@ export default function ourTeam() {
                     <div className="pt-1 pl-3 pb-2">
                       <span className="inline-block  px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><img src="assets/card/linkedin.svg" alt="" /></span>
                       <span className="inline-block   px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        <img src="assets/card/twitter.svg" alt="" /></span>
+                        <img src="../assets/card/twitter.svg" alt="" /></span>
                     </div>
                   </div>
                    </article>
@@ -165,7 +168,7 @@ export default function ourTeam() {
                     <div className="img-contain-about">
                     <div className="bg-img-contain"></div>
                     <img className=" main-img mx-auto object-contain   h-48 w-46  md:h-148 md:w-196"
-                     src="assets/card/Jonaed_Hasan.png" alt="Sunset in the mountains"/>
+                     src="../assets/card/Jonaed_Hasan.png" alt="Sunset in the mountains"/>
                     </div>
                     <div className="px-6 py-4">
                       <div className="font-bold text-xl mb-2">Shashank Mishra</div>
@@ -176,7 +179,7 @@ export default function ourTeam() {
                     <div className="pt-1 pl-3 pb-2">
                       <span className="inline-block  px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><img src="assets/card/linkedin.svg" alt="" /></span>
                       <span className="inline-block   px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        <img src="assets/card/twitter.svg" alt="" /></span>
+                        <img src="../assets/card/twitter.svg" alt="" /></span>
                     </div>
                   </div>
                    </article>
@@ -187,7 +190,7 @@ export default function ourTeam() {
                     <div className="img-contain-about">
                     <div className="bg-img-contain"></div>
                     <img className=" main-img mx-auto object-contain   h-48 w-46  md:h-148 md:w-196"
-                     src="assets/card/Shashank_Mishra.png" alt="Sunset in the mountains"/>
+                     src="../assets/card/Shashank_Mishra.png" alt="Sunset in the mountains"/>
                     </div>
                     <div className="px-6 py-4">
                       <div className="font-bold text-xl mb-2">Shashank Mishra</div>

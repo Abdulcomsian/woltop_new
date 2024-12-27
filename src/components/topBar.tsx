@@ -3,11 +3,8 @@ import banner from'../../../assets/banner/banner.png';
 export default function topBar() {
   return (
     
-    <div className="container mx-auto">
-   <h1>Tesing</h1>
-     {/* <h1>lkdasnfkjdnf</h1> */}
-
-{/* <div className="w-full bg-gradient-to-r from-pink-700 via-pink-700 via-[60%]
+    <div className="mb-4 mx-auto">
+<div className="w-full bg-gradient-to-r from-pink-700 via-pink-700 via-[60%]
  to-purple-700 text-white text-center py-2">
     <div className="lg:container lg:m-auto flex flex-row justify-between items-center
      px-5 lg:px-6 xl:px-8">
@@ -16,7 +13,7 @@ export default function topBar() {
       <div className="countdown w-1/2 ml-4 flex justify-end gap-1 p-1">
       <span className="bg-white text-black p-1 w-8 ">00</span> :
        <span className="bg-white text-black p-1 w-8">07</span> : 
-       <span className="bg-white text-black p-1 w-8">27</span></div></div></div> */}
+       <span className="bg-white text-black p-1 w-8">27</span></div></div></div>
     </div>
   );
 }
