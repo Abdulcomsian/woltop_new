@@ -1,3 +1,4 @@
+"use client";
 
 import mainLogo from'../../../assets/img/logo.webp';
 import React, { useState } from 'react'; 

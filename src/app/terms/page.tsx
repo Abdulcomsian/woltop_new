@@ -19,12 +19,12 @@ import StepSection from "../pages/shop/stepSection";
 import ConsultationSection from "../pages/shop/consultation-background";
 import { Tabs,TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
-export default function productDetail() {
+export default function page() {
   return (
     <main>
          <TopBar  time={{ hours: 0, minutes: 7, seconds: 27 }} ></TopBar>
                 <Navbar></Navbar>
-               
+          
                 <Footer></Footer>
     </main>
   );
