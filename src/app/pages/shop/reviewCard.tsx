@@ -6,27 +6,35 @@ export default function reviewCard() {
   return (
     <div className='overflow-x-auto flex gap-4 md:grid md:grid-cols-2 md:gap-6'>
 <div className="flex-shrink-0 w-72 md:w-auto p-6 border-2 border-dashed rounded-lg
- bg-white shadow-md"><div className="flex gap-1 mb-4">
-  <div className="flex text-yellow-400"><svg xmlns="http://www.w3.org/2000/svg"
+ bg-white shadow-md">
+  <div className="flex gap-1 mb-4">
+  <div className="flex text-yellow-400">
+    <svg xmlns="http://www.w3.org/2000/svg"
    className="h-5 w-5 fill-current" 
    viewBox="0 0 24 24">
-    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg"
+   <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg"
      className="h-5 w-5 fill-current"
       viewBox="0 0 24 24">
-        <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" 
+   <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" 
         className="h-5 w-5 fill-current" 
         viewBox="0 0 24 24">
-          <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg"
+   <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg"
            className="h-5 w-5 fill-current"
             viewBox="0 0 24 24">
-              <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg"
+    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg><svg xmlns="http://www.w3.org/2000/svg"
                className="h-5 w-5 fill-current" 
                viewBox="0 0 24 24">
-                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path></svg></div></div><p className="text-gray-600 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
+    <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
+    </svg>
+    </div>
+    
+    </div><p className="text-gray-600 mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
                 <div className="flex items-center justify-between">
                   <div className="flex"><div className="w-12 h-12 rounded-full overflow-hidden mr-4">
                     
-                    <img alt="Kim Jhone" src='http://localhost:3003/_next/image?url=%2Fimg%2Freview1.png&w=48&q=75' loading="lazy" width="48" height="48" decoding="async" data-nimg="1" />
+                    <img alt="Kim Jhone" 
+                    src='http://localhost:3003/_next/image?url=%2Fimg%2Freview1.png&w=48&q=75'
+                     loading="lazy" width="48" height="48" decoding="async" data-nimg="1" />
                         
                         </div><div><h4 className="font-semibold text-black font-poppins text-lg">Kim Jhone</h4>
                         <p className="text-xs text-gray-500 font-poppins">CEO of joyhome</p>
