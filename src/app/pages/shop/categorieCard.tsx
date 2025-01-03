@@ -4,7 +4,7 @@ import product1  from "../../../assets/product/Woltop2222.png";
 import product2  from "../../../assets/product/Woltop333333.png";
 import product3  from "../../../assets/product/Woltop44444.png";
 import product4  from "../../../assets/product/Woltop55555.png";
-
+import { ArrowRight } from '~/components/icons/Arrowfill';
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '~/components/ui/card';
 
@@ -95,11 +95,7 @@ xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12
             <span className="text-base font-semibold text-heading transition-colors
              group-hover:text-orange-500 ltr:text-left rtl:text-right text-xs md:text-base">
               {card.content}</span>
-              <svg
-               className="w-4 h-4 md:w-8 md:h-8" viewBox="0 0 30 30" fill="none" 
-               xmlns="http://www.w3.org/2000/svg">
-                <path d="M27.1875 15C27.1875 8.26934 21.7307 2.8125 15 2.8125C8.26934 2.8125 2.8125 8.26934 2.8125 15C2.8125 21.7307 8.26934 27.1875 15 27.1875C21.7307 27.1875 27.1875 21.7307 27.1875 15ZM14.0625 19.6928L17.7879 15.9375H9.02344V14.0625H17.7879L14.0625 10.3072L15.3932 8.98652L21.3598 15L15.3926 21.0135L14.0625 19.6928Z" fill="#4E4949">
-        </path></svg>
+             <ArrowRight/>
         
           </div>
        </div>
