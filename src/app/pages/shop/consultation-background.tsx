@@ -28,7 +28,7 @@ const ConsultationSection = () => {
            width={470}
           height={550} alt="" />
       {/* Right Side - Content */}
-      <div className="relative w-full sm:w-1/2 p-6 text-center sm:text-left z-10">
+      <div className="relative md:pl-40 pl-0 w-full sm:w-1/2 p-6 text-center sm:text-left z-10">
         <h2 className="text-3xl font-bold mb-4 text-black">
           In-Home Consultation
         </h2>
