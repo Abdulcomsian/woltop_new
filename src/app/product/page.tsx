@@ -33,7 +33,7 @@ export default function page() {
         <SectionBlock
         title="Experience the Texture & Shine"
         subtitle="Transform Ordinary Walls into Extraordinary Masterpieces"
-        className=" lg:m-auto container pt-4 ml-5 mt-5 "
+        className=" lg:m-auto container pt-4  mt-5 "
         position="left"
         >
         <VideoSection></VideoSection>
@@ -41,7 +41,8 @@ export default function page() {
           </div>
 
 
-          <div className="bg-[#F1FBFF]">
+        <div className="bg-[#F1FBFF]">
+
         <SectionBlock
         title=""
         subtitle=""
@@ -51,13 +52,13 @@ export default function page() {
         <ProductDescription ></ProductDescription>
         </SectionBlock>
 
-  </div>
+        </div>
 
           <div className="bg-[#FFF3F6] pt-5 mt-5 mb-5">
           <SectionBlock
           title="4 Steps Easy Installation"
           subtitle=""
-          className=" lg:m-auto container pt-4 ml-5 mt-5 "
+          className=" lg:m-auto container pt-4  mt-5 "
           position="center"
           >
           <EasySteps></EasySteps>
