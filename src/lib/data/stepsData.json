@@ -1,0 +1,34 @@
+{
+  "title": "Effortless Wallpaper Ordering",
+  "subtitle": "Simplify Your Wallpaper Shopping Experience",
+  "steps": [
+    {
+      "id": 1,
+      "step": "Step 1",
+      "title": "Choose a Design",
+      "description": "Browse through our design catalogue to choose a design that aligns with your home decor.",
+      "iconName": "ViewIcon"
+    },
+    {
+      "id": 2,
+      "step": "Step 2",
+      "title": "The Order",
+      "description": "Place your order by putting in your measurements and completing the checkout process.",
+      "iconName": "OptionsIcon"
+    },
+    {
+      "id": 3,
+      "step": "Step 3",
+      "title": "Production & Shipping",
+      "description": "Your order is then manufactured and dispatched within 48 hours of your design proof approval.",
+      "iconName": "ShippingIcon"
+    },
+    {
+      "id": 4,
+      "step": "Step 4",
+      "title": "Installation",
+      "description": "Easily get your wallpaper installed with our wide installation network covering 100+ cities.",
+      "iconName": "InstallationIcon"
+    }
+  ]
+}

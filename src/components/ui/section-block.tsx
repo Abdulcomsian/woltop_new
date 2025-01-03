@@ -26,7 +26,7 @@ const SectionBlock: React.FC<SectionProps> = ({
   subtitle,
   position,
 }) => {
-  const { t } = useTranslation('common');
+  // const { t } = useTranslation('common');
   return (
     <div
       className={cn(
@@ -41,12 +41,12 @@ const SectionBlock: React.FC<SectionProps> = ({
         >
           {title && (
             <h3 className="text-xl font-semibold lg:text-[27px] 3xl:text-3xl font-poppins">
-              {t(title)}
+              {title}
             </h3>
           )}
           {subtitle && (
             <h3 className="text-xs md:text-base lg:text-xl text-[#7A7474] font-medium font-poppins">
-              {t(subtitle)}
+              {subtitle}
             </h3>
           )}
           {/* {href && (

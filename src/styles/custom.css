@@ -1,0 +1,47 @@
+.img-contain img {
+    /* width:  500px;*/
+    height: auto;
+    width: 25px;
+    /* object-fit: cover; */
+  }
+  .img-contain-about .main-img {
+    z-index: 99;
+    /* border: 2px solid red; */
+    /* height: 100%; */
+    /* width:  100%; */
+  }
+  .img-contain-about {
+    position: relative;
+    /* height: 50px; */
+    /* border: 2px solid red; */
+   width: auto;
+   overflow: hidden;
+  }
+  .img-contain {
+    position: relative;
+    height: 50px;
+    /* border: 2px solid red; */
+    width: auto;
+    overflow: hidden;
+  }
+  .img-contain .main-img {
+    z-index: 99;
+    /* border: 2px solid red; */
+    height: 100%;
+    /* position: absolute; */
+  }
+  
+  .banner-wrapper {
+    background: url(../../../public/img/blue-bg.png);
+    height: auto; /* You must set a specified height */
+    background-position: center center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    /* border: 2px solid red; */
+    height: 100%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    background-color: #eefaff;
+  }
+
+  
