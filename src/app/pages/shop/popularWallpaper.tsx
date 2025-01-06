@@ -1,3 +1,4 @@
+import { CardPlus } from '~/components/icons/CardPlus';
 import banner from'../../../assets/banner/banner.png';
 import product1  from "../../../assets/product/Woltop2222.png";
 import product2  from "../../../assets/product/Woltop333333.png";
@@ -6,6 +7,8 @@ import product4  from "../../../assets/product/Woltop55555.png";
 
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '~/components/ui/card';
+import { Minus } from '~/components/icons/Minus';
+import { Plus } from '~/components/icons/Plus';
 
 export default function PopularWallpaper() {
 
@@ -108,16 +111,37 @@ export default function PopularWallpaper() {
             {cardData.map((card) => (
               <a >
               <div className="card-wrapper relative">
-<div className="absolute   z-40 top-0 right-0  translate-x-1/2 -translate-y-1/2 ">
-<div className="w-11/12 flex justify-end">
+<div className="absolute   z-40 top-0 right-10  translate-x-1/2 -translate-y-1/2 ">
+{/* <div className="w-11/12 flex justify-end">
 <button className="flex h-7 w-7 items-center justify-center rounded border border-blue-200
  bg-[#F5FFFC] text-sm text-heading transition-colors hover:border-accent hover:bg-accent
  
   hover:text-light focus:border-accent focus:bg-accent focus:text-light focus:outline-0 md:h-9 
-  md:w-9" ><svg fill="#49AD91" viewBox="0 0 24 24" stroke="#49AD91"
-   className="h-5 w-5 stroke-2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-    </svg></button></div>
+  md:w-9" >
+    
+   <CardPlus></CardPlus>
+    
+    </button></div> */}
+
+       <div className="flex border rounded border-[#49AD91]">
+          <button className="cursor-pointer p-2 w-[35px] text-[#49AD91] flex justify-center items-center rounded">
+            <span className="sr-only">minus</span>
+          <Minus></Minus>
+          </button>
+
+          <div className="flex items-center justify-center p-2 w-[35px] bg-[#49AD91]
+           text-white font-medium text-sm">
+       
+           22
+          </div>
+
+          <button className="cursor-pointer p-2 w-[35px] text-[#49AD91] flex justify-center items-center rounded">
+            <span className="sr-only">plus</span>
+            <Plus></Plus>
+            
+          </button>
+        </div>
+
 </div>
               
         <Card key={card.id}

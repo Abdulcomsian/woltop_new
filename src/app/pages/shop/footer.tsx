@@ -69,7 +69,8 @@ export default function footer() {
 
                         <div  style={{   marginBottom:"12px", marginTop:"2px",}}
                         
-                        className="w-full p-6  border-2 border-dashed border-gray-300 rounded-md bg-white my-4 lg:container lg:m-auto">
+                        className="w-full p-6  border-2 border-dashed border-[#49AD91] 
+                        rounded-md bg-white my-4 lg:container lg:m-auto">
                         <div className="inline-flex flex-wrap gap-x-2 gap-y-2 items-center">
                         <a href="#" className="hover:text-gray-900 font-bold text-lg">Wallpapers:</a>
                         <a href="#" className="text-gray-700 hover:text-gray-900">Exclusive Wallpaper Designs</a>
