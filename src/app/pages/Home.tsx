@@ -18,6 +18,12 @@ import StepSection from "./shop/stepSection";
 import ConsultationSection from "./shop/consultation-background";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { useGetPopularProductsQuery } from "~/store/api/productApi";
+import SidebarMenu from "~/components/sidebarMenu";
+import SwiperCard from "~/components/swiperCard";
+
+
+
+
 export default function Home() {
   const {
     data: popularProducts,
@@ -25,13 +31,16 @@ export default function Home() {
     error,
   } = useGetPopularProductsQuery({});
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading products</div>;
+  // if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>Error loading products</div>;
   return (
     <main>
+     
+
       <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
       <Navbar></Navbar>
-      <Swiper></Swiper>
+      {/* <Swiper></Swiper> */}
+      <SwiperCard></SwiperCard>
       <SectionBlock className="pt-14 lg:container lg:m-auto" position="center">
         <Banner></Banner>
       </SectionBlock>
@@ -188,7 +197,7 @@ export default function Home() {
                 Load More
               </button>
             </div>
-            <ReviewCard></ReviewCard>
+             <ReviewCard></ReviewCard>
           </TabsContent>
         </Tabs>
       </SectionBlock>
