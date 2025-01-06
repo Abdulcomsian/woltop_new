@@ -77,17 +77,21 @@ export default function detailCard({ rating }) {
             {cardData.map((card) => (
               <a >
               <div className="card-wrapper relative">
-<div className="absolute   z-40 top-0 right-0  translate-x-1/2 -translate-y-1/2 ">
-<div className="w-11/12 flex justify-end">
-<button className="flex h-7 w-7 items-center justify-center rounded border border-blue-200
- bg-[#F5FFFC] text-sm text-heading transition-colors hover:border-accent hover:bg-accent
- 
-  hover:text-light focus:border-accent focus:bg-accent focus:text-light focus:outline-0 md:h-9 
-  md:w-9" ><svg fill="#49AD91" viewBox="0 0 24 24" stroke="#49AD91"
-   className="h-5 w-5 stroke-2">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-    </svg></button></div>
-</div>
+              <div className="absolute   z-40 top-0 right-0  translate-x-1/2 -translate-y-1/2 ">
+              <div className="w-11/12 flex justify-end">
+              <button className="flex h-7 w-7 items-center justify-center rounded border border-blue-200
+              bg-[#F5FFFC] text-sm text-heading transition-colors hover:border-accent hover:bg-accent
+              
+                hover:text-light focus:border-accent focus:bg-accent focus:text-light focus:outline-0 md:h-9 
+                md:w-9" >
+                  
+                <svg  fill="#49AD91" viewBox="0 0 24 24" stroke="#49AD91"
+                   className="h-5 w-5 stroke-2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                  </svg>
+                </button>
+                </div>
+              </div>
               
         <Card key={card.id}
           style={{ backgroundImage: `url(${card.img.src})` }}
@@ -102,8 +106,8 @@ export default function detailCard({ rating }) {
           {/* <p>{card.price}</p> */}
           
 
-        </Card>
-        <CardContent>
+          </Card>
+          <CardContent>
             <p>{card.content}</p>
           </CardContent>
           <CardFooter>
@@ -111,8 +115,8 @@ export default function detailCard({ rating }) {
           {/* <CardTitle className="text-blue-500">{card.title}</CardTitle> */}
             <CardDescription> 
               <span className="text-sm font-semibold text-heading md:text-base">{card.price}</span>
-            <del className="text-xs text-body ltr:ml-2 ml-2 rtl:mr-2 md:text-sm">{card.discountPrice}</del>
-              </CardDescription>
+              <del className="text-xs text-body ltr:ml-2 ml-2 rtl:mr-2 md:text-sm">{card.discountPrice}</del>
+            </CardDescription>
         </CardFooter>
          
 

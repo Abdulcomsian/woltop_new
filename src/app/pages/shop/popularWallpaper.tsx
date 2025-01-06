@@ -111,7 +111,8 @@ export default function PopularWallpaper() {
             {cardData.map((card) => (
               <a >
               <div className="card-wrapper relative">
-<div className="absolute   z-40 top-0 right-10  translate-x-1/2 -translate-y-1/2 ">
+<div className="absolute   z-40 -top-1 p-0 right-10  translate-x-1/2 -translate-y-1/2 ">
+
 {/* <div className="w-11/12 flex justify-end">
 <button className="flex h-7 w-7 items-center justify-center rounded border border-blue-200
  bg-[#F5FFFC] text-sm text-heading transition-colors hover:border-accent hover:bg-accent
@@ -124,7 +125,8 @@ export default function PopularWallpaper() {
     </button></div> */}
 
        <div className="flex border rounded border-[#49AD91]">
-          <button className="cursor-pointer p-2 w-[35px] text-[#49AD91] flex justify-center items-center rounded">
+          <button className="cursor-pointer p-2 w-[35px] text-[#49AD91] 
+          flex justify-center items-center rounded">
             <span className="sr-only">minus</span>
           <Minus></Minus>
           </button>
@@ -132,10 +134,11 @@ export default function PopularWallpaper() {
           <div className="flex items-center justify-center p-2 w-[35px] bg-[#49AD91]
            text-white font-medium text-sm">
        
-           22
+           23
           </div>
 
-          <button className="cursor-pointer p-2 w-[35px] text-[#49AD91] flex justify-center items-center rounded">
+          <button className="cursor-pointer p-2 w-[35px] text-[#49AD91]
+           flex justify-center items-center rounded">
             <span className="sr-only">plus</span>
             <Plus></Plus>
             
@@ -146,7 +149,7 @@ export default function PopularWallpaper() {
               
         <Card key={card.id}
           style={{ backgroundImage: `url(${card.img.src})` }}
-        className="custom-card-class h-52 z-0 md:h-80 w-auto items-center justify-center relative">
+        className="custom-card-class bg-cover h-52 z-0 md:h-80 w-auto items-center justify-center relative">
         <div className="absolute top-2  left-2 rounded bg-accent px-1.5 text-xs font-semibold bg-emerald-600 text-white
            leading-6 text-light ltr:left-3 rtl:right-2 sm:px-2 md:top-2 md:px-2.5 ltr:md:left-4
             rtl:md:right-2">{card.discount}</div>

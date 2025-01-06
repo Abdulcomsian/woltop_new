@@ -1,15 +1,8 @@
 export const Plus: React.FC<React.SVGAttributes<{}>> = (props) => (
-  <svg
-              fill="#eaeaea"
-              viewBox="0 0 24 24"
-              stroke="#eaeaea"
-              className="md:w-4.6 h-3.5  font-extrabold w-3.6 stroke-2.5 md:h-4.7 mr-2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
+<svg fill="#49AD91" viewBox="0 0 24 24" stroke="#49AD91"
+ className="h-5 w-5 stroke-2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+    </path>
+    </svg>
   );
   

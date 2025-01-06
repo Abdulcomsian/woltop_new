@@ -3,7 +3,7 @@ export const Minus: React.FC<React.SVGAttributes<{}>> = (props) => (
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              className="h-3 w-3 stroke-2.5"
+              className=" h-5 w-5 stroke-2"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M20 12H4" />
             </svg>
