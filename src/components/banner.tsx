@@ -1,4 +1,5 @@
 import Image from "next/image";
+import bannerImage from "../../public/aboutbanner.jpg"
 
 export default function banner() {
   return (
@@ -8,7 +9,7 @@ export default function banner() {
             <div className="absolute inset-0">
                <Image 
                 className="w-full h-full object-cover "
-                src={"/aboutbanner.jpg"}
+                src={"/public/aboutbanner.jpg"} 
                 alt="Banner Background"
                 width={1200}
                 height={500}
