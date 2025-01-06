@@ -1,8 +1,8 @@
 
 import TopBar from "~/components/topBar";
 // import topBar from "~/components/topBar";
-import Navbar from "../pages/shop/navbar";
-import Footer from "../pages/shop/footer";
+import Navbar from "../../components/navbar";
+import Footer from "../../components/footer";
 import {
     Accordion,
     AccordionContent,

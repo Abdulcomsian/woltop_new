@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Banner from "../pages/shop/banner";
-import Navbar from "../pages/shop/navbar";
+import Navbar from "../../components/navbar";
 import TopBar from "../pages/shop/topBar";
-import Footer from "../pages/shop/footer";
+import Footer from "../../components/footer";
 import EasySteps from "~/components/easySteps";
 import RatedReview from "~/components/ratedReview";
 import ReviewCard from "../pages/shop/reviewCard";
@@ -23,73 +23,55 @@ import DetailCard from "../pages/shop/detailCard";
 
 export default function page() {
   return (
-    <main >
-      <TopBar  time={{ hours: 0, minutes: 7, seconds: 27 }} ></TopBar>
+    <main>
+      <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
       <Navbar></Navbar>
 
       <Banner></Banner>
-        
-      <div className="  mt-5">
+
+      <div className="mt-5">
         <SectionBlock
-        title="Other Products in this Range"
-        subtitle=""
-        className="lg:container lg:m-auto pt-4 mt-4"
-        position="left"
+          title="Other Products in this Range"
+          subtitle=""
+          className="mt-4 pt-4 lg:container lg:m-auto"
+          position="left"
         >
-      
-           <DetailCard   rating={false}   ></DetailCard>
-
+          <DetailCard rating={false}></DetailCard>
         </SectionBlock>
-       </div>
+      </div>
 
-       <div className="bg-[#FFF3F6]">
-
+      <div className="bg-[#FFF3F6]">
         <SectionBlock
-        title=""
-        subtitle=""
-        className=" lg:m-auto container pt-4  mt-5 "
-        position="left"
+          title=""
+          subtitle=""
+          className="container mt-5 pt-4 lg:m-auto"
+          position="left"
         >
-        <VideoSection></VideoSection>
+          <VideoSection></VideoSection>
         </SectionBlock>
-          </div>
+      </div>
 
-          <div className="pt-5 pb-5">
-          <SectionBlock
-        title="Unreeling Some Wolpin Stories"
-        subtitle=""
-        className="lg:container lg:m-auto pt-4 mt-4"
-        position="left"
+      <div className="pb-5 pt-5">
+        <SectionBlock
+          title="Unreeling Some Wolpin Stories"
+          subtitle=""
+          className="mt-4 pt-4 lg:container lg:m-auto"
+          position="left"
         >
-        <Reeling></Reeling>
+          <Reeling></Reeling>
         </SectionBlock>
-          </div>
-       
-        
-        
-        
+      </div>
 
-         
-
-
-      
-
-       
-
-      
-      
-      <div className="  mt-5">
-          <SectionBlock
-        title="Explore Our Other Categories"
-        subtitle=""
-        className="lg:container lg:m-auto pt-4 mt-4"
-        position="center"
+      <div className="mt-5">
+        <SectionBlock
+          title="Explore Our Other Categories"
+          subtitle=""
+          className="mt-4 pt-4 lg:container lg:m-auto"
+          position="center"
         >
-
-            <SwiperItem></SwiperItem>
-
+          <SwiperItem></SwiperItem>
         </SectionBlock>
-        </div>
+      </div>
       {/* <div className="  mt-5">
           <SectionBlock
         title="Recently Viewed"
@@ -102,21 +84,16 @@ export default function page() {
 
         </SectionBlock>
         </div> */}
-      <div className="  mt-5">
-          <SectionBlock
-        title="@wolpinwallpaper.in"
-        subtitle="Follow Us on Instagram"
-        className="lg:container lg:m-auto pt-4 mt-4"
-        position="center"
-        >
-      
-       
+      <div className="mt-5">
+        <SectionBlock
+          title="@wolpinwallpaper.in"
+          subtitle="Follow Us on Instagram"
+          className="mt-4 pt-4 lg:container lg:m-auto"
+          position="center"
+        ></SectionBlock>
+      </div>
 
-        </SectionBlock>
-        </div>
-
-
-                <Footer></Footer>
+      <Footer></Footer>
     </main>
   );
 }
