@@ -10,6 +10,7 @@ import PopularWallpaper from "./shop/popularWallpaper";
 import ReviewCard from "./shop/reviewCard";
 import Reeling from "./shop/reeling";
 import DetailCard from "./shop/detailCard";
+import TagsProductCard from "./shop/tagsProduct";
 import CategorieCard from "./shop/categorieCard";
 import VideoSection from "./shop/videoSection";
 import Footer from "../../components/footer";
@@ -17,22 +18,77 @@ import SectionBlock from "~/components/ui/section-block";
 import StepSection from "./shop/stepSection";
 import ConsultationSection from "./shop/consultation-background";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { useGetPopularProductsQuery } from "~/store/api/productApi";
-import SidebarMenu from "~/components/sidebarMenu";
-import SwiperCard from "~/components/swiperCard";
-
-
-
-
+import {
+  useGetPopularProductsQuery,
+  useGetProductsByColorQuery,
+} from "~/store/api/productApi";
+import { useGetColorsQuery, useGetTagsQuery } from "~/store/api/paramApi";
+import TabsComponent from "~/components/tabComponent";
 export default function Home() {
   const {
     data: popularProducts,
     isLoading,
     error,
   } = useGetPopularProductsQuery({});
+  const {
+    data: colors,
+    // isLoadingColors,
+    // errorColors,
+  } = useGetColorsQuery({});
+  const {
+    data: tags,
+    // isLoadingColors,
+    // errorColors,
+  } = useGetTagsQuery({});
+  if (isLoading) return <div>Loading...</div>;
 
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>Error loading products</div>;
+  const colorTabs =
+    colors?.data.map((color: any) => ({
+      value: color.id,
+      label: color.name,
+      // Including the ID for further use if needed
+    })) || [];
+
+  const colorContent = colorTabs.map((tab: any) => ({
+    value: tab.value,
+    component: <DetailCard colorId={tab.value} />, // Customize the component as needed
+  }));
+
+  const productTabs =
+    tags?.data.map((tags: any) => ({
+      value: tags.id,
+      label: tags.name,
+      // Including the ID for further use if needed
+    })) || [];
+
+  const productContent = productTabs.map((tab: any) => ({
+    value: tab.value,
+    component: <TagsProductCard tagId={tab.value} />, // Customize the component as needed
+  }));
+  // const productContent = [
+  //   {
+  //     value: "BestSelling",
+  //     component: (
+  //       <>
+  //         <DetailCard rating={undefined} />
+  //         <ReviewCard />
+  //       </>
+  //     ),
+  //   },
+  //   {
+  //     value: "NewArrival",
+  //     component: (
+  //       <>
+  //         <div className="mb-4 mt-8 flex justify-center">
+  //           <button className="text-light hover:bg-accent-hover inline-flex h-11 h-12 shrink-0 items-center justify-center rounded bg-green-800 px-5 py-0 text-sm font-semibold leading-none text-white">
+  //             Load More
+  //           </button>
+  //         </div>
+  //         <ReviewCard />
+  //       </>
+  //     ),
+  //   },
+  // ];
   return (
     <main>
      
@@ -51,7 +107,11 @@ export default function Home() {
         className="pt-4 lg:container lg:m-auto"
         position="center"
       >
-        <PopularWallpaper products={popularProducts}></PopularWallpaper>
+        {error ? (
+          <p>Error Fetching Products</p>
+        ) : (
+          <PopularWallpaper products={popularProducts}></PopularWallpaper>
+        )}
       </SectionBlock>
       <SectionBlock
         title="Unreeling Some Wolpin Stories"
@@ -90,63 +150,14 @@ export default function Home() {
         className="mt-16 bg-[#FFF3F6] pt-14"
         position="center"
       >
-        <Tabs
-          defaultValue="Neutrals"
-          className="border-solid lg:container lg:m-auto lg:pl-11"
-        >
-          <TabsList>
-            <TabsTrigger
-              value="Neutrals"
-              className="font-poppins w-full bg-[#F1FBFF] px-2 py-2.5 text-sm font-medium leading-5 text-[#908B8B] ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2"
-            >
-              Neutrals
-            </TabsTrigger>
-            <TabsTrigger value="Pink">Pink</TabsTrigger>
-            <TabsTrigger value="Blue">Blue</TabsTrigger>
-            <TabsTrigger value="Green">Green</TabsTrigger>
-            <TabsTrigger value="Golden">Golden</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="Neutrals">
-            <DetailCard rating={undefined}></DetailCard>
-          </TabsContent>
-          <TabsContent value="Pink">
-            <h1>Pink</h1>
-            <h1 className="m-2 mb-5 p-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad,
-              ipsum rem! Earum numquam placeat unde ipsam possimus quam animi
-              maxime, nam assumenda officiis et, omnis minima, nulla ullam
-              voluptas. Deserunt!
-            </h1>
-          </TabsContent>
-          <TabsContent value="Blue">
-            <h1>Blue</h1>
-            <h1 className="m-2 mb-5 p-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad,
-              ipsum rem! Earum numquam placeat unde ipsam possimus quam animi
-              maxime, nam assumenda officiis et, omnis minima, nulla ullam
-              voluptas. Deserunt!
-            </h1>
-          </TabsContent>
-          <TabsContent value="Green">
-            <h1>Green</h1>
-            <h1 className="m-2 mb-5 p-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad,
-              ipsum rem! Earum numquam placeat unde ipsam possimus quam animi
-              maxime, nam assumenda officiis et, omnis minima, nulla ullam
-              voluptas. Deserunt!
-            </h1>
-          </TabsContent>
-          <TabsContent value="Golden">
-            <h1>Golden</h1>
-            <h1 className="m-2 mb-5 p-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad,
-              ipsum rem! Earum numquam placeat unde ipsam possimus quam animi
-              maxime, nam assumenda officiis et, omnis minima, nulla ullam
-              voluptas. Deserunt!
-            </h1>
-          </TabsContent>
-        </Tabs>
+        {/* if (!colors?.data) {
+    return <div>Loading colors...</div>; // Show a loading message or spinner
+  }  */}
+        {!colors?.data ? (
+          <div>Loading colors...</div>
+        ) : (
+          <TabsComponent tabs={colorTabs} content={colorContent} />
+        )}
       </SectionBlock>
 
       <SectionBlock
@@ -164,42 +175,11 @@ export default function Home() {
         className="bg-[#F1FBFF] pt-14"
         position="center"
       >
-        <Tabs
-          defaultValue="BestSelling"
-          className="border-solid lg:container lg:m-auto lg:pl-11"
-        >
-          <TabsList>
-            <TabsTrigger
-              value="BestSelling"
-              className="font-poppins w-full bg-[#F1FBFF] px-2 py-2.5 text-sm font-medium leading-5 text-[#908B8B] ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2"
-            >
-              Best Selling
-            </TabsTrigger>
-            <TabsTrigger value="NewArrival">New Arrival</TabsTrigger>
-          </TabsList>
-          <TabsContent value="BestSelling">
-            <DetailCard rating={undefined}></DetailCard>
-            <ReviewCard></ReviewCard>
-          </TabsContent>
-
-          <TabsContent value="NewArrival">
-            <h1 className="m-2 mb-5 p-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad,
-              ipsum rem! Earum numquam placeat unde ipsam possimus quam animi
-              maxime, nam assumenda officiis et, omnis minima, nulla ullam
-              voluptas. Deserunt!
-            </h1>
-            <div className="mb-4 mt-8 flex justify-center sm:mb-6 lg:mb-5 lg:mt-12">
-              <button
-                data-variant="normal"
-                className="focus:ring-accent-700 text-light hover:bg-accent-hover inline-flex h-11 h-12 shrink-0 items-center justify-center rounded border border-transparent bg-accent bg-green-800 px-5 py-0 text-sm font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1 md:text-base"
-              >
-                Load More
-              </button>
-            </div>
-             <ReviewCard></ReviewCard>
-          </TabsContent>
-        </Tabs>
+        {!tags?.data ? (
+          <div>Loading Tags...</div>
+        ) : (
+          <TabsComponent tabs={productTabs} content={productContent} />
+        )}
       </SectionBlock>
       <SectionBlock
         title="Popular Tools"
