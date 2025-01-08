@@ -11,7 +11,6 @@ import VideoSection from "../pages/shop/videoSection";
 import OurTeam from "~/components/ourTeam";
 // import aboutBanner from "~/components/aboutBanner";
 import bannerAbout from "/public/aboutbanner.jpg";
-import BlogsItems from "~/components/blogsItems";
 
 export default function page() {
   return (
@@ -19,8 +18,7 @@ export default function page() {
       <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
       <Navbar></Navbar>
       <Banner></Banner>
-      <BlogsItems></BlogsItems>
-
+       <h1>kdnkdnfknd</h1>
       <Footer></Footer>
     </main>
   );

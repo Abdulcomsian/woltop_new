@@ -17,6 +17,7 @@ import ourTeam from "~/components/ourTeam";
 import SectionBlock from "~/components/ui/section-block";
 import StepSection from "./shop/stepSection";
 import ConsultationSection from "./shop/consultation-background";
+import BlogsItems from "~/components/blogsItems";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 export default function blogs() {
@@ -25,7 +26,8 @@ export default function blogs() {
       <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
       <Navbar></Navbar>
       <Swiper></Swiper>
-      <ourTeam></ourTeam>
+      <h1>dknfk</h1>
+      <BlogsItems></BlogsItems>
       <Footer></Footer>
     </main>
   );

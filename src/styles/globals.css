@@ -188,4 +188,9 @@ text-align: left;
   opacity: 1;
   transform: scale(1);
 }
+
+input[type="radio"]:checked + span {
+  display: block;
+}
+
 /* ----------custom-style----- */

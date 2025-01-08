@@ -19,7 +19,7 @@ export default function page() {
       <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
       <Navbar></Navbar>
       <Banner></Banner>
-      <BlogsItems></BlogsItems>
+      <h1>Landing </h1>
 
       <Footer></Footer>
     </main>
