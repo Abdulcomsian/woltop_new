@@ -6,6 +6,7 @@ import imageDegner from "../../public/design.png"
 import imageDegner2 from "../../public/textured.png"
 import imageDegner3 from "../../public/washable.png"
 import imageDegner4 from "../../public/moderen.png"
+import MoreInformation from './moreInformation';
 
 export default function productDetailItem() {
   return (
@@ -74,7 +75,7 @@ export default function productDetailItem() {
                                             <label htmlFor="2-stars" className="star">&#9733;</label>
                                             <input type="radio" id="1-star" name="rating" value="1" />
                                             <label htmlFor="1-star" className="star">&#9733;</label>
-                                           </div>
+                                    </div>
                                           <div className='text-[#49AD91] mr-4 mt-1'>
                                              4.6   
                                           <span className='text-[#A5A1A1]   ml-2'  >(95)</span>
@@ -162,7 +163,8 @@ export default function productDetailItem() {
 
                                           </div>
                                         </div>
-
+                                        
+                                        <MoreInformation></MoreInformation>
 
 
                                       <ToolkitBar></ToolkitBar>

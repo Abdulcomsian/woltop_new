@@ -491,7 +491,7 @@ export default function page() {
                           paddingBlock: "10px",
                         }}
                       >
-                        <div className="text-center " style={{fontSize:"10px"}}>
+                        <div className="text-center " style={{fontSize:"9px"}}>
                           Apply coupon or tap to explore more offers
                         </div>
                       </div>
