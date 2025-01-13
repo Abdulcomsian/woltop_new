@@ -23,16 +23,15 @@ import DetailCard from "../../pages/shop/detailCard";
 import {
   useGetPopularProductsQuery,
   useGetProductsByColorQuery,
+  useGetProductByIdQuery,
 } from "~/store/api/productApi";
 
 export default function page({ params }) {
-  const {
-    data: popularProducts,
-    isLoading,  
-    error,
-  } = useGetPopularProductsQuery({});
+  const { slug } = params;
+  console.log("Slug", slug);
 
-  console.log(popularProducts + " popular Products");
+  const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
+  console.log("Product Details", product);
 
   return (
     <main>
