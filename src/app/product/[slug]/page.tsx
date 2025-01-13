@@ -1,62 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import Banner from "../pages/shop/banner";
-import Navbar from "../../components/navbar";
-import TopBar from "../pages/shop/topBar";
-import Footer from "../../components/footer";
+// import Banner from "../../pages/shop/banner";
+import Banner from "~/app/pages/shop/banner";
+import Navbar from "~/components/navbar";
+import TopBar from "../../pages/shop/topBar";
+import Footer from "~/components/footer";
 import EasySteps from "~/components/easySteps";
 import RatedReview from "~/components/ratedReview";
-import ReviewCard from "../pages/shop/reviewCard";
+import ReviewCard from "../../pages/shop/reviewCard";
 import Pagination from "~/components/pagination";
-import SwiperItem from "../pages/shop/swiperItem";
+import SwiperItem from "../../pages/shop/swiperItem";
 // import productItem from "~/components/productItem";
 import ProductDetailItem from "~/components/productDetailItem";
 import ProductDescription from "~/components/productDescription";
 import SectionBlock from "~/components/ui/section-block";
-import VideoSection from "../pages/shop/videoSection";
-import Reeling from "../pages/shop/reeling";
+import VideoSection from "../../pages/shop/videoSection";
+import Reeling from "../../pages/shop/reeling";
 import MoreInformation from "~/components/moreInformation";
 import StandsOut from "~/components/standsOut";
-import DetailCard from "../pages/shop/detailCard";
-
+import DetailCard from "../../pages/shop/detailCard";
 import {
   useGetPopularProductsQuery,
   useGetProductsByColorQuery,
 } from "~/store/api/productApi";
 
-export default function page() {
-   const {
-     data: popularProducts,
-     isLoading,
-     error,
-   } = useGetPopularProductsQuery({});
+export default function page({ params }) {
+  const {
+    data: popularProducts,
+    isLoading,  
+    error,
+  } = useGetPopularProductsQuery({});
 
-
-
+  console.log(popularProducts + " popular Products");
 
   return (
     <main>
-      <div>
-        <h1>Product List</h1>
-        <ul>
-          {products.map((product) => (
-            <li key={product.id}>
-              {/* <Link href={`/product/${product.id}`}>{product.name}</Link> */}
-              {/* <Link href={`/product/1`}><div className="m-1">1111111111</div></Link> */}
-              <Link href={`/product/${product.id}`}>{product.name}</Link>
-
-
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h1>Product ID: {params.slug} </h1>
 
       <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
       <Navbar></Navbar>
 
       {/* <!-- section_2 -->  */}
-      <ProductDetailItem productss={popularProducts} ></ProductDetailItem>
+      <ProductDetailItem></ProductDetailItem>
       <div className="bg-[#FFF3F6]">
         <SectionBlock
           title="Experience the Texture & Shine"
