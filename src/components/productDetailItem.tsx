@@ -193,7 +193,7 @@ export default function productDetailItem() {
                   </button>
                 </div>
 
-                  <Calculator></Calculator>
+                <Calculator></Calculator>
                 <div className="mt-4 w-full">
                   <h5 className="text-3xl font-semibold">Delivery </h5>
                   <div className="mt-4 flex justify-between">
@@ -215,8 +215,9 @@ export default function productDetailItem() {
                 <MoreInformation></MoreInformation>
 
                 <ToolkitBar></ToolkitBar>
+  
 
-                <div className="mt-5 flex w-full ">
+                <div className="mt-5 flex w-full">
                   <Image
                     className="m-3 h-full w-full object-cover"
                     src={imageDegner.src}

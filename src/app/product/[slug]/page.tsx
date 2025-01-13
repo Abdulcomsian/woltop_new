@@ -20,6 +20,7 @@ import Reeling from "../../pages/shop/reeling";
 import MoreInformation from "~/components/moreInformation";
 import StandsOut from "~/components/standsOut";
 import DetailCard from "../../pages/shop/detailCard";
+import MoreInformationSteps from "~/components/moreInformationSteps";
 import {
   useGetPopularProductsQuery,
   useGetProductsByColorQuery,
@@ -82,7 +83,8 @@ export default function page({ params }) {
           className="pt-5 lg:container lg:m-auto"
           position="center"
         >
-          <MoreInformation></MoreInformation>
+          {/* <MoreInformation></MoreInformation> */}
+           <MoreInformationSteps></MoreInformationSteps>
         </SectionBlock>
       </div>
 

@@ -51,8 +51,9 @@ export default function productDescription() {
         </div>
         <div className=''>
             <Image 
-            style={{width:"13rem",  height:"90%"}}
-                className="w-full h-auto   rounded m-4 mr-4  "
+            style={{  height:"90%"}}
+                // className="w-full h-auto   rounded m-4 mr-4  "
+                   className="w-full md:w-[13rem] h-auto px-3 rounded  mr-4"
                 src={desImg.src}
                 alt="Banner Background2"
                 width={100}
