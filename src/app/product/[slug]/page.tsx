@@ -24,19 +24,37 @@ import MoreInformationSteps from "~/components/moreInformationSteps";
 import {
   useGetPopularProductsQuery,
   useGetProductsByColorQuery,
+  useGetProductByIdQuery,
 } from "~/store/api/productApi";
 
 export default function page({ params }) {
-  const {
-    data: popularProducts,
-    isLoading,  
-    error,
-  } = useGetPopularProductsQuery({});
+  const { slug } = params;
+  console.log("Slug", slug);
 
-  console.log(popularProducts + " popular Products");
+  const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
+  console.log("Product Details 11", product);
+  // console.log("Product Details ", product.data);
+
+  const responseData = {
+    data: product,
+    status: true,
+  };
+
+  // const { data, status } = responseData;
 
   return (
     <main>
+      <div>
+        {product ? (
+          <div>
+            <p>Name: {product.data.description}</p>
+            <p>Age: {product.data.age}</p>
+          </div>
+        ) : (
+          <p>Data is unavailable.</p>
+        )}
+      </div>
+
       <h1>Product ID: {params.slug} </h1>
 
       <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
@@ -84,7 +102,7 @@ export default function page({ params }) {
           position="center"
         >
           {/* <MoreInformation></MoreInformation> */}
-           <MoreInformationSteps></MoreInformationSteps>
+          <MoreInformationSteps></MoreInformationSteps>
         </SectionBlock>
       </div>
 
