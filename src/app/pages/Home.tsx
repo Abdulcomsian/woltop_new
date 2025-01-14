@@ -24,6 +24,7 @@ import {
 } from "~/store/api/productApi";
 import { useGetColorsQuery, useGetTagsQuery } from "~/store/api/paramApi";
 import TabsComponent from "~/components/tabComponent";
+import SwiperCard from "~/components/swiperCard";
 export default function Home() {
   const {
     data: popularProducts,
@@ -91,9 +92,12 @@ export default function Home() {
   // ];
   return (
     <main>
+
+
       <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
       <Navbar></Navbar>
-      <Swiper></Swiper>
+      {/* <Swiper></Swiper> */}
+      <SwiperCard></SwiperCard>
       <SectionBlock className="pt-14 lg:container lg:m-auto" position="center">
         <Banner></Banner>
       </SectionBlock>

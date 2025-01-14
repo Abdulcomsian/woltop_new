@@ -4,7 +4,7 @@ import background from '../../public/background.png';
 
 export default function toolkitBar() {
   return (
-    <div className='w-full md:w-4/5 mt-5 border-1 border-r border-l border-t  rounded border-b border-l border-gray-400'>
+    <div className='w-full mt-5 border-1 border-r border-l border-t  rounded border-b border-l border-gray-400'>
       <div className="max-w-sm w-full lg:max-w-full lg:flex">
   <div className="h-48 lg:h-auto lg:w-48 flex-none bg-cover m-4 rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" 
   // style={{backgroundImage: `url(${background})`, margin:"22px"}} 
