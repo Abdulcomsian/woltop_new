@@ -10,14 +10,14 @@ export default function pagination() {
             <div className="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
             
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.1667 18.1673L9 14.0007L13.1667 9.83398" stroke="#49AD91" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M19.0026 18.1673L14.8359 14.0007L19.0026 9.83398" stroke="#49AD91" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.1667 18.1673L9 14.0007L13.1667 9.83398" stroke="#49AD91" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M19.0026 18.1673L14.8359 14.0007L19.0026 9.83398" stroke="#49AD91" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
          
 
                     <p className="text-sm ml-3 font-medium leading-none ">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.5 15L7.5 10L12.5 5" stroke="#49AD91" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.5 15L7.5 10L12.5 5" stroke="#49AD91" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                         </p>                    
             </div>
@@ -34,12 +34,12 @@ export default function pagination() {
             <div className="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
                 <p className="text-sm font-medium leading-none mr-3">
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.5 19L16.5 14L11.5 9" stroke="#49AD91" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.5 19L16.5 14L11.5 9" stroke="#49AD91" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 </p>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.8359 14.1673L15.0026 10.0007L10.8359 5.83398" stroke="#49AD91" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M5 14.1673L9.16667 10.0007L5 5.83398" stroke="#49AD91" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.8359 14.1673L15.0026 10.0007L10.8359 5.83398" stroke="#49AD91" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M5 14.1673L9.16667 10.0007L5 5.83398" stroke="#49AD91" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                     
             </div>

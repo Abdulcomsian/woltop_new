@@ -2,9 +2,6 @@
 
 import Link from "next/link";
 import Banner from "../pages/shop/banner";
-import Navbar from "../../components/navbar";
-import TopBar from "../pages/shop/topBar";
-import Footer from "../../components/footer";
 import EasySteps from "~/components/easySteps";
 import RatedReview from "~/components/ratedReview";
 import ReviewCard from "../pages/shop/reviewCard";
@@ -24,9 +21,6 @@ import DetailCard from "../pages/shop/detailCard";
 export default function page() {
   return (
     <main>
-      <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
-      <Navbar></Navbar>
-
       <Banner></Banner>
 
       <div className="mt-5">
@@ -92,8 +86,6 @@ export default function page() {
           position="center"
         ></SectionBlock>
       </div>
-
-      <Footer></Footer>
     </main>
   );
 }

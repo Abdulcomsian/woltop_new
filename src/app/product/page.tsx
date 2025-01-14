@@ -2,9 +2,6 @@
 
 import Link from "next/link";
 import Banner from "../pages/shop/banner";
-import Navbar from "../../components/navbar";
-import TopBar from "../pages/shop/topBar";
-import Footer from "../../components/footer";
 import EasySteps from "~/components/easySteps";
 import RatedReview from "~/components/ratedReview";
 import ReviewCard from "../pages/shop/reviewCard";
@@ -51,9 +48,6 @@ export default function page() {
           ))}
         </ul>
       </div>
-
-      <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
-      <Navbar></Navbar>
 
       {/* <!-- section_2 -->  */}
       <ProductDetailItem productss={popularProducts} ></ProductDetailItem>
@@ -187,7 +181,6 @@ export default function page() {
         ></SectionBlock>
       </div>
 
-      <Footer></Footer>
     </main>
   );
 }

@@ -3,9 +3,6 @@
 import Link from "next/link";
 // import Banner from "../../pages/shop/banner";
 import Banner from "~/app/pages/shop/banner";
-import Navbar from "~/components/navbar";
-import TopBar from "../../pages/shop/topBar";
-import Footer from "~/components/footer";
 import EasySteps from "~/components/easySteps";
 import RatedReview from "~/components/ratedReview";
 import ReviewCard from "../../pages/shop/reviewCard";
@@ -21,30 +18,37 @@ import MoreInformation from "~/components/moreInformation";
 import StandsOut from "~/components/standsOut";
 import DetailCard from "../../pages/shop/detailCard";
 import MoreInformationSteps from "~/components/moreInformationSteps";
+import ProductDetailCard from "../../pages/shop/productDetailCard";
 import {
   useGetPopularProductsQuery,
   useGetProductsByColorQuery,
   useGetProductByIdQuery,
 } from "~/store/api/productApi";
 
-export default function page({ params }) {
+interface PageParams {
+  slug: string;
+}
+
+export default function page({ params }: { params: PageParams }) {
   const { slug } = params;
-  console.log("Slug", slug);
+  // console.log("Slug", slug);
 
   const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
-  console.log("Product Details 11", product);
-  // console.log("Product Details ", product.data);
+  console.log("Product Details", product);
 
-  const responseData = {
-    data: product,
-    status: true,
-  };
+  const responseData = product ? { data: product, status: true } : null;
 
-  // const { data, status } = responseData;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || !product) {
+    return <div>Something went wrong or product not found.</div>;
+  }
 
   return (
     <main>
-      <div>
+      {/* <div>
         {product ? (
           <div>
             <p>Name: {product.data.description}</p>
@@ -53,15 +57,12 @@ export default function page({ params }) {
         ) : (
           <p>Data is unavailable.</p>
         )}
-      </div>
+      </div> */}
 
-      <h1>Product ID: {params.slug} </h1>
-
-      <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
-      <Navbar></Navbar>
+      {/* <h1>Product ID: {params.slug} </h1> */}
 
       {/* <!-- section_2 -->  */}
-      <ProductDetailItem></ProductDetailItem>
+      <ProductDetailItem responseData={responseData?.data}></ProductDetailItem>
       <div className="bg-[#FFF3F6]">
         <SectionBlock
           title="Experience the Texture & Shine"
@@ -80,7 +81,7 @@ export default function page({ params }) {
           className="container pt-4 lg:m-auto"
           position="left"
         >
-          <ProductDescription></ProductDescription>
+          <ProductDescription responseData={responseData?.data} ></ProductDescription>
         </SectionBlock>
       </div>
 
@@ -91,7 +92,7 @@ export default function page({ params }) {
           className="container mt-5 pt-4 lg:m-auto"
           position="center"
         >
-          <EasySteps></EasySteps>
+          <EasySteps responseData={responseData?.data}></EasySteps>
         </SectionBlock>
       </div>
       <div className="bg-[#F1FBFF] pt-8">
@@ -102,7 +103,7 @@ export default function page({ params }) {
           position="center"
         >
           {/* <MoreInformation></MoreInformation> */}
-          <MoreInformationSteps></MoreInformationSteps>
+          <MoreInformationSteps responseData={responseData?.data}></MoreInformationSteps>
         </SectionBlock>
       </div>
 
@@ -161,7 +162,7 @@ export default function page({ params }) {
           className="mt-4 pt-4 lg:container lg:m-auto"
           position="left"
         >
-          <DetailCard rating={false}></DetailCard>
+          <ProductDetailCard responseData={responseData?.data}></ProductDetailCard>
         </SectionBlock>
       </div>
       <div className="mt-5">
@@ -181,7 +182,7 @@ export default function page({ params }) {
           className="mt-4 pt-4 lg:container lg:m-auto"
           position="center"
         >
-          <DetailCard rating={true}></DetailCard>
+          <DetailCard rating={true} colorId={0}></DetailCard>
         </SectionBlock>
       </div>
       <div className="mt-5">
@@ -192,8 +193,6 @@ export default function page({ params }) {
           position="center"
         ></SectionBlock>
       </div>
-
-      <Footer></Footer>
     </main>
   );
 }

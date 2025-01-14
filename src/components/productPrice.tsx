@@ -1,44 +1,47 @@
-import React from 'react'
+import React from "react";
 
-export default function productPrice() {
+export default function productPrice({ responseData }) {
   return (
-    <div className="mt-4 flex justify-start items-center">
-   <div  className='border-[#00000]-900  w-full rounded-lg p-4 border-dashed  product-price-wrapper'>
-               <div className='bg-[#49AD911A] inline-block pr-3 pl-3 rounded-full '> 
-                <span className='text-[#49AD91]'>49% off </span> </div>
-               <div className="dimension mt-1">
-               53CM x 6M
-               </div>
-               <div className="price-wrapper flex">
-               <div className='real-price text-[#49AD91]'>₹799</div>
-               <div className='descount-price  text-{12px}  text-[#BAB8B8] line-through'>₹1630</div>
-               </div>
-               <div className='product-size'>
-               ₹23.5/ft2 
-               </div>
-    </div>
+    <div className="mt-4 flex items-center justify-start gap-2">
+      {responseData?.data?.variables?.map((variable) => (
+        <div
+          key={variable.id}
+          className={`product-price-wrapper relative w-full rounded-lg border-dashed p-4 ${
+            variable.discount > 50 ? "bg-[#49AD911A]" : ""
+          }`}
+        >
+          {/* Discount Badge */}
+          <div className="inline-block rounded-full bg-[#49AD911A] pl-3 pr-3">
+            <span className="text-[#49AD91]">{variable.discount}% off</span>
+          </div>
 
-             <div 
-              className='bg-[#49AD911A] w-full  ml-5 rounded-lg relative
-               border-[#49AD91]-900 p-4 border-dashed  product-price-wrapper'>
-               <div className='bg-[#49AD911A] inline-block pr-3 pl-3 rounded-full '> 
-                <span className='text-[#49AD91]'>50% off </span> </div>
-               <div className="dimension mt-1">
-               53CM x 6M
-               </div>
-               <div className="price-wrapper flex">
-               <div className='real-price text-[#49AD91]'>₹799</div>
-               <div className='descount-price  text-{12px}  text-[#BAB8B8] line-through'>₹1149</div>
-               </div>
-               <div className='product-size'>
-               ₹23.5/ft2 
-               </div>
-               <div  className="absolute top-5 right-3">
-                <input type="checkbox" id="test1" />
-                <label htmlFor="test1"></label>
-               </div>  
+          {/* Product Dimensions */}
+          <div className="dimension mt-1">{variable.name}</div>
+
+          {/* Pricing Details */}
+          <div className="price-wrapper flex">
+            <div className="real-price text-[#49AD91]">
+              ₹{variable.sale_price}
+            </div>
+            <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
+              ₹{variable.price}
+            </div>
+          </div>
+
+          {/* Price Per Unit */}
+          <div className="product-size">
+            ₹{(variable.sale_price / 6).toFixed(2)}/ft²
+          </div>
+
+          {/* Checkbox for High Discounts */}
+          {variable.discount > 50 && (
+            <div className="absolute right-3 top-5">
+              <input type="checkbox" id={`checkbox-${variable.id}`} />
+              <label htmlFor={`checkbox-${variable.id}`}></label>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
-    </div>
- 
-  )
+  );
 }

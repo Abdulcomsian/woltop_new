@@ -3,8 +3,6 @@
 import Link from "next/link";
 // import Card from "./shop/Card";
 import Banner from "./shop/banner";
-import Navbar from "../../components/navbar";
-import TopBar from "./shop/topBar";
 import Swiper from "./shop/swiperItem";
 import PopularWallpaper from "./shop/popularWallpaper";
 import ReviewCard from "./shop/reviewCard";
@@ -13,7 +11,6 @@ import DetailCard from "./shop/detailCard";
 import TagsProductCard from "./shop/tagsProduct";
 import CategorieCard from "./shop/categorieCard";
 import VideoSection from "./shop/videoSection";
-import Footer from "../../components/footer";
 import SectionBlock from "~/components/ui/section-block";
 import StepSection from "./shop/stepSection";
 import ConsultationSection from "./shop/consultation-background";
@@ -92,10 +89,6 @@ export default function Home() {
   // ];
   return (
     <main>
-
-
-      <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
-      <Navbar></Navbar>
       {/* <Swiper></Swiper> */}
       <SwiperCard></SwiperCard>
       <SectionBlock className="pt-14 lg:container lg:m-auto" position="center">
@@ -207,7 +200,6 @@ export default function Home() {
       >
         <Swiper></Swiper>
       </SectionBlock>
-      <Footer></Footer>
     </main>
   );
 }

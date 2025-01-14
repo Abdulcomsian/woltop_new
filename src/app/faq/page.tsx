@@ -1,7 +1,4 @@
-import TopBar from "~/components/topBar";
-// import topBar from "~/components/topBar";
-import Navbar from "../../components/navbar";
-import Footer from "../../components/footer";
+
 import {
   Accordion,
   AccordionContent,
@@ -12,9 +9,6 @@ import {
 export default function page() {
   return (
     <main className="">
-      <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
-      <Navbar></Navbar>
-
       <div className="accordion-wrapper container mx-auto mb-16 mt-24 w-3/4">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
@@ -65,7 +59,6 @@ export default function page() {
           </AccordionItem>
         </Accordion>
       </div>
-      <Footer></Footer>
     </main>
   );
 }
