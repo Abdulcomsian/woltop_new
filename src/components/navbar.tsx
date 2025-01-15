@@ -4,19 +4,26 @@ import { useState } from "react";
 import footerLogo from "~/assets/img/footer-logo.svg";
 import { SearchIcon } from "./icons/searchIcon";
 import { FavriouteIcon } from "./icons/favriouteIcon";
+import { Drawer } from "antd"; // Import Drawer from Ant Design
+
 export default function navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
   return (
     <div>
       {/* <!-- navbar goes here --> */}
-      <nav className="bg-gray-100">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex justify-between px-5">
+      <nav className="bg-gray-100 px-5 lg:px-6 xl:px-8">
+        <div className="mx-auto lg:container">
+          <div className="flex justify-between">
             <div className="flex space-x-4">
               {/* <!-- logo --> */}
               <div>
@@ -81,7 +88,10 @@ export default function navbar() {
                 <SearchIcon />
                 <FavriouteIcon />
                 <div className="flex items-center space-x-4 sm:space-x-6 lg:space-x-4 rtl:lg:space-x-reverse">
-                  <button className="product-cart relative lg:flex">
+                  <button
+                    className="product-cart relative lg:flex"
+                    onClick={toggleDrawer}
+                  >
                     <svg
                       width="24"
                       height="24"
@@ -215,6 +225,17 @@ export default function navbar() {
           </a>
         </div>
       </nav>
+
+     {/* Drawer */}
+     <Drawer
+        title="Your Cart"
+        open={isDrawerOpen}
+        onClose={toggleDrawer}
+        width={300}
+      >
+        <p>Cart content goes here</p>
+        {/* Add your cart items here */}
+      </Drawer>
     </div>
   );
 }

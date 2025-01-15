@@ -18,11 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        {" "}
-        <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
-        <Navbar></Navbar>
-        <ReduxProvider>{children}</ReduxProvider>
-        <Footer></Footer>
+      <ReduxProvider>
+          <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }} />
+          <Navbar />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );

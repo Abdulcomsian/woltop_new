@@ -76,7 +76,7 @@ export default function easySteps({ responseData }: EasyStepsProps) {
       </div>
 
       <div className="flex flex-col justify-between md:flex-row">
-        <div className="m-2">
+        <div className="m-2 md:w-1/2 w-full" >
           <div className="md:w-90 mx-auto w-full rounded-md border-2 border-dashed border-gray-300 bg-white p-4">
             <h6 className="p-2 text-xl font-bold text-[#AA4A00]">
               Other Dos & Don’ts
@@ -91,7 +91,7 @@ export default function easySteps({ responseData }: EasyStepsProps) {
             </ul>
           </div>
         </div>
-        <div className="m-2">
+        <div className="m-2 md:w-1/2 w-full">
           <div className="md:w-90 mx-auto w-full rounded-md border-2 border-dashed border-gray-300 bg-white p-4">
             <h6 className="p-2 text-xl font-bold text-[#AA4A00]">
               Design & Apllication Details

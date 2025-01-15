@@ -1,13 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function productPrice({ responseData }) {
+interface Variable {
+  id: number;
+  discount: number;
+  name: string;
+  sale_price: number;
+  price: number;
+}
+
+interface ResponseData {
+  data: {
+    variables: Variable[];
+  };
+}
+
+export default function ProductPrice({
+  responseData,
+}: {
+  responseData: ResponseData;
+}) {
+  const { variables } = responseData?.data;
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const handleCardClick = (id: number) => {
+    setSelectedId((prevId) => (prevId === id ? null : id));
+  };
+
   return (
     <div className="mt-4 flex items-center justify-start gap-2">
-      {responseData?.data?.variables?.map((variable) => (
+      {variables?.map((variable) => (
         <div
           key={variable.id}
-          className={`product-price-wrapper relative w-full rounded-lg border-dashed p-4 ${
-            variable.discount > 50 ? "bg-[#49AD911A]" : ""
+          onClick={() => handleCardClick(variable.id)}
+          className={`product-price-wrapper relative w-full cursor-pointer rounded-lg border-dashed p-4 ${
+            selectedId === variable.id ? "bg-[#49AD911A]" : ""
           }`}
         >
           {/* Discount Badge */}
@@ -34,9 +60,9 @@ export default function productPrice({ responseData }) {
           </div>
 
           {/* Checkbox for High Discounts */}
-          {variable.discount > 50 && (
+          {selectedId === variable.id && (
             <div className="absolute right-3 top-5">
-              <input type="checkbox" id={`checkbox-${variable.id}`} />
+              <input type="checkbox" id={`checkbox-${variable.id}`} checked />
               <label htmlFor={`checkbox-${variable.id}`}></label>
             </div>
           )}

@@ -38,7 +38,7 @@ export default function ProductDetailCard({ responseData }: ProductDetailCardPro
     content: `${product.content} - Description`, // Modify this as needed
   }));
 
-  console.log("Card Data", cardData);
+  // console.log("Card Data", cardData);
 
   return (
     <div className="3xl:pb-[60px] flex w-full flex-col pb-[20px] lg:container lg:m-auto lg:pb-[40px] xl:pb-[54px]">

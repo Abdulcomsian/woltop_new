@@ -34,8 +34,7 @@ export default function page({ params }: { params: PageParams }) {
   // console.log("Slug", slug);
 
   const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
-  console.log("Product Details", product);
-
+  // console.log("Product Details", product);
   const responseData = product ? { data: product, status: true } : null;
 
   if (isLoading) {
@@ -70,7 +69,7 @@ export default function page({ params }: { params: PageParams }) {
           className="container mt-5 pt-4 lg:m-auto"
           position="left"
         >
-          <VideoSection></VideoSection>
+          <VideoSection responseData={responseData?.data}></VideoSection>
         </SectionBlock>
       </div>
 
@@ -81,7 +80,9 @@ export default function page({ params }: { params: PageParams }) {
           className="container pt-4 lg:m-auto"
           position="left"
         >
-          <ProductDescription responseData={responseData?.data} ></ProductDescription>
+          <ProductDescription
+            responseData={responseData?.data}
+          ></ProductDescription>
         </SectionBlock>
       </div>
 
@@ -103,7 +104,9 @@ export default function page({ params }: { params: PageParams }) {
           position="center"
         >
           {/* <MoreInformation></MoreInformation> */}
-          <MoreInformationSteps responseData={responseData?.data}></MoreInformationSteps>
+          <MoreInformationSteps
+            responseData={responseData?.data}
+          ></MoreInformationSteps>
         </SectionBlock>
       </div>
 
@@ -144,15 +147,15 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title=""
           subtitle=""
-          className="mt-4 pt-4 lg:container lg:m-auto"
+          className="mt-4 pt-4 px-2 lg:container lg:m-auto"
           position="left"
         >
-          <RatedReview></RatedReview>
-          <ReviewCard></ReviewCard>
-          <div className="mt-4">
+          <RatedReview responseData={responseData?.data}></RatedReview>
+          <ReviewCard slug={slug}></ReviewCard>
+          {/* <div className="mt-4">
             <ReviewCard></ReviewCard>
-          </div>
-          <Pagination></Pagination>
+          </div> */}
+          {/* <Pagination></Pagination> */}
         </SectionBlock>
       </div>
       <div className="mt-5">
@@ -162,7 +165,9 @@ export default function page({ params }: { params: PageParams }) {
           className="mt-4 pt-4 lg:container lg:m-auto"
           position="left"
         >
-          <ProductDetailCard responseData={responseData?.data}></ProductDetailCard>
+          <ProductDetailCard
+            responseData={responseData?.data}
+          ></ProductDetailCard>
         </SectionBlock>
       </div>
       <div className="mt-5">

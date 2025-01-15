@@ -46,7 +46,7 @@ interface ProductDetailItemProps {
 }
 
 export default function productDetailItem({ responseData }: ProductDetailItemProps) {
-  console.log(responseData, "Response Data");
+  // console.log(responseData, "Response Data");
 
   const { title, description, short_description, featured_image, product_images, reviews, delivery_detail } = responseData?.data || {};
   const { average, total_count } = reviews || {};
@@ -90,7 +90,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                   <ol className="list-reset bg-grey-light text-grey flex rounded py-4 pl-4">
                     <li className="px-2 text-[#A5A1A1]">
                       <a
-                        href="#"
+                        href="/"
                         className="text-indigo text-[8px] no-underline md:text-[14px]"
                       >
                         Home
@@ -172,7 +172,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                   </p> */}
                 </div>
 
-                <div className="shipping-btn mt-3 flex justify-start gap-4">
+                {/* <div className="shipping-btn mt-3 flex justify-start gap-4">
                   <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded border-2 px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-[#A5A1A1] md:h-auto md:w-2/5 md:text-[16px]">
                     <svg
                       width="24"
@@ -230,9 +230,9 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                     </svg>
                     ORDER A SAMPLE
                   </button>
-                </div>
+                </div> */}
 
-                <Calculator></Calculator>
+                <Calculator responseData={responseData}></Calculator>
                 <div className="mt-4 w-full">
                   <h5 className="text-3xl font-semibold">Delivery </h5>
                   <div className="mt-4 flex justify-between gap-2">
