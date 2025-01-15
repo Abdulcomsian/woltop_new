@@ -1,44 +1,73 @@
-import React from 'react'
+import React, { useState } from "react";
 
-export default function productPrice() {
+interface Variable {
+  id: number;
+  discount: number;
+  name: string;
+  sale_price: number;
+  price: number;
+}
+
+interface ResponseData {
+  data: {
+    variables: Variable[];
+  };
+}
+
+export default function ProductPrice({
+  responseData,
+}: {
+  responseData: ResponseData;
+}) {
+  const { variables } = responseData?.data;
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const handleCardClick = (id: number) => {
+    setSelectedId((prevId) => (prevId === id ? null : id));
+  };
+
   return (
-    <div className="mt-4 flex justify-start items-center">
-   <div  className='border-[#00000]-900  w-full rounded-lg p-4 border-dashed  product-price-wrapper'>
-               <div className='bg-[#49AD911A] inline-block pr-3 pl-3 rounded-full '> 
-                <span className='text-[#49AD91]'>49% off </span> </div>
-               <div className="dimension mt-1">
-               53CM x 6M
-               </div>
-               <div className="price-wrapper flex">
-               <div className='real-price text-[#49AD91]'>₹799</div>
-               <div className='descount-price  text-{12px}  text-[#BAB8B8] line-through'>₹1630</div>
-               </div>
-               <div className='product-size'>
-               ₹23.5/ft2 
-               </div>
-    </div>
+    <div className="mt-4 flex items-center justify-start gap-2">
+      {variables?.map((variable) => (
+        <div
+          key={variable.id}
+          onClick={() => handleCardClick(variable.id)}
+          className={`product-price-wrapper relative w-full cursor-pointer rounded-lg border-dashed p-4 ${
+            selectedId === variable.id ? "bg-[#49AD911A]" : ""
+          }`}
+        >
+          {/* Discount Badge */}
+          <div className="inline-block rounded-full bg-[#49AD911A] pl-3 pr-3">
+            <span className="text-[#49AD91]">{variable.discount}% off</span>
+          </div>
 
-             <div 
-              className='bg-[#49AD911A] w-full  ml-5 rounded-lg relative
-               border-[#49AD91]-900 p-4 border-dashed  product-price-wrapper'>
-               <div className='bg-[#49AD911A] inline-block pr-3 pl-3 rounded-full '> 
-                <span className='text-[#49AD91]'>50% off </span> </div>
-               <div className="dimension mt-1">
-               53CM x 6M
-               </div>
-               <div className="price-wrapper flex">
-               <div className='real-price text-[#49AD91]'>₹799</div>
-               <div className='descount-price  text-{12px}  text-[#BAB8B8] line-through'>₹1149</div>
-               </div>
-               <div className='product-size'>
-               ₹23.5/ft2 
-               </div>
-               <div  className="absolute top-5 right-3">
-                <input type="checkbox" id="test1" />
-                <label htmlFor="test1"></label>
-               </div>  
+          {/* Product Dimensions */}
+          <div className="dimension mt-1">{variable.name}</div>
+
+          {/* Pricing Details */}
+          <div className="price-wrapper flex">
+            <div className="real-price text-[#49AD91]">
+              ₹{variable.sale_price}
+            </div>
+            <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
+              ₹{variable.price}
+            </div>
+          </div>
+
+          {/* Price Per Unit */}
+          <div className="product-size">
+            ₹{(variable.sale_price / 6).toFixed(2)}/ft²
+          </div>
+
+          {/* Checkbox for High Discounts */}
+          {selectedId === variable.id && (
+            <div className="absolute right-3 top-5">
+              <input type="checkbox" id={`checkbox-${variable.id}`} checked />
+              <label htmlFor={`checkbox-${variable.id}`}></label>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
-    </div>
- 
-  )
+  );
 }

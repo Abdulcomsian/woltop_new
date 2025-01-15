@@ -58,8 +58,8 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
                         className="h-5 w-5 stroke-2"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                         ></path>
                       </svg>

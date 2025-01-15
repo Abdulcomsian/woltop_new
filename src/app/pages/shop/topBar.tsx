@@ -10,7 +10,7 @@ interface TimeProps {
 export default function topBar({ time }: { time: TimeProps }) {
   return (
     
-<div className=" mx-auto">
+<div className="mx-auto">
 
  <div className="w-full bg-gradient-to-r from-pink-700 via-pink-700 via-[60%]
    to-purple-700 text-white text-center py-2 px-5 lg:px-6 xl:px-8">

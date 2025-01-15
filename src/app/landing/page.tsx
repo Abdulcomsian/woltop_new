@@ -16,12 +16,8 @@ import BlogsItems from "~/components/blogsItems";
 export default function page() {
   return (
     <main className="">
-      <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }}></TopBar>
-      <Navbar></Navbar>
       <Banner></Banner>
       <h1>Home Consultation for Wallpapers </h1>
-
-      <Footer></Footer>
     </main>
   );
 }

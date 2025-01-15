@@ -2,6 +2,9 @@ import "~/styles/globals.css";
 import ReduxProvider from "~/store/reduxProvider";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import Navbar from "../components/navbar";
+import TopBar from "./pages/shop/topBar";
+import Footer from "../components/footer";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -15,8 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
-        {" "}
-        <ReduxProvider>{children}</ReduxProvider>
+      <ReduxProvider>
+          <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }} />
+          <Navbar />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );
