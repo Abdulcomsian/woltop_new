@@ -4,18 +4,14 @@ import { useState } from "react";
 import footerLogo from "~/assets/img/footer-logo.svg";
 import { SearchIcon } from "./icons/searchIcon";
 import { FavriouteIcon } from "./icons/favriouteIcon";
-import { Drawer } from "antd"; // Import Drawer from Ant Design
+import { useSelector } from "react-redux";
 
 export default function navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const cartItemsLength = useSelector((state: any) => state.cart.items.length);
 
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
   };
 
   return (
@@ -34,7 +30,7 @@ export default function navbar() {
                   {/* <img className='w-100' src={mainLogo} alt="" />*/}
                   <span className="relative h-[2.125rem] w-32 overflow-hidden md:w-[8.625rem]">
                     <img
-                      src={footerLogo.src}
+                      src={footerLogo.src || null}
                       className="object-contain"
                       style={{
                         height: "100%",
@@ -88,9 +84,9 @@ export default function navbar() {
                 <SearchIcon />
                 <FavriouteIcon />
                 <div className="flex items-center space-x-4 sm:space-x-6 lg:space-x-4 rtl:lg:space-x-reverse">
-                  <button
+                  <a
+                    href="/cart"
                     className="product-cart relative lg:flex"
-                    onClick={toggleDrawer}
                   >
                     <svg
                       width="24"
@@ -122,9 +118,9 @@ export default function navbar() {
                       ></path>
                     </svg>
                     <span className="absolute -top-1/2 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#49AD91] text-[10px] text-white ltr:-right-1/2 rtl:-left-1/2">
-                      1
+                      {cartItemsLength || 0}
                     </span>
-                  </button>
+                  </a>
                   <a className="" href="/become-seller">
                     <svg
                       width="24"
@@ -225,17 +221,6 @@ export default function navbar() {
           </a>
         </div>
       </nav>
-
-     {/* Drawer */}
-     <Drawer
-        title="Your Cart"
-        open={isDrawerOpen}
-        onClose={toggleDrawer}
-        width={300}
-      >
-        <p>Cart content goes here</p>
-        {/* Add your cart items here */}
-      </Drawer>
     </div>
   );
 }

@@ -65,7 +65,7 @@ export default function categorieCard() {
       <div className="w-full">
         <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-2 gap-5 gap-y-10 px-3 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
           {cardData.map((card) => (
-            <div style={{ width: "100%", marginRight: "24px" }}>
+            <div key={card.id} style={{ width: "100%", marginRight: "24px" }}>
               <a>
                 <div className="card-wrapper relative">
                   <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
@@ -73,7 +73,6 @@ export default function categorieCard() {
                   </div>
 
                   <Card
-                    key={card.id}
                     style={{ backgroundImage: `url(${card.img.src})` }}
                     className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
                   >

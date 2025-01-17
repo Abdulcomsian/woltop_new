@@ -8,6 +8,9 @@ import imageDegner3 from "../../public/washable.png";
 import imageDegner4 from "../../public/moderen.png";
 import MoreInformation from "./moreInformation";
 import Calculator from "./calculator";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "~/store/slices/cartSlice";
+import { useRouter } from "next/navigation";
 
 interface ProductImage {
   id: string;
@@ -29,6 +32,8 @@ interface Reviews {
 
 // Define the structure of the product data
 interface ProductData {
+  price: number;
+  id: string;
   title: string;
   description: string;
   short_description: string;
@@ -46,10 +51,31 @@ interface ProductDetailItemProps {
 }
 
 export default function productDetailItem({ responseData }: ProductDetailItemProps) {
-  // console.log(responseData, "Response Data");
+  console.log(responseData, "Response Data");
 
   const { title, description, short_description, featured_image, product_images, reviews, delivery_detail } = responseData?.data || {};
   const { average, total_count } = reviews || {};
+  
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleAddToCart = () => {
+
+    
+    if (responseData?.data) {
+      const price = Number(responseData.data.price);  
+      dispatch(
+        addItemToCart({
+          id: responseData.data.id,
+          name: responseData.data.title,
+          price: price,
+          description: responseData.data.description,
+          featured_image: responseData.data.featured_image,
+        })
+      );
+      router.push("/cart");
+    }
+  };
   
 
   return (
@@ -172,7 +198,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                   </p> */}
                 </div>
 
-                {/* <div className="shipping-btn mt-3 flex justify-start gap-4">
+                <div className="shipping-btn mt-3 flex justify-start gap-4">
                   <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded border-2 px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-[#A5A1A1] md:h-auto md:w-2/5 md:text-[16px]">
                     <svg
                       width="24"
@@ -197,7 +223,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                     </svg>
                     ORDER A SAMPLE
                   </button>
-                  <button className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded bg-[#49AD91] px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-white md:h-auto md:w-2/5 md:text-[16px]">
+                  <button onClick={handleAddToCart} className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded bg-[#49AD91] px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-white md:h-auto md:w-2/5 md:text-[16px]">
                     <svg
                       width="25"
                       height="24"
@@ -228,9 +254,9 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                         strokeLinejoin="round"
                       />
                     </svg>
-                    ORDER A SAMPLE
+                    ADD TO CART
                   </button>
-                </div> */}
+                </div>
 
                 <Calculator responseData={responseData}></Calculator>
                 <div className="mt-4 w-full">
@@ -254,7 +280,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                 <div className="mt-5 flex w-full">
                   <Image
                     className="m-3 h-full w-full object-cover"
-                    src={imageDegner.src}
+                    src={imageDegner.src || ""}
                     alt="Banner Background1"
                     width={100}
                     height={100}
@@ -262,7 +288,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
 
                   <Image
                     className="m-3 h-full w-full object-cover"
-                    src={imageDegner4.src}
+                    src={imageDegner4.src || ""}
                     alt="Banner Background2"
                     width={100}
                     height={100}
@@ -270,7 +296,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
 
                   <Image
                     className="m-3 h-full w-full object-cover"
-                    src={imageDegner2.src}
+                    src={imageDegner2.src || ""}
                     alt="Banner Background3"
                     width={100}
                     height={100}
@@ -278,7 +304,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
 
                   <Image
                     className="m-3 h-full w-full object-cover"
-                    src={imageDegner3.src}
+                    src={imageDegner3.src || ""}
                     alt="Banner Background4"
                     width={100}
                     height={100}

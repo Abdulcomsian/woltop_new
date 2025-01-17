@@ -104,7 +104,7 @@ export default function Calculator({ responseData }: { responseData: ResponseDat
 
             <label className="font-poppins text-xs font-normal">Meter</label>
           </div>
-          <div className="flex flex-col md:flex-row gap-4 my-2 lg:container lg:mx-auto justify-center">
+          <div className="flex flex-col xl:flex-row gap-4 my-2  mx-auto justify-center">
             <div className="flex flex-col gap-1">
               <label className="uppercase text-xs font-poppins font-normal">
                 Width
