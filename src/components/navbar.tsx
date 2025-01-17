@@ -5,6 +5,7 @@ import footerLogo from "~/assets/img/footer-logo.svg";
 import { SearchIcon } from "./icons/searchIcon";
 import { FavriouteIcon } from "./icons/favriouteIcon";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 export default function navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,8 +24,8 @@ export default function navbar() {
             <div className="flex space-x-4">
               {/* <!-- logo --> */}
               <div>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="flex items-center px-2 py-5 text-gray-700 hover:text-gray-900"
                 >
                   {/* <img className='w-100' src={mainLogo} alt="" />*/}
@@ -39,7 +40,7 @@ export default function navbar() {
                       alt=""
                     />
                   </span>
-                </a>
+                </Link>
               </div>
 
               {/* <!-- primary nav --> */}
