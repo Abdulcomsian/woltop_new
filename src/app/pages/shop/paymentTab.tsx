@@ -2,15 +2,142 @@ import React from "react";
 import { CheckoutArrow } from "~/components/icons/CheckoutArrow";
 import Image from "next/image";
 import coins from "../../../../public/icons/coin.svg";
-
+import { useSelector } from "react-redux";
+import installationIcon from "../../../../public/installationIcon.png";
 const PaymentTab = () => {
+  const totalPrice = useSelector((state: any) => state.cart.totalPrice);
+
   return (
     <section>
-      <div className="w-full">
-        <div className="md:p-4d m-auto w-2/3 bg-white p-3 max-[568px]:w-full">
-          <div className="rounded border">
-            <div className="header bg-[#F0F7F2] p-2">
-              <p className="flex items-center gap-2">
+      <div className="w-full bg-[#F0F7F2]">
+        <div className="md:p-4d m-auto w-2/3 bg-white max-[568px]:w-full">
+          <div className="rounded p-3">
+            <div className="bill-detail">
+              <div className="border-border-200 flex flex-col border-b py-3">
+                <h4 className="mt-3 font-medium">Bill Details</h4>
+                <div className="mt-2 flex">
+                  <Image src={coins || null} className="w-4" alt="" />
+                  <p className="ml-2 text-[8px] text-base text-[#7A7474]">
+                    Total Wol Cash
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="border-border-200 border-b py-3">
+              <ul>
+                <li className="text-body mb-2 flex justify-between text-[14px]">
+                  <div>Total MRP</div>
+                  <div className="font-medium text-[#000000]">
+                    ₹{totalPrice}
+                  </div>
+                </li>
+                <li className="text-body mb-2 flex justify-between text-[14px]">
+                  <div>Cart Discount</div>
+                  <div className="font-medium text-[#000000]">-₹155</div>
+                </li>
+                <li className="text-body flex justify-between text-[14px]">
+                  <div>Shipping Charges</div>
+                  <div className="font-medium text-[#000000]">
+                    ₹50 <span className="text-[14px] text-[#49AD91]">FREE</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="subtotal mt-2 border-b pb-3">
+              <h4 className="flex items-center justify-between">
+                <span className="font-bold">Sub Total</span>
+                <span>₹{totalPrice}</span>
+              </h4>
+              <p className="text-body text-[14px]">
+                COD is available. Tap payment options on <br /> bottom left.
+              </p>
+            </div>
+
+            <div className="deliveryAddress py-6">
+              <div className="mb-2 flex justify-between">
+                <span className="font-bold">Delivery Address</span>
+                <a className="text-blue-400 underline" href="#">
+                  Change
+                </a>
+              </div>
+              <div className="rounded-md border p-3">
+                <div className="contact border-b pb-2">
+                  <div className="mb-1 flex items-center gap-1">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.0939 11.6874C13.5977 11.1874 12.3958 10.4577 11.8127 10.1636C11.0533 9.78113 10.9908 9.74988 10.3939 10.1933C9.9958 10.4893 9.73112 10.7536 9.26518 10.6543C8.79924 10.5549 7.78674 9.99457 6.90018 9.11082C6.01362 8.22707 5.4208 7.18519 5.32112 6.72082C5.22143 6.25644 5.49018 5.99488 5.7833 5.59582C6.19643 5.03332 6.16518 4.93957 5.81205 4.18019C5.53674 3.58957 4.7858 2.39894 4.28393 1.90519C3.74705 1.37488 3.74705 1.46863 3.40112 1.61238C3.11948 1.73088 2.84929 1.87491 2.59393 2.04269C2.09393 2.37488 1.81643 2.65082 1.62237 3.0655C1.4283 3.48019 1.34112 4.45238 2.3433 6.273C3.34549 8.09363 4.04862 9.02457 5.50393 10.4758C6.95924 11.9271 8.0783 12.7074 9.71424 13.6249C11.738 14.7583 12.5142 14.5374 12.9302 14.3436C13.3461 14.1499 13.6233 13.8749 13.9561 13.3749C14.1243 13.1199 14.2687 12.8501 14.3874 12.5686C14.5314 12.2239 14.6252 12.2239 14.0939 11.6874Z"
+                        stroke="black"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
+                    </svg>
+                    <span className="font-medium">Contact</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="name font-medium">John Doe</span>
+                    <span>•</span>
+                    <span className="">+911 1234 30789</span>
+                  </div>
+                </div>
+                <div className="address pt-2">
+                  <div className="mb-1 flex items-center gap-1">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8 1.5C5.51562 1.5 3.5 3.41844 3.5 5.78125C3.5 8.5 6.5 12.8084 7.60156 14.2966C7.64729 14.3594 7.70722 14.4105 7.77646 14.4457C7.84571 14.481 7.9223 14.4994 8 14.4994C8.0777 14.4994 8.15429 14.481 8.22354 14.4457C8.29278 14.4105 8.35271 14.3594 8.39844 14.2966C9.5 12.8091 12.5 8.50219 12.5 5.78125C12.5 3.41844 10.4844 1.5 8 1.5Z"
+                        stroke="black"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M8 7.5C8.82843 7.5 9.5 6.82843 9.5 6C9.5 5.17157 8.82843 4.5 8 4.5C7.17157 4.5 6.5 5.17157 6.5 6C6.5 6.82843 7.17157 7.5 8 7.5Z"
+                        stroke="black"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <span className="font-medium">Ship To</span>
+                  </div>
+                  <span className="name">
+                    Lorem ipsum dolor sit amet diam in lacus
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="installation relative flex items-center rounded-md border bg-[#2ECDA01A] p-3 opacity-90">
+              <input
+                type="checkbox"
+                className="absolute right-3 top-3 h-5 w-5"
+              />
+              <div className="icon mr-3 h-20 w-20">
+                <Image src={installationIcon} alt="" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold">Need Installation Service?</span>
+                <span className="text-gray-500">
+                  Get professional installation for just ₹450/Roll. Uncheck if
+                  you’d like to install it yourself.
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="">
+            <div className="rounded bg-[#F0F7F2] py-3">
+              <p className="flex items-center justify-center gap-2">
                 <span className="icon">
                   <svg
                     width="19"
@@ -30,53 +157,32 @@ const PaymentTab = () => {
                 </span>
               </p>
             </div>
-            <div className="bill-detail mx-3">
-              <div className="border-border-200 flex flex-col border-b p-2 py-3">
-                <h4 className="mt-3 font-medium">Bill Details</h4>
-                <div className="mt-2 flex">
-                  <Image src={coins || null} className="w-4" alt="" />
-                  <p className="ml-2 text-[8px] text-base text-[#7A7474]">
-                    Total Wol Cash
-                  </p>
-                </div>
+            <div className="flex justify-between bg-white p-3">
+              <div className="flex flex-col leading-[18px]">
+                <span className="font-bold">Payment Method</span>
+                <span>online: UPI, Cards etc</span>
+                <a className="text-blue-400 underline" href="#">
+                  Change
+                </a>
               </div>
+              <button
+                data-variant="normal"
+                className="focus:ring-accent-700 hover:bg-accent-hover inline-flex h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
+              >
+                <div className="flex flex-col items-start">
+                  <span className="text-[10px] font-medium md:text-xs">
+                    4397
+                  </span>
+                  <span className="text-[10px] font-medium md:text-xs">
+                    2 items
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <span>Place Order</span>
+                  <CheckoutArrow></CheckoutArrow>
+                </div>
+              </button>
             </div>
-            <div className="border-border-200 mx-3 border-b p-2 py-3">
-              <ul>
-                <li className="text-body mb-2 flex justify-between text-[14px]">
-                  <div>Total MRP</div>
-                  <div className="font-medium text-[#000000]">₹799</div>
-                </li>
-                <li className="text-body mb-2 flex justify-between text-[14px]">
-                  <div>Cart Discount</div>
-                  <div className="font-medium text-[#000000]">-₹155</div>
-                </li>
-                <li className="text-body flex justify-between text-[14px]">
-                  <div>Shipping Charges</div>
-                  <div className="font-medium text-[#000000]">
-                    ₹50 <span className="text-[14px] text-[#49AD91]">FREE</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div className="subtotal mx-3 mt-2 pb-3">
-              <h4 className="flex items-center justify-between font-medium">
-                <span>Sub Total</span>
-                <span>$8,160.00</span>
-              </h4>
-              <p className="text-body text-[14px]">
-                You can send a gift note on the next step
-              </p>
-            </div>
-          </div>
-          <div className="ml-3 mr-3 md:ml-2 md:mr-2">
-            <button
-              data-variant="normal"
-              className="focus:ring-accent-700 hover:bg-accent-hover mt-5 inline-flex h-12 w-full shrink-0 items-center justify-center rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
-            >
-              Checkout
-              <CheckoutArrow></CheckoutArrow>
-            </button>
           </div>
         </div>
       </div>

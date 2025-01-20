@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductPrice from "./productPrice";
 import Image from "next/image";
 import ToolkitBar from "./toolkitBar";
@@ -10,7 +10,6 @@ import MoreInformation from "./moreInformation";
 import Calculator from "./calculator";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "~/store/slices/cartSlice";
-import { useRouter } from "next/navigation";
 
 interface ProductImage {
   id: string;
@@ -29,18 +28,27 @@ interface Reviews {
   average: number;
   total_count: number;
 }
+interface Variable {
+  id: number;
+  discount: number;
+  name: string;
+  sale_price: number;
+  price: number;
+}
 
 // Define the structure of the product data
 interface ProductData {
   price: number;
+  sale_price: number;
+  discount: number;
   id: string;
   title: string;
-  description: string;
   short_description: string;
   featured_image: string;
   product_images: ProductImage[];
   reviews: Reviews;
   delivery_detail: DeliveryDetail[];
+  variables: Variable[];
 }
 
 // Define the prop type that receives the response data
@@ -50,30 +58,55 @@ interface ProductDetailItemProps {
   };
 }
 
-export default function productDetailItem({ responseData }: ProductDetailItemProps) {
+export default function productDetailItem({
+  responseData,
+}: ProductDetailItemProps) {
   console.log(responseData, "Response Data");
-
-  const { title, description, short_description, featured_image, product_images, reviews, delivery_detail } = responseData?.data || {};
-  const { average, total_count } = reviews || {};
-  
+  const {
+    title,
+    short_description,
+    featured_image,
+    product_images,
+    reviews,
+    delivery_detail,
+    variables,
+  } = responseData?.data || {};
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const dispatch = useDispatch();
-  const router = useRouter();
+
+  const handleCardClick = (id: number) => {
+    setSelectedId((prevId) => (prevId === id ? null : id));
+  };
 
   const handleAddToCart = () => {
-
-    
-    if (responseData?.data) {
-      const price = Number(responseData.data.price);  
-      dispatch(
-        addItemToCart({
-          id: responseData.data.id,
-          name: responseData.data.title,
-          price: price,
-          description: responseData.data.description,
-          featured_image: responseData.data.featured_image,
-        })
+    if (responseData?.data && selectedId !== null) {
+      const selectedVariable = responseData.data.variables.find(
+        (variable: any) => variable.id === selectedId
       );
-      router.push("/cart");
+  
+      if (selectedVariable) {
+        const price = Number(responseData.data.price);
+        const sale_price = responseData.data.sale_price ? Number(responseData.data.sale_price) : price;
+  
+        const discount = Number(responseData.data.discount);
+  
+        dispatch(
+          addItemToCart({
+            id: Number(responseData.data.id),
+            name: responseData.data.title,
+            price: price,
+            sale_price: sale_price,
+            discount: discount,
+            featured_image: responseData.data.featured_image,
+            variableId: selectedVariable.id,
+            variableName: selectedVariable.name,
+          })
+        );
+      } else {
+        console.error("Selected variable not found");
+      }
+    } else {
+      console.error("No item selected or response data missing");
     }
   };
   
@@ -143,8 +176,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                       /
                     </li>
                     <li className="text-gray px-2 text-[8px] md:text-[14px]">
-                      {title ||
-                        "Wolpin Wallpaper Non-Woven"}
+                      {title || "Wolpin Wallpaper Non-Woven"}
                     </li>
                   </ol>
                 </nav>
@@ -163,10 +195,7 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                           name="rating"
                           value={star}
                           disabled
-                          checked={
-                            Math.round(reviews.average) ===
-                            star
-                          }
+                          checked={Math.round(reviews.average) === star}
                         />
                         <label htmlFor={`${star}-stars`} className="star">
                           &#9733;
@@ -182,17 +211,63 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                   </div>
                 </div>
 
-                <ProductPrice responseData={responseData}></ProductPrice>
+                {/* <ProductPrice responseData={responseData}></ProductPrice> */}
+                <div className="mt-4 flex items-center justify-start gap-2">
+                  {variables?.map((variable) => (
+                    <div
+                      key={variable.id}
+                      onClick={() => handleCardClick(variable.id)}
+                      className={`product-price-wrapper relative w-full cursor-pointer rounded-lg border-dashed p-4 ${
+                        selectedId === variable.id ? "bg-[#49AD911A]" : ""
+                      }`}
+                    >
+                      {/* Discount Badge */}
+                      <div className="inline-block rounded-full bg-[#49AD911A] pl-3 pr-3">
+                        <span className="text-[#49AD91]">
+                          {variable.discount}% off
+                        </span>
+                      </div>
+
+                      {/* Product Dimensions */}
+                      <div className="dimension mt-1">{variable.name}</div>
+
+                      {/* Pricing Details */}
+                      <div className="price-wrapper flex">
+                        <div className="real-price text-[#49AD91]">
+                          ₹{variable.sale_price}
+                        </div>
+                        <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
+                          ₹{variable.price}
+                        </div>
+                      </div>
+
+                      {/* Price Per Unit */}
+                      <div className="product-size">
+                        ₹{(variable.sale_price / 6).toFixed(2)}/ft²
+                      </div>
+
+                      {/* Checkbox for High Discounts */}
+                      {selectedId === variable.id && (
+                        <div className="absolute right-3 top-5">
+                          <input
+                            type="checkbox"
+                            id={`checkbox-${variable.id}`}
+                            checked
+                          />
+                          <label htmlFor={`checkbox-${variable.id}`}></label>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
 
                 <div className="shipping-text mt-5">
-                  {short_description
-                    ?.split("\n")
-                    .map((item, index) => (
-                      <span key={index}>
-                        - {item}
-                        <br />
-                      </span>
-                    ))}
+                  {short_description?.split("\n").map((item, index) => (
+                    <span key={index}>
+                      - {item}
+                      <br />
+                    </span>
+                  ))}
                   {/* <p className="mt-2 font-normal text-[#7A7474]">
                     - Cash on delivery available at ₹20 COD charges
                   </p> */}
@@ -223,7 +298,10 @@ export default function productDetailItem({ responseData }: ProductDetailItemPro
                     </svg>
                     ORDER A SAMPLE
                   </button>
-                  <button onClick={handleAddToCart} className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded bg-[#49AD91] px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-white md:h-auto md:w-2/5 md:text-[16px]">
+                  <button
+                    onClick={handleAddToCart}
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded bg-[#49AD91] px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-white md:h-auto md:w-2/5 md:text-[16px]"
+                  >
                     <svg
                       width="25"
                       height="24"

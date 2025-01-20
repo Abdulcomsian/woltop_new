@@ -83,7 +83,6 @@ export default function page() {
         </div>
       </div>
 
-      <div className="mt-6">
         {activeTab === "cart" && <CartTab cartData={cartData} setActiveTab={setActiveTab} />}
         {activeTab === "shipping" && (
           <>
@@ -97,7 +96,6 @@ export default function page() {
           </>
         )}
         {activeTab === "payment" && <PaymentTab />}
-      </div>
     </>
   );
 }
