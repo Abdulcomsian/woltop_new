@@ -16,6 +16,12 @@ interface ProductImage {
   image_path: string;
 }
 
+// Define the structure of the product's features
+interface ProductFeature {
+  image: string;
+  name: string;
+}
+
 // Define the structure of the product's delivery details
 interface DeliveryDetail {
   id: string;
@@ -44,6 +50,7 @@ interface ProductData {
   id: string;
   title: string;
   short_description: string;
+  products_features: ProductFeature[];
   featured_image: string;
   product_images: ProductImage[];
   reviews: Reviews;
@@ -70,6 +77,7 @@ export default function productDetailItem({
     reviews,
     delivery_detail,
     variables,
+    products_features
   } = responseData?.data || {};
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const dispatch = useDispatch();
@@ -351,42 +359,20 @@ export default function productDetailItem({
                   </div>
                 </div>
 
-                <MoreInformation></MoreInformation>
+                {/* <MoreInformation></MoreInformation> */}
 
                 <ToolkitBar></ToolkitBar>
 
                 <div className="mt-5 flex w-full">
+                  {products_features?.map((feature: { image: string; name: string }) => (
                   <Image
                     className="m-3 h-full w-full object-cover"
-                    src={imageDegner.src || ""}
-                    alt="Banner Background1"
+                    src={feature.image}
+                    alt={feature.name}
                     width={100}
                     height={100}
                   />
-
-                  <Image
-                    className="m-3 h-full w-full object-cover"
-                    src={imageDegner4.src || ""}
-                    alt="Banner Background2"
-                    width={100}
-                    height={100}
-                  />
-
-                  <Image
-                    className="m-3 h-full w-full object-cover"
-                    src={imageDegner2.src || ""}
-                    alt="Banner Background3"
-                    width={100}
-                    height={100}
-                  />
-
-                  <Image
-                    className="m-3 h-full w-full object-cover"
-                    src={imageDegner3.src || ""}
-                    alt="Banner Background4"
-                    width={100}
-                    height={100}
-                  />
+                  ))}
                 </div>
               </div>
             </div>
