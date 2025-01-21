@@ -63,7 +63,7 @@ export default function categorieCard() {
     <div className="3xl:pb-[60px] flex w-full flex-col pb-[20px] lg:container lg:m-auto lg:pb-[40px] xl:pb-[54px]">
       {/* <div className="grid grid-cols-2 gap-4 lg:gap-2 px-3 lg:px-0 md:gap-6 gap-y-10 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] 3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))]"> */}
       <div className="w-full">
-        <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-2 gap-5 gap-y-10 px-3 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
+        <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-2 gap-5 gap-y-10 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
           {cardData.map((card) => (
             <div key={card.id} style={{ width: "100%", marginRight: "24px" }}>
               <a>
@@ -73,8 +73,8 @@ export default function categorieCard() {
                   </div>
 
                   <Card
-                    style={{ backgroundImage: `url(${card.img.src})` }}
-                    className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
+                    style={{ backgroundImage: `url(${card.img.src})`, backgroundSize: "cover" }}
+                    className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-[345]"
                   >
                     <CardHeader></CardHeader>
 
@@ -82,7 +82,7 @@ export default function categorieCard() {
                   </Card>
 
                   <div className="mt-3 flex items-center justify-between px-2.5 md:px-0">
-                    <span className="text-heading text-base font-semibold transition-colors group-hover:text-orange-500 md:text-base ltr:text-left rtl:text-right">
+                    <span className="text-heading text-[#383434] text-base font-normal transition-colors group-hover:text-orange-500 md:text-[20px] ltr:text-left rtl:text-right">
                       {card.content}
                     </span>
                     <ArrowRight />

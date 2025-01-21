@@ -1,196 +1,97 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Swiper from "swiper";
-import "swiper/css"; // Correct import for Swiper styles (v8+)
+import "swiper/css";
+import "swiper/css/pagination";
 
 const SwiperCard = () => {
-  const [swiperInstance, setSwiperInstance] = useState<Swiper | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
-
   useEffect(() => {
-    // Function to initialize the swiper
-    const newSwiper = new Swiper(".slider-cards-js", {
+    // Initialize Swiper instance
+    const swiper = new Swiper(".slider-cards-js", {
       direction: "horizontal",
-      slidesPerView: 7, // Show 4 slides at a time
-      // slidesPerView: "auto",
+      slidesPerView: 8,
       centeredSlides: true,
       spaceBetween: 12,
-      loop: true, // Enable infinite looping
+      loop: true,
       autoplay: {
-        delay: 2500, // Delay between slide transitions (in ms), optional if you want autoplay
-        disableOnInteraction: false, // Ensure autoplay continues after user interaction
+        delay: 2500,
+        disableOnInteraction: false,
       },
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
       },
       breakpoints: {
+        320: {
+          slidesPerView: 3,
+          spaceBetween: 8,
+        },
+        480: {
+          slidesPerView: 4,
+          spaceBetween: 8,
+        },
         768: {
-          slidesPerView: 1, // If the screen width is <= 768px, show 1 slide at a time
+          slidesPerView: 5,
+          spaceBetween: 8,
         },
         1024: {
-          slidesPerView: 6, // If the screen width is <= 1024px, show 3 slides at a time
+          slidesPerView: 6,
+          spaceBetween: 12,
         },
-        // Optionally, you can define other breakpoints for larger screens
+        1440: {
+          slidesPerView: 7,
+          spaceBetween: 20,
+        },
+        1920: {
+          slidesPerView: 8,
+          spaceBetween: 20,
+        },
       },
     });
 
-    const initializeSwiper = () => {
-      if (window.innerWidth <= 768) {
-        if (!isInitialized) {
-          const newSwiper = new Swiper(".slider-cards-js", {
-            direction: "horizontal",
-            slidesPerView: "auto",
-            centeredSlides: true,
-            spaceBetween: 32,
-            pagination: {
-              el: ".swiper-pagination",
-              clickable: true,
-            },
-          });
-
-          setSwiperInstance(newSwiper);
-          setIsInitialized(true);
-        }
-      } else if (isInitialized && swiperInstance) {
-        swiperInstance.destroy();
-        setIsInitialized(false);
-        setSwiperInstance(null);
-      }
-    };
-
- 
-    initializeSwiper();
-
-    window.addEventListener("resize", initializeSwiper);
-    // Reinitialize swiper when the window is resized
-
-    // Cleanup on component unmount
     return () => {
-      if (swiperInstance) {
-        swiperInstance.destroy();
-      }
-      window.removeEventListener("resize", initializeSwiper);
+      swiper.destroy(true, true);
     };
-  }, [isInitialized, swiperInstance]); // Depend on isInitialized and swiperInstance to handle updates
+  }, []);
+
+  const slides = [
+    "https://avatar.iran.liara.run/public/22",
+    "https://avatar.iran.liara.run/public/21",
+    "https://avatar.iran.liara.run/public/33",
+    "https://avatar.iran.liara.run/public/41",
+    "https://avatar.iran.liara.run/public/6",
+    "https://avatar.iran.liara.run/public/9",
+    "https://avatar.iran.liara.run/public/48",
+    "https://avatar.iran.liara.run/public/5",
+  ];
 
   return (
-    <div className="container overflow-hidden mx-auto mt-10 mb-10 ">
-    <div className="slider-cards-js ">
-      {/* Your swiper content goes here */}
-      <div className="swiper-wrapper flex">
-        <div className="swiper-slide">
-        <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/22" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
+    <div className="container mx-auto overflow-hidden">
+      <div className="slider-cards-js">
+        <div className="swiper-wrapper">
+          {slides.map((src, index) => (
+            <div key={index} className="swiper-slide">
+              <a href="/books/search?category=science-fiction-2">
+                <div className="flex flex-col items-center justify-between">
+                  <div className="h-[98px] w-[98px] rounded-full lg:h-[105px] lg:w-[105px] lg:object-cover border p-1 border-[#D237604D]">
+                    <img
+                      src={src}
+                      alt="Category"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div className="mt-2 block text-center">
+                    <span className="text-heading text-center text-base font-normal transition-colors group-hover:text-orange-500 md:text-base">
+                      Comic books
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          ))}
         </div>
-        <div className="swiper-slide">
-        <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/21" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
-        </div>
-        <div className="swiper-slide">
-        <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/33" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
-        </div>
-        <div className="swiper-slide">
-        <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/41" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
-        </div>
-        <div className="swiper-slide">
-        <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/6" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
-        </div>
-        <div className="swiper-slide">
-        <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/9" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
-        </div>
-        <div className="swiper-slide"> <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/48" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
-              </div>
-        <div className="swiper-slide"> <a href="/books/search?category=science-fiction-2">
-        <div className="lg:w-[105px] lg:h-[105px] h-[50px] md:w-[98px] md:h-[98px] mx-auto
-         border-red-700">
-          <img alt="Science Fiction" loading="lazy" width="98" height="98" decoding="async"
-           style={{border:"2px solid #D237604D", padding:"3px" }}
-            data-nimg="1" className="rounded-full lg:object-cover w-full h-full"
-             src="https://avatar.iran.liara.run/public/5" />
-              </div></a>
-              <div className="mt-2 block text-center">
-                <span className="text-base font-semibold text-heading transition-colors
-               group-hover:text-orange-500 text-center text-xs md:text-base">Comic books</span>
-               </div>
-              </div>
+        <div className="swiper-pagination"></div>
       </div>
-      <div className="swiper-pagination"></div>
-    </div>
     </div>
   );
 };

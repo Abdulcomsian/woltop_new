@@ -39,7 +39,7 @@ export default function reeling() {
           <div key={video.id} className="relative cursor-pointer">
             <video
               src={video?.path || undefined}
-              className="h-56 w-32 rounded-lg object-cover md:h-[337px] md:w-[194px]"
+              className="h-56 w-32 rounded-lg object-cover md:h-[337px] md:w-full"
               muted
               loop
               autoPlay

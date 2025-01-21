@@ -41,26 +41,26 @@ export default function easySteps({ responseData }: EasyStepsProps) {
   return (
     <div>
       <div className="flex justify-center text-center">
-        <div className="btn border-{#0B0A0A} hover:bg-[#0B0A0A]-700 mt-2 flex w-40 justify-center rounded border-2 bg-[#AA4A00] px-6 py-2 pb-3 pt-3 font-medium text-white">
+        <p className="btn border-{#0B0A0A} hover:bg-[#0B0A0A]-700 mt-2 flex justify-center rounded-[8px] border-2 bg-[#AA4A00] px-5 py-4 pb-3 pt-3 font-semibold text-[22px] text-white">
           How To Install
-        </div>
+        </p>
       </div>
-      <div className="scrollbar-hide mt-5 flex grid auto-cols-[minmax(145px,1fr)] grid-flow-col justify-between overflow-x-auto md:gap-4">
+      <div className="scrollbar-hide mt-5 grid auto-cols-[minmax(246px,1fr)] grid-flow-col justify-between overflow-x-auto md:gap-4">
         {responseData?.data?.installation_steps?.map((step) => (
           <div
             key={step.id}
-            className="grid content-center justify-items-center"
+            className=""
           >
-            <div className="relative mx-4 overflow-hidden rounded">
-              <div className="">
+            <div className="relative mx-4">
+              <div className="h-[279px] rounded overflow-hidden ">
                 <img
                   src={step.image}
                   alt={step.name}
-                  className="h-full w-full object-cover"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
-              <div className="relative h-auto p-4">
+              <div className="relative p-4">
                 <div className="mb-2 text-center text-2xl leading-7">
                   <h6 className="hover:text-[#AA4A00]-900 font-bold text-[#AA4A00] hover:underline hover:underline-offset-4">
                     {step.name}

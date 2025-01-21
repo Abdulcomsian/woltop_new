@@ -16,10 +16,10 @@ export default function navbar() {
   };
 
   return (
-    <div>
+    <>
       {/* <!-- navbar goes here --> */}
-      <nav className="bg-gray-100 px-5 lg:px-6 xl:px-8">
-        <div className="mx-auto lg:container">
+      <nav className="bg-[#FFFFFF] font-poppins" style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}>
+        <div className="mx-auto lg:container px-5 lg:px-7 xl:px-10">
           <div className="flex justify-between">
             <div className="flex space-x-4">
               {/* <!-- logo --> */}
@@ -222,6 +222,6 @@ export default function navbar() {
           </a>
         </div>
       </nav>
-    </div>
+    </>
   );
 }
