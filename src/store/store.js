@@ -8,6 +8,7 @@ import { paramApi } from "./api/paramApi";
 import { storiesApi } from "./api/storiesApi";
 import { reviewsApi } from "./api/reviewsApi";
 import { catagoriesApi } from "./api/catagoriesApi";
+import { toolsApi } from "./api/toolsApi";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   [productsApi.reducerPath]: productsApi.reducer,
   [storiesApi.reducerPath]: storiesApi.reducer,
   [reviewsApi.reducerPath]: reviewsApi.reducer,
+  [toolsApi.reducerPath]: toolsApi.reducer,
   [catagoriesApi.reducerPath]: catagoriesApi.reducer,
   [paramApi.reducerPath]: paramApi.reducer,
 });
@@ -36,6 +38,7 @@ export const store = configureStore({
     })
       .concat(productsApi.middleware)
       .concat(storiesApi.middleware)
+      .concat(toolsApi.middleware)
       .concat(reviewsApi.middleware)
       .concat(catagoriesApi.middleware)
       .concat(paramApi.middleware),

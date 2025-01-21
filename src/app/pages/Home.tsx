@@ -22,6 +22,7 @@ import {
 import { useGetColorsQuery, useGetTagsQuery } from "~/store/api/paramApi";
 import TabsComponent from "~/components/tabComponent";
 import SwiperCard from "~/components/swiperCard";
+import ToolsCard from "./shop/toolsCard";
 export default function Home() {
   const {
     data: popularProducts,
@@ -181,7 +182,7 @@ export default function Home() {
         className="pt-14 lg:container lg:m-auto"
         position="center"
       >
-        <DetailCard rating={false}></DetailCard>
+        <ToolsCard rating={false}></ToolsCard>
       </SectionBlock>
       <SectionBlock
         title="Recently Viewed"
