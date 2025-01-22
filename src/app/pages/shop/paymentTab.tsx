@@ -20,8 +20,8 @@ const PaymentTab = () => {
   const cartData = useSelector((state: any) => state.cart);
 
   return (
-    <section className="w-full bg-[#F0F7F2] py-5">
-      <div className="md:p-4d m-auto w-2/3 bg-white max-[568px]:w-full">
+    <section className="w-full  py-5">
+      <div className="md:p-4d m-auto bg-white w-full">
         <div className="rounded p-3">
           <div className="bill-detail">
             <div className="border-border-200 flex flex-col border-b py-3">

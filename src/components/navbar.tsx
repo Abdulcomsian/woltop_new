@@ -19,14 +19,14 @@ export default function navbar() {
     <>
       {/* <!-- navbar goes here --> */}
       <nav className="bg-[#FFFFFF] font-poppins" style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}>
-        <div className="mx-auto lg:container px-5 lg:px-7 xl:px-10">
+        <div className="mx-auto lg:container px-5 py-[16px] lg:px-7 xl:px-10">
           <div className="flex justify-between">
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 lg:space-x-20">
               {/* <!-- logo --> */}
               <div>
                 <Link
                   href="/"
-                  className="flex items-center px-2 py-5 text-gray-700 hover:text-gray-900"
+                  className="flex items-center px-2 text-gray-700 hover:text-gray-900"
                 >
                   {/* <img className='w-100' src={mainLogo} alt="" />*/}
                   <span className="relative h-[2.125rem] w-32 overflow-hidden md:w-[8.625rem]">
@@ -44,34 +44,34 @@ export default function navbar() {
               </div>
 
               {/* <!-- primary nav --> */}
-              <div className="hidden items-center space-x-1 md:flex">
+              <div className="hidden text-[18px] items-center md:gap-2.5 lg:gap-10 md:flex">
                 <a
                   href="#"
-                  className="px-3 py-5 text-gray-700 hover:text-gray-900"
+                  className="text-gray-700 hover:text-gray-900"
                 >
                   New Arrival
                 </a>
                 <a
                   href="/about"
-                  className="px-3 py-5 text-gray-700 hover:text-gray-900"
+                  className="text-gray-700 hover:text-gray-900"
                 >
                   About
                 </a>
                 <a
                   href="#"
-                  className="px-3 py-5 text-gray-700 hover:text-gray-900"
+                  className="text-gray-700 hover:text-gray-900"
                 >
                   Tools
                 </a>
                 <a
                   href="#"
-                  className="px-3 py-5 text-gray-700 hover:text-gray-900"
+                  className="text-gray-700 hover:text-gray-900"
                 >
                   Careers
                 </a>
                 <a
                   href="#"
-                  className="px-3 py-5 text-gray-700 hover:text-gray-900"
+                  className="text-gray-700 hover:text-gray-900"
                 >
                   Contact
                 </a>

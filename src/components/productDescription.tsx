@@ -20,7 +20,7 @@ export default function productDescription({
   const { description, featured_image } = responseData?.data;
   return (
     <div className="">
-      <div className="mb-4 flex flex-col justify-between rounded-lg bg-white pt-5 md:flex-row">
+      <div className="mb-4 flex flex-col justify-between rounded-lg bg-white py-5 md:flex-row">
         <div className="">
           <div className="border-rad h-10 w-60 rounded-br-full rounded-tr-full border-2 border-dashed border-gray-300 bg-[#E6F1FF]">
             <h1 className="p-2 font-semibold">Product Description</h1>
