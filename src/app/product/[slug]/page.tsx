@@ -66,7 +66,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Experience the Texture & Shine"
           subtitle="Transform Ordinary Walls into Extraordinary Masterpieces"
-          className="container mt-5 pt-4 lg:m-auto"
+          className="lg:container mt-5 pt-4 lg:m-auto px-3"
           position="left"
         >
           <VideoSection responseData={responseData?.data}></VideoSection>
@@ -77,7 +77,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title=""
           subtitle=""
-          className="container pt-4 lg:m-auto"
+          className="lg:container pt-4 lg:m-auto"
           position="left"
         >
           <ProductDescription
@@ -90,7 +90,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="4 Steps Easy Installation"
           subtitle=""
-          className="container mt-5 pt-4 lg:m-auto"
+          className="lg:container mt-5 pt-4 lg:m-auto"
           position="center"
         >
           <EasySteps responseData={responseData?.data}></EasySteps>
@@ -114,7 +114,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Unreeling Some Wolpin Stories"
           subtitle=""
-          className="mt-4 pt-4 lg:container lg:m-auto"
+          className="mt-4 pt-4 lg:container lg:m-auto px-3"
           position="left"
         >
           <Reeling></Reeling>
@@ -162,7 +162,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Other Products in this Range"
           subtitle=""
-          className="mt-4 pt-4 lg:container lg:m-auto"
+          className="mt-4 pt-4 lg:container lg:m-auto px-3"
           position="left"
         >
           <ProductDetailCard
@@ -190,14 +190,14 @@ export default function page({ params }: { params: PageParams }) {
           <DetailCard rating={true} colorId={0}></DetailCard>
         </SectionBlock>
       </div>
-      <div className="mt-5">
+      {/* <div className="mt-5">
         <SectionBlock
           title="@wolpinwallpaper.in"
           subtitle="Follow Us on Instagram"
           className="mt-4 pt-4 lg:container lg:m-auto"
           position="center"
         ></SectionBlock>
-      </div>
+      </div> */}
     </main>
   );
 }

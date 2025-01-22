@@ -10,6 +10,7 @@ import MoreInformation from "./moreInformation";
 import Calculator from "./calculator";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "~/store/slices/cartSlice";
+import { Star } from "lucide-react";
 
 interface ProductImage {
   id: string;
@@ -122,7 +123,7 @@ export default function productDetailItem({
   return (
     <div>
       <div className="container mx-auto">
-        <div className="relative mx-auto max-w-screen-2xl bg-white px-4 py-16 lg:py-24">
+        <div className="relative mx-auto max-w-screen-2xl px-4 py-16 lg:py-24">
           <div className="flex flex-col gap-2 md:flex-row">
             <div className="flex flex-1 flex-col">
               <div className="flex flex-1 flex-col">
@@ -190,10 +191,10 @@ export default function productDetailItem({
                 </nav>
               </div>
               <div className="detail-wrapper ml-0 md:ml-5">
-                <div className="title-product text-[27px] font-semibold text-[#000000]">
+                <div className="title-product text-[28px] leading-[33.6px] font-semibold text-[#000000]">
                   {title || "Wolpin Wallpaper Non-Woven"}
                 </div>
-                <div className="rating-wrapper flex">
+                <div className="rating-wrapper flex items-center gap-1">
                   <div className="star-rating">
                     {[5, 4, 3, 2, 1].map((star) => (
                       <React.Fragment key={star}>
@@ -211,7 +212,7 @@ export default function productDetailItem({
                       </React.Fragment>
                     ))}
                   </div>
-                  <div className="mr-4 mt-1 text-[#49AD91]">
+                  <div className="mr-4 text-[18px] text-[#49AD91]">
                     {reviews.average.toFixed(1)}
                     <span className="ml-2 text-[#A5A1A1]">
                       ({reviews.total_count})

@@ -48,9 +48,8 @@ export default function productDescription({
         </div>
         <div className="">
           <Image
-            style={{ height: "90%" }}
             // className="w-full h-auto   rounded m-4 mr-4  "
-            className="mr-4 h-auto w-full rounded px-3 md:w-[13rem]"
+            className="mr-4 h-[147.88px] md:h-[291.1px] object-cover w-full rounded-[6px] px-3 md:w-[13rem]"
             src={featured_image}
             alt="Banner Background2"
             width={100}

@@ -23,6 +23,8 @@ import { useGetColorsQuery, useGetTagsQuery } from "~/store/api/paramApi";
 import TabsComponent from "~/components/tabComponent";
 import SwiperCard from "~/components/swiperCard";
 import ToolsCard from "./shop/toolsCard";
+import HomePageReviewCards from "./shop/homePageReviewCards";
+import WolpinWallpaper from "./shop/wolpinWallpaper";
 export default function Home() {
   const {
     data: popularProducts,
@@ -89,21 +91,23 @@ export default function Home() {
   //   },
   // ];
   return (
-    <main>
+    <main className="font-poppins">
       {/* <Swiper></Swiper> */}
-      <SwiperCard></SwiperCard>
       <SectionBlock className="pt-14 lg:container lg:m-auto" position="center">
+        <SwiperCard></SwiperCard>
+      </SectionBlock>
+      <SectionBlock className="px-3 lg:container lg:m-auto" position="center">
         <Banner></Banner>
       </SectionBlock>
 
       <SectionBlock
         title="Popular Wallpaper"
         subtitle=""
-        className="pt-4 lg:container lg:m-auto"
+        className="px-3 pt-4 lg:container lg:m-auto"
         position="center"
       >
         {error ? (
-          <p>Error Fetching Products</p>
+          <p>Lodding...</p>
         ) : (
           <PopularWallpaper products={popularProducts}></PopularWallpaper>
         )}
@@ -111,7 +115,7 @@ export default function Home() {
       <SectionBlock
         title="Unreeling Some Wolpin Stories"
         subtitle=""
-        className="pt-4 lg:container lg:m-auto"
+        className="px-3 pt-4 lg:container lg:m-auto"
         position="left"
       >
         <Reeling></Reeling>
@@ -120,7 +124,7 @@ export default function Home() {
       <SectionBlock
         title=""
         subtitle=""
-        className="pt-4 lg:container lg:m-auto"
+        className="px-3 lg:container lg:m-auto"
         position="left"
       >
         <VideoSection></VideoSection>
@@ -130,30 +134,48 @@ export default function Home() {
         <SectionBlock
           title="Shop By Room"
           subtitle="Wallpaper designs for every room"
-          className="lg: bg-[#F1FBFF] pt-14 lg:container lg:m-auto lg:ml-12"
+          className="bg-[#F1FBFF] px-3 pt-14 lg:container lg:m-auto"
           position="left"
         >
           <CategorieCard></CategorieCard>
         </SectionBlock>
       </div>
 
-      <ConsultationSection></ConsultationSection>
-
       <SectionBlock
         title=""
         subtitle=""
-        className="mt-16 bg-[#FFF3F6] pt-14"
-        position="center"
+        className="lg:container lg:m-auto"
+        position="left"
       >
-        {/* if (!colors?.data) {
-    return <div>Loading colors...</div>; // Show a loading message or spinner
-  }  */}
-        {!colors?.data ? (
-          <div>Loading colors...</div>
-        ) : (
-          <TabsComponent tabs={colorTabs} content={colorContent} />
-        )}
+        <ConsultationSection></ConsultationSection>
       </SectionBlock>
+
+      <div className="mt-16 bg-[#FFF3F6]">
+        <SectionBlock
+          title=""
+          subtitle=""
+          className="px-3 lg:container lg:m-auto"
+          position="center"
+        >
+          {!colors?.data ? (
+            <div>Loading colors...</div>
+          ) : (
+            <TabsComponent
+              tabs={colorTabs}
+              content={colorContent}
+              flag="colors-tabs-section"
+            />
+          )}
+        </SectionBlock>
+        <SectionBlock
+          title="Styled Spaces by Our Clients"
+          subtitle="Projects We’ve Brought to Life"
+          className="px-3 lg:container lg:m-auto"
+          position="left"
+        >
+          <Reeling></Reeling>
+        </SectionBlock>
+      </div>
 
       <SectionBlock
         title="Effortless Wallpaper Ordering"
@@ -164,25 +186,28 @@ export default function Home() {
         <StepSection />
       </SectionBlock>
 
-      <SectionBlock
-        title=""
-        subtitle=""
-        className="bg-[#F1FBFF] pt-14"
-        position="center"
-      >
-        {!tags?.data ? (
-          <div>Loading Tags...</div>
-        ) : (
-          <TabsComponent tabs={productTabs} content={productContent} />
-        )}
-      </SectionBlock>
+      <div className="bg-[#F1FBFF]">
+        <SectionBlock
+          title=""
+          subtitle=""
+          className="px-3 lg:container lg:m-auto"
+          position="center"
+        >
+          {!tags?.data ? (
+            <div>Loading Tags...</div>
+          ) : (
+            <TabsComponent tabs={productTabs} content={productContent} />
+          )}
+          <HomePageReviewCards />
+        </SectionBlock>
+      </div>
       <SectionBlock
         title="Popular Tools"
         subtitle="Continue where you left off"
         className="pt-14 lg:container lg:m-auto"
         position="center"
       >
-        <ToolsCard rating={false}></ToolsCard>
+        <ToolsCard></ToolsCard>
       </SectionBlock>
       <SectionBlock
         title="Recently Viewed"
@@ -201,6 +226,14 @@ export default function Home() {
       >
         <Swiper></Swiper>
       </SectionBlock>
+      {/* <SectionBlock
+        title="@wolpinwallpaper.in"
+        subtitle="Follow Us on Instagram"
+        className="pt-14 lg:container lg:m-auto"
+        position="center"
+      >
+        <WolpinWallpaper />
+      </SectionBlock> */}
     </main>
   );
 }

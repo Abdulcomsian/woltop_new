@@ -10,7 +10,7 @@ import { VisaIcon } from "~/assets/iconsComp/visa";
 
 export default function footer() {
   return (
-    <div className="bg-[#EEF1F6]">
+    <div className="bg-[#EEF1F6] font-poppins">
       <div className="container m-auto px-5">
         <div
           style={{ marginBottom: "12px", marginTop: "2px" }}
@@ -154,7 +154,7 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="devider mb-12 mt-12 border-2 border-[#DBDBDB]"></div>
+        <div className="devider mb-12 mt-12 border border-[#DBDBDB]"></div>
 
         <div
           style={{ marginBottom: "12px", marginTop: "2px" }}
@@ -265,7 +265,7 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-10 pt-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
+        <div className="flex flex-col gap-10 py-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
           <div className="lg:w-3/4">
             <h3 className="mb-4 text-xl font-semibold">Shop For</h3>
             <div className="flex flex-wrap gap-x-4 gap-y-2">
@@ -310,7 +310,7 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col justify-between gap-3 pb-20 lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
+        <div className="mt-5 border-t-[1px] border-[#DBDBDB] flex flex-col justify-between gap-3 py-[37px] lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
           <div className="flex space-x-6 text-gray-600">
             <a href="terms" className="hover:underline">
               Terms &amp; Conditions

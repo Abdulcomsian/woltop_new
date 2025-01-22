@@ -17,39 +17,49 @@ interface TabContent {
 interface TabsComponentProps {
   tabs: Tab[];
   content: TabContent[];
+  flag?: string;
 }
 
-const TabsComponent: FC<TabsComponentProps> = ({ tabs, content }) => {
+const TabsComponent: FC<TabsComponentProps> = ({ tabs, content, flag }) => {
   const [selectedTab, setSelectedTab] = useState<string>(tabs[0]?.value || "");
 
-  // Log to verify that the tabs are populated correctly
-  useEffect(() => {
-    console.log("Selected Tab: ", selectedTab);
-  }, [selectedTab]);
+  const wrapperClassName = flag || "tabs-section";
 
   return (
-    <Tabs
-      value={selectedTab}
-      onValueChange={setSelectedTab}
-      className="border-solid"
-    >
-      <TabsList>
-        {tabs.map((tab) => (
-          <TabsTrigger
-            key={tab.value}
-            value={tab.value}
-            className="font-poppins w-full bg-[#F1FBFF] px-2 py-2.5 text-sm font-medium leading-5 text-[#908B8B] ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2"
-          >
-            {tab.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {content.map((item) => (
-        <TabsContent key={item.value} value={item.value}>
-          {item.component}
-        </TabsContent>
-      ))}
-    </Tabs>
+    <>
+      <div className={wrapperClassName}>
+        <Tabs
+          value={selectedTab}
+          onValueChange={setSelectedTab}
+          className="-mt-9 border-solid"
+        >
+          <TabsList className="bg-transparent w-full md:w-auto overflow-x-scroll md:overflow-hidden">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className={`font-poppins mr-2 w-full rounded-t-md md:px-[39px] py-2 text-sm font-medium leading-5 transition-all duration-300 ${
+                  selectedTab === tab.value
+                    ? "bg-green-300 text-green-500"
+                    : "bg-[#F9F9F9] text-[#908B8B]"
+                }`}
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {content.map((item) => (
+            <TabsContent
+              key={item.value}
+              value={item.value}
+              className={`-mb-10 pt-10`}
+            >
+              {item.component}
+            </TabsContent>
+          ))}
+        </Tabs>
+      </div>
+    </>
   );
 };
 

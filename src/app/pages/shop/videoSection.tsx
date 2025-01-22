@@ -15,8 +15,8 @@ export default function VideoSection({
 
   return (
     <div className="container mx-auto">
-      <div className="flex items-center justify-center p-8 md:p-1">
-        <video className="aspect-video w-full rounded-lg" controls>
+      <div className="flex items-center justify-center">
+        <video className="w-full aspect-auto rounded-lg" controls>
           <source
             src={
               video ||
