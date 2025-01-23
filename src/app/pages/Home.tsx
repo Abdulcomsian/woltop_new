@@ -170,7 +170,7 @@ export default function Home() {
         <SectionBlock
           title="Styled Spaces by Our Clients"
           subtitle="Projects We’ve Brought to Life"
-          className="px-3 lg:container lg:m-auto"
+          className="px-3 pt-4 lg:container lg:m-auto"
           position="left"
         >
           <Reeling></Reeling>
@@ -204,7 +204,7 @@ export default function Home() {
       <SectionBlock
         title="Popular Tools"
         subtitle="Continue where you left off"
-        className="pt-14 lg:container lg:m-auto"
+        className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
         <ToolsCard></ToolsCard>
@@ -212,7 +212,7 @@ export default function Home() {
       <SectionBlock
         title="Recently Viewed"
         subtitle="Continue where you left off"
-        className="pt-14 lg:container lg:m-auto"
+        className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
         <DetailCard rating={true}></DetailCard>
@@ -221,7 +221,7 @@ export default function Home() {
       <SectionBlock
         title="Elevate You Room"
         subtitle=""
-        className="pt-14 lg:container lg:m-auto"
+        className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
         <Swiper></Swiper>

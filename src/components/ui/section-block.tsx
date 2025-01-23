@@ -45,7 +45,7 @@ const SectionBlock: React.FC<SectionProps> = ({
             </h3>
           )}
           {subtitle && (
-            <h3 className="text-xs md:text-base lg:text-xl text-[#7A7474] font-medium font-poppins">
+            <h3 className="text-xs md:text-base lg:text-xl xl:text-[22px] text-[#7A7474] font-medium font-poppins">
               {subtitle}
             </h3>
           )}
