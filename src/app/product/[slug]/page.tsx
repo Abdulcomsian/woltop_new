@@ -30,7 +30,7 @@ interface PageParams {
 }
 
 export default function page({ params }: { params: PageParams }) {
-  const { slug } = params; 
+  const { slug } = params;
   // console.log("Slug", slug);
 
   const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
@@ -47,26 +47,21 @@ export default function page({ params }: { params: PageParams }) {
 
   return (
     <main>
-      {/* <div>
-        {product ? (
-          <div>
-            <p>Name: {product.data.description}</p>
-            <p>Age: {product.data.age}</p>
-          </div>
-        ) : (
-          <p>Data is unavailable.</p>
-        )}
-      </div> */}
-
-      {/* <h1>Product ID: {params.slug} </h1> */}
-
-      {/* <!-- section_2 -->  */}
-      <ProductDetailItem responseData={responseData?.data}></ProductDetailItem>
+      <SectionBlock
+        title=""
+        subtitle=""
+        className="lg:container lg:m-auto"
+        position="left"
+      >
+        <ProductDetailItem
+          responseData={responseData?.data}
+        ></ProductDetailItem>
+      </SectionBlock>
       <div className="bg-[#FFF3F6]">
         <SectionBlock
           title="Experience the Texture & Shine"
           subtitle="Transform Ordinary Walls into Extraordinary Masterpieces"
-          className="lg:container mt-5 pt-4 lg:m-auto px-3"
+          className="mt-5 px-3 pt-4 lg:container lg:m-auto"
           position="left"
         >
           <VideoSection responseData={responseData?.data}></VideoSection>
@@ -77,7 +72,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title=""
           subtitle=""
-          className="lg:container pt-4 lg:m-auto"
+          className="pt-4 lg:container lg:m-auto"
           position="left"
         >
           <ProductDescription
@@ -90,7 +85,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="4 Steps Easy Installation"
           subtitle=""
-          className="lg:container mt-5 pt-4 lg:m-auto"
+          className="mt-5 pt-4 lg:container lg:m-auto"
           position="center"
         >
           <EasySteps responseData={responseData?.data}></EasySteps>
@@ -114,7 +109,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Unreeling Some Wolpin Stories"
           subtitle=""
-          className="mt-4 pt-4 lg:container lg:m-auto px-3"
+          className="mt-4 px-3 pt-4 lg:container lg:m-auto"
           position="left"
         >
           <Reeling></Reeling>
@@ -147,7 +142,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title=""
           subtitle=""
-          className="mt-4 pt-4 px-2 lg:container lg:m-auto"
+          className="mt-4 px-2 pt-4 lg:container lg:m-auto"
           position="left"
         >
           <RatedReview responseData={responseData?.data}></RatedReview>
@@ -162,7 +157,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Other Products in this Range"
           subtitle=""
-          className="mt-4 pt-4 lg:container lg:m-auto px-3"
+          className="mt-4 px-3 pt-4 lg:container lg:m-auto"
           position="left"
         >
           <ProductDetailCard
@@ -174,7 +169,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Explore Our Other Categories"
           subtitle=""
-          className="mt-4 pt-4 lg:container lg:m-auto"
+          className="mt-4 pt-4 px-3 lg:container lg:m-auto"
           position="center"
         >
           <SwiperItem></SwiperItem>
@@ -184,7 +179,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Recently Viewed"
           subtitle="Continue where you left off"
-          className="mt-4 pt-4 lg:container lg:m-auto"
+          className="mt-4 pt-4 px-3 lg:container lg:m-auto"
           position="center"
         >
           <DetailCard rating={true} colorId={0}></DetailCard>

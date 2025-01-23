@@ -106,10 +106,12 @@ export default function Home() {
         className="px-3 pt-4 lg:container lg:m-auto"
         position="center"
       >
-        {error ? (
-          <p>Lodding...</p>
-        ) : (
+        {popularProducts?.status === false ? (
+          <p>{popularProducts.data}</p>
+        ) : popularProducts?.data?.length > 0 ? (
           <PopularWallpaper products={popularProducts}></PopularWallpaper>
+        ) : (
+          <p>Products not found</p>
         )}
       </SectionBlock>
       <SectionBlock

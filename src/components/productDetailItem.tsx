@@ -78,7 +78,7 @@ export default function productDetailItem({
     reviews,
     delivery_detail,
     variables,
-    products_features
+    products_features,
   } = responseData?.data || {};
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const dispatch = useDispatch();
@@ -90,15 +90,17 @@ export default function productDetailItem({
   const handleAddToCart = () => {
     if (responseData?.data && selectedId !== null) {
       const selectedVariable = responseData.data.variables.find(
-        (variable: any) => variable.id === selectedId
+        (variable: any) => variable.id === selectedId,
       );
-  
+
       if (selectedVariable) {
         const price = Number(responseData.data.price);
-        const sale_price = responseData.data.sale_price ? Number(responseData.data.sale_price) : price;
-  
+        const sale_price = responseData.data.sale_price
+          ? Number(responseData.data.sale_price)
+          : price;
+
         const discount = Number(responseData.data.discount);
-  
+
         dispatch(
           addItemToCart({
             id: Number(responseData.data.id),
@@ -109,7 +111,7 @@ export default function productDetailItem({
             featured_image: responseData.data.featured_image,
             variableId: selectedVariable.id,
             variableName: selectedVariable.name,
-          })
+          }),
         );
       } else {
         console.error("Selected variable not found");
@@ -118,14 +120,13 @@ export default function productDetailItem({
       console.error("No item selected or response data missing");
     }
   };
-  
 
   return (
     <div>
       <div className="container mx-auto">
-        <div className="relative mx-auto max-w-screen-2xl px-4 py-16 lg:py-24">
+        <div className="relative mx-auto max-w-screen-2xl md:py-16 lg:py-24">
           <div className="flex flex-col gap-2 md:flex-row">
-            <div className="flex flex-1 flex-col">
+            <div className="flex flex-1 flex-col md:px-3">
               <div className="flex flex-1 flex-col">
                 {/* <!-- img_01 -->  */}
                 <img
@@ -137,7 +138,7 @@ export default function productDetailItem({
                   alt=""
                 />
               </div>
-              <div className="flex-2 mt-4 flex">
+              <div className="flex-2 mt-4 hidden md:flex">
                 {product_images?.map((image) => (
                   <div key={image.id}>
                     <img
@@ -152,11 +153,11 @@ export default function productDetailItem({
                 ))}
               </div>
             </div>
-            <div className="w-100 flex flex-1 flex-col border-red-100 md:w-2/5">
-              <div className="breadcrum">
+            <div className="w-100 flex flex-1 flex-col px-3 border-red-100 md:w-2/5">
+              <div className="breadcrum mt-4 mb-4 md:mt-0">
                 <nav className="container">
-                  <ol className="list-reset bg-grey-light text-grey flex rounded py-4 pl-4">
-                    <li className="px-2 text-[#A5A1A1]">
+                  <ol className="list-reset bg-grey-light text-grey flex rounded">
+                    <li className="pr-2 text-[8px] text-[#A5A1A1] md:text-[14px]">
                       <a
                         href="/"
                         className="text-indigo text-[8px] no-underline md:text-[14px]"
@@ -167,7 +168,8 @@ export default function productDetailItem({
                     <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
                       /
                     </li>
-                    <li className="px-2 text-[#A5A1A1]">
+             
+                    <li className="px-2 text-[8px] text-[#A5A1A1] md:text-[14px]">
                       <a
                         href="#"
                         className="text-indigo text-[8px] no-underline md:text-[14px]"
@@ -190,8 +192,8 @@ export default function productDetailItem({
                   </ol>
                 </nav>
               </div>
-              <div className="detail-wrapper ml-0 md:ml-5">
-                <div className="title-product text-[28px] leading-[33.6px] font-semibold text-[#000000]">
+              <div className="detail-wrapper">
+                <div className="title-product text-[20px] md:text-[28px] font-semibold leading-[33.6px] text-[#000000]">
                   {title || "Wolpin Wallpaper Non-Woven"}
                 </div>
                 <div className="rating-wrapper flex items-center gap-1">
@@ -221,7 +223,7 @@ export default function productDetailItem({
                 </div>
 
                 {/* <ProductPrice responseData={responseData}></ProductPrice> */}
-                <div className="mt-4 flex items-center justify-start gap-2">
+                <div className="py-4 flex items-center justify-start gap-2 border-[#D9D9D9] border-b-[0.5px]">
                   {variables?.map((variable) => (
                     <div
                       key={variable.id}
@@ -270,7 +272,7 @@ export default function productDetailItem({
                   ))}
                 </div>
 
-                <div className="shipping-text mt-5">
+                <div className="shipping-text py-4 text-xs md:text-base border-[#D9D9D9] border-b-[0.5px]">
                   {short_description?.split("\n").map((item, index) => (
                     <span key={index}>
                       - {item}
@@ -282,8 +284,8 @@ export default function productDetailItem({
                   </p> */}
                 </div>
 
-                <div className="shipping-btn mt-3 flex justify-start gap-4">
-                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded border-2 px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-[#A5A1A1] md:h-auto md:w-2/5 md:text-[16px]">
+                <div className="shipping-btn flex justify-start gap-4 mt-3">
+                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] items-center rounded border-2 px-6 py-2 text-[8px] font-medium text-[#A5A1A1] w-[50%] md:text-[18px]">
                     <svg
                       width="24"
                       height="22"
@@ -309,7 +311,7 @@ export default function productDetailItem({
                   </button>
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-12 w-full items-center rounded bg-[#49AD91] px-6 py-2 pb-3 pt-3 text-[8px] font-medium text-white md:h-auto md:w-2/5 md:text-[16px]"
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] items-center rounded bg-[#49AD91] px-6 py-2 text-[8px] font-medium text-white w-[50%] md:text-[18px]"
                   >
                     <svg
                       width="25"
@@ -347,8 +349,8 @@ export default function productDetailItem({
 
                 <Calculator responseData={responseData}></Calculator>
                 <div className="mt-4 w-full">
-                  <h5 className="text-3xl font-semibold">Delivery </h5>
-                  <div className="mt-4 flex justify-between gap-2">
+                  <h5 className="text-[20px] md:text-2xl font-semibold">Delivery </h5>
+                  <div className="mt-4 text-[14px] md:text-base flex justify-between gap-2">
                     {delivery_detail.map((detail) => (
                       <div key={detail.id}>
                         <h6 className="text-wrap text-base">
@@ -365,15 +367,17 @@ export default function productDetailItem({
                 <ToolkitBar></ToolkitBar>
 
                 <div className="mt-5 flex w-full">
-                  {products_features?.map((feature: { image: string; name: string }) => (
-                  <Image
-                    className="m-3 h-full w-full object-cover"
-                    src={feature.image}
-                    alt={feature.name}
-                    width={100}
-                    height={100}
-                  />
-                  ))}
+                  {products_features?.map(
+                    (feature: { image: string; name: string }) => (
+                      <Image
+                        className="m-3 h-full w-full object-cover"
+                        src={feature.image}
+                        alt={feature.name}
+                        width={100}
+                        height={100}
+                      />
+                    ),
+                  )}
                 </div>
               </div>
             </div>
