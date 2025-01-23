@@ -38,7 +38,7 @@ const TabsComponent: FC<TabsComponentProps> = ({ tabs, content, flag }) => {
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className={`font-poppins mr-2 w-full rounded-t-md md:px-[39px] py-2 text-sm font-medium leading-5 transition-all duration-300 ${
+                className={`font-poppins mr-2 w-full rounded-t-md md:px-[39px] py-2 text-sm md:text-[18px] font-medium leading-5 transition-all duration-300 ${
                   selectedTab === tab.value
                     ? "bg-green-300 text-green-500"
                     : "bg-[#F9F9F9] text-[#908B8B]"

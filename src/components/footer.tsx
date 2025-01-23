@@ -17,7 +17,7 @@ export default function footer() {
           className="m-4 flex items-center justify-between pt-16 lg:container lg:m-auto"
         >
           <a className="inline-flex" href="/">
-            <span className="relative h-[42px] w-[200.45px] md:w-[263.45px]">
+            <span className="relative h-[20px] w-[124px] md:w-[263.45px] md:h-[42px]">
               <img
                 src={footerLogo.src}
                 style={{

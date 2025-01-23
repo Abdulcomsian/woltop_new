@@ -9,7 +9,7 @@ const ConsultationSection = () => {
 
   return (
     <div
-      className="relative mt-8 flex h-[481px] items-center justify-end rounded-lg bg-cover bg-center p-8"
+      className="relative mt-8 flex h-[481px] items-center justify-end rounded-lg bg-cover md:bg-center p-8"
       style={{ backgroundImage: `url(${logoSrc.src})` }}
     >
       <img
@@ -20,14 +20,14 @@ const ConsultationSection = () => {
         alt=""
       />
       {/* Right Side - Content */}
-      <div className="relative z-10 w-full p-6 pl-0 text-center sm:w-[36%] sm:text-left">
-        <p className="text-[20px] text-[#000000]">In-Home</p>
+      <div className="relative z-10 w-full p-6 pl-0 sm:w-[36%] text-left">
+        <p className="text-base md:text-[20px] text-[#000000] ">In-Home</p>
         <h2 className="mb-4 text-[36px] font-bold text-black">Consultation</h2>
-        <p className="mb-4 text-[20px] text-[#000000]">
+        <p className="mb-4 text-base md:text-[20px] text-[#000000]">
           Tailored Wallpaper Consultation Brought to Your Doorstep
         </p>
-        <ul className="mb-6 list-disc pl-5 text-left text-[20px] text-[#000000]">
-          <li className="flex items-center gap-2 mb-2">
+        <ul className="mb-6 list-disc md:pl-5 text-left text-base md:text-[20px] text-[#000000]">
+          <li className="mb-2 flex items-center gap-2">
             <svg
               width="32"
               height="33"
@@ -57,7 +57,7 @@ const ConsultationSection = () => {
             </svg>
             Design Consultation
           </li>
-          <li className="flex items-center gap-2 mb-2">
+          <li className="mb-2 flex items-center gap-2">
             <svg
               width="32"
               height="33"
@@ -118,7 +118,7 @@ const ConsultationSection = () => {
             Measurement
           </li>
         </ul>
-        <button className="rounded-md bg-[#49AD91] text-[20px] font-semibold tracking-[-2%] px-[18px] py-[8px] text-white hover:bg-[#498f7b]">
+        <button className="rounded-md bg-[#49AD91] px-[18px] py-[8px] text-[18px] md:text-[20px] font-semibold tracking-[-2%] text-white hover:bg-[#498f7b]">
           Book Now
         </button>
       </div>

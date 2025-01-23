@@ -34,12 +34,12 @@ export default function reeling() {
 
   return (
     <div className="container mx-auto">
-      <div className="scrollbar-hide grid auto-cols-[minmax(145px,1fr)] grid-flow-col overflow-x-auto md:gap-4">
+      <div className="scrollbar-hide grid auto-cols-[minmax(127px,1fr)] md:auto-cols-[minmax(195px,1fr)]  grid-flow-col overflow-x-auto gap-4">
         {stories?.map((video) => (
           <div key={video.id} className="relative cursor-pointer">
             <video
               src={video?.path || undefined}
-              className="h-56 w-32 rounded-lg object-cover md:h-[337px] md:w-full"
+              className="h-[219px] rounded-lg object-cover md:h-[337px]"
               muted
               loop
               autoPlay
