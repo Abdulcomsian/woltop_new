@@ -1,4 +1,5 @@
-
+"use client";
+import { useGetFaqsQuery } from "~/store/api/faqsApi";
 import {
   Accordion,
   AccordionContent,
@@ -6,58 +7,29 @@ import {
   AccordionTrigger,
 } from "../../components/ui/accordion";
 
-export default function page() {
+export default function Page() {
+  const { data: faqs } = useGetFaqsQuery({});
+
   return (
     <main className="">
-      <div className="accordion-wrapper container mx-auto mb-16 mt-24 w-3/4">
-        <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>
-              Maecenas efficitur scelerisque lorem?
-            </AccordionTrigger>
-            <AccordionContent>
-              Nillam bibendum diam diam, maximus malesuada tortor volutpat sit
-              amet. Curabitur volutpat feugiat tellus, sit amet faucibus massa
-              vulputate lobortis. Vestibulum malesuada ex dolor,
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>
-              Pellentesque ultricies nulla sit amet ipsum kra pellentesque?
-            </AccordionTrigger>
-            <AccordionContent>
-              Yes. It comes with default styles that matches the other
-              components&apos; aesthetic.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>
-              Nullam bibendum diam diam, maximus malesuada?
-            </AccordionTrigger>
-            <AccordionContent>
-              Yes. It's animated by default, but you can disable it if you
-              prefer.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-4">
-            <AccordionTrigger>
-              Vivamus eleifend nec felis vel auctor?
-            </AccordionTrigger>
-            <AccordionContent>
-              Yes. It's animated by default, but you can disable it if you
-              prefer.
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="item-5">
-            <AccordionTrigger>
-              Vivamus eleifend nec felis vel auctor?
-            </AccordionTrigger>
-            <AccordionContent>
-              Yes. It's animated by default, but you can disable it if you
-              prefer.
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+      <div className="accordion-wrapper container mx-auto mb-16 mt-24 px-3 py-7 lg:container lg:m-auto lg:px-7 xl:px-10">
+        <div className="text-center my-[50px]">
+          <h1 className="font-bold text-[64px]">FAQs</h1>
+        </div>
+        {faqs && faqs.data && (
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.data.map((faq) => (
+              <AccordionItem key={faq.id} value={`item-${faq.id}`} className="py-5">
+                <AccordionTrigger className="text-[24px] font-medium">
+                  {faq.id} { faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-[18px]">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
       </div>
     </main>
   );

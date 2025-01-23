@@ -1,9 +1,13 @@
 import React from "react";
 
-const ShippingTab = ({ setActiveTab }) => {
+interface ShippingTabProps {
+  setActiveTab: (tab: string) => void;
+}
+
+const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
   return (
-    <section>
-      <div className="m-auto w-2/3 bg-white p-3 max-[568px]:w-full md:p-4">
+    <>
+      <div className="m-auto bg-white p-3 w-full">
         <h5 className="text-center text-[18px] font-semibold text-gray-800">
           ADD ADDRESS
         </h5>
@@ -16,7 +20,7 @@ const ShippingTab = ({ setActiveTab }) => {
             id="name"
             name="name"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Name *"
           />
         </div>
@@ -24,7 +28,7 @@ const ShippingTab = ({ setActiveTab }) => {
         <div className="react-tel-input mb-4">
           <div className="special-label text-gray-700">Phone</div>
           <input
-            className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="1 (702) 123-4567"
             disabled
             type="tel"
@@ -41,7 +45,7 @@ const ShippingTab = ({ setActiveTab }) => {
             id="pincode"
             name="pincode"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Pincode *"
           />
         </div>
@@ -52,7 +56,7 @@ const ShippingTab = ({ setActiveTab }) => {
               id="mobile1"
               name="mobile1"
               type="text"
-              className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="Mobile Number *"
             />
           </div>
@@ -61,7 +65,7 @@ const ShippingTab = ({ setActiveTab }) => {
               id="mobile2"
               name="mobile2"
               type="text"
-              className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="Mobile Number *"
             />
           </div>
@@ -72,7 +76,7 @@ const ShippingTab = ({ setActiveTab }) => {
             id="address"
             name="address"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Address *"
           />
         </div>
@@ -82,7 +86,7 @@ const ShippingTab = ({ setActiveTab }) => {
             id="locality"
             name="locality"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Locality *"
           />
         </div>
@@ -92,7 +96,7 @@ const ShippingTab = ({ setActiveTab }) => {
             id="landmark"
             name="landmark"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Landmark (optional)"
           />
         </div>
@@ -107,7 +111,7 @@ const ShippingTab = ({ setActiveTab }) => {
               <div className="flex-1">
                 <label
                   htmlFor="plan-business"
-                  className="relative flex cursor-pointer flex-col rounded-lg bg-white p-5 shadow-md"
+                  className="relative flex cursor-pointer flex-col rounded-lg bg-white px-6 py-[18px] shadow-md"
                 >
                   <h4 className="font-semibold text-gray-800">Home</h4>
                   <p className="text-[12px] text-[#7A7474]">
@@ -122,14 +126,14 @@ const ShippingTab = ({ setActiveTab }) => {
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 hidden rounded-lg border-2 border-green-500 bg-green-200 bg-opacity-10"
+                    className="absolute inset-0 hidden rounded-lg border-2 border-[#49AD91] bg-[#49AD910D] bg-opacity-50"
                   >
-                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-green-200">
+                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#49AD91] ">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        className="h-5 w-5 text-green-600"
+                        className="h-5 w-5 text-white"
                       >
                         <path
                           fillRule="evenodd"
@@ -144,7 +148,7 @@ const ShippingTab = ({ setActiveTab }) => {
               <div className="flex-1">
                 <label
                   htmlFor="plan-enterprise"
-                  className="relative flex cursor-pointer flex-col rounded-lg bg-white p-5 shadow-md"
+                  className="relative flex cursor-pointer flex-col rounded-lg bg-white px-6 py-[18px] shadow-md"
                 >
                   <h4 className="font-semibold text-gray-800">Work</h4>
                   <p className="text-[12px] text-[#7A7474]">9 AM to 5 PM</p>
@@ -157,14 +161,14 @@ const ShippingTab = ({ setActiveTab }) => {
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 hidden rounded-lg border-2 border-green-500 bg-green-200 bg-opacity-10"
+                    className="absolute inset-0 hidden rounded-lg border-2 border-[#49AD91] bg-green-200 bg-opacity-10"
                   >
-                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-green-200">
+                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#49AD91] ">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        className="h-5 w-5 text-green-600"
+                        className="h-5 w-5 text-white"
                       >
                         <path
                           fillRule="evenodd"
@@ -182,7 +186,7 @@ const ShippingTab = ({ setActiveTab }) => {
 
         <button
           onClick={() => setActiveTab("payment")}
-          className="hover:bg-accent-hover focus:ring-accent-700 inline-flex w-full items-center justify-center rounded-lg border border-transparent bg-[#49AD91] px-5 py-2 font-semibold text-white focus:ring-2"
+          className="hover:bg-accent-hover focus:ring-accent-700 inline-flex w-full items-center justify-center rounded-lg border border-transparent bg-[#49AD91] px-5 py-[18px] font-semibold text-white focus:ring-2"
         >
           ADD ADDRESS
         </button>
@@ -195,7 +199,7 @@ const ShippingTab = ({ setActiveTab }) => {
           Cancel to go back
         </a>
       </div>
-    </section>
+    </>
   );
 };
 

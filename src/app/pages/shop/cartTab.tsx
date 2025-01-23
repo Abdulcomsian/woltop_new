@@ -67,17 +67,17 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
 
   return (
     <>
-      <div className="test m-auto w-2/3 bg-white p-3 max-[568px]:w-full md:p-4">
-        <div className="container mx-auto w-full px-5">
+      <div className="test m-auto bg-white w-full">
+        <div className="container mx-auto w-full">
           {cartData?.items?.length > 0 &&
             (() => {
               return (
-                <div className="flex flex-col justify-around lg:flex-row">
+                <div className="flex flex-col justify-between lg:flex-row">
                   <div className="checkout-cart lg:w-auto">
                     {cartData?.items?.map((item: any) => (
                       <div
                       key={`${item.id}-${item.variableId}`}
-                        className="border-border-200 flex w-4/5 border-opacity-75 pb-5 pt-6 text-sm"
+                        className="border-border-200 flex w-full border-opacity-75 mb-5 text-sm"
                         style={{ opacity: "1" }}
                       >
                         <div className="relative flex h-[173px] w-2/5 shrink-0 items-center justify-center overflow-hidden bg-gray-100">
@@ -119,7 +119,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                                 alt=""
                               />
                             </div>
-                            <div className="flex w-full justify-between align-middle">
+                            <div className="flex w-full items-center justify-between mr-2">
                               <div
                                 className="icon cursor-pointer"
                                 onClick={() => handleRemoveItem(item.id, item.variableId)}
@@ -129,17 +129,17 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
 
                               <div className="flex rounded border border-[#49AD91]">
                                 <button
-                                  className="hover:bg-accent-hover flex w-[35px] cursor-pointer items-center justify-center rounded p-2 text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded py-[10px] px-[12px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                                   onClick={() => handleDecrement(item.id, item.variableId)}
                                 >
                                   <span className="sr-only">minus</span>
                                   <Minus />
                                 </button>
-                                <div className="flex w-[35px] flex-1 items-center justify-center bg-[#49AD91] px-0 px-3 text-sm font-semibold text-[#fff]">
+                                <div className="flex items-center justify-center bg-[#49AD91] py-[10px] px-[20px] text-sm font-semibold text-[#fff]">
                                   {item.quantity}
                                 </div>
                                 <button
-                                  className="hover:bg-accent-hover flex w-[35px] cursor-pointer items-center justify-center rounded p-2 text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded py-[10px] px-[12px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                                   onClick={() => handleIncrement(item.id, item.variableId)}
                                 >
                                   <span className="sr-only">plus</span>
@@ -197,7 +197,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                         </div>
                       </div>
 
-                      <div className="relative mb-14 mt-2 h-10 w-4/5 object-cover">
+                      <div className="relative mb-14 mt-2 h-10 w-full object-cover">
                         <div
                           className="h-20 object-cover opacity-10"
                           style={{
@@ -227,7 +227,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                     </div>
                   </div>
 
-                  <div className="relative mb-10 overflow-hidden pt-3 sm:mb-12 md:p-4 md:pt-0 lg:mb-0 lg:w-auto lg:p-4">
+                  <div className="relative mb-10 overflow-hidden pt-3 sm:mb-12 md:pt-0 lg:mb-0 lg:w-auto">
                     <div className="gift-wrapper mb-3">
                       <Image
                         className="h-48 w-full object-cover"
@@ -375,6 +375,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
             })()}
         </div>
       </div>
+
     </>
   );
 };

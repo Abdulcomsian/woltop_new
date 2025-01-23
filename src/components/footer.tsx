@@ -10,14 +10,14 @@ import { VisaIcon } from "~/assets/iconsComp/visa";
 
 export default function footer() {
   return (
-    <div className="bg-[#EEF1F6] font-poppins">
+    <div className="bg-[#EEF1F6]">
       <div className="container m-auto px-5">
         <div
           style={{ marginBottom: "12px", marginTop: "2px" }}
           className="m-4 flex items-center justify-between pt-16 lg:container lg:m-auto"
         >
           <a className="inline-flex" href="/">
-            <span className="relative h-[2.125rem] w-32 overflow-hidden md:w-[8.625rem]">
+            <span className="relative h-[42px] w-[200.45px] md:w-[263.45px]">
               <img
                 src={footerLogo.src}
                 style={{
@@ -160,52 +160,25 @@ export default function footer() {
           style={{ marginBottom: "12px", marginTop: "2px" }}
           className="my-4 w-full rounded-md border-2 border-dashed border-gray-300 bg-white p-6 lg:container lg:m-auto"
         >
-          <div className="inline-flex flex-wrap items-center gap-x-2 gap-y-2">
-            <a href="#" className="text-lg font-bold hover:text-gray-900">
-              Wallpapers:
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Exclusive Wallpaper Designs
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              3D Wallpaper
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Kids Room
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Aesthetic
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Art &amp; Paintings
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Tropical
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Vastu
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              World Map
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Indian &amp; Traditional
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Nature
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Abstract
-            </a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Animals
-            </a>
+          <div className="text-[14px]">
+            <span className="font-bold">Wallpapers :</span> Exclusive Wallpaper
+            Designs  3D Wallpaper Kids Room Aesthetic Art & Paintings Tropical
+            Vastu World Map Indian & Traditional Nature Abstract Animals Bamboo
+            Beauty, Spa & Salon  Birch Tree Bohemian Botanical Brick Cartoon
+            Ceiling City Skyline Damask Pattern Floral Forest Galaxy Geometric
+            Hotel Leaf & Creepers Music Patterns Religion & Culture Restaurant,
+            Cafe & Lounge Shops & Establishments Office Wallpaper Space Stone
+            Effects tripes Surfaces Tribal Vintage Wooden Waterfall Deewar
+            Wallpaper Peacock Wallpaper Rajasthani WallpaperRomantic 3d
+            Wallpaper for Bedroom Walls Ganesha Wallpaper Buddha Krishna Bedroom
+            Living Room Kitchen Pooja Room Gaming Room Dining Room Guest Room
+            Floor Wallpaper
           </div>
         </div>
 
         <div className="mt-4 flex flex-col gap-1 pt-4 lg:container lg:m-auto">
-          <p className="text-xl font-semibold">About Us</p>
-          <p className="text-gray-700">
+          <p className="text-xl font-semibold md:text-[28px]">About Us</p>
+          <p className="text-[18px] text-[#656567]">
             Lorem ipsum dolor sit amet consectetur. Turpis viverra diam
             hendrerit risus enim diam aenean. Gravida nisl ullamcorper viverra
             vel. Fames accumsan ullamcorper at ante sed faucibus platea
@@ -215,103 +188,119 @@ export default function footer() {
 
         <div className="flex flex-col gap-10 pt-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
           <div className="lg:w-3/4">
-            <h3 className="mb-4 text-xl font-semibold">Quick Links</h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+              Quick Links
+            </h3>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 text-[18px] text-[#656567]">
+              <a href="/" className="hover:text-gray-900">
                 Home
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="about" className="hover:text-gray-900">
                 About
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Tools
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Careers
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Contact
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="faq" className="hover:text-gray-900">
                 FAQs
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Legal
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Order Tracking
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Account
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="/blogs" className="hover:text-gray-900">
                 Blogs
               </a>
             </div>
           </div>
           <div className="lg:w-1/4">
-            <h3 className="mb-4 text-xl font-semibold">Contact Us</h3>
-            <p className="text-gray-700">WhatsApp: +91 1234 678 1011</p>
-            <p className="text-gray-700">Email: info@wolpin.com</p>
+            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+              Contact Us
+            </h3>
+            <p className="text-[18px] text-[#656567]">
+              WhatsApp: +91 1234 678 1011
+            </p>
+            <p className="text-[18px] text-[#656567]">Email: info@wolpin.com</p>
           </div>
         </div>
 
         <div className="flex flex-col gap-10 py-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
           <div className="lg:w-3/4">
-            <h3 className="mb-4 text-xl font-semibold">Shop For</h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+              Shop For
+            </h3>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 text-[18px] text-[#656567]">
+              <a href="#" className="hover:text-gray-900">
                 Popular Wallpaper
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Wallpaper
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 3D wallpaper
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Living Room
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 BedRoom
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Office
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Kids Room
               </a>
-              <span className="text-gray-400">|</span>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <span className="text-[#000000]">|</span>
+              <a href="#" className="hover:text-gray-900">
                 Hall
               </a>
             </div>
           </div>
           <div className="lg:w-1/4">
-            <h3 className="mb-4 text-xl font-semibold">Address</h3>
-            <p className="text-gray-700">S.F.NO. 315, Angels Garden,</p>
-            <p className="text-gray-700">Nagamanaickenpalayam, Pattanam, </p>
-            <p className="text-gray-700">Coimbatore, Tamil Nadu, 641016</p>
+            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+              Address
+            </h3>
+            <p className="text-[18px] text-[#656567]">
+              S.F.NO. 315, Angels Garden,
+            </p>
+            <p className="text-[18px] text-[#656567]">
+              Nagamanaickenpalayam, Pattanam,{" "}
+            </p>
+            <p className="text-[18px] text-[#656567]">
+              Coimbatore, Tamil Nadu, 641016
+            </p>
           </div>
         </div>
 
-        <div className="mt-5 border-t-[1px] border-[#DBDBDB] flex flex-col justify-between gap-3 py-[37px] lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
-          <div className="flex space-x-6 text-gray-600">
+        <div className="mt-5 flex flex-col justify-between gap-3 border-t-[1px] border-[#DBDBDB] py-[37px] lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
+          <div className="flex space-x-6 text-[18px] text-[#656567]">
             <a href="terms" className="hover:underline">
               Terms &amp; Conditions
             </a>
@@ -324,7 +313,7 @@ export default function footer() {
             <VisaIcon />
             <UnionPayIcon />
           </div>
-          <div className="text-gray-600">
+          <div className="text-[18px] text-[#656567]">
             © 2024 Wolpin. All rights reserved.
           </div>
         </div>

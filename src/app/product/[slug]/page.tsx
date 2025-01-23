@@ -30,7 +30,7 @@ interface PageParams {
 }
 
 export default function page({ params }: { params: PageParams }) {
-  const { slug } = params;
+  const { slug } = params; 
   // console.log("Slug", slug);
 
   const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
