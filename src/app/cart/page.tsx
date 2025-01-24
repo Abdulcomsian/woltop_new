@@ -28,13 +28,13 @@ export default function page() {
             aria-selected={activeTab === "cart"}
             tabIndex={activeTab === "cart" ? 0 : -1}
             onClick={() => setActiveTab("cart")}
-            className={`cursor-pointer ${
+            className={`cursor-pointer px-5 ${
               activeTab === "cart"
                 ? "font-semibold text-black"
                 : "text-gray-400"
             }`}
           >
-            <button className="custom-tab text-[#000000]-600 active relative flex items-center space-x-2 px-5 max-[568px]:text-[14px]">
+            <button className="custom-tab text-[#000000]-600 active relative flex items-center  max-[568px]:text-[14px]">
               <div
                 className={`${activeTab === "cart" ? "icon-with-text before:transform: translate(-16px, 8px); relative flex items-center gap-2 before:absolute before:left-[-20px] before:top-[6px] before:h-[10px] before:h-[15px] before:w-[10px] before:w-[15px] before:rounded-full before:border-[1px] before:border-[3px] before:border-solid before:border-[#49AD91] before:content-['']" : "icon-with-text before:transform: translate(-16px, 8px); false relative flex items-center gap-2 before:absolute before:left-[-20px] before:top-[6px] before:h-[10px] before:w-[10px] before:rounded-full before:border-[1px] before:border-solid before:border-[#49AD91] before:content-['']"}`}
               >
@@ -55,7 +55,7 @@ export default function page() {
                 : "text-gray-400"
             }`}
           >
-            <button className="custom-tab middle-tab relative flex items-center justify-center space-x-2 before:absolute before:start-0 before:w-[5rem] before:border before:border-dashed before:border-[#49AD91] before:content-[''] after:absolute after:end-0 after:w-[5rem] after:border after:border-dashed after:border-[#49AD91] after:content-[''] max-[568px]:w-[8rem] max-[568px]:text-[14px] max-[568px]:before:content-[none] max-[568px]:after:content-[none] min-[568px]:w-[20rem] md:w-[30rem] before:md:w-[30%] after:md:w-[30%] lg:w-[40rem] before:lg:w-[38%] after:lg:w-[38%] xl:w-[50rem] 2xl:w-[76rem]">
+            <button className="custom-tab middle-tab relative flex items-center justify-center space-x-2 before:absolute before:start-0 before:w-[5rem] before:border before:border-dashed before:border-[#49AD91] before:content-[''] after:absolute after:end-0 after:w-[5rem] after:border after:border-dashed after:border-[#49AD91] after:content-[''] max-[568px]:w-[8rem] max-[568px]:text-[14px] max-[568px]:before:content-[none] max-[568px]:after:content-[none] min-[568px]:w-[20rem] md:w-[30rem] before:md:w-[30%] after:md:w-[30%] lg:w-[40rem] before:lg:w-[38%] after:lg:w-[38%] xl:w-[50rem] 2xl:w-[73rem]">
               <div
                 className={`${activeTab === "shipping" ? "icon-with-text before:transform: translate(-16px, 8px); relative flex items-center gap-2 before:absolute before:left-[-20px] before:top-[6px] before:h-[10px] before:h-[15px] before:w-[10px] before:w-[15px] before:rounded-full before:border-[1px] before:border-[3px] before:border-solid before:border-[#49AD91] before:content-['']" : "icon-with-text before:transform: translate(-16px, 8px); false relative flex items-center gap-2 before:absolute before:left-[-20px] before:top-[6px] before:h-[10px] before:w-[10px] before:rounded-full before:border-[1px] before:border-solid before:border-[#49AD91] before:content-['']"}`}
               >

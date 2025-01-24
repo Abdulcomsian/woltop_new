@@ -366,7 +366,7 @@ export default function productDetailItem({
 
                 <ToolkitBar></ToolkitBar>
 
-                <div className="mt-5 flex w-full">
+                <div className="mt-5 flex w-full overflow-x-auto">
                   {products_features?.map(
                     (feature: { image: string; name: string }) => (
                       <Image
