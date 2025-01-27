@@ -92,9 +92,9 @@ export default function DetailCard({ colorId }: DetailCardProps) {
                   <span className="text-heading text-sm font-semibold md:text-base">
                     {card.price}
                   </span>
-                  <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
+                  {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
                     {card.discountPrice}
-                  </del>
+                  </del> */}
                 </CardDescription>
               </CardFooter>
             </Link>

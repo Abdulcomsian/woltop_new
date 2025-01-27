@@ -46,70 +46,69 @@ export default function page() {
               </div>
             </div>
             <div className="deliveryAddress py-6">
-              <div className="mb-2 flex justify-between">
-                <span className="font-bold">Delivery Address</span>
-                <a className="text-blue-400 underline" href="#">
-                  Change
-                </a>
+            <div className="mb-2 flex justify-between">
+              <span className="font-bold text-base md:text-xl">Delivery Address</span>
+              <a className="text-blue-400 underline" href="#">
+                Change
+              </a>
+            </div>
+            <div className="rounded-md border text-[12px] md:text-base p-3">
+              <div className="contact border-b pb-2">
+                <div className="mb-1 flex items-center gap-1">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14.0939 11.6874C13.5977 11.1874 12.3958 10.4577 11.8127 10.1636C11.0533 9.78113 10.9908 9.74988 10.3939 10.1933C9.9958 10.4893 9.73112 10.7536 9.26518 10.6543C8.79924 10.5549 7.78674 9.99457 6.90018 9.11082C6.01362 8.22707 5.4208 7.18519 5.32112 6.72082C5.22143 6.25644 5.49018 5.99488 5.7833 5.59582C6.19643 5.03332 6.16518 4.93957 5.81205 4.18019C5.53674 3.58957 4.7858 2.39894 4.28393 1.90519C3.74705 1.37488 3.74705 1.46863 3.40112 1.61238C3.11948 1.73088 2.84929 1.87491 2.59393 2.04269C2.09393 2.37488 1.81643 2.65082 1.62237 3.0655C1.4283 3.48019 1.34112 4.45238 2.3433 6.273C3.34549 8.09363 4.04862 9.02457 5.50393 10.4758C6.95924 11.9271 8.0783 12.7074 9.71424 13.6249C11.738 14.7583 12.5142 14.5374 12.9302 14.3436C13.3461 14.1499 13.6233 13.8749 13.9561 13.3749C14.1243 13.1199 14.2687 12.8501 14.3874 12.5686C14.5314 12.2239 14.6252 12.2239 14.0939 11.6874Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-miterlimit="10"
+                    />
+                  </svg>
+                  <span className="font-medium">Contact</span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="name font-medium">John Doe</span>
+                  <span>•</span>
+                  <span className="text-[#7A7474]">+911 1234 30789</span>
+                </div>
               </div>
-              <div className="rounded-md border p-3">
-                <div className="contact border-b pb-2">
-                  <div className="mb-1 flex items-center gap-1">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M14.0939 11.6874C13.5977 11.1874 12.3958 10.4577 11.8127 10.1636C11.0533 9.78113 10.9908 9.74988 10.3939 10.1933C9.9958 10.4893 9.73112 10.7536 9.26518 10.6543C8.79924 10.5549 7.78674 9.99457 6.90018 9.11082C6.01362 8.22707 5.4208 7.18519 5.32112 6.72082C5.22143 6.25644 5.49018 5.99488 5.7833 5.59582C6.19643 5.03332 6.16518 4.93957 5.81205 4.18019C5.53674 3.58957 4.7858 2.39894 4.28393 1.90519C3.74705 1.37488 3.74705 1.46863 3.40112 1.61238C3.11948 1.73088 2.84929 1.87491 2.59393 2.04269C2.09393 2.37488 1.81643 2.65082 1.62237 3.0655C1.4283 3.48019 1.34112 4.45238 2.3433 6.273C3.34549 8.09363 4.04862 9.02457 5.50393 10.4758C6.95924 11.9271 8.0783 12.7074 9.71424 13.6249C11.738 14.7583 12.5142 14.5374 12.9302 14.3436C13.3461 14.1499 13.6233 13.8749 13.9561 13.3749C14.1243 13.1199 14.2687 12.8501 14.3874 12.5686C14.5314 12.2239 14.6252 12.2239 14.0939 11.6874Z"
-                        stroke="black"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                      />
-                    </svg>
-                    <span className="font-medium">Contact</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="name font-medium">John Doe</span>
-                    <span>•</span>
-                    <span className="">+911 1234 30789</span>
-                  </div>
+              <div className="address pt-2">
+                <div className="mb-1 flex items-center gap-1">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 1.5C5.51562 1.5 3.5 3.41844 3.5 5.78125C3.5 8.5 6.5 12.8084 7.60156 14.2966C7.64729 14.3594 7.70722 14.4105 7.77646 14.4457C7.84571 14.481 7.9223 14.4994 8 14.4994C8.0777 14.4994 8.15429 14.481 8.22354 14.4457C8.29278 14.4105 8.35271 14.3594 8.39844 14.2966C9.5 12.8091 12.5 8.50219 12.5 5.78125C12.5 3.41844 10.4844 1.5 8 1.5Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M8 7.5C8.82843 7.5 9.5 6.82843 9.5 6C9.5 5.17157 8.82843 4.5 8 4.5C7.17157 4.5 6.5 5.17157 6.5 6C6.5 6.82843 7.17157 7.5 8 7.5Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span className="font-medium">Ship To</span>
                 </div>
-                <div className="address pt-2">
-                  <div className="mb-1 flex items-center gap-1">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8 1.5C5.51562 1.5 3.5 3.41844 3.5 5.78125C3.5 8.5 6.5 12.8084 7.60156 14.2966C7.64729 14.3594 7.70722 14.4105 7.77646 14.4457C7.84571 14.481 7.9223 14.4994 8 14.4994C8.0777 14.4994 8.15429 14.481 8.22354 14.4457C8.29278 14.4105 8.35271 14.3594 8.39844 14.2966C9.5 12.8091 12.5 8.50219 12.5 5.78125C12.5 3.41844 10.4844 1.5 8 1.5Z"
-                        stroke="black"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M8 7.5C8.82843 7.5 9.5 6.82843 9.5 6C9.5 5.17157 8.82843 4.5 8 4.5C7.17157 4.5 6.5 5.17157 6.5 6C6.5 6.82843 7.17157 7.5 8 7.5Z"
-                        stroke="black"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    <span className="font-medium">Ship To</span>
-                  </div>
-                  <span className="name">
-                    Lorem ipsum dolor sit amet diam in lacus
-                  </span>
-                </div>
+                <span className="name text-[#7A7474]">
+                  Lorem ipsum dolor sit amet diam in lacus
+                </span>
               </div>
             </div>
-
+          </div>
             <div className="installation relative flex items-center rounded-md border bg-[#2ECDA01A] p-3 opacity-90">
               <input
                 type="checkbox"
@@ -120,12 +119,12 @@ export default function page() {
                 htmlFor="installationCheckbox"
                 className="absolute inset-0 right-1 cursor-pointer hidden"
               ></label>
-              <div className="icon mr-3 h-20 w-20">
-                <Image src={installationIcon} alt="Installation Icon" />
-              </div>
+                <div className="icon mr-3 h-14 md:h-28 w-24 md:w-28">
+              <Image src={installationIcon} className="h-full w-full" alt="Installation Icon" />
+            </div>
               <div className="flex flex-col">
-                <span className="font-bold">Need Installation Service?</span>
-                <span className="text-gray-500">
+                <span className="font-bold text-xs md:text-xl">Need Installation Service?</span>
+                <span className="text-gray-500 text-xs md:text-base">
                   Get professional installation for just{" "}
                   <span className="font-bold">₹450/Roll</span>. Uncheck if you’d
                   like to install it yourself.
@@ -137,7 +136,7 @@ export default function page() {
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1" className="border-none">
                   <AccordionTrigger
-                    className="font-bold"
+                    className="font-bold text-sm md:text-xl"
                     style={{ textDecoration: "none", fontWeight: "bold" }}
                   >
                     {cartData?.items?.length} Item - ₹{totalPrice}
@@ -239,29 +238,29 @@ export default function page() {
               <div className="mt-2 flex">
                 <Image src={coins || null} className="w-4" alt="" />
                 <p className="ml-2 text-[8px] text-base text-[#7A7474]">
-                  Total Wol Cash
+                  Total Wol Cash <span className="font-semibold">₹0</span>
                 </p>
               </div>
             </div>
             <div className="border-border-200 border-b py-3">
               <ul>
-                <li className="text-body mb-2 flex justify-between text-[14px]">
+                <li className="text-body mb-2 flex justify-between text-[12px] md:text-base text-[#7A7474]">
                   <div>Total MRP</div>
                   <div className="font-medium text-[#000000]">
                     ₹{totalPrice}
                   </div>
                 </li>
-                <li className="text-body mb-2 flex justify-between text-[14px]">
+                <li className="text-body mb-2 flex justify-between text-[12px] md:text-base text-[#7A7474]">
                   <div>Cart Discount</div>
                   <div className="font-medium text-[#000000]">-₹155</div>
                 </li>
-                <li className="text-body mb-2 flex justify-between text-[14px]">
+                <li className="text-body mb-2 flex justify-between text-[12px] md:text-base text-[#7A7474]">
                   <div>Shipping Charges</div>
                   <div className="font-medium text-[#000000]">
-                    ₹50 <span className="text-[14px] text-[#49AD91]">FREE</span>
+                    ₹50 <span className="text-[12px] md:text-base text-[#49AD91]">FREE</span>
                   </div>
                 </li>
-                <li className="text-body flex justify-between text-[14px]">
+                <li className="text-body flex justify-between text-[12px] md:text-base text-[#7A7474]">
                   <div>Installation Charges</div>
                   <div className="font-medium text-[#000000]">₹450</div>
                 </li>
@@ -275,13 +274,12 @@ export default function page() {
             </div>
             <div className="py-3">
               <div className="flex w-full flex-col items-center justify-center">
-                <span className="font-medium">
+                <p className="font-medium text-xs md:text-base">
                   For updates. reach out to us on this number
-                </span>
+                </p>
                 <div className="flex items-center gap-2">
-                  {/* <img src={logos_whatsapp} className="w-5 h-5" alt="" /> */}
                   <WhatsApp />
-                  <span>+91 123456789</span>
+                  <span className="text-[#7A7474]">+91 123456789</span>
                 </div>
               </div>
             </div>

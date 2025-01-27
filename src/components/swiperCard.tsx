@@ -1,9 +1,13 @@
+import Link from "next/link";
 import React, { useEffect } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 
 const SwiperCard = () => {
+  const { data: categories } = useGetCategoriesQuery({});
+
   useEffect(() => {
     // Initialize Swiper instance
     const swiper = new Swiper(".slider-cards-js", {
@@ -68,25 +72,26 @@ const SwiperCard = () => {
     <div className="container mx-auto overflow-hidden">
       <div className="slider-cards-js">
         <div className="swiper-wrapper">
-          {slides.map((src, index) => (
+          {categories?.map((category, index) => (
             <div key={index} className="swiper-slide">
-              <a href="/books/search?category=science-fiction-2">
+              <Link key={index} href={`/category/${category.id}`}>
                 <div className="flex flex-col items-center justify-between">
-                  <div className="h-[98px] w-[98px] rounded-full lg:h-[105px] lg:w-[105px] lg:object-cover border p-1 border-[#D237604D]">
+                  <div className="">
                     <img
-                      src={src}
-                      alt="Category"
+                      src={category.image}
+                      alt={category.name}
                       loading="lazy"
                       decoding="async"
+                      className="h-[98px] w-[98px] rounded-full border border-[#D237604D] p-1 lg:h-[105px] lg:w-[105px] lg:object-cover"
                     />
                   </div>
                   <div className="mt-2 block text-center">
                     <span className="text-heading text-center text-base font-normal transition-colors group-hover:text-orange-500 md:text-base">
-                      Comic books
+                      {category.name}
                     </span>
                   </div>
                 </div>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

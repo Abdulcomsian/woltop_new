@@ -1,20 +1,14 @@
 "use client";
-import Link from "next/link";
-// import topBar from "~/components/topBar";
 import Banner from "~/components/banner";
-import aboutBanner from "~/components/banner";
-import VideoSection from "../pages/shop/videoSection";
 import OurTeam from "~/components/ourTeam";
-// import aboutBanner from "~/components/aboutBanner";
-import bannerAbout from "/public/aboutbanner.jpg";
 import SectionBlock from "~/components/ui/section-block";
 import SwiperCard from "~/components/swiperCard";
 
 export default function page() {
   const aboutBanner = {
     heading: "ABOUT WOLPIN",
-    subHeading: "Find our all blogs from here",
-    desc: "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales. Libero ut tortor dignissim ac vitae erat ut est metus. Consectetur tincidunt pretium nunc dolor",
+    subHeading: "Lorem ipsum dolor sit amet",
+    desc: "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales."
   };
   return (
     <main className="">

@@ -1,19 +1,13 @@
 "use client";
-import Link from "next/link";
 import Banner from "~/components/banner";
-import aboutBanner from "~/components/banner";
-import VideoSection from "../pages/shop/videoSection";
-import OurTeam from "~/components/ourTeam";
-// import aboutBanner from "~/components/aboutBanner";
-import bannerAbout from "/public/aboutbanner.jpg";
 import BlogsItems from "~/components/blogsItems";
 import SectionBlock from "~/components/ui/section-block";
 
 export default function page() {
   const blogBanner = {
     heading: "OUR BLOGS",
-    subHeading: "Lorem ipsum dolor sit amet",
-    desc: "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales."
+    subHeading: "Find our all blogs from here",
+    desc: "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales. Libero ut tortor dignissim ac vitae erat ut est metus. Consectetur tincidunt pretium nunc dolor",
   };
   return (
     <main className="">

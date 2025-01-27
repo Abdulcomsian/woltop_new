@@ -90,6 +90,8 @@ export default function Home() {
   //     ),
   //   },
   // ];
+
+  
   return (
     <main className="font-poppins">
       {/* <Swiper></Swiper> */}
@@ -205,7 +207,7 @@ export default function Home() {
       </div>
       <SectionBlock
         title="Popular Tools"
-        subtitle="Continue where you left off"
+        subtitle=""
         className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
@@ -217,7 +219,8 @@ export default function Home() {
         className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
-        <DetailCard rating={true}></DetailCard>
+        {/* <DetailCard rating={true} colorId={colorTabs}></DetailCard> */}
+        <DetailCard rating={true} colorId={0}></DetailCard>
       </SectionBlock>
 
       <SectionBlock
