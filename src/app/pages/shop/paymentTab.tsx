@@ -25,51 +25,51 @@ const PaymentTab = () => {
         <div className="rounded p-3">
           <div className="bill-detail">
             <div className="border-border-200 flex flex-col border-b py-3">
-              <h4 className="mt-3 font-medium">Bill Details</h4>
+              <h4 className="mt-3 font-medium text-base md:text-xl">Bill Details</h4>
               <div className="mt-2 flex">
                 <Image src={coins || null} className="w-4" alt="" />
-                <p className="ml-2 text-[8px] text-base text-[#7A7474]">
-                  Total Wol Cash
+                <p className="ml-2 text-[12px] md:text-base text-[#7A7474]">
+                  Total Wol Cash <span className="font-semibold">₹0</span>
                 </p>
               </div>
             </div>
           </div>
           <div className="border-border-200 border-b py-3">
             <ul>
-              <li className="text-body mb-2 flex justify-between text-[14px]">
+              <li className="text-body mb-2 flex justify-between text-[12px] md:text-base text-[#7A7474]">
                 <div>Total MRP</div>
                 <div className="font-medium text-[#000000]">₹{totalPrice}</div>
               </li>
-              <li className="text-body mb-2 flex justify-between text-[14px]">
+              <li className="text-body mb-2 flex justify-between text-[12px] md:text-base text-[#7A7474]">
                 <div>Cart Discount</div>
                 <div className="font-medium text-[#000000]">-₹155</div>
               </li>
-              <li className="text-body flex justify-between text-[14px]">
+              <li className="text-body flex justify-between text-[12px] md:text-base text-[#7A7474]">
                 <div>Shipping Charges</div>
                 <div className="font-medium text-[#000000]">
-                  ₹50 <span className="text-[14px] text-[#49AD91]">FREE</span>
+                  ₹50 <span className="text-[12px] md:text-base text-[#49AD91]">FREE</span>
                 </div>
               </li>
             </ul>
           </div>
           <div className="subtotal mt-2 border-b pb-3">
             <h4 className="flex items-center justify-between">
-              <span className="font-bold">Sub Total</span>
+              <span className="font-bold text-base md:text-xl">Sub Total</span>
               <span>₹{totalPrice}</span>
             </h4>
-            <p className="text-body text-[14px]">
+            <p className="text-body text-[12px] md:text-base text-[#7A7474]">
               COD is available. Tap payment options on <br /> bottom left.
             </p>
           </div>
 
           <div className="deliveryAddress py-6">
             <div className="mb-2 flex justify-between">
-              <span className="font-bold">Delivery Address</span>
+              <span className="font-bold text-base md:text-xl">Delivery Address</span>
               <a className="text-blue-400 underline" href="#">
                 Change
               </a>
             </div>
-            <div className="rounded-md border p-3">
+            <div className="rounded-md border text-[12px] md:text-base p-3">
               <div className="contact border-b pb-2">
                 <div className="mb-1 flex items-center gap-1">
                   <svg
@@ -91,7 +91,7 @@ const PaymentTab = () => {
                 <div className="flex gap-2">
                   <span className="name font-medium">John Doe</span>
                   <span>•</span>
-                  <span className="">+911 1234 30789</span>
+                  <span className="text-[#7A7474]">+911 1234 30789</span>
                 </div>
               </div>
               <div className="address pt-2">
@@ -120,7 +120,7 @@ const PaymentTab = () => {
                   </svg>
                   <span className="font-medium">Ship To</span>
                 </div>
-                <span className="name">
+                <span className="name text-[#7A7474]">
                   Lorem ipsum dolor sit amet diam in lacus
                 </span>
               </div>
@@ -142,14 +142,14 @@ const PaymentTab = () => {
             </div>
 
             {/* Icon */}
-            <div className="icon ml-8 mr-3 h-20 w-20">
-              <Image src={installationIcon} alt="Installation Icon" />
+            <div className="icon mr-3 h-14 md:h-28 w-24 md:w-28">
+              <Image src={installationIcon} className="h-full w-full" alt="Installation Icon" />
             </div>
 
             {/* Text Content */}
             <div className="flex flex-col">
-              <span className="font-bold">Need Installation Service?</span>
-              <span className="text-gray-500">
+              <span className="font-bold text-xs md:text-xl">Need Installation Service?</span>
+              <span className="text-gray-500 text-xs md:text-base">
                 Get professional installation for just{" "}
                 <span className="font-bold">₹450/Roll</span>. Uncheck if you’d
                 like to install it yourself.
@@ -161,7 +161,7 @@ const PaymentTab = () => {
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger
-                  className="font-bold"
+                  className="font-bold text-sm md:text-xl"
                   style={{ textDecoration: "none", fontWeight: "bold" }}
                 >
                   {cartData?.items?.length} Item - ₹{totalPrice}
@@ -287,18 +287,18 @@ const PaymentTab = () => {
               </span>
             </p>
           </div>
-          <div className="flex justify-between bg-white p-3">
+          <div className="flex justify-between gap-1 bg-white p-3">
             <div className="flex flex-col leading-[18px]">
-              <span className="font-bold">Payment Method</span>
-              <span>online: UPI, Cards etc</span>
-              <a className="text-blue-400 underline" href="#">
+              <span className="font-bold text-sm md:text-xl">Payment Method</span>
+              <span className="text-xs md:text-lg">online: UPI, Cards etc</span>
+              <a className="text-blue-400 text-xs md:text-lg underline" href="#">
                 Change
               </a>
             </div>
             <Link
               href="/thankYou"
               data-variant="normal"
-              className="focus:ring-accent-700 hover:bg-accent-hover inline-flex h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
+              className="focus:ring-accent-700 hover:bg-accent-hover inline-flex h-10 md:h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-3 md:px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
             >
               <div className="flex flex-col items-start">
                 <span className="text-[10px] font-medium md:text-xs">4397</span>
@@ -306,7 +306,7 @@ const PaymentTab = () => {
                   2 items
                 </span>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center text-sm md:text-base">
                 <span>Place Order</span>
                 <CheckoutArrow></CheckoutArrow>
               </div>

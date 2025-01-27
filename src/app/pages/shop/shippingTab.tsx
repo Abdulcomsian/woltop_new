@@ -7,20 +7,20 @@ interface ShippingTabProps {
 const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
   return (
     <>
-      <div className="m-auto bg-white p-3 w-full">
-        <h5 className="text-center text-[18px] font-semibold text-gray-800">
+      <div className="m-auto w-full md:w-3/6 bg-white">
+        <h5 className="text-center text-xs md:text-[18px] font-semibold text-gray-800">
           ADD ADDRESS
         </h5>
         <hr className="my-4 border-t-2 border-gray-200" />
 
-        <h5 className="mb-4 text-[18px] font-semibold">Contact Details</h5>
+        <h5 className="mb-4 text-xs md:text-[18px] font-semibold">Contact Details</h5>
 
         <div className="mb-4">
           <input
             id="name"
             name="name"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Name *"
           />
         </div>
@@ -28,7 +28,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
         <div className="react-tel-input mb-4">
           <div className="special-label text-gray-700">Phone</div>
           <input
-            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="1 (702) 123-4567"
             disabled
             type="tel"
@@ -36,7 +36,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
           />
         </div>
 
-        <h5 className="mb-4 text-[18px] font-semibold text-gray-800">
+        <h5 className="mb-4 text-xs md:text-[17px] font-semibold text-gray-800">
           Address
         </h5>
 
@@ -45,7 +45,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="pincode"
             name="pincode"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Pincode *"
           />
         </div>
@@ -55,8 +55,8 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             <input
               id="mobile1"
               name="mobile1"
-              type="text"
-              className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+              type="number"
+              className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="Mobile Number *"
             />
           </div>
@@ -64,8 +64,8 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             <input
               id="mobile2"
               name="mobile2"
-              type="text"
-              className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+              type="number"
+              className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="Mobile Number *"
             />
           </div>
@@ -76,7 +76,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="address"
             name="address"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Address *"
           />
         </div>
@@ -86,7 +86,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="locality"
             name="locality"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Locality *"
           />
         </div>
@@ -96,24 +96,24 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="landmark"
             name="landmark"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[18px] text-sm text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Landmark (optional)"
           />
         </div>
 
-        <h5 className="mb-4 text-[18px] font-semibold text-gray-800">
+        <h5 className="mb-4 text-xs md:text-[18px] font-medium text-gray-800">
           Delivery Preference
         </h5>
 
         <div className="mx-auto mb-5 w-full">
           <fieldset className="space-y-6">
-            <div className="flex gap-6">
+            <div className="flex gap-[15px]">
               <div className="flex-1">
                 <label
                   htmlFor="plan-business"
-                  className="relative flex cursor-pointer flex-col rounded-lg bg-white px-6 py-[18px] shadow-md"
+                  className="relative flex cursor-pointer flex-col rounded-lg bg-white px-[13px] py-[13px] md:px-[21px] md:py-[14px] shadow-md"
                 >
-                  <h4 className="font-semibold text-gray-800">Home</h4>
+                  <h4 className="font-medium text-[18px] text-gray-800">Home</h4>
                   <p className="text-[12px] text-[#7A7474]">
                     9 AM to 9 PM Delivery
                   </p>
@@ -128,7 +128,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
                     aria-hidden="true"
                     className="absolute inset-0 hidden rounded-lg border-2 border-[#49AD91] bg-[#49AD910D] bg-opacity-50"
                   >
-                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#49AD91] ">
+                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#49AD91]">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -148,9 +148,9 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
               <div className="flex-1">
                 <label
                   htmlFor="plan-enterprise"
-                  className="relative flex cursor-pointer flex-col rounded-lg bg-white px-6 py-[18px] shadow-md"
+                  className="relative flex cursor-pointer flex-col rounded-lg bg-white px-[13px] py-[13px] md:px-[21px] md:py-[14px] shadow-md"
                 >
-                  <h4 className="font-semibold text-gray-800">Work</h4>
+                  <h4 className="font-medium text-[18px] text-gray-800">Work</h4>
                   <p className="text-[12px] text-[#7A7474]">9 AM to 5 PM</p>
                   <input
                     type="radio"
@@ -163,7 +163,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
                     aria-hidden="true"
                     className="absolute inset-0 hidden rounded-lg border-2 border-[#49AD91] bg-green-200 bg-opacity-10"
                   >
-                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#49AD91] ">
+                    <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#49AD91]">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"

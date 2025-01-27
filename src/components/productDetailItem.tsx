@@ -153,8 +153,8 @@ export default function productDetailItem({
                 ))}
               </div>
             </div>
-            <div className="w-100 flex flex-1 flex-col px-3 border-red-100 md:w-2/5">
-              <div className="breadcrum mt-4 mb-4 md:mt-0">
+            <div className="w-100 flex flex-1 flex-col border-red-100 px-3 md:w-2/5">
+              <div className="breadcrum mb-4 mt-4 md:mt-0">
                 <nav className="container">
                   <ol className="list-reset bg-grey-light text-grey flex rounded">
                     <li className="pr-2 text-[8px] text-[#A5A1A1] md:text-[14px]">
@@ -168,7 +168,7 @@ export default function productDetailItem({
                     <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
                       /
                     </li>
-             
+
                     <li className="px-2 text-[8px] text-[#A5A1A1] md:text-[14px]">
                       <a
                         href="#"
@@ -193,13 +193,13 @@ export default function productDetailItem({
                 </nav>
               </div>
               <div className="detail-wrapper">
-                <div className="title-product text-[20px] md:text-[28px] font-semibold leading-[33.6px] text-[#000000]">
+                <div className="title-product text-[20px] font-semibold leading-[33.6px] text-[#000000] md:text-[28px]">
                   {title || "Wolpin Wallpaper Non-Woven"}
                 </div>
                 <div className="rating-wrapper flex items-center gap-1">
                   <div className="star-rating">
-                    {[5, 4, 3, 2, 1].map((star) => (
-                      <React.Fragment key={star}>
+                    {[5, 4, 3, 2, 1].map((star, index) => (
+                      <React.Fragment key={index}>
                         <input
                           type="radio"
                           id={`${star}-stars`}
@@ -223,7 +223,7 @@ export default function productDetailItem({
                 </div>
 
                 {/* <ProductPrice responseData={responseData}></ProductPrice> */}
-                <div className="py-4 flex items-center justify-start gap-2 border-[#D9D9D9] border-b-[0.5px]">
+                <div className="flex items-center justify-start gap-2 border-b-[0.5px] border-[#D9D9D9] py-4">
                   {variables?.map((variable) => (
                     <div
                       key={variable.id}
@@ -272,7 +272,7 @@ export default function productDetailItem({
                   ))}
                 </div>
 
-                <div className="shipping-text py-4 text-xs md:text-base border-[#D9D9D9] border-b-[0.5px]">
+                <div className="shipping-text border-b-[0.5px] border-[#D9D9D9] py-4 text-xs md:text-base">
                   {short_description?.split("\n").map((item, index) => (
                     <span key={index}>
                       - {item}
@@ -284,8 +284,8 @@ export default function productDetailItem({
                   </p> */}
                 </div>
 
-                <div className="shipping-btn flex justify-start gap-4 mt-3">
-                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] items-center rounded border-2 px-6 py-2 text-[8px] font-medium text-[#A5A1A1] w-[50%] md:text-[18px]">
+                <div className="shipping-btn mt-3 flex justify-start gap-4">
+                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center rounded border-2 px-6 py-2 text-[8px] font-medium text-[#A5A1A1] md:text-[18px]">
                     <svg
                       width="24"
                       height="22"
@@ -311,7 +311,7 @@ export default function productDetailItem({
                   </button>
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] items-center rounded bg-[#49AD91] px-6 py-2 text-[8px] font-medium text-white w-[50%] md:text-[18px]"
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center rounded bg-[#49AD91] px-6 py-2 text-[8px] font-medium text-white md:text-[18px]"
                   >
                     <svg
                       width="25"
@@ -349,8 +349,10 @@ export default function productDetailItem({
 
                 <Calculator responseData={responseData}></Calculator>
                 <div className="mt-4 w-full">
-                  <h5 className="text-[20px] md:text-2xl font-semibold">Delivery </h5>
-                  <div className="mt-4 text-[14px] md:text-base flex justify-between gap-2">
+                  <h5 className="text-[20px] font-semibold md:text-2xl">
+                    Delivery{" "}
+                  </h5>
+                  <div className="mt-4 flex justify-between gap-2 text-[14px] md:text-base">
                     {delivery_detail.map((detail) => (
                       <div key={detail.id}>
                         <h6 className="text-wrap text-base">
@@ -368,8 +370,9 @@ export default function productDetailItem({
 
                 <div className="mt-5 flex w-full overflow-x-auto">
                   {products_features?.map(
-                    (feature: { image: string; name: string }) => (
+                    (feature: { image: string; name: string }, index) => (
                       <Image
+                        key={index}
                         className="m-3 h-full w-full object-cover"
                         src={feature.image}
                         alt={feature.name}

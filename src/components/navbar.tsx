@@ -26,7 +26,7 @@ export default function navbar() {
               <div>
                 <Link
                   href="/"
-                  className="flex items-center px-2 text-gray-700 hover:text-gray-900"
+                  className="flex items-center text-gray-700 hover:text-gray-900"
                 >
                   {/* <img className='w-100' src={mainLogo} alt="" />*/}
                   <span className="relative h-[2.125rem] w-32 overflow-hidden md:w-[8.625rem]">
