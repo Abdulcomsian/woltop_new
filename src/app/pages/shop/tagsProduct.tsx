@@ -84,12 +84,12 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
                 <CardFooter>
                   {/* <CardTitle className="text-blue-500">{card.title}</CardTitle> */}
                   <CardDescription>
-                    <span className="text-heading text-sm font-semibold md:text-base">
-                      {card.price}
+                    <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+                    ₹{card.price}
                     </span>
-                    <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
+                    {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
                       {card.discountPrice}
-                    </del>
+                    </del> */}
                   </CardDescription>
                 </CardFooter>
 

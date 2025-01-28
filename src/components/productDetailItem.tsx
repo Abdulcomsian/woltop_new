@@ -127,18 +127,18 @@ export default function productDetailItem({
         <div className="relative mx-auto max-w-screen-2xl md:py-16 lg:py-24">
           <div className="flex flex-col gap-2 md:flex-row">
             <div className="flex flex-1 flex-col md:px-3">
-              <div className="flex flex-1 flex-col">
+              <div className="mb-4 flex flex-col">
                 {/* <!-- img_01 -->  */}
                 <img
-                  className="h-full object-cover"
+                  className="h-full max-h-[751px] w-full rounded-[6px] object-cover"
                   src={
                     featured_image ||
                     "https://images.unsplash.com/photo-1664764119004-999a3f80a1b8?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDEzMDc&ixlib=rb-4.0.3&q=80"
                   }
-                  alt=""
+                  alt="img"
                 />
               </div>
-              <div className="flex-2 mt-4 hidden md:flex">
+              <div className="hidden md:flex">
                 {product_images?.map((image) => (
                   <div key={image.id}>
                     <img
@@ -229,12 +229,12 @@ export default function productDetailItem({
                       key={variable.id}
                       onClick={() => handleCardClick(variable.id)}
                       className={`product-price-wrapper relative w-full cursor-pointer rounded-lg border-dashed p-4 ${
-                        selectedId === variable.id ? "bg-[#49AD911A]" : ""
+                        selectedId === variable.id ? "bg-[#49AD911A] " : ""
                       }`}
                     >
                       {/* Discount Badge */}
-                      <div className="inline-block rounded-full bg-[#49AD911A] pl-3 pr-3">
-                        <span className="text-[#49AD91]">
+                      <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                        <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
                           {variable.discount}% off
                         </span>
                       </div>
@@ -285,7 +285,7 @@ export default function productDetailItem({
                 </div>
 
                 <div className="shipping-btn mt-3 flex justify-start gap-4">
-                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center rounded border-2 px-6 py-2 text-[8px] font-medium text-[#A5A1A1] md:text-[18px]">
+                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded border-2  py-2 text-[14px] font-medium text-[#A5A1A1] md:text-[18px]">
                     <svg
                       width="24"
                       height="22"
@@ -311,7 +311,7 @@ export default function productDetailItem({
                   </button>
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center rounded bg-[#49AD91] px-6 py-2 text-[8px] font-medium text-white md:text-[18px]"
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91]  py-2 text-[14px] font-medium text-white md:text-[18px]"
                   >
                     <svg
                       width="25"
@@ -349,16 +349,16 @@ export default function productDetailItem({
 
                 <Calculator responseData={responseData}></Calculator>
                 <div className="mt-4 w-full">
-                  <h5 className="text-[20px] font-semibold md:text-2xl">
+                  <h5 className="text-[20px] font-medium md:text-2xl">
                     Delivery{" "}
                   </h5>
                   <div className="mt-4 flex justify-between gap-2 text-[14px] md:text-base">
                     {delivery_detail.map((detail) => (
                       <div key={detail.id}>
-                        <h6 className="text-wrap text-base">
+                        <h6 className="text-wrap text-sm md:text-base">
                           {detail.city_details}
                         </h6>
-                        <p className="text-sm text-[#908B8B]">{detail.days}</p>
+                        <p className="text-xs md:text-sm text-[#908B8B]">{detail.days}</p>
                       </div>
                     ))}
                   </div>

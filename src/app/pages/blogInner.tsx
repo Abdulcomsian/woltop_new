@@ -43,14 +43,14 @@ export default function BlogInner({ resData }: { resData: ResData }) {
                 <path
                   d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19Z"
                   stroke="white"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M11.9993 12L9.66602 13.5555M11.9993 8.11108V12"
                   stroke="white"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <span className="mr-1">2 minute read</span>

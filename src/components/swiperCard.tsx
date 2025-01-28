@@ -12,10 +12,8 @@ const SwiperCard = () => {
     // Initialize Swiper instance
     const swiper = new Swiper(".slider-cards-js", {
       direction: "horizontal",
-      slidesPerView: 8,
-      centeredSlides: true,
+      slidesPerView: 5, // Default number of visible slides
       spaceBetween: 12,
-      loop: true,
       autoplay: {
         delay: 2500,
         disableOnInteraction: false,
@@ -57,24 +55,13 @@ const SwiperCard = () => {
     };
   }, []);
 
-  const slides = [
-    "https://avatar.iran.liara.run/public/22",
-    "https://avatar.iran.liara.run/public/21",
-    "https://avatar.iran.liara.run/public/33",
-    "https://avatar.iran.liara.run/public/41",
-    "https://avatar.iran.liara.run/public/6",
-    "https://avatar.iran.liara.run/public/9",
-    "https://avatar.iran.liara.run/public/48",
-    "https://avatar.iran.liara.run/public/5",
-  ];
-
   return (
     <div className="container mx-auto overflow-hidden">
       <div className="slider-cards-js">
         <div className="swiper-wrapper">
           {categories?.map((category, index) => (
             <div key={index} className="swiper-slide">
-              <Link key={index} href={`/category/${category.id}`}>
+              <Link href={`/category/${category.id}`}>
                 <div className="flex flex-col items-center justify-between">
                   <div className="">
                     <img

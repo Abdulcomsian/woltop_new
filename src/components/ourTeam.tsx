@@ -73,9 +73,9 @@ export default function OurTeam() {
                       <path
                         d="M3 21.6858L10.548 14.1378M10.548 14.1378L3 3.68579H8L13.452 11.2338M10.548 14.1378L16 21.6858H21L13.452 11.2338M21 3.68579L13.452 11.2338"
                         stroke="#908B8B"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </a>

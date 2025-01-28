@@ -16,16 +16,16 @@ export default function pagination() {
               <path
                 d="M13.1667 18.1673L9 14.0007L13.1667 9.83398"
                 stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M19.0026 18.1673L14.8359 14.0007L19.0026 9.83398"
                 stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
 
@@ -40,9 +40,9 @@ export default function pagination() {
                 <path
                   d="M12.5 15L7.5 10L12.5 5"
                   stroke="#49AD91"
-                  stroke-width="1.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </p>
@@ -85,9 +85,9 @@ export default function pagination() {
                 <path
                   d="M11.5 19L16.5 14L11.5 9"
                   stroke="#49AD91"
-                  stroke-width="1.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </p>
@@ -101,16 +101,16 @@ export default function pagination() {
               <path
                 d="M10.8359 14.1673L15.0026 10.0007L10.8359 5.83398"
                 stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M5 14.1673L9.16667 10.0007L5 5.83398"
                 stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </div>

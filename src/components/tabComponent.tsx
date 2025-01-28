@@ -33,7 +33,7 @@ const TabsComponent: FC<TabsComponentProps> = ({ tabs, content, flag }) => {
           onValueChange={setSelectedTab}
           className="-mt-9 border-solid"
         >
-          <TabsList className="bg-transparent w-full md:w-auto overflow-x-scroll md:overflow-hidden">
+          <TabsList className="bg-transparent w-full md:w-auto scrollbar-hide overflow-x-scroll md:overflow-hidden">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.value}
