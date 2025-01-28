@@ -1,11 +1,11 @@
 "use client";
-
-import Link from "next/link";
-// import Card from "./shop/Card";
 import Banner from "./shop/banner";
 import Swiper from "./shop/swiperItem";
 import PopularWallpaper from "./shop/popularWallpaper";
-import ReviewCard from "./shop/reviewCard";
+import product1 from "../../assets/product/Woltop2222.png";
+import product2 from "../../assets/product/Woltop333333.png";
+import product3 from "../../assets/product/Woltop44444.png";
+import product4 from "../../assets/product/Woltop55555.png";
 import Reeling from "./shop/reeling";
 import DetailCard from "./shop/detailCard";
 import TagsProductCard from "./shop/tagsProduct";
@@ -14,7 +14,6 @@ import VideoSection from "./shop/videoSection";
 import SectionBlock from "~/components/ui/section-block";
 import StepSection from "./shop/stepSection";
 import ConsultationSection from "./shop/consultation-background";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
   useGetPopularProductsQuery,
   useGetProductsByColorQuery,
@@ -24,7 +23,8 @@ import TabsComponent from "~/components/tabComponent";
 import SwiperCard from "~/components/swiperCard";
 import ToolsCard from "./shop/toolsCard";
 import HomePageReviewCards from "./shop/homePageReviewCards";
-import WolpinWallpaper from "./shop/wolpinWallpaper";
+import { ArrowRight } from "~/components/icons/Arrowfill";
+import RecentCard from "./shop/RecentCard";
 export default function Home() {
   const {
     data: popularProducts,
@@ -91,6 +91,66 @@ export default function Home() {
   //   },
   // ];
 
+  const ShopRoomCardData = [
+    {
+      id: 1,
+      title: "Card Title 1",
+      img: product1,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "5%",
+      content: "Living Room",
+      icon: <ArrowRight />
+    },
+    {
+      id: 2,
+      title: "Card Title 2",
+      img: product2,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "16%",
+      content: "Bedroom",
+      icon: <ArrowRight />
+    },
+    {
+      id: 3,
+      title: "Card Title 3",
+      img: product3,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "10%",
+      content: "Kids Room",
+      icon: <ArrowRight />
+    },
+    {
+      id: 4,
+      title: "Card Title 4",
+      img: product4,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "12%",
+      content: "hall",
+      icon: <ArrowRight />
+    },
+  ];
+  const BrowseCardData = [
+    {
+      id: 1,
+      img: product1,
+    },
+    {
+      id: 2,
+      img: product2,
+    },
+    {
+      id: 3,
+      img: product3,
+    }
+  ];
   
   return (
     <main className="font-poppins">
@@ -125,6 +185,15 @@ export default function Home() {
         <Reeling></Reeling>
       </SectionBlock>
 
+        <SectionBlock
+          title="Browse Our Ranges"
+          subtitle=""
+          className="px-3 pt-14 lg:container lg:m-auto"
+          position="left"
+        >
+          <CategorieCard cardData={BrowseCardData}></CategorieCard>
+        </SectionBlock>
+
       <SectionBlock
         title=""
         subtitle=""
@@ -141,7 +210,7 @@ export default function Home() {
           className="bg-[#F1FBFF] px-3 pt-14 lg:container lg:m-auto"
           position="left"
         >
-          <CategorieCard></CategorieCard>
+          <CategorieCard cardData={ShopRoomCardData}></CategorieCard>
         </SectionBlock>
       </div>
 
@@ -219,8 +288,7 @@ export default function Home() {
         className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
-        {/* <DetailCard rating={true} colorId={colorTabs}></DetailCard> */}
-        <DetailCard rating={true} colorId={0}></DetailCard>
+        <RecentCard rating={true} colorId={0} />
       </SectionBlock>
 
       <SectionBlock

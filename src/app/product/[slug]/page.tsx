@@ -85,7 +85,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="4 Steps Easy Installation"
           subtitle=""
-          className="mt-5 pt-4 lg:container lg:m-auto"
+          className="mt-5 pt-4 px-3 lg:container lg:m-auto"
           position="center"
         >
           <EasySteps responseData={responseData?.data}></EasySteps>
@@ -95,10 +95,9 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="More Information"
           subtitle=""
-          className="pt-5 lg:container lg:m-auto"
+          className="pt-5 px-3 lg:container lg:m-auto"
           position="center"
         >
-          {/* <MoreInformation></MoreInformation> */}
           <MoreInformationSteps
             responseData={responseData?.data}
           ></MoreInformationSteps>
@@ -120,23 +119,12 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Why #WolpinWallpaper Stands Out "
           subtitle=""
-          className="pt-5 lg:container lg:m-auto"
+          className="pt-5 px-3 lg:container lg:m-auto"
           position="center"
         >
           <StandsOut></StandsOut>
         </SectionBlock>
       </div>
-
-      {/* <div className="bg-[#FFF3F6] pt-8">
-          <SectionBlock
-        title="Other Products in this Range "
-        subtitle=""
-        className="lg:container lg:m-auto pt-5 "
-        position="center"
-        >
-        <StandsOut></StandsOut>
-        </SectionBlock>
-          </div> */}
 
       <div className="bg-[#F1FBFF]">
         <SectionBlock
@@ -147,10 +135,6 @@ export default function page({ params }: { params: PageParams }) {
         >
           <RatedReview responseData={responseData?.data}></RatedReview>
           <ReviewCard slug={slug}></ReviewCard>
-          {/* <div className="mt-4">
-            <ReviewCard></ReviewCard>
-          </div> */}
-          {/* <Pagination></Pagination> */}
         </SectionBlock>
       </div>
       <div className="mt-5">

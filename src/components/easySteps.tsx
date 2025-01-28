@@ -39,7 +39,7 @@ interface EasyStepsProps {
 export default function easySteps({ responseData }: EasyStepsProps) {
   const details = responseData?.data?.design_application_details?.[0];
   return (
-    <div>
+    <>
       <div className="flex justify-center text-center">
         <p className="btn border-{#0B0A0A} hover:bg-[#0B0A0A]-700 mt-2 flex justify-center rounded-[8px] border-2 bg-[#AA4A00] px-5 py-4 pb-3 pt-3 font-semibold text-[22px] text-white">
           How To Install
@@ -65,7 +65,7 @@ export default function easySteps({ responseData }: EasyStepsProps) {
                   <h6 className="hover:text-[#AA4A00]-900 font-bold text-[#AA4A00] hover:underline hover:underline-offset-4">
                     {step.name}
                   </h6>
-                  <p className="text-[#AA4A00]-800 hover:text-[#656567]-900 pt-4 text-base hover:underline hover:underline-offset-4">
+                  <p className="text-[#656567] hover:text-[#656567]-900 pt-4 text-base hover:underline hover:underline-offset-4">
                     {step.description}
                   </p>
                 </div>
@@ -75,51 +75,51 @@ export default function easySteps({ responseData }: EasyStepsProps) {
         ))}
       </div>
 
-      <div className="flex flex-col justify-between md:flex-row">
-        <div className="m-2 md:w-1/2 w-full" >
-          <div className="md:w-90 mx-auto w-full rounded-md border-2 border-dashed border-gray-300 bg-white p-4">
-            <h6 className="p-2 text-xl font-bold text-[#AA4A00]">
+      <div className="flex flex-col justify-between gap-6 md:flex-row">
+        <div className="md:w-1/2 w-full">
+          <div className="mx-auto w-full rounded-md border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
+            <h6 className="p-2 text-xl md:text-2xl font-bold text-[#AA4A00] border-b-[0.8px] border-[#D9D9D9]">
               Other Dos & Don’ts
             </h6>
 
             <ul className="list-disc pl-5 pr-4">
               {responseData?.data?.dos_dont?.map((item) => (
-                <li key={item.id} className="pt-3 text-[#AA4A00]">
+                <li key={item.id} className="pt-3 text-xs md:text-base text-[#AA4A00]">
                   {item.name}
                 </li>
               ))}
             </ul>
           </div>
         </div>
-        <div className="m-2 md:w-1/2 w-full">
-          <div className="md:w-90 mx-auto w-full rounded-md border-2 border-dashed border-gray-300 bg-white p-4">
-            <h6 className="p-2 text-xl font-bold text-[#AA4A00]">
+        <div className="md:w-1/2 w-full m-0">
+          <div className="mx-auto w-full rounded-md border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
+            <h6 className="p-2 text-xl md:text-2xl font-bold text-[#AA4A00] border-b-[0.8px] border-[#D9D9D9]">
               Design & Apllication Details
             </h6>
 
             <table>
               <tbody>
-                <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Room Type</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
+                <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
+                  <td className="py-[10px] md:py-[15px] pr-3 text-xs md:text-base font-[500] text-[#AA4A00]">Room Type</td>
+                  <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {details?.room_type}
                   </td>
                 </tr>
-                <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Pattern Repeat</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
+                <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
+                  <td className="py-[10px] pr-3 md:py-[15px] text-xs md:text-base font-[500] text-[#AA4A00]">Pattern Repeat</td>
+                  <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {details?.pattern_repeat}
                   </td>
                 </tr>
-                <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Pattern Match</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
+                <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
+                  <td className="py-[10px] pr-3 md:py-[15px] text-xs md:text-base font-[500] text-[#AA4A00]">Pattern Match</td>
+                  <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {details?.pattern_match}
                   </td>
                 </tr>
                 <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Application Guide</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
+                  <td className="py-[10px] pr-3 md:py-[15px] text-xs md:text-base font-[500] text-[#AA4A00]">Application Guide</td>
+                  <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {details?.application_guide}
                   </td>
                 </tr>
@@ -128,6 +128,6 @@ export default function easySteps({ responseData }: EasyStepsProps) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

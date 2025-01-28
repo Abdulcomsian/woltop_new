@@ -82,15 +82,14 @@ export default function DetailCard({ colorId }: DetailCardProps) {
                 <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
                   {card.discount}
                 </div>
-                <CardHeader></CardHeader>
               </Card>
               <CardContent>
                 <p>{card.content}</p>
               </CardContent>
               <CardFooter>
                 <CardDescription>
-                  <span className="text-heading text-sm font-semibold md:text-base">
-                    {card.price}
+                  <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+                  ₹{card.price}
                   </span>
                   {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
                     {card.discountPrice}

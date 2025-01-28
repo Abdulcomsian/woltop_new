@@ -2,7 +2,7 @@
 import Banner from "~/components/banner";
 import OurTeam from "~/components/ourTeam";
 import SectionBlock from "~/components/ui/section-block";
-import SwiperCard from "~/components/swiperCard";
+import SwiperItem from "../pages/shop/swiperItem";
 
 export default function page() {
   const aboutBanner = {
@@ -27,7 +27,7 @@ export default function page() {
         className="pt-14 px-3 lg:container lg:m-auto"
         position="center"
       >
-        <SwiperCard></SwiperCard>
+        <SwiperItem></SwiperItem>
       </SectionBlock>
     </main>
   );

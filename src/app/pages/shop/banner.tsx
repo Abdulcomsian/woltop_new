@@ -8,7 +8,7 @@ export default function Banner() {
       <div className="relative px-4 py-24">
         <div className="container relative z-20 mx-auto text-center text-white">
           <div className="mb-5 flex justify-center">
-            <Image src={homeBannerWings} alt="" width={76} height={46} />
+            <Image src={homeBannerWings} alt="img" width={76} height={46} />
           </div>
           <h1 className="font-lovelace text-3xl font-normal tracking-[1%] text-white md:text-4xl lg:text-7xl xl:text-7xl">
             Luxe Designs
@@ -34,6 +34,7 @@ export default function Banner() {
             }}
             src={banner}
             className="h-full w-full"
+            alt="img"
           />
         </div>
       </div>

@@ -1,19 +1,14 @@
 import React from "react";
-import step1 from "../../public/step1.png";
-import step2 from "../../public/step2.png";
-import step3 from "../../public/step3.png";
-import step4 from "../../public/step4.png";
 
 type DesignApplicationDetails = {
-  room_type: string;
-  pattern_repeat: string;
-  pattern_match: string;
-  application_guide: string;
+  storage: string;
+  coverage: string;
+  net_weight: string;
 };
 
 interface ResponseData {
   data: {
-    design_application_details: DesignApplicationDetails[];
+    storage_usage_details: DesignApplicationDetails[];
   };
 }
 
@@ -22,42 +17,38 @@ interface MoreInformationStepsProps {
   responseData: ResponseData;
 }
 
-export default function moreInformationSteps({ responseData }: MoreInformationStepsProps) {
-  const details = responseData?.data?.design_application_details?.[0];
+export default function moreInformationSteps({
+  responseData,
+}: MoreInformationStepsProps) {
+  const details = responseData?.data?.storage_usage_details?.[0];
   return (
     <div>
       <div className="flex flex-col justify-center md:flex-row">
-        <div className="m-2">
-          <div className="mx-auto w-full rounded-md border-2 border-dashed border-gray-300 bg-white p-4">
-            <h6 className="p-2 text-xl font-bold text-[#AA4A00]">
-              Design & Apllication Details
+        <div className="">
+          <div className="mx-auto w-full rounded-md border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
+            <h6 className="p-2 text-xl md:text-2xl font-bold text-[#AA4A00] border-b-[0.8px] border-[#D9D9D9]">
+              Storage & Usage Guide
             </h6>
 
             <table>
               <tbody>
-                <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Room Type</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
-                  {details?.room_type}
+                <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
+                  <td className="py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Storage</td>
+                  <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
+                    {details?.storage}
                   </td>
                 </tr>
-                <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Pattern Repeat</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
+                <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
+                  <td className="py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Net Weight</td>
+                  <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {" "}
-                    {details?.pattern_repeat}
+                    {details?.net_weight}
                   </td>
                 </tr>
                 <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Pattern Match</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
-                    {details?.pattern_match}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="mx-2 p-4 text-[#AA4A00]">Application Guide</td>
-                  <td className="mx-2 my-2 p-4 text-[#000000]">
-                  {details?.application_guide}
+                  <td className="py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Coverage</td>
+                  <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
+                    {details?.coverage}
                   </td>
                 </tr>
               </tbody>

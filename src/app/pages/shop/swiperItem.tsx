@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 
@@ -21,22 +20,18 @@ export default function SwiperItem() {
         {limitedCategories?.map((category) => (
           <div
             key={category.id}
-            className="group relative flex cursor-pointer flex-col items-center overflow-hidden text-center lg:container lg:m-auto"
+            className="group relative flex cursor-pointer flex-col items-center overflow-hidden text-center"
           >
-            <Link
-              href={`/category/${category.id}`}
-              // href={`/books/search?category=${category.name.toLowerCase().replace(/\s+/g, "-")}`}
-            >
-              {/* <div className="w-full mx-auto"> */}
-              <img
-                alt={category.name}
-                loading="lazy"
-                decoding="async"
-                style={{ border: "2px solid #D237604D", padding: "3px" }}
-                className="h-[90px] w-[90px] rounded-full md:h-[98px] md:w-[98px] lg:h-[105px] lg:w-[105px] lg:object-cover"
-                src={category.image}
-              />
-              {/* </div> */}
+            <Link href={`/category/${category.id}`}>
+              <div className="p-1 rounded-full border-2 border-[#D237604D] ">
+                <img
+                  alt={category.name}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-[90px] w-[90px] rounded-full md:h-[98px] md:w-[98px] lg:h-[105px] lg:w-[105px] lg:object-cover"
+                  src={category.image}
+                />
+              </div>
             </Link>
             <div className="mt-2 block">
               <span className="text-heading text-center text-xs font-semibold transition-colors group-hover:text-orange-500 md:text-base">
@@ -47,12 +42,18 @@ export default function SwiperItem() {
         ))}
 
         {/* See All Button */}
+        <div className="group relative flex cursor-pointer flex-col items-center overflow-hidden text-center">
+          <Link href="/allCategories">
+            <div className="p-1 rounded-full border-2 border-[#D237604D]">
+              <div className="flex h-[90px] w-[90px] items-center justify-center rounded-full bg-gray-100 md:h-[98px] md:w-[98px] lg:h-[105px] lg:w-[105px]">
+                <span className="text-heading text-xs font-semibold text-gray-500 group-hover:text-orange-500 md:text-base">
+                  See All
+                </span>
+              </div>
+            </div>
+          </Link>
+        </div>
       </div>
-      <Link href="/allCategories" className="absolute -top-12 right-0">
-        <span className="text-heading text-center text-xs font-semibold hover:text-orange-500 md:text-base">
-          See All
-        </span>
-      </Link>
     </div>
   );
 }

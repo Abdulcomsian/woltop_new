@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import footerLogo from "~/assets/img/footer-logo.svg";
 import { SearchIcon } from "./icons/searchIcon";
 import { FavriouteIcon } from "./icons/favriouteIcon";
@@ -10,18 +10,72 @@ import Link from "next/link";
 export default function navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartItemsLength = useSelector((state: any) => state.cart.items.length);
-
+  const [isMobileView, setIsMobileView] = useState(false);
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  const handleResize = () => {
+    setIsMobileView(window.innerWidth < 768);
+  };
 
+  useEffect(() => {
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <>
       {/* <!-- navbar goes here --> */}
-      <nav className="bg-[#FFFFFF] font-poppins" style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}>
-        <div className="mx-auto lg:container px-5 py-[16px] lg:px-7 xl:px-10">
+      <nav
+        className="bg-[#FFFFFF] font-poppins"
+        style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}
+      >
+        <div className="mx-auto px-5 py-[16px] lg:container lg:px-7 xl:px-10">
           <div className="flex justify-between">
             <div className="flex space-x-4 lg:space-x-20">
+              {isMobileView && (
+                <button
+                  className="mobile-menu-button md:hidden"
+                  onClick={toggleMenu}
+                >
+                  {isMobileMenuOpen ? (
+                    <svg
+                      className="h-6 w-6"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="h-6 w-6"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  )}
+                </button>
+              )}
+
               {/* <!-- logo --> */}
               <div>
                 <Link
@@ -44,51 +98,33 @@ export default function navbar() {
               </div>
 
               {/* <!-- primary nav --> */}
-              <div className="hidden text-[18px] items-center md:gap-2.5 lg:gap-10 md:flex">
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-gray-900"
-                >
+              <div className="hidden items-center text-[18px] md:flex md:gap-2.5 lg:gap-10">
+                <a href="#" className="text-gray-700 hover:text-gray-900">
                   New Arrival
                 </a>
-                <a
-                  href="/about"
-                  className="text-gray-700 hover:text-gray-900"
-                >
+                <a href="/about" className="text-gray-700 hover:text-gray-900">
                   About
                 </a>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-gray-900"
-                >
+                <a href="#" className="text-gray-700 hover:text-gray-900">
                   Tools
                 </a>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-gray-900"
-                >
+                <a href="#" className="text-gray-700 hover:text-gray-900">
                   Careers
                 </a>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-gray-900"
-                >
+                <a href="#" className="text-gray-700 hover:text-gray-900">
                   Contact
                 </a>
               </div>
             </div>
 
             {/* <!-- secondary nav --> */}
-            <div className="hidden items-center space-x-1 md:flex">
+            <div className="items-center space-x-1 md:flex">
               <div className="flex shrink-0 items-center space-x-4 sm:space-x-6 rtl:space-x-reverse">
                 <div className="hidden lg:inline-flex"></div>
                 <SearchIcon />
                 <FavriouteIcon />
                 <div className="flex items-center space-x-4 sm:space-x-6 lg:space-x-4 rtl:lg:space-x-reverse">
-                  <a
-                    href="/cart"
-                    className="product-cart relative lg:flex"
-                  >
+                  <a href="/cart" className="product-cart relative lg:flex">
                     <svg
                       width="24"
                       height="24"
@@ -160,41 +196,6 @@ export default function navbar() {
               </svg>
             </button>
           </div> */}
-            <div className="flex items-center md:hidden">
-              <button className="mobile-menu-button" onClick={toggleMenu}>
-                {isMobileMenuOpen ? (
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
           </div>
         </div>
 
@@ -208,7 +209,7 @@ export default function navbar() {
           <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
             New Arrival
           </a>
-          <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
+          <a href="/about" className="block px-4 py-2 text-sm hover:bg-gray-200">
             About
           </a>
           <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGetReviewByProductQuery } from "~/store/api/reviewsApi";
 
 interface ReviewCardProps {
@@ -6,21 +7,36 @@ interface ReviewCardProps {
 
 export default function ReviewCard({ slug }: ReviewCardProps) {
   const { data: review, isFetching } = useGetReviewByProductQuery(slug);
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 5;
 
   if (isFetching) {
     return <div>Loading...</div>;
   }
 
   const reviews = review?.data || [];
+  const totalPages = Math.ceil(reviews.length / reviewsPerPage);
+
+  const paginatedReviews = reviews.slice(
+    (currentPage - 1) * reviewsPerPage,
+    currentPage * reviewsPerPage,
+  );
+
+  const handlePageChange = (page: number) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <div className="mx-auto grid w-full grid-cols-1 overflow-y-auto">
-      {reviews?.map((review: any) => (
+      {paginatedReviews.map((review: any) => (
         <div
           key={review.id}
           className="mb-5 w-full flex-shrink-0 rounded-lg border-2 border-dashed bg-white p-6 shadow-md"
         >
           {/* Rating */}
-          <div className="mb-4 flex gap-1">
+          <div className="mb-3 flex gap-1">
             <div className="flex text-yellow-400">
               {[...Array(5)].map((_, index) => (
                 <svg
@@ -37,7 +53,9 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
             </div>
           </div>
           {/* Description */}
-          <p className="mb-4 text-gray-600">{review.description}</p>
+          <p className="mb-4 text-xs text-gray-600 md:text-base">
+            {review.description}
+          </p>
           {/* User Info */}
           <div className="flex items-center justify-between">
             <div className="flex items-center">
@@ -47,7 +65,7 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
                   src={
                     review.user.image
                       ? review.user.image
-                      : "https://via.placeholder.com/48"
+                      : `https://ui-avatars.com/api/?name=${review.user.name}&background=random`
                   }
                   loading="lazy"
                   width="48"
@@ -56,24 +74,30 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
                 />
               </div>
               <div>
-                <h4 className="font-poppins text-lg font-semibold text-black">
+                <h4 className="font-poppins text-[14px] font-semibold text-[#0B0B0B]">
                   {review.user.name}
                 </h4>
-                <p className="font-poppins text-xs text-gray-500">
-                  {/* {review.designation} */}
-                </p>
               </div>
             </div>
-            <p className="font-poppins text-xs text-gray-500">
+            <p className="font-poppins text-xs text-[#A5A1A1] md:text-base">
               {review.created_at}
             </p>
           </div>
         </div>
       ))}
 
-      {reviews.length > 0 && (
+      {/* Pagination */}
+      {reviews.length > reviewsPerPage && (
         <div className="mx-auto flex w-full items-center justify-between lg:w-[40%]">
-          <div className="flex cursor-pointer items-center pt-3 text-gray-600 hover:text-indigo-700">
+          {/* Previous Button */}
+          <div
+            className={`flex cursor-pointer items-center pt-3 text-gray-600 ${
+              currentPage === 1
+                ? "cursor-not-allowed opacity-50"
+                : "hover:text-indigo-700"
+            }`}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
             <svg
               width="28"
               height="28"
@@ -84,86 +108,54 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
               <path
                 d="M13.1667 18.1673L9 14.0007L13.1667 9.83398"
                 stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M19.0026 18.1673L14.8359 14.0007L19.0026 9.83398"
-                stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
+            <p className="ml-3 text-sm font-medium leading-none">Previous</p>
+          </div>
 
-            <p className="ml-3 text-sm font-medium leading-none">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.5 15L7.5 10L12.5 5"
-                  stroke="#49AD91"
-                  stroke-width="1.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </p>
-          </div>
+          {/* Page Numbers */}
           <div className="hidden sm:flex">
-            <p className="hover:text-[#49AD91]-700 hover:border-[#49AD91]-400 mr-4 cursor-pointer border-t border-transparent px-2 pt-3 text-sm font-medium leading-none text-gray-600">
-              1
-            </p>
-            <p className="mr-4 cursor-pointer rounded bg-[#49AD91] p-2 px-2 text-sm font-medium leading-none text-white">
-              2
-            </p>
-            <p className="hover:text-[#49AD91]-700 hover:border-[#49AD91]-400 mr-4 cursor-pointer border-t border-transparent px-2 pt-3 text-sm font-medium leading-none text-gray-600">
-              3
-            </p>
-          </div>
-          <div className="flex cursor-pointer items-center pt-3 text-gray-600 hover:text-indigo-700">
-            <p className="mr-3 text-sm font-medium leading-none">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+            {Array.from({ length: totalPages }, (_, index) => (
+              <p
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`mr-4 cursor-pointer p-1 px-2 text-sm font-medium leading-none ${
+                  currentPage === index + 1
+                    ? "rounded bg-[#49AD91] text-white"
+                    : "border-t border-transparent text-gray-600 hover:text-[#49AD91]"
+                }`}
               >
-                <path
-                  d="M11.5 19L16.5 14L11.5 9"
-                  stroke="#49AD91"
-                  stroke-width="1.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </p>
+                {index + 1}
+              </p>
+            ))}
+          </div>
+
+          {/* Next Button */}
+          <div
+            className={`flex cursor-pointer items-center pt-3 text-gray-600 ${
+              currentPage === totalPages
+                ? "cursor-not-allowed opacity-50"
+                : "hover:text-indigo-700"
+            }`}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            <p className="mr-3 text-sm font-medium leading-none">Next</p>
             <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M10.8359 14.1673L15.0026 10.0007L10.8359 5.83398"
+                d="M11.5 19L16.5 14L11.5 9"
                 stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M5 14.1673L9.16667 10.0007L5 5.83398"
-                stroke="#49AD91"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </div>

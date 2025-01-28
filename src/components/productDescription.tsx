@@ -22,34 +22,60 @@ export default function productDescription({
     <div className="">
       <div className="mb-4 flex flex-col justify-between rounded-lg bg-white py-5 md:flex-row">
         <div className="">
-          <div className="border-rad h-10 w-60 rounded-br-full rounded-tr-full border-2 border-dashed border-gray-300 bg-[#E6F1FF]">
-            <h1 className="p-2 font-semibold">Product Description</h1>
+          <div className="border-rad h-10 w-60 rounded-br-full rounded-tr-full border-[0.7px] border-dashed border-[#49AD91] bg-[#E6F1FF]">
+            <h1 className="p-2 text-base font-semibold md:text-[18px]">
+              Product Description
+            </h1>
           </div>
           <ul className="mb-4 p-4 pl-5">
-            {description?.split("\n").map((item: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | Iterable<React.ReactNode> | null | undefined, index: React.Key | null | undefined) => (
-              <li key={index} className="mt-3 flex text-[#49AD91]">
-                <svg
-                  width="22"
-                  height="17"
-                  viewBox="0 0 22 17"
-                  className="w-18 h-18 m-1"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M21.1671 0.646264C20.018 1.1908 18.835 1.69328 17.7372 2.32429C17.3007 2.57202 16.8767 2.83027 16.4627 3.10255C12.8787 5.38821 9.93697 8.31068 7.42914 11.7452C7.29366 11.4974 7.22968 11.3502 7.14061 11.2182C6.49456 10.2611 5.87484 9.28542 5.18489 8.36459C4.61913 7.61089 3.75229 7.31408 2.834 7.55713C2.05372 7.76397 1.2609 8.09584 0.618608 8.55272C-0.260788 9.17788 -0.188015 10.0216 0.744054 10.5837C2.79262 11.8223 4.14499 13.5331 4.909 15.6632C5.09843 16.1925 5.46099 16.411 6.02299 16.4706C7.66136 16.6471 8.8945 16.0219 9.78394 14.7891C10.4037 13.9244 10.9782 13.0304 11.5151 12.1201C13.1723 9.30863 15.0188 6.63379 17.3471 4.30614C18.0923 3.56177 18.8889 2.84897 19.7457 2.18172C20.4846 1.60679 21.2486 1.06342 22 0.503691C21.6914 0.486163 21.4154 0.530567 21.1721 0.647422L21.1671 0.646264Z"
-                    fill="#49AD91"
-                  />
-                </svg>
-                {item}
-              </li>
-            ))}
+            {description
+              ?.split("\n")
+              .map(
+                (
+                  item:
+                    | string
+                    | number
+                    | bigint
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | Iterable<React.ReactNode>
+                    | React.ReactPortal
+                    | Promise<React.AwaitedReactNode>
+                    | Iterable<React.ReactNode>
+                    | null
+                    | undefined,
+                  index: React.Key | null | undefined,
+                ) => (
+                  <li
+                    key={index}
+                    className="mt-3 flex text-xs text-[#49AD91] md:text-base"
+                  >
+                    <svg
+                      width="22"
+                      height="17"
+                      viewBox="0 0 22 17"
+                      className="w-18 h-18 m-1"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21.1671 0.646264C20.018 1.1908 18.835 1.69328 17.7372 2.32429C17.3007 2.57202 16.8767 2.83027 16.4627 3.10255C12.8787 5.38821 9.93697 8.31068 7.42914 11.7452C7.29366 11.4974 7.22968 11.3502 7.14061 11.2182C6.49456 10.2611 5.87484 9.28542 5.18489 8.36459C4.61913 7.61089 3.75229 7.31408 2.834 7.55713C2.05372 7.76397 1.2609 8.09584 0.618608 8.55272C-0.260788 9.17788 -0.188015 10.0216 0.744054 10.5837C2.79262 11.8223 4.14499 13.5331 4.909 15.6632C5.09843 16.1925 5.46099 16.411 6.02299 16.4706C7.66136 16.6471 8.8945 16.0219 9.78394 14.7891C10.4037 13.9244 10.9782 13.0304 11.5151 12.1201C13.1723 9.30863 15.0188 6.63379 17.3471 4.30614C18.0923 3.56177 18.8889 2.84897 19.7457 2.18172C20.4846 1.60679 21.2486 1.06342 22 0.503691C21.6914 0.486163 21.4154 0.530567 21.1721 0.647422L21.1671 0.646264Z"
+                        fill="#49AD91"
+                      />
+                    </svg>
+                    {item}
+                  </li>
+                ),
+              )}
           </ul>
         </div>
         <div className="">
           <Image
             // className="w-full h-auto   rounded m-4 mr-4  "
-            className="mr-4 h-[147.88px] md:h-[291.1px] object-cover w-full rounded-[6px] px-3 md:w-[13rem]"
+            className="mr-4 h-[147.88px] w-full rounded-[6px] object-cover px-3 md:h-[291.1px] md:w-[13rem]"
             src={featured_image}
             alt="Banner Background2"
             width={100}
@@ -58,8 +84,8 @@ export default function productDescription({
         </div>
       </div>
 
-      <div className="div rounded border-2 border-dashed border-gray-300 bg-white p-4">
-        <h6 className="mt-4 flex justify-start align-middle text-[#000000]">
+      <div className="div rounded border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
+        <h6 className="mt-4 flex justify-start align-middle font-semibold text-[#000000]">
           <svg
             width="22"
             height="28"
@@ -74,9 +100,11 @@ export default function productDescription({
             />
           </svg>
 
-          <span className="inline-block text-black">HOW TO CARE</span>
+          <span className="inline-block text-base text-black md:text-[18px]">
+            HOW TO CARE
+          </span>
         </h6>
-        <p className="ml-5 mt-1 pb-5 pl-4 text-[#49AD91]">
+        <p className="ml-5 mt-1 pb-5 pl-4 text-xs text-[#49AD91] md:text-base">
           Use a damp cloth to clean the wallpaper. Avoid pasting the wallpaper
           on a cracked, textured or wall surface with moisture.
         </p>
