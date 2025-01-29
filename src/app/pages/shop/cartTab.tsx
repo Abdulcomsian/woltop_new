@@ -69,7 +69,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
 
   return (
     <>
-      <div className="test m-auto w-full bg-white">
+      <div className="w-full bg-white">
         <div className="container mx-auto w-full">
           {cartData?.items?.length > 0 &&
             (() => {
@@ -82,10 +82,10 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                         className="border-border-200 mb-5 flex w-full border-opacity-75 text-sm"
                         style={{ opacity: "1" }}
                       >
-                        <div className="relative flex h-[173px] w-2/5 rounded-[6px] shrink-0 items-center justify-center overflow-hidden bg-gray-100">
+                        <div className="relative flex h-[173px] w-[123px] rounded-[6px] shrink-0 items-center justify-center overflow-hidden bg-gray-100">
                           <img
                             alt={item.name}
-                            className="object-contain"
+                            className="object-contain w-full h-full"
                             src={
                               item?.featured_image ||
                               "https://placehold.co/600x400.png"
@@ -244,7 +244,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                       <div className="absolute left-0 top-0 w-full p-3 lg:p-8">
                         <div className="flex w-full max-w-sm lg:max-w-full">
                           <div
-                            className="h-26 w-14 flex-none overflow-hidden rounded-t bg-cover pt-3 text-center md:h-28 lg:h-28 lg:h-auto lg:w-14 lg:rounded-l lg:rounded-t-none"
+                            className="h-26 w-14 flex-none overflow-hidden rounded-t bg-cover pt-3 text-center md:h- lg:h-auto lg:w-14 lg:rounded-l lg:rounded-t-none"
                             title="Woman holding a mug"
                           >
                             <Image

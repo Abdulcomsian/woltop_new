@@ -13,24 +13,24 @@ export default function BlogsItems() {
   return (
     <div className="container mx-auto mb-5 mt-14">
       <div className="-m-3 flex flex-wrap">
-        {blogs.data.map((blog) => (
-          <Link key={blog.id} href={`/blogs/${blog.slug}`} className="flex w-full flex-col p-3 sm:w-1/2 md:w-2/4">
+        {blogs.data.map((blog: { id: React.Key | null | undefined; slug: any; image: any; title: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | Iterable<React.ReactNode> | null | undefined; short_description: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | Iterable<React.ReactNode> | null | undefined; }) => (
+          <Link key={blog.id} href={`/blogs/${blog.slug}`} className="flex w-full flex-col p-5 sm:w-1/2 md:w-2/4">
             <div className="flex flex-1 flex-col overflow-hidden rounded-lg bg-white">
               <div
-                className="h-80 bg-cover"
+                className="h-[234px] md:h-[334px] bg-cover"
                 style={{ backgroundImage: `url(${blog.image})` }}
               ></div>
               <div className="flex flex-1 flex-col pt-4">
-                <p className="text-[#49AD91]" style={{ fontSize: "12px" }}>
+                <p className="text-[#49AD91] text-sm font-semibold mb-3">
                   Sunday , 1 Jan 2024
                 </p>
-                <div className="flex justify-between">
-                  <h1 className="text-bold">{blog.title}</h1>
+                <div className="flex justify-between mb-3">
+                  <h1 className="text-semibold text-lg md:text-2xl">{blog.title}</h1>
                   <div>
                     <BlogArrow />
                   </div>
                 </div>
-                <div className="text-grey-darker mb-4 flex-1 text-sm">
+                <div className="text-[#0B0A0A] flex-1 text-sm md:text-base max-w-[92%]">
                   <p>{blog.short_description}</p>
                 </div>
                 {/* <a

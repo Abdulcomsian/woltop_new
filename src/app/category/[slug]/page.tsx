@@ -3,7 +3,12 @@ import Banner from "~/app/pages/shop/banner";
 import SwiperItem from "../../pages/shop/swiperItem";
 import SectionBlock from "~/components/ui/section-block";
 import Reeling from "../../pages/shop/reeling";
-import ProductDetailCard from "../../pages/shop/productDetailCard";
+import CategorieCard from "../../pages/shop/categorieCard";
+import product1 from "../../../assets/product/Woltop2222.png";
+import product2 from "../../../assets/product/Woltop333333.png";
+import product3 from "../../../assets/product/Woltop44444.png";
+import product4 from "../../../assets/product/Woltop55555.png";
+import { ArrowRight } from "~/components/icons/Arrowfill";
 import {
   useGetPopularProductsQuery,
   useGetProductsByColorQuery,
@@ -22,6 +27,53 @@ export default function page({ params }: { params: PageParams }) {
   const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
   // console.log("Product Details", product);
   const responseData = product ? { data: product, status: true } : null;
+
+  const ShopRoomCardData = [
+    {
+      id: 1,
+      title: "Card Title 1",
+      img: product1,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "5%",
+      content: "Living Room",
+      icon: <ArrowRight />
+    },
+    {
+      id: 2,
+      title: "Card Title 2",
+      img: product2,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "16%",
+      content: "Bedroom",
+      icon: <ArrowRight />
+    },
+    {
+      id: 3,
+      title: "Card Title 3",
+      img: product3,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "10%",
+      content: "Kids Room",
+      icon: <ArrowRight />
+    },
+    {
+      id: 4,
+      title: "Card Title 4",
+      img: product4,
+      description: "$250.00",
+      price: "$250.00",
+      discountPrice: "$250.00",
+      discount: "12%",
+      content: "hall",
+      icon: <ArrowRight />
+    },
+  ];
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -49,9 +101,7 @@ export default function page({ params }: { params: PageParams }) {
           className="mt-4 px-3 pt-4 lg:container lg:m-auto"
           position="left"
         >
-          <ProductDetailCard
-            responseData={responseData?.data}
-          ></ProductDetailCard>
+          <CategorieCard cardData={ShopRoomCardData}></CategorieCard>
         </SectionBlock>
       </div>
 
