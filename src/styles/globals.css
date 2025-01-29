@@ -223,3 +223,17 @@ input[type="radio"]:checked + span {
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
+.accordion-container [data-state="open"] > span {
+  color: #49AD91 !important;
+}
+
+/* Hide svg when accordion is open */
+.accordion-container [data-state="open"] > svg {
+  display: none;
+}
+
+/* Hide svg when accordion is closed */
+.accordion-container [data-state="closed"] > svg {
+  display: none;
+}
+

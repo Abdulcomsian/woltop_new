@@ -6,6 +6,7 @@ import product1 from "../../assets/product/Woltop2222.png";
 import product2 from "../../assets/product/Woltop333333.png";
 import product3 from "../../assets/product/Woltop44444.png";
 import product4 from "../../assets/product/Woltop55555.png";
+import { ArrowRight } from "~/components/icons/Arrowfill";
 import Reeling from "./shop/reeling";
 import DetailCard from "./shop/detailCard";
 import TagsProductCard from "./shop/tagsProduct";
@@ -23,7 +24,6 @@ import TabsComponent from "~/components/tabComponent";
 import SwiperCard from "~/components/swiperCard";
 import ToolsCard from "./shop/toolsCard";
 import HomePageReviewCards from "./shop/homePageReviewCards";
-import { ArrowRight } from "~/components/icons/Arrowfill";
 import RecentCard from "./shop/RecentCard";
 export default function Home() {
   const {
@@ -64,33 +64,8 @@ export default function Home() {
 
   const productContent = productTabs.map((tab: any) => ({
     value: tab.value,
-    component: <TagsProductCard tagId={tab.value} />, // Customize the component as needed
+    component: <TagsProductCard tagId={tab.value} />,
   }));
-  // const productContent = [
-  //   {
-  //     value: "BestSelling",
-  //     component: (
-  //       <>
-  //         <DetailCard rating={undefined} />
-  //         <ReviewCard />
-  //       </>
-  //     ),
-  //   },
-  //   {
-  //     value: "NewArrival",
-  //     component: (
-  //       <>
-  //         <div className="mb-4 mt-8 flex justify-center">
-  //           <button className="text-light hover:bg-accent-hover inline-flex h-11 h-12 shrink-0 items-center justify-center rounded bg-green-800 px-5 py-0 text-sm font-semibold leading-none text-white">
-  //             Load More
-  //           </button>
-  //         </div>
-  //         <ReviewCard />
-  //       </>
-  //     ),
-  //   },
-  // ];
-
   const ShopRoomCardData = [
     {
       id: 1,
@@ -153,8 +128,7 @@ export default function Home() {
   ];
   
   return (
-    <main className="font-poppins">
-      {/* <Swiper></Swiper> */}
+    <main>
       <SectionBlock className="pt-14 lg:container lg:m-auto" position="center">
         <SwiperCard></SwiperCard>
       </SectionBlock>

@@ -20,15 +20,17 @@ const PaymentTab = () => {
   const cartData = useSelector((state: any) => state.cart);
 
   return (
-    <section className="w-full  py-5">
-      <div className="md:p-4d m-auto bg-white w-full">
+    <section className="w-full m-auto md:w-3/6 py-5">
+      <div className="md:p-4d m-auto w-full bg-white">
         <div className="rounded p-3">
           <div className="bill-detail">
             <div className="border-border-200 flex flex-col border-b py-3">
-              <h4 className="mt-3 font-medium text-base md:text-xl">Bill Details</h4>
+              <h4 className="mt-3 text-base font-medium md:text-lg">
+                Bill Details
+              </h4>
               <div className="mt-2 flex">
                 <Image src={coins || null} className="w-4" alt="img" />
-                <p className="ml-2 text-[12px] md:text-base text-[#7A7474]">
+                <p className="ml-2 text-[12px] text-[#7A7474] md:text-base">
                   Total Wol Cash <span className="font-semibold">₹0</span>
                 </p>
               </div>
@@ -36,40 +38,47 @@ const PaymentTab = () => {
           </div>
           <div className="border-border-200 border-b py-3">
             <ul>
-              <li className="text-body mb-2 flex justify-between text-[12px] md:text-base text-[#7A7474]">
+              <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Total MRP</div>
                 <div className="font-medium text-[#000000]">₹{totalPrice}</div>
               </li>
-              <li className="text-body mb-2 flex justify-between text-[12px] md:text-base text-[#7A7474]">
+              <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Cart Discount</div>
                 <div className="font-medium text-[#000000]">-₹155</div>
               </li>
-              <li className="text-body flex justify-between text-[12px] md:text-base text-[#7A7474]">
+              <li className="text-body flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Shipping Charges</div>
                 <div className="font-medium text-[#000000]">
-                  ₹50 <span className="text-[12px] md:text-base text-[#49AD91]">FREE</span>
+                  ₹50{" "}
+                  <span className="text-[12px] text-[#49AD91] md:text-base">
+                    FREE
+                  </span>
                 </div>
               </li>
             </ul>
           </div>
           <div className="subtotal mt-2 border-b pb-3">
             <h4 className="flex items-center justify-between">
-              <span className="font-bold text-base md:text-xl">Sub Total</span>
+              <span className="text-base font-medium md:text-lg">
+                Sub Total
+              </span>
               <span>₹{totalPrice}</span>
             </h4>
-            <p className="text-body text-[12px] md:text-base text-[#7A7474]">
+            <p className="text-body text-[12px] text-[#7A7474] md:text-base">
               COD is available. Tap payment options on <br /> bottom left.
             </p>
           </div>
 
           <div className="deliveryAddress py-6">
             <div className="mb-2 flex justify-between">
-              <span className="font-bold text-base md:text-xl">Delivery Address</span>
+              <span className="text-base font-medium md:text-lg">
+                Delivery Address
+              </span>
               <a className="text-blue-400 underline" href="#">
                 Change
               </a>
             </div>
-            <div className="rounded-md border text-[12px] md:text-base p-3">
+            <div className="rounded-md border p-3 text-[12px] md:text-base">
               <div className="contact border-b pb-2">
                 <div className="mb-1 flex items-center gap-1">
                   <svg
@@ -129,27 +138,36 @@ const PaymentTab = () => {
 
           <label
             htmlFor="installationCheckbox"
-            className={`installation relative flex w-full cursor-pointer items-center rounded-lg border-dashed bg-[#2ECDA01A] p-4`}
+            className={`installation relative flex w-full cursor-pointer items-center rounded-lg border-0 bg-[#2ECDA01A] p-2 md:p-0`}
           >
             {/* Checkbox */}
-            <div className="absolute right-3 top-4">
+            <div
+              className=""
+              style={{ position: "absolute", top: "10px", right: "0px" }}
+            >
               <input
                 type="checkbox"
                 id="installationCheckbox"
-                className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-[#49AD91] checked:bg-[#49AD91] focus:outline-none focus:ring-2 focus:ring-[#49AD91]"
+                className="h-[15px] w-[15px] cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-[#49AD91] checked:bg-[#49AD91] focus:outline-none focus:ring-2 focus:ring-[#49AD91]"
               />
               <label htmlFor="installationCheckbox"></label>
             </div>
 
             {/* Icon */}
-            <div className="icon mr-3 h-14 md:h-28 w-24 md:w-28">
-              <Image src={installationIcon} className="h-full w-full" alt="Installation Icon" />
+            <div className="icon h-14 w-24 md:h-28 md:w-28">
+              <Image
+                src={installationIcon}
+                className="h-full w-full"
+                alt="Installation Icon"
+              />
             </div>
 
             {/* Text Content */}
             <div className="flex flex-col">
-              <span className="font-bold text-xs md:text-xl">Need Installation Service?</span>
-              <span className="text-gray-500 text-xs md:text-base">
+              <span className="text-xs font-medium md:text-base">
+                Need Installation Service?
+              </span>
+              <span className="text-[9px] text-gray-500 md:text-xs" style={{width:"95%"}}>
                 Get professional installation for just{" "}
                 <span className="font-bold">₹450/Roll</span>. Uncheck if you’d
                 like to install it yourself.
@@ -161,8 +179,8 @@ const PaymentTab = () => {
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger
-                  className="font-bold text-sm md:text-xl"
-                  style={{ textDecoration: "none", fontWeight: "bold" }}
+                  className="text-sm font-semibold md:text-lg"
+                  style={{ textDecoration: "none" }}
                 >
                   {cartData?.items?.length} Item - ₹{totalPrice}
                 </AccordionTrigger>
@@ -171,10 +189,10 @@ const PaymentTab = () => {
                     {cartData?.items?.map((item: any) => (
                       <div
                         key={`${item.id}-${item.variableId}`}
-                        className="border-border-200 flex w-4/5 border-b-2 border-opacity-75 pb-5 pt-6 text-sm"
+                        className="border-border-200 mb-5 flex w-full border-opacity-75 text-sm"
                         style={{ opacity: "1" }}
                       >
-                        <div className="relative flex h-[173px] w-2/5 shrink-0 items-center justify-center overflow-hidden bg-gray-100">
+                        <div className="relative flex h-[173px] w-2/5 shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100">
                           <img
                             alt={item.name}
                             className="object-contain"
@@ -185,30 +203,32 @@ const PaymentTab = () => {
                           />
                         </div>
                         <div className="relative w-full px-2">
-                          <h3 className="text-heading text-[18px] font-bold">
+                          <h3 className="text-heading text-xs font-medium md:text-base">
                             {item.name}
                           </h3>
-                          <div className="absolute right-0 top-1">
+                          <div className="absolute right-0 top-2">
                             <input
                               type="checkbox"
                               id={`itemCheckbox-${item.id}-${item.variableId}`}
                               className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-[#49AD91] checked:bg-[#49AD91] focus:outline-none focus:ring-2 focus:ring-[#49AD91]"
                             />
-                            <label htmlFor={`itemCheckbox-${item.id}-${item.variableId}`}></label>
+                            <label
+                              htmlFor={`itemCheckbox-${item.id}-${item.variableId}`}
+                            ></label>
                           </div>
-                          <p className="color-[#000000] text-[12px]">
+                          <p className="color-[#000000] text-[10px] md:text-[12px]">
                             Size: {item.variableName || "N/A"}
                           </p>{" "}
                           <div className="flex">
-                            <p className="my-2.5 text-lg font-semibold text-[#49AD91]">
+                            <p className="my-2.5 text-sm font-semibold text-[#49AD91] md:text-lg">
                               ₹{item.sale_price}
                             </p>
-                            <div className="text-body my-2.5 ml-2 w-20 pt-2 text-xs text-[#9e9e9e] line-through">
+                            <div className="text-body my-2.5 ml-2 w-20 text-[10px] text-[#9e9e9e] line-through md:text-sm">
                               ₹{item.price}{" "}
                             </div>
                           </div>
-                          <div className="badge">
-                            <span className="inline-flex items-center rounded-lg bg-[#baecde] px-2 py-1 text-xs font-medium text-[#49AD91] text-green-700 opacity-70">
+                          <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                            <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
                               {item.discount
                                 ? `${item.discount}% off`
                                 : "No Discount"}
@@ -221,7 +241,7 @@ const PaymentTab = () => {
                                 alt=""
                               />
                             </div>
-                            <div className="flex w-full justify-between align-middle">
+                            <div className="mr-2 flex w-full items-center justify-between">
                               <div
                                 className="icon cursor-pointer"
                                 // onClick={() =>
@@ -233,7 +253,7 @@ const PaymentTab = () => {
 
                               <div className="flex rounded border border-[#49AD91]">
                                 <button
-                                  className="hover:bg-accent-hover flex w-[35px] cursor-pointer items-center justify-center rounded p-2 text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[12px] py-[10px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                                   // onClick={() =>
                                   //   handleDecrement(item.id, item.variableId)
                                   // }
@@ -241,11 +261,11 @@ const PaymentTab = () => {
                                   <span className="sr-only">minus</span>
                                   <Minus />
                                 </button>
-                                <div className="flex w-[35px] flex-1 items-center justify-center bg-[#49AD91] px-0 px-3 text-sm font-semibold text-[#fff]">
+                                <div className="flex items-center justify-center bg-[#49AD91] px-[20px] py-[10px] text-sm font-semibold text-[#fff]">
                                   {item.quantity}
                                 </div>
                                 <button
-                                  className="hover:bg-accent-hover flex w-[35px] cursor-pointer items-center justify-center rounded p-2 text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[12px] py-[10px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                                   // onClick={() =>
                                   //   handleIncrement(item.id, item.variableId)
                                   // }
@@ -289,16 +309,21 @@ const PaymentTab = () => {
           </div>
           <div className="flex justify-between gap-1 bg-white p-3">
             <div className="flex flex-col leading-[18px]">
-              <span className="font-bold text-sm md:text-xl">Payment Method</span>
+              <span className="text-sm font-medium md:text-lg">
+                Payment Method
+              </span>
               <span className="text-xs md:text-lg">online: UPI, Cards etc</span>
-              <a className="text-blue-400 text-xs md:text-lg underline" href="#">
+              <a
+                className="text-xs text-blue-400 underline md:text-lg"
+                href="#"
+              >
                 Change
               </a>
             </div>
             <Link
               href="/thankYou"
               data-variant="normal"
-              className="focus:ring-accent-700 hover:bg-accent-hover inline-flex h-10 md:h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-3 md:px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
+              className="focus:ring-accent-700 hover:bg-accent-hover inline-flex h-10 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-3 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1 md:h-12 md:px-5"
             >
               <div className="flex flex-col items-start">
                 <span className="text-[10px] font-medium md:text-xs">4397</span>

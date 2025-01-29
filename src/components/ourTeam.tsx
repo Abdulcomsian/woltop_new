@@ -9,8 +9,8 @@ export default function OurTeam() {
   return (
     <div className="container mx-auto">
       <div className="py-[62px] text-center">
-        <h6 className="font-manrope text-[34px] font-bold">Meet Our Team</h6>
-        <p className="mx-auto max-w-2xl">
+        <h6 className="text-[22px] md:text-[34px] font-semibold">Meet Our Team</h6>
+        <p className="mx-auto max-w-2xl text-[#4E4949] text-xs md:text-lg">
           Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis
           ornare justo maecenas auctor sodales. Libero ut tortor dignissim
         </p>
@@ -31,8 +31,8 @@ export default function OurTeam() {
                 />
               </div>
               <div className="py-4">
-                <div className="text-xl font-bold">{member.name}</div>
-                <p className="text-base text-gray-700">{member.designation}</p>
+                <div className="text-base md:text-2xl font-medium">{member.name}</div>
+                <p className="text-xs md:text-[18px] text-[#0B0A0A] tracking-[2%]">{member.designation}</p>
               </div>
               <div className="flex mb-10 gap-4">
                 {member.x_profile && (
