@@ -24,6 +24,7 @@ import {
   useGetProductsByColorQuery,
   useGetProductByIdQuery,
 } from "~/store/api/productApi";
+import RecentCard from "~/app/pages/shop/RecentCard";
 
 interface PageParams {
   slug: string;
@@ -85,7 +86,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="4 Steps Easy Installation"
           subtitle=""
-          className="mt-5 pt-4 px-3 lg:container lg:m-auto"
+          className="mt-5 px-3 pt-4 lg:container lg:m-auto"
           position="center"
         >
           <EasySteps responseData={responseData?.data}></EasySteps>
@@ -95,7 +96,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="More Information"
           subtitle=""
-          className="pt-5 px-3 lg:container lg:m-auto"
+          className="px-3 pt-5 lg:container lg:m-auto"
           position="center"
         >
           <MoreInformationSteps
@@ -119,7 +120,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Why #WolpinWallpaper Stands Out "
           subtitle=""
-          className="pt-5 px-3 lg:container lg:m-auto"
+          className="px-3 pt-5 lg:container lg:m-auto"
           position="center"
         >
           <StandsOut></StandsOut>
@@ -153,7 +154,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Explore Our Other Categories"
           subtitle=""
-          className="mt-4 pt-4 px-3 lg:container lg:m-auto"
+          className="mt-4 px-3 pt-4 lg:container lg:m-auto"
           position="center"
         >
           <SwiperItem></SwiperItem>
@@ -163,10 +164,10 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Recently Viewed"
           subtitle="Continue where you left off"
-          className="mt-4 pt-4 px-3 lg:container lg:m-auto"
+          className="mt-4 px-3 pt-4 lg:container lg:m-auto"
           position="center"
         >
-          <DetailCard rating={true} colorId={0}></DetailCard>
+          <RecentCard rating={true} colorId={0} />
         </SectionBlock>
       </div>
       {/* <div className="mt-5">
