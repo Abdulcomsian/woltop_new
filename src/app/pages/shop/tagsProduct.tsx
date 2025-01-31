@@ -20,7 +20,7 @@ interface Product {
 }
 
 export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
-  console.log("Color id", tagId);
+  // console.log("Color id", tagId);
 
   const {
     data: products,
@@ -28,7 +28,7 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
     error,
   } = useGetProductsByTagQuery((tagId as unknown as string) || "1");
 
-  console.log("Color Products", products);
+  // console.log("Color Products", products);
   const cardData = products?.data.map((product: Product) => ({
     id: product?.id,
     title: product?.title,

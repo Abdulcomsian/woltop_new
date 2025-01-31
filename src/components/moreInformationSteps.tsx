@@ -30,7 +30,7 @@ export default function moreInformationSteps({
               Storage & Usage Guide
             </h6>
 
-            <table>
+            <table className="w-full">
               <tbody>
                 <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
                   <td className="py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Storage</td>

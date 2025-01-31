@@ -33,6 +33,9 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
   const cartData = useSelector((state: any) => state.cart);
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
 
+
+  console.log(cartData, "cartData")
+
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
       (item: any) => item.id === itemId && item.variableId === variableId,
@@ -85,7 +88,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                         <div className="relative flex h-[173px] w-[123px] rounded-[6px] shrink-0 items-center justify-center overflow-hidden bg-gray-100">
                           <img
                             alt={item.name}
-                            className="object-contain w-full h-full"
+                            className="object-cover w-full h-full"
                             src={
                               item?.featured_image ||
                               "https://placehold.co/600x400.png"

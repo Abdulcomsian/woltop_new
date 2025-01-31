@@ -2,7 +2,7 @@ import { useGetStoriesQuery } from "~/store/api/storiesApi";
 import banner from "../../../assets/banner/banner.png";
 
 export default function reeling() {
-  const { data: stories } = useGetStoriesQuery({});
+  const { data: reels } = useGetStoriesQuery({});
   // console.log("Stories Details", stories);
 
   // const videoData = [
@@ -35,7 +35,7 @@ export default function reeling() {
   return (
     <div className="container mx-auto">
       <div className="scrollbar-hide grid auto-cols-[minmax(127px,1fr)] md:auto-cols-[minmax(195px,1fr)]  grid-flow-col overflow-x-auto gap-4">
-        {stories?.map((video) => (
+        {reels?.map((video) => (
           <div key={video.id} className="relative cursor-pointer">
             <video
               src={video?.path || undefined}

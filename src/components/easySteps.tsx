@@ -51,7 +51,7 @@ export default function easySteps({ responseData }: EasyStepsProps) {
             key={step.id}
             className=""
           >
-            <div className="relative mx-4">
+            <div className="relative mx-4 max-w-[246px]">
               <div className="h-[279px] rounded overflow-hidden ">
                 <img
                   src={step.image}
@@ -94,10 +94,10 @@ export default function easySteps({ responseData }: EasyStepsProps) {
         <div className="md:w-1/2 w-full m-0">
           <div className="mx-auto w-full rounded-md border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
             <h6 className="p-2 text-xl md:text-2xl font-bold text-[#AA4A00] border-b-[0.8px] border-[#D9D9D9]">
-              Design & Apllication Details
+              Design & Application Details
             </h6>
 
-            <table>
+            <table className="w-full">
               <tbody>
                 <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
                   <td className="py-[10px] md:py-[15px] pr-3 text-xs md:text-base font-[500] text-[#AA4A00]">Room Type</td>

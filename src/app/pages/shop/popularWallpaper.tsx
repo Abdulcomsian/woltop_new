@@ -6,6 +6,7 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import { ProductCard } from "~/components/products/productCard";
+import Link from "next/link";
 interface Product {
   id: number;
   title: string;
@@ -37,16 +38,18 @@ export default function PopularWallpaper({ products }: PopularWallpaperProps) {
       <div className="w-full">
         <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-2 gap-5 gap-y-10 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
           {cardData.map((card) => (
-            <ProductCard
-              key={card.id}
-              id={card.id}
-              img={card.img}
-              title={card.title}
-              price={card.price}
-              discountPrice={card.discountPrice}
-              discount={card.discount}
-              content={card.content}
-            />
+            <Link key={card?.id} href={`/product/${card.id}`}>
+              <ProductCard
+                key={card.id}
+                id={card.id}
+                img={card.img}
+                title={card.title}
+                price={card.price}
+                discountPrice={card.discountPrice}
+                discount={card.discount}
+                content={card.content}
+              />
+            </Link>
           ))}
         </div>
       </div>
