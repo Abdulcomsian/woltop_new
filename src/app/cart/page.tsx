@@ -14,7 +14,7 @@ export default function page() {
 
   return (
     <>
-      <div className="bg-[#F1FBFF]">
+      <div className="bg-[#F1FBFF] mt-[2px]">
         <div className="mx-auto max-w-7xl">
           <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>

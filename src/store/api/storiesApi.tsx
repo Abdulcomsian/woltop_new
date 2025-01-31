@@ -8,7 +8,7 @@ export const storiesApi = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api" }),
   endpoints: (builder) => ({
     getStories: builder.query({
-      query: () => "/stories", 
+      query: () => "/reels", 
       transformResponse: (response: { data: { id: number; path: string }[]; status: boolean }) => {
         return response.data;
       },

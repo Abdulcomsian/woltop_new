@@ -11,6 +11,7 @@ import Calculator from "./calculator";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import { Star } from "lucide-react";
+import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
 
 interface ProductImage {
   id: string;
@@ -76,11 +77,14 @@ export default function productDetailItem({
     featured_image,
     product_images,
     reviews,
-    delivery_detail,
     variables,
     products_features,
   } = responseData?.data || {};
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+    const { data: delivery_detail } = useGetDeliveryQuery({});
+  const [selectedId, setSelectedId] = useState<number | null>(
+    responseData?.data?.variables?.[0]?.id ?? null,
+  );
+
   const dispatch = useDispatch();
 
   const handleCardClick = (id: number) => {
@@ -127,10 +131,9 @@ export default function productDetailItem({
         <div className="relative mx-auto max-w-screen-2xl md:py-16 lg:py-24">
           <div className="flex flex-col gap-2 md:flex-row">
             <div className="flex flex-1 flex-col md:px-3">
-              <div className="mb-4 flex flex-col">
-                {/* <!-- img_01 -->  */}
+              <div className="mb-4 flex max-h-[751px] h-full w-full items-center justify-center overflow-hidden rounded-[6px]">
                 <img
-                  className="h-full max-h-[751px] w-full rounded-[6px] object-cover"
+                  className="h-full w-full object-cover"
                   src={
                     featured_image ||
                     "https://images.unsplash.com/photo-1664764119004-999a3f80a1b8?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDEzMDc&ixlib=rb-4.0.3&q=80"
@@ -142,7 +145,7 @@ export default function productDetailItem({
                 {product_images?.map((image) => (
                   <div key={image.id}>
                     <img
-                      className="mr-2 h-full object-cover pr-4"
+                      className="mr-2 w-[82px] rounded h-[117px] object-cover"
                       src={
                         image.image_path ||
                         "https://images.unsplash.com/photo-1665391837905-74d250172dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDMxNzc&ixlib=rb-4.0.3&q=80&w=400"
@@ -229,7 +232,7 @@ export default function productDetailItem({
                       key={variable.id}
                       onClick={() => handleCardClick(variable.id)}
                       className={`product-price-wrapper relative w-full cursor-pointer rounded-lg border-dashed p-4 ${
-                        selectedId === variable.id ? "bg-[#49AD911A] " : ""
+                        selectedId === variable.id ? "bg-[#49AD911A]" : ""
                       }`}
                     >
                       {/* Discount Badge */}
@@ -285,7 +288,7 @@ export default function productDetailItem({
                 </div>
 
                 <div className="shipping-btn mt-3 flex justify-start gap-4">
-                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded border-2  py-2 text-[14px] font-medium text-[#A5A1A1] md:text-[18px]">
+                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]">
                     <svg
                       width="24"
                       height="22"
@@ -311,7 +314,7 @@ export default function productDetailItem({
                   </button>
                   <button
                     onClick={handleAddToCart}
-                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91]  py-2 text-[14px] font-medium text-white md:text-[18px]"
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91] py-2 text-[14px] font-medium text-white lg:text-[18px]"
                   >
                     <svg
                       width="25"
@@ -353,12 +356,14 @@ export default function productDetailItem({
                     Delivery{" "}
                   </h5>
                   <div className="mt-4 flex justify-between gap-2 text-[14px] md:text-base">
-                    {delivery_detail.map((detail) => (
+                    {delivery_detail?.data?.map((detail) => (
                       <div key={detail.id}>
                         <h6 className="text-wrap text-sm md:text-base">
                           {detail.city_details}
                         </h6>
-                        <p className="text-xs md:text-sm text-[#908B8B]">{detail.days}</p>
+                        <p className="text-xs text-[#908B8B] md:text-sm">
+                          {detail.days}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -366,9 +371,10 @@ export default function productDetailItem({
 
                 {/* <MoreInformation></MoreInformation> */}
 
-                <ToolkitBar></ToolkitBar>
+                {/* <ToolkitBar></ToolkitBar> */}
 
-                <div className="mt-5 flex w-full overflow-x-auto">
+                {products_features.length !== 0 &&
+                  <div className="mt-5 flex w-full overflow-x-auto">
                   {products_features?.map(
                     (feature: { image: string; name: string }, index) => (
                       <Image
@@ -382,6 +388,7 @@ export default function productDetailItem({
                     ),
                   )}
                 </div>
+                }
               </div>
             </div>
           </div>

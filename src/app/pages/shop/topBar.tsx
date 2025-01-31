@@ -1,3 +1,6 @@
+"use client"
+import { usePathname } from "next/navigation";
+
 interface TimeProps {
   hours: number;
   minutes: number;
@@ -5,6 +8,11 @@ interface TimeProps {
 }
 
 export default function topBar({ time }: { time: TimeProps }) {
+  const pathname = usePathname();
+  const hideTopBar = pathname === "/cart" || pathname === "/thankYou";
+
+  if (hideTopBar) return null;
+
   return (
     <div className="mx-auto">
       <div className="w-full bg-gradient-to-r from-pink-700 via-pink-700 via-[60%] to-purple-700 py-2 text-center text-white">

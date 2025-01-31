@@ -1,14 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
-// import Banner from "../../pages/shop/banner";
 import Banner from "~/app/pages/shop/banner";
 import EasySteps from "~/components/easySteps";
 import RatedReview from "~/components/ratedReview";
 import ReviewCard from "../../pages/shop/reviewCard";
 import Pagination from "~/components/pagination";
 import SwiperItem from "../../pages/shop/swiperItem";
-// import productItem from "~/components/productItem";
 import ProductDetailItem from "~/components/productDetailItem";
 import ProductDescription from "~/components/productDescription";
 import SectionBlock from "~/components/ui/section-block";
@@ -19,24 +18,21 @@ import StandsOut from "~/components/standsOut";
 import DetailCard from "../../pages/shop/detailCard";
 import MoreInformationSteps from "~/components/moreInformationSteps";
 import ProductDetailCard from "../../pages/shop/productDetailCard";
-import {
-  useGetPopularProductsQuery,
-  useGetProductsByColorQuery,
-  useGetProductByIdQuery,
-} from "~/store/api/productApi";
+import { useGetProductByIdQuery } from "~/store/api/productApi";
 import RecentCard from "~/app/pages/shop/RecentCard";
+import { useParams } from "next/navigation";
 
-interface PageParams {
-  slug: string;
-}
+export default function Page() {
+  const { slug } = useParams();
+  console.log(slug, "slug");
+  const { data: product, isLoading, error } = useGetProductByIdQuery(slug as string);
 
-export default function page({ params }: { params: PageParams }) {
-  const { slug } = params;
-  // console.log("Slug", slug);
-
-  const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
-  // console.log("Product Details", product);
-  const responseData = product ? { data: product, status: true } : null;
+  // Store API data in localStorage when available
+  useEffect(() => {
+    if (product) {
+      localStorage.setItem("productData", JSON.stringify(product));
+    }
+  }, [product]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -54,9 +50,7 @@ export default function page({ params }: { params: PageParams }) {
         className="lg:container lg:m-auto"
         position="left"
       >
-        <ProductDetailItem
-          responseData={responseData?.data}
-        ></ProductDetailItem>
+        <ProductDetailItem responseData={product}></ProductDetailItem>
       </SectionBlock>
       <div className="bg-[#FFF3F6]">
         <SectionBlock
@@ -65,7 +59,7 @@ export default function page({ params }: { params: PageParams }) {
           className="mt-5 px-3 pt-4 lg:container lg:m-auto"
           position="left"
         >
-          <VideoSection responseData={responseData?.data}></VideoSection>
+          <VideoSection responseData={product}></VideoSection>
         </SectionBlock>
       </div>
 
@@ -76,9 +70,7 @@ export default function page({ params }: { params: PageParams }) {
           className="pt-4 lg:container lg:m-auto"
           position="left"
         >
-          <ProductDescription
-            responseData={responseData?.data}
-          ></ProductDescription>
+          <ProductDescription responseData={product}></ProductDescription>
         </SectionBlock>
       </div>
 
@@ -89,7 +81,7 @@ export default function page({ params }: { params: PageParams }) {
           className="mt-5 px-3 pt-4 lg:container lg:m-auto"
           position="center"
         >
-          <EasySteps responseData={responseData?.data}></EasySteps>
+          <EasySteps responseData={product}></EasySteps>
         </SectionBlock>
       </div>
       <div className="bg-[#F1FBFF] pt-8">
@@ -99,9 +91,7 @@ export default function page({ params }: { params: PageParams }) {
           className="px-3 pt-5 lg:container lg:m-auto"
           position="center"
         >
-          <MoreInformationSteps
-            responseData={responseData?.data}
-          ></MoreInformationSteps>
+          <MoreInformationSteps responseData={product}></MoreInformationSteps>
         </SectionBlock>
       </div>
 
@@ -134,7 +124,7 @@ export default function page({ params }: { params: PageParams }) {
           className="mt-4 px-2 pt-4 lg:container lg:m-auto"
           position="left"
         >
-          <RatedReview responseData={responseData?.data}></RatedReview>
+          <RatedReview responseData={product}></RatedReview>
           <ReviewCard slug={slug}></ReviewCard>
         </SectionBlock>
       </div>
@@ -145,9 +135,7 @@ export default function page({ params }: { params: PageParams }) {
           className="mt-4 px-3 pt-4 lg:container lg:m-auto"
           position="left"
         >
-          <ProductDetailCard
-            responseData={responseData?.data}
-          ></ProductDetailCard>
+          <ProductDetailCard responseData={product}></ProductDetailCard>
         </SectionBlock>
       </div>
       <div className="mt-5">
@@ -167,17 +155,9 @@ export default function page({ params }: { params: PageParams }) {
           className="mt-4 px-3 pt-4 lg:container lg:m-auto"
           position="center"
         >
-          <RecentCard rating={true} colorId={0} />
+          <RecentCard />
         </SectionBlock>
       </div>
-      {/* <div className="mt-5">
-        <SectionBlock
-          title="@wolpinwallpaper.in"
-          subtitle="Follow Us on Instagram"
-          className="mt-4 pt-4 lg:container lg:m-auto"
-          position="center"
-        ></SectionBlock>
-      </div> */}
     </main>
   );
 }

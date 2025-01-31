@@ -151,7 +151,7 @@ export default function Home() {
         )}
       </SectionBlock>
       <SectionBlock
-        title="Unreeling Some Wolpin Stories"
+        title="Unreeling Some Wolpin Reels"
         subtitle=""
         className="px-3 pt-4 lg:container lg:m-auto"
         position="left"
@@ -248,21 +248,21 @@ export default function Home() {
           <HomePageReviewCards />
         </SectionBlock>
       </div>
-      <SectionBlock
+      {/* <SectionBlock
         title="Popular Tools"
         subtitle=""
         className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
         <ToolsCard></ToolsCard>
-      </SectionBlock>
+      </SectionBlock> */}
       <SectionBlock
         title="Recently Viewed"
         subtitle="Continue where you left off"
         className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
-        <RecentCard rating={true} colorId={0} />
+        <RecentCard />
       </SectionBlock>
 
       <SectionBlock

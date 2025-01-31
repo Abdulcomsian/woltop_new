@@ -12,6 +12,7 @@ import { toolsApi } from "./api/toolsApi";
 import { faqsApi } from "./api/faqsApi";
 import { teamApi } from "./api/teamApi";
 import { blogsApi } from "./api/blogsApi";
+import { deliveryApi } from "./api/deliveryApi";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   [faqsApi.reducerPath]: faqsApi.reducer,
   [teamApi.reducerPath]: teamApi.reducer,
   [blogsApi.reducerPath]: blogsApi.reducer,
+  [deliveryApi.reducerPath]: deliveryApi.reducer,
   [catagoriesApi.reducerPath]: catagoriesApi.reducer,
   [paramApi.reducerPath]: paramApi.reducer,
 });
@@ -47,6 +49,7 @@ export const store = configureStore({
       .concat(toolsApi.middleware)
       .concat(faqsApi.middleware)
       .concat(teamApi.middleware)
+      .concat(deliveryApi.middleware)
       .concat(blogsApi.middleware)
       .concat(reviewsApi.middleware)
       .concat(catagoriesApi.middleware)

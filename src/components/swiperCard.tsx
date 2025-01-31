@@ -12,7 +12,7 @@ const SwiperCard = () => {
     // Initialize Swiper instance
     const swiper = new Swiper(".slider-cards-js", {
       direction: "horizontal",
-      slidesPerView: 5, // Default number of visible slides
+      slidesPerView: 8,
       spaceBetween: 12,
       autoplay: {
         delay: 2500,
