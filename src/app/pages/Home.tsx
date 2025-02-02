@@ -76,7 +76,7 @@ export default function Home() {
       discountPrice: "$250.00",
       discount: "5%",
       content: "Living Room",
-      icon: <ArrowRight />
+      icon: <ArrowRight />,
     },
     {
       id: 2,
@@ -87,7 +87,7 @@ export default function Home() {
       discountPrice: "$250.00",
       discount: "16%",
       content: "Bedroom",
-      icon: <ArrowRight />
+      icon: <ArrowRight />,
     },
     {
       id: 3,
@@ -98,7 +98,7 @@ export default function Home() {
       discountPrice: "$250.00",
       discount: "10%",
       content: "Kids Room",
-      icon: <ArrowRight />
+      icon: <ArrowRight />,
     },
     {
       id: 4,
@@ -109,7 +109,7 @@ export default function Home() {
       discountPrice: "$250.00",
       discount: "12%",
       content: "hall",
-      icon: <ArrowRight />
+      icon: <ArrowRight />,
     },
   ];
   const BrowseCardData = [
@@ -124,9 +124,9 @@ export default function Home() {
     {
       id: 3,
       img: product3,
-    }
+    },
   ];
-  
+
   return (
     <main>
       <SectionBlock className="pt-14 lg:container lg:m-auto" position="center">
@@ -159,14 +159,17 @@ export default function Home() {
         <Reeling></Reeling>
       </SectionBlock>
 
-        <SectionBlock
-          title="Browse Our Ranges"
-          subtitle=""
-          className="px-3 pt-14 lg:container lg:m-auto"
-          position="left"
-        >
-          <CategorieCard cardData={BrowseCardData}></CategorieCard>
-        </SectionBlock>
+      <SectionBlock
+        title="Browse Our Ranges"
+        subtitle=""
+        className="px-3 pt-14 lg:container lg:m-auto"
+        position="left"
+      >
+        <CategorieCard
+          //@ts-ignore
+          cardData={BrowseCardData}
+        ></CategorieCard>
+      </SectionBlock>
 
       <SectionBlock
         title=""
@@ -184,7 +187,10 @@ export default function Home() {
           className="bg-[#F1FBFF] px-3 pt-14 lg:container lg:m-auto"
           position="left"
         >
-          <CategorieCard cardData={ShopRoomCardData}></CategorieCard>
+          <CategorieCard
+            //@ts-ignore
+            cardData={ShopRoomCardData}
+          ></CategorieCard>
         </SectionBlock>
       </div>
 

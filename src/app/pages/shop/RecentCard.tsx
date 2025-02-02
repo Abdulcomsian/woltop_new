@@ -19,13 +19,17 @@ interface Product {
 }
 
 export default function RecentCard() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [products, setProducts] = useState<Product[]>([]);
 
   console.log(products, "Recent Product Data");
 
   useEffect(() => {
-    const storedProduct = localStorage.getItem("productData");
+    let storedProduct: string;
+    if (typeof window !== "undefined") {
+      storedProduct = localStorage.getItem("productData");
+    }
+
     if (storedProduct) {
       const parsedProduct = JSON.parse(storedProduct);
       const productArray = Array.isArray(parsedProduct)
@@ -67,7 +71,7 @@ export default function RecentCard() {
           featured_image: product.data.featured_image,
           variableId: selectedVariable.id,
           variableName: selectedVariable.name,
-        })
+        }),
       );
     } else {
       console.error("No variable selected");
@@ -128,7 +132,7 @@ export default function RecentCard() {
                 <CardDescription className="mt-1 flex items-center justify-between gap-2">
                   {card?.data?.variables?.map((variable) => (
                     <div
-                    key={`${card.id}-${variable.id}`}
+                      key={`${card.id}-${variable.id}`}
                       onClick={() => handleCardClick(variable.id)}
                       className={`border-[#00000]-900 product-price-wrapper relative w-[100px] rounded-lg border-dashed p-2 md:w-full md:p-4 ${
                         selectedId === variable.id ? "bg-[#49AD911A]" : ""
@@ -200,11 +204,12 @@ export default function RecentCard() {
                   <button
                     onClick={() => {
                       const selectedVariable = card.data.variables.find(
-                        (v: any) => v.id === selectedId
+                        (v: any) => v.id === selectedId,
                       );
                       handleAddToCart(card, selectedVariable);
                     }}
-                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center rounded bg-[#49AD91] p-1.5 text-[14px] font-medium text-white md:text-[18px]">
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center rounded bg-[#49AD91] p-1.5 text-[14px] font-medium text-white md:text-[18px]"
+                  >
                     <Plus />
                     ADD
                   </button>

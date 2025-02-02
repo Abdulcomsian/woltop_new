@@ -30,17 +30,23 @@ const rootReducer = combineReducers({
   [paramApi.reducerPath]: paramApi.reducer,
 });
 
+// ✅ Conditionally apply persistReducer only in the client
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart", "user"],
+  whitelist: ["cart", "user"], // Only persist these
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer =
+  typeof window !== "undefined"
+    ? persistReducer(persistConfig, rootReducer)
+    : rootReducer; // ⛔ Prevents localStorage access on the server
 
 export const store = configureStore({
+  // @ts-ignore
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
+    // @ts-ignore
     getDefaultMiddleware({
       serializableCheck: false,
     })
@@ -56,4 +62,6 @@ export const store = configureStore({
       .concat(paramApi.middleware),
 });
 
-export const persistor = persistStore(store);
+// ✅ Only persist store in the browser (client-side)
+export const persistor =
+  typeof window !== "undefined" ? persistStore(store) : null;

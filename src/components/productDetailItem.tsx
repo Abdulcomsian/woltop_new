@@ -1,17 +1,9 @@
-import React, { useState } from "react";
-import ProductPrice from "./productPrice";
 import Image from "next/image";
-import ToolkitBar from "./toolkitBar";
-import imageDegner from "../../public/design.png";
-import imageDegner2 from "../../public/textured.png";
-import imageDegner3 from "../../public/washable.png";
-import imageDegner4 from "../../public/moderen.png";
-import MoreInformation from "./moreInformation";
-import Calculator from "./calculator";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addItemToCart } from "~/store/slices/cartSlice";
-import { Star } from "lucide-react";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
+import { addItemToCart } from "~/store/slices/cartSlice";
+import Calculator from "./calculator";
 
 interface ProductImage {
   id: string;
@@ -80,11 +72,15 @@ export default function productDetailItem({
     variables,
     products_features,
   } = responseData?.data || {};
-    const { data: delivery_detail } = useGetDeliveryQuery({});
+  const { data: delivery_detail } = useGetDeliveryQuery({});
+  // const [selectedId, setSelectedId] = useState<number | null>(
+  //   responseData?.data?.variables?.[0]?.id ?? null,
+  // );
   const [selectedId, setSelectedId] = useState<number | null>(
-    responseData?.data?.variables?.[0]?.id ?? null,
+    responseData?.data?.variables?.length > 0
+      ? Number(responseData.data.variables[0].id) // Convert to number
+      : Number(responseData?.data?.id) || null, // Convert and handle null
   );
-
   const dispatch = useDispatch();
 
   const handleCardClick = (id: number) => {
@@ -92,6 +88,8 @@ export default function productDetailItem({
   };
 
   const handleAddToCart = () => {
+    console.log("response data", responseData);
+
     if (responseData?.data && selectedId !== null) {
       const selectedVariable = responseData.data.variables.find(
         (variable: any) => variable.id === selectedId,
@@ -118,7 +116,25 @@ export default function productDetailItem({
           }),
         );
       } else {
-        console.error("Selected variable not found");
+        const price = Number(responseData.data.price);
+        const sale_price = responseData.data.sale_price
+          ? Number(responseData.data.sale_price)
+          : price;
+
+        const discount = Number(responseData.data.discount);
+
+        dispatch(
+          addItemToCart({
+            id: Number(responseData.data.id),
+            name: responseData.data.title,
+            price: price,
+            sale_price: sale_price,
+            discount: discount,
+            featured_image: responseData.data.featured_image,
+            variableId: 0,
+            variableName: "Default",
+          }),
+        );
       }
     } else {
       console.error("No item selected or response data missing");
@@ -131,7 +147,7 @@ export default function productDetailItem({
         <div className="relative mx-auto max-w-screen-2xl md:py-16 lg:py-24">
           <div className="flex flex-col gap-2 md:flex-row">
             <div className="flex flex-1 flex-col md:px-3">
-              <div className="mb-4 flex max-h-[751px] h-full w-full items-center justify-center overflow-hidden rounded-[6px]">
+              <div className="mb-4 flex h-full max-h-[751px] w-full items-center justify-center overflow-hidden rounded-[6px]">
                 <img
                   className="h-full w-full object-cover"
                   src={
@@ -145,7 +161,7 @@ export default function productDetailItem({
                 {product_images?.map((image) => (
                   <div key={image.id}>
                     <img
-                      className="mr-2 w-[82px] rounded h-[117px] object-cover"
+                      className="mr-2 h-[117px] w-[82px] rounded object-cover"
                       src={
                         image.image_path ||
                         "https://images.unsplash.com/photo-1665391837905-74d250172dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDMxNzc&ixlib=rb-4.0.3&q=80&w=400"
@@ -373,22 +389,22 @@ export default function productDetailItem({
 
                 {/* <ToolkitBar></ToolkitBar> */}
 
-                {products_features.length !== 0 &&
+                {products_features.length !== 0 && (
                   <div className="mt-5 flex w-full overflow-x-auto">
-                  {products_features?.map(
-                    (feature: { image: string; name: string }, index) => (
-                      <Image
-                        key={index}
-                        className="m-3 h-full w-full object-cover"
-                        src={feature.image}
-                        alt={feature.name}
-                        width={100}
-                        height={100}
-                      />
-                    ),
-                  )}
-                </div>
-                }
+                    {products_features?.map(
+                      (feature: { image: string; name: string }, index) => (
+                        <Image
+                          key={index}
+                          className="m-3 h-full w-full object-cover"
+                          src={feature.image}
+                          alt={feature.name}
+                          width={100}
+                          height={100}
+                        />
+                      ),
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -10,7 +10,7 @@ interface CartItem {
   totalPrice: number;
   featured_image: string;
   discount: number;
-  variableId: number;
+  variableId?: number;
 }
 
 // Define the initial state type
@@ -45,15 +45,15 @@ const cartSlice = createSlice({
         discount: number;
         variableId: number;
         variableName: string;
-      }>
+      }>,
     ) {
       const newItem = action.payload;
       const existingItem = state.items.find(
         (item) =>
-          item.id === newItem.id && item.variableId === newItem.variableId
+          item.id === newItem.id && item.variableId === newItem.variableId,
       );
       const itemPrice = newItem.sale_price ?? newItem.price;
-    
+
       if (existingItem) {
         existingItem.quantity++;
         existingItem.totalPrice = itemPrice * existingItem.quantity;
@@ -67,53 +67,63 @@ const cartSlice = createSlice({
 
       state.totalQuantity = state.items.reduce(
         (total, item) => total + item.quantity,
-        0
+        0,
       );
       state.totalPrice = calculateTotalPrice(state.items);
     },
-    
 
-    updateItemQuantity(state, action: PayloadAction<{ id: number; variableId: number; quantity: number }>) {
+    updateItemQuantity(
+      state,
+      action: PayloadAction<{
+        id: number;
+        variableId: number;
+        quantity: number;
+      }>,
+    ) {
       const { id, variableId, quantity } = action.payload;
       const existingItem = state.items.find(
-        (item) => item.id === id && item.variableId === variableId
+        (item) => item.id === id && item.variableId === variableId,
       );
-    
+
       if (existingItem) {
         existingItem.quantity = quantity;
         existingItem.totalPrice = existingItem.sale_price * quantity;
-    
+
         // Recalculate totalQuantity and totalPrice
-        state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
+        state.totalQuantity = state.items.reduce(
+          (total, item) => total + item.quantity,
+          0,
+        );
         state.totalPrice = calculateTotalPrice(state.items);
       }
     },
-    
-    removeItemFromCart(state, action: PayloadAction<{ id: number; variableId: number }>) {
+
+    removeItemFromCart(
+      state,
+      action: PayloadAction<{ id: number; variableId: number }>,
+    ) {
       const { id, variableId } = action.payload;
       const existingItemIndex = state.items.findIndex(
-        (item) => item.id === id && item.variableId === variableId
+        (item) => item.id === id && item.variableId === variableId,
       );
-    
+
       if (existingItemIndex !== -1) {
         const removedItem = state.items[existingItemIndex];
         if (removedItem) {
           state.totalQuantity -= removedItem.quantity;
         }
         state.items.splice(existingItemIndex, 1);
-    
+
         // Recalculate totalPrice
         state.totalPrice = calculateTotalPrice(state.items);
       }
     },
-    
 
     clearCart(state) {
       state.items = [];
       state.totalQuantity = 0;
       state.totalPrice = 0;
     },
-
   },
 });
 

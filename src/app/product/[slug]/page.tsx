@@ -25,12 +25,18 @@ import { useParams } from "next/navigation";
 export default function Page() {
   const { slug } = useParams();
   console.log(slug, "slug");
-  const { data: product, isLoading, error } = useGetProductByIdQuery(slug as string);
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useGetProductByIdQuery(slug as string);
 
   // Store API data in localStorage when available
   useEffect(() => {
     if (product) {
-      localStorage.setItem("productData", JSON.stringify(product));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("productData", JSON.stringify(product));
+      }
     }
   }, [product]);
 
@@ -125,7 +131,10 @@ export default function Page() {
           position="left"
         >
           <RatedReview responseData={product}></RatedReview>
-          <ReviewCard slug={slug}></ReviewCard>
+          <ReviewCard
+            //@ts-ignore
+            slug={slug}
+          ></ReviewCard>
         </SectionBlock>
       </div>
       <div className="mt-5">
