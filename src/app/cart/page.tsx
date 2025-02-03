@@ -54,18 +54,16 @@ export default function page() {
       </div>
 
       {activeTab === "payment" && (
-        <div className="bg-[#F0F7F2]">
           <div className="mx-auto max-w-7xl">
             <SectionBlock
               title=""
               subtitle=""
-              className="px-3 pt-14 lg:container lg:m-auto"
+              className="px-3 pt-4 lg:container lg:m-auto"
               position="left"
             >
               <PaymentTab />
             </SectionBlock>
           </div>
-        </div>
       )}
     </>
   );

@@ -24,7 +24,7 @@ import { useParams } from "next/navigation";
 
 export default function Page() {
   const { slug } = useParams();
-  console.log(slug, "slug");
+  // console.log(slug, "slug");
   const {
     data: product,
     isLoading,
@@ -35,10 +35,28 @@ export default function Page() {
   useEffect(() => {
     if (product) {
       if (typeof window !== "undefined") {
-        localStorage.setItem("productData", JSON.stringify(product));
+        let storedProducts = localStorage.getItem("recentProducts");
+        let recentProducts = storedProducts ? JSON.parse(storedProducts) : [];
+  
+        // Remove duplicate by checking `data.id`
+        recentProducts = recentProducts.filter(
+          (p: any) => p.data.id !== product.data.id // Use `data.id`
+        );
+  
+        // Add the new product to the beginning
+        recentProducts.unshift(product);
+  
+        // Keep only the last 4 products
+        if (recentProducts.length > 4) {
+          recentProducts = recentProducts.slice(0, 4);
+        }
+  
+        // Save back to localStorage
+        localStorage.setItem("recentProducts", JSON.stringify(recentProducts));
       }
     }
   }, [product]);
+  
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -129,7 +129,7 @@ export default function Home() {
 
   return (
     <main>
-      <SectionBlock className="pt-14 lg:container lg:m-auto" position="center">
+      <SectionBlock className="pt-14 px-3 lg:container lg:m-auto" position="center">
         <SwiperCard></SwiperCard>
       </SectionBlock>
       <SectionBlock className="px-3 lg:container lg:m-auto" position="center">

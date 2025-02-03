@@ -20,7 +20,7 @@ const PaymentTab = () => {
   const cartData = useSelector((state: any) => state.cart);
 
   return (
-    <section className="w-full m-auto md:w-3/6 py-5">
+    <section className="w-full m-auto md:w-3/6 shadow-md">
       <div className="md:p-4d m-auto w-full bg-white">
         <div className="rounded p-3">
           <div className="bill-detail">
@@ -175,27 +175,27 @@ const PaymentTab = () => {
             </div>
           </label>
 
-          <section className="accordian">
-            <Accordion type="single" collapsible className="w-full">
+          <section className="accordian mt-5">
+            <Accordion type="single" collapsible className="w-full border rounded-lg p-2" style={{paddingBottom: "0px"}}>
               <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger
-                  className="text-sm font-semibold md:text-lg"
-                  style={{ textDecoration: "none" }}
+                  className="text-sm font-semibold md:text-lg mb-2"
+                  style={{ textDecoration: "none", padding: "0px" }}
                 >
                   {cartData?.items?.length} Item - ₹{totalPrice}
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="checkout-cart grid grid-cols-1 gap-6 lg:w-auto lg:grid-cols-2">
+                  <div className="checkout-cart grid grid-cols-1 ">
                     {cartData?.items?.map((item: any) => (
                       <div
                         key={`${item.id}-${item.variableId}`}
-                        className="border-border-200 mb-5 flex w-full border-opacity-75 text-sm"
+                        className="border-border-200 flex w-full border-opacity-75 text-sm border-b-2 py-4" 
                         style={{ opacity: "1" }}
                       >
-                        <div className="relative flex h-[173px] w-2/5 shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100">
+                        <div className="relative flex h-[102px] md:h-[179] w-[71px] md:w-1/4 shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100">
                           <img
                             alt={item.name}
-                            className="object-contain"
+                            className="h-full w-full object-cover"
                             src={
                               item?.featured_image ||
                               "https://placehold.co/600x400.png"
@@ -241,40 +241,7 @@ const PaymentTab = () => {
                                 alt=""
                               />
                             </div>
-                            <div className="mr-2 flex w-full items-center justify-between">
-                              <div
-                                className="icon cursor-pointer"
-                                // onClick={() =>
-                                //   handleRemoveItem(item.id, item.variableId)
-                                // }
-                              >
-                                <Cart />
-                              </div>
-
-                              <div className="flex rounded border border-[#49AD91]">
-                                <button
-                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[12px] py-[10px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
-                                  // onClick={() =>
-                                  //   handleDecrement(item.id, item.variableId)
-                                  // }
-                                >
-                                  <span className="sr-only">minus</span>
-                                  <Minus />
-                                </button>
-                                <div className="flex items-center justify-center bg-[#49AD91] px-[20px] py-[10px] text-sm font-semibold text-[#fff]">
-                                  {item.quantity}
-                                </div>
-                                <button
-                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[12px] py-[10px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
-                                  // onClick={() =>
-                                  //   handleIncrement(item.id, item.variableId)
-                                  // }
-                                >
-                                  <span className="sr-only">plus</span>
-                                  <Plus />
-                                </button>
-                              </div>
-                            </div>
+                          
                           </div>
                         </div>
                       </div>
@@ -286,7 +253,7 @@ const PaymentTab = () => {
           </section>
         </div>
         <div className="">
-          <div className="rounded bg-[#F0F7F2] py-3">
+          <div className="bg-[#F0F7F2] py-3">
             <p className="flex items-center justify-center gap-2">
               <span className="icon">
                 <svg

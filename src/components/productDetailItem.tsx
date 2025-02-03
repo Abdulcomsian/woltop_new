@@ -89,60 +89,59 @@ export default function productDetailItem({
 
   const handleAddToCart = () => {
     console.log("response data", responseData);
-
-    if (responseData?.data && selectedId !== null) {
-      const selectedVariable = responseData.data.variables.find(
-        (variable: any) => variable.id === selectedId,
-      );
-
-      if (selectedVariable) {
-        const price = Number(responseData.data.price);
-        const sale_price = responseData.data.sale_price
-          ? Number(responseData.data.sale_price)
-          : price;
-
-        const discount = Number(responseData.data.discount);
-
-        dispatch(
-          addItemToCart({
-            id: Number(responseData.data.id),
-            name: responseData.data.title,
-            price: price,
-            sale_price: sale_price,
-            discount: discount,
-            featured_image: responseData.data.featured_image,
-            variableId: selectedVariable.id,
-            variableName: selectedVariable.name,
-          }),
+  
+    if (responseData?.data) {
+      let price, sale_price, discount;
+      let selectedVariable = null; // Define selectedVariable in the outer scope
+  
+      if (selectedId !== null) {
+        selectedVariable = responseData.data.variables.find(
+          (variable: any) => variable.id === selectedId,
         );
+  
+        if (selectedVariable) {
+          // Use prices from the selected variable
+          price = Number(selectedVariable.price);
+          sale_price = selectedVariable.sale_price
+            ? Number(selectedVariable.sale_price)
+            : price;
+          discount = Number(selectedVariable.discount);
+        } else {
+          // Use default prices if variable is not found
+          price = Number(responseData.data.price);
+          sale_price = responseData.data.sale_price
+            ? Number(responseData.data.sale_price)
+            : price;
+          discount = Number(responseData.data.discount);
+        }
       } else {
-        const price = Number(responseData.data.price);
-        const sale_price = responseData.data.sale_price
+        // Use default prices if no variable is selected
+        price = Number(responseData.data.price);
+        sale_price = responseData.data.sale_price
           ? Number(responseData.data.sale_price)
           : price;
-
-        const discount = Number(responseData.data.discount);
-
-        dispatch(
-          addItemToCart({
-            id: Number(responseData.data.id),
-            name: responseData.data.title,
-            price: price,
-            sale_price: sale_price,
-            discount: discount,
-            featured_image: responseData.data.featured_image,
-            variableId: 0,
-            variableName: "Default",
-          }),
-        );
+        discount = Number(responseData.data.discount);
       }
+  
+      dispatch(
+        addItemToCart({
+          id: Number(responseData.data.id),
+          name: responseData.data.title,
+          price: price,
+          sale_price: sale_price,
+          discount: discount,
+          featured_image: responseData.data.featured_image,
+          variableId: selectedId ?? 0,
+          variableName: selectedVariable ? selectedVariable.name : "Default", // Safely access selectedVariable
+        }),
+      );
     } else {
-      console.error("No item selected or response data missing");
+      console.error("Response data missing");
     }
   };
 
   return (
-    <div>
+    <>
       <div className="container mx-auto">
         <div className="relative mx-auto max-w-screen-2xl md:py-16 lg:py-24">
           <div className="flex flex-col gap-2 md:flex-row">
@@ -410,6 +409,6 @@ export default function productDetailItem({
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -25,26 +25,31 @@ export default function RecentCard() {
   console.log(products, "Recent Product Data");
 
   useEffect(() => {
-    let storedProduct: string;
     if (typeof window !== "undefined") {
-      storedProduct = localStorage.getItem("productData");
-    }
+      const storedProduct = localStorage.getItem("recentProducts");
+      if (storedProduct) {
+        const parsedProduct = JSON.parse(storedProduct);
+        const productArray = Array.isArray(parsedProduct)
+          ? parsedProduct
+          : [parsedProduct];
+        setProducts(productArray);
 
-    if (storedProduct) {
-      const parsedProduct = JSON.parse(storedProduct);
-      const productArray = Array.isArray(parsedProduct)
-        ? parsedProduct
-        : [parsedProduct];
-      setProducts(productArray);
-
-      if (
-        productArray.length > 0 &&
-        productArray[0]?.data?.variables?.length > 0
-      ) {
-        setSelectedId(productArray[0].data.variables[0].id);
+        // Set selected ID after products have been updated
+        if (
+          productArray.length > 0 &&
+          productArray[0]?.data?.variables?.length > 0
+        ) {
+          setSelectedId(productArray[0].data.variables[0].id);
+        }
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (products.length > 0 && products[0]?.data?.variables?.length > 0) {
+      setSelectedId(products[0].data.variables[0].id);
+    }
+  }, [products]);
 
   const [selectedId, setSelectedId] = useState<number | null>(
     products?.data?.variables?.[0]?.id ?? null,
@@ -55,27 +60,40 @@ export default function RecentCard() {
   };
 
   const handleAddToCart = (product: any, selectedVariable: any) => {
+    let price, sale_price, discount, variableId, variableName;
+
     if (selectedVariable) {
-      const price = Number(product.data.price);
-      const sale_price = product.data.sale_price
+      // Use prices from the selected variable
+      price = Number(selectedVariable.price);
+      sale_price = selectedVariable.sale_price
+        ? Number(selectedVariable.sale_price)
+        : price;
+      discount = Number(selectedVariable.discount);
+      variableId = selectedVariable.id;
+      variableName = selectedVariable.name;
+    } else {
+      // Use default product prices if no variable selected
+      price = Number(product.data.price);
+      sale_price = product.data.sale_price
         ? Number(product.data.sale_price)
         : price;
-
-      dispatch(
-        addItemToCart({
-          id: Number(product.id),
-          name: product.data.title,
-          price: price,
-          sale_price: sale_price,
-          discount: Number(product.data.discount),
-          featured_image: product.data.featured_image,
-          variableId: selectedVariable.id,
-          variableName: selectedVariable.name,
-        }),
-      );
-    } else {
-      console.error("No variable selected");
+      discount = Number(product.data.discount);
+      variableId = 0;
+      variableName = "Default";
     }
+
+    dispatch(
+      addItemToCart({
+        id: Number(product.id),
+        name: product.data.title,
+        price: price,
+        sale_price: sale_price,
+        discount: discount,
+        featured_image: product.data.featured_image,
+        variableId: variableId,
+        variableName: variableName,
+      }),
+    );
   };
 
   if (products.length == 0) {
@@ -85,9 +103,9 @@ export default function RecentCard() {
   return (
     <div className="3xl:pb-[60px] flex w-full flex-col pb-[20px] lg:container lg:m-auto lg:pb-[40px] xl:pb-[54px]">
       <div className="w-full">
-        <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-1 gap-5 gap-y-10 md:grid-cols-2 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
+        <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-1 gap-5 gap-y-10 sm:grid-cols-2 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
           {products?.map((card: any, index) => (
-            <div key={index} className="flex flex-row gap-3 md:flex-col">
+            <div key={index} className="flex flex-row gap-3 sm:flex-col">
               <Link
                 href={`/product/${card.id}`}
                 className="relative cursor-pointer"
@@ -95,15 +113,18 @@ export default function RecentCard() {
                 <Card
                   style={{
                     backgroundImage: `url(${card.data.featured_image})`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
                   }}
-                  className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover md:h-[305px] md:w-auto"
+                  className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover md:h-[305px] sm:w-auto"
                 >
                   <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
                     {card.data.discount || 0}%
                   </div>
                 </Card>
               </Link>
-              <CardContent className="" style={{ paddingTop: "0px" }}>
+              <CardContent className="w-full" style={{ paddingTop: "0px" }}>
                 <p className="text-xs font-medium md:text-base">
                   {card.data.title}
                 </p>
@@ -208,7 +229,7 @@ export default function RecentCard() {
                       );
                       handleAddToCart(card, selectedVariable);
                     }}
-                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center rounded bg-[#49AD91] p-1.5 text-[14px] font-medium text-white md:text-[18px]"
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
                   >
                     <Plus />
                     ADD
