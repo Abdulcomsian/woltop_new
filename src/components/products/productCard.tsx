@@ -47,11 +47,11 @@ export function ProductCard({
       </div>
 
       <Card
-        style={{ backgroundImage: `url(${img})` }}
+        style={{ backgroundImage: `url(${img})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center" }}
         className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
       >
         <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
-          {discount}
+          {discount || 0}
         </div>
         <CardHeader></CardHeader>
       </Card>

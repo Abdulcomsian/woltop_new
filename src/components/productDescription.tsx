@@ -51,13 +51,12 @@ export default function ProductDescription({
           </div>
           {renderDescription()}
         </div>
-        <div className="">
+        <div className="relative h-[147.88px] w-auto overflow-hidden rounded-[6px] mx-5 md:h-[291.1px] md:w-[260px]">
           <Image
-            className="mr-4 h-[147.88px] w-full rounded-[6px] object-cover px-3 md:h-[291.1px] md:w-[13rem]"
+            className="w-full h-full object-cover"
             src={featured_image}
             alt="Banner Background2"
-            width={100}
-            height={100}
+            fill
           />
         </div>
       </div>

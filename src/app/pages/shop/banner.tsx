@@ -5,7 +5,7 @@ import homeBannerWings from "../../../../public/homeBannerWings.png";
 export default function Banner() {
   return (
     <div className="container mx-auto">
-      <div className="relative px-4 py-24">
+      <div className="relative rounded-[10px] overflow-hidden py-24">
         <div className="container relative z-20 mx-auto text-center text-white">
           <div className="mb-5 flex justify-center">
             <Image src={homeBannerWings} alt="img" width={76} height={46} />
@@ -33,7 +33,7 @@ export default function Banner() {
               color: "transparent",
             }}
             src={banner}
-            className="h-full w-full"
+            className="h-full w-full object-cover object-center"
             alt="img"
           />
         </div>

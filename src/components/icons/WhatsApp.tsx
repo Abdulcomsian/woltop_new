@@ -6,7 +6,7 @@ export const WhatsApp: React.FC<React.SVGAttributes<{}>> = (props) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_986_1039)">
+    <g clipPath="url(#clip0_986_1039)">
       <path
         d="M0.384922 8.89222C0.3845 10.4046 0.78275 11.8813 1.54002 13.1828L0.3125 17.63L4.89913 16.4367C6.16773 17.1219 7.5891 17.481 9.0335 17.4811H9.0373C13.8055 17.4811 17.687 13.6311 17.689 8.89899C17.69 6.60594 16.7908 4.44971 15.1572 2.82748C13.5238 1.20538 11.3515 0.311593 9.03695 0.310547C4.26814 0.310547 0.386961 4.16031 0.384992 8.89222"
         fill="url(#paint0_linear_986_1039)"
@@ -29,8 +29,8 @@ export const WhatsApp: React.FC<React.SVGAttributes<{}>> = (props) => (
         y2="0.310547"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#1FAF38" />
-        <stop offset="1" stop-color="#60D669" />
+        <stop stopColor="#1FAF38" />
+        <stop offset="1" stopColor="#60D669" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_986_1039"
@@ -40,8 +40,8 @@ export const WhatsApp: React.FC<React.SVGAttributes<{}>> = (props) => (
         y2="0"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#F9F9F9" />
-        <stop offset="1" stop-color="white" />
+        <stop stopColor="#F9F9F9" />
+        <stop offset="1" stopColor="white" />
       </linearGradient>
       <clipPath id="clip0_986_1039">
         <rect width="18" height="18" fill="white" />

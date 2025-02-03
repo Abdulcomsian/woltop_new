@@ -30,23 +30,23 @@ export default function moreInformationSteps({
               Storage & Usage Guide
             </h6>
 
-            <table className="w-full">
+            <table className="table-fixed w-full md:w-auto">
               <tbody>
                 <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
-                  <td className="py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Storage</td>
+                  <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Storage</td>
                   <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {details?.storage}
                   </td>
                 </tr>
                 <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
-                  <td className="py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Net Weight</td>
+                  <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Net Weight</td>
                   <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {" "}
                     {details?.net_weight}
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Coverage</td>
+                  <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] md:py-[15px] pr-3 font-[500] text-xs md:text-base text-[#AA4A00]">Coverage</td>
                   <td className="py-[10px] md:py-[15px] text-xs md:text-base text-[#000000]">
                     {details?.coverage}
                   </td>
