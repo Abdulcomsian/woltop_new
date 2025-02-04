@@ -262,14 +262,14 @@ export default function Home() {
       >
         <ToolsCard></ToolsCard>
       </SectionBlock> */}
-      {/* <SectionBlock
+      <SectionBlock
         title="Recently Viewed"
         subtitle="Continue where you left off"
         className="px-3 pt-14 lg:container lg:m-auto"
         position="center"
       >
         <RecentCard />
-      </SectionBlock> */}
+      </SectionBlock>
 
       <SectionBlock
         title="Elevate You Room"
