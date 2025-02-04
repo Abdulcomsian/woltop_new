@@ -25,7 +25,7 @@ export default function RecentCard() {
   console.log(products, "Recent Product Data");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && window.localStorage) {
       const storedProduct = localStorage.getItem("recentProducts");
       if (storedProduct) {
         const parsedProduct = JSON.parse(storedProduct);
@@ -96,7 +96,7 @@ export default function RecentCard() {
     );
   };
 
-  if (products.length == 0) {
+  if (products.length === 0) {
     return <div>No Recently Viewed products found.</div>;
   }
 
