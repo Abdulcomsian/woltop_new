@@ -1,6 +1,4 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { persistReducer, persistStore } from "redux-persist";
-import storage from "./storage";
 import cartReducer from "~/store/slices/cartSlice";
 import userReducer from "~/store/slices/userSlice";
 import { productsApi } from "./api/productApi";
@@ -30,23 +28,40 @@ const rootReducer = combineReducers({
   [paramApi.reducerPath]: paramApi.reducer,
 });
 
-// ✅ Conditionally apply persistReducer only in the client
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["cart", "user"], // Only persist these
+// Load state from localStorage (client-side only)
+const loadState = () => {
+  if (typeof window !== "undefined") {
+    try {
+      const serializedState = localStorage.getItem("reduxState");
+      if (serializedState === null) {
+        return undefined;
+      }
+      return JSON.parse(serializedState);
+    } catch (err) {
+      console.error("Error loading state from localStorage:", err);
+      return undefined;
+    }
+  }
+  return undefined;
 };
 
-const persistedReducer =
-  typeof window !== "undefined"
-    ? persistReducer(persistConfig, rootReducer)
-    : rootReducer; // ⛔ Prevents localStorage access on the server
+// Save state to localStorage (client-side only)
+const saveState = (state) => {
+  if (typeof window !== "undefined") {
+    try {
+      const serializedState = JSON.stringify(state);
+      localStorage.setItem("reduxState", serializedState);
+    } catch (err) {
+      console.error("Error saving state to localStorage:", err);
+    }
+  }
+};
 
+// Configure the store
 export const store = configureStore({
-  // @ts-ignore
-  reducer: persistedReducer,
+  reducer: rootReducer,
+  preloadedState: loadState(), // Load initial state from localStorage
   middleware: (getDefaultMiddleware) =>
-    // @ts-ignore
     getDefaultMiddleware({
       serializableCheck: false,
     })
@@ -62,6 +77,7 @@ export const store = configureStore({
       .concat(paramApi.middleware),
 });
 
-// ✅ Only persist store in the browser (client-side)
-export const persistor =
-  typeof window !== "undefined" ? persistStore(store) : null;
+// Subscribe to store changes and save state to localStorage
+store.subscribe(() => {
+  saveState(store.getState());
+});
