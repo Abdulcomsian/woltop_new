@@ -108,7 +108,7 @@ export default function RecentCard() {
           {products?.map((card: any, index) => (
             <div key={index} className="flex flex-row gap-3 sm:flex-col">
               <Link
-                href={`/product/${card.id}`}
+                href={`/product/${card.data.id}`}
                 className="relative cursor-pointer"
               >
                 <Card
