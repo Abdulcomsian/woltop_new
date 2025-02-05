@@ -11,6 +11,12 @@ export default function navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartItemsLength = useSelector((state: any) => state.cart.items.length);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -35,7 +41,7 @@ export default function navbar() {
         style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}
       >
         <div className="mx-auto px-5 py-[16px] lg:container lg:px-7 xl:px-10">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <div className="flex space-x-4 lg:space-x-20">
               {isMobileView && (
                 <button
@@ -118,10 +124,15 @@ export default function navbar() {
             </div>
 
             {/* <!-- secondary nav --> */}
-            <div className="items-center space-x-1 md:flex">
+            <div className="items-center space-x-1 flex">
               <div className="flex shrink-0 items-center space-x-4 sm:space-x-6 rtl:space-x-reverse">
                 <div className="hidden lg:inline-flex"></div>
-                <SearchIcon />
+                <button
+                  onClick={toggleSearch}
+                  className="text-gray-700 hover:text-gray-900"
+                >
+                  <SearchIcon />
+                </button>
                 <FavriouteIcon />
                 <div className="flex items-center space-x-4 sm:space-x-6 lg:space-x-4 rtl:lg:space-x-reverse">
                   <a href="/cart" className="product-cart relative lg:flex">
@@ -158,7 +169,7 @@ export default function navbar() {
                       {cartItemsLength || 0}
                     </span>
                   </a>
-                  <a className="" href="/become-seller">
+                  <a className="" href="/">
                     <svg
                       width="24"
                       height="24"
@@ -223,6 +234,18 @@ export default function navbar() {
           </a>
         </div>
       </nav>
+         {/* Search Bar */}
+         {isSearchOpen && (
+        <div className="bg-gray-100 shadow-md">
+          <div className="mx-auto p-4 lg:container lg:px-7 xl:px-10">
+            <input
+              type="text"
+              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+              placeholder="Search for products..."
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

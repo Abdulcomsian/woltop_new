@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
       <ReduxProvider>
-          <TopBar time={{ hours: 0, minutes: 7, seconds: 27 }} />
+          <TopBar time={{ hours: 24, minutes: 7, seconds: 27 }} />
           <Navbar />
           {children}
           <Footer />
