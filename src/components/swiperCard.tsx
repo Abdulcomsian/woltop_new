@@ -63,7 +63,7 @@ const SwiperCard = () => {
             <div key={index} className="swiper-slide">
               <Link href={`/category/${category.id}`}>
                 <div className="flex flex-col items-center justify-between">
-                  <div className="">
+                  <div>
                     <img
                       src={category.image}
                       alt={category.name}

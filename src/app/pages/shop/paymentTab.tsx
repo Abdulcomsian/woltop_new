@@ -186,9 +186,9 @@ const PaymentTab = () => {
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="checkout-cart grid grid-cols-1 ">
-                    {cartData?.items?.map((item: any) => (
+                    {cartData?.items?.map((item: any,  index: number) => (
                       <div
-                        key={`${item.id}-${item.variableId}`}
+                      key={item.id || `item-${index}`}
                         className="border-border-200 flex w-full border-opacity-75 text-sm border-b-2 py-4" 
                         style={{ opacity: "1" }}
                       >

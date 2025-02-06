@@ -14,7 +14,7 @@ interface BannerProps {
 export default function Banner({ bannerData }: BannerProps) {
   return (
     <>
-      <div className="relative w-full mx-auto mt-10 text-black">
+      <div className="relative w-full mx-auto text-black">
         <div className="absolute inset-0 bg-opacity-30">
           <Image
             className="h-full w-full object-cover"

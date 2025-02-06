@@ -17,7 +17,7 @@ export default function BlogInner({ resData }: { resData: ResData }) {
 
   return (
     <>
-      <div className="container relative mx-auto my-[50px] min-h-96 text-black">
+      <div className="container relative mx-auto min-h-96 text-black">
         <div className="absolute inset-0 overflow-hidden rounded-[8px] bg-opacity-30">
           <Image
             className="h-full w-full object-cover"

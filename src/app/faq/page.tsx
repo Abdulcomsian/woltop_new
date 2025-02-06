@@ -18,7 +18,7 @@ export default function Page() {
 
   return (
     <main>
-      <div className="accordion-wrapper container mx-auto mb-16 px-3 py-7 lg:container lg:m-auto lg:px-7 xl:px-10">
+      <div className="accordion-wrapper max-w-6xl mx-auto mb-16 px-3 py-7 lg:px-7 xl:px-10">
         <div className="my-[50px] text-center">
           <h1 className="text-3xl font-semibold md:text-[48px]">FAQs</h1>
         </div>
@@ -32,6 +32,7 @@ export default function Page() {
               >
                 <AccordionTrigger
                   onClick={() => handleToggle(faq.id)}
+                  style={{alignItems: "flex-start"}}
                   className="flex items-start gap-3 text-left no-underline hover:no-underline focus:no-underline"
                 >
                   <span className="min-w-[30px] text-lg font-medium transition-colors md:text-2xl">

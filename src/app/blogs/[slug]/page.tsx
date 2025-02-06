@@ -18,7 +18,7 @@ export default function page({ params }: { params: PageParams }) {
       <SectionBlock
         title=""
         subtitle=""
-        className="px-3 pt-4 lg:container lg:m-auto"
+        className="px-3 mt-10 md:mt-[70px] max-w-6xl mx-auto"
         position="left"
       >
         <BlogInner resData={resData?.data} />

@@ -41,11 +41,11 @@ export default function easySteps({ responseData }: EasyStepsProps) {
   return (
     <>
       <div className="flex justify-center text-center">
-        <p className="btn border-{#0B0A0A} hover:bg-[#0B0A0A]-700 mt-2 flex justify-center rounded-[8px] border-2 bg-[#AA4A00] px-5 py-4 pb-3 pt-3 text-[22px] font-semibold text-white">
+        <p className="btn mb-[40px] border-{#0B0A0A} hover:bg-[#0B0A0A]-700 flex justify-center rounded-[8px] border-2 bg-[#AA4A00] px-5 py-2 md:py-4 text-base md:text-[22px] font-semibold text-white">
           How To Install
         </p>
       </div>
-      <div className="scrollbar-hide my-5 grid auto-cols-[minmax(246px,1fr)] grid-flow-col lg:grid-cols-4 overflow-x-auto gap-4">
+      <div className="scrollbar-hide grid auto-cols-[minmax(246px,1fr)] grid-flow-col lg:grid-cols-4 overflow-x-auto gap-4">
         {responseData?.data?.installation_steps?.map((step) => (
           <div key={step.id} className="max-w-[246px]">
             <div className="relative">

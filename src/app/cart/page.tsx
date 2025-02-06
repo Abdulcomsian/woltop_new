@@ -15,18 +15,16 @@ export default function page() {
   return (
     <>
       <div className="bg-[#F1FBFF] mt-[2px]">
-        <div className="mx-auto max-w-7xl">
           <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
-        </div>
       </div>
 
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-6xl">
         {activeTab === "cart" && (
           <>
             <SectionBlock
               title=""
               subtitle=""
-              className="px-3 pt-14 lg:container lg:m-auto"
+              className="px-3 pt-10 md:pt-[70px]"
               position="left"
             >
               <CartTab cartData={cartData} setActiveTab={setActiveTab} />
@@ -34,7 +32,7 @@ export default function page() {
             <SectionBlock
               title="Your Last Minute Addons"
               subtitle=""
-              className="px-3 pt-14 lg:container lg:m-auto"
+              className="px-3"
               position="left"
             >
               <DetailCard colorId={0} />
@@ -45,7 +43,7 @@ export default function page() {
           <SectionBlock
             title=""
             subtitle=""
-            className="px-3 pt-14 lg:container lg:m-auto"
+            className="px-3 pt-10 md:pt-[70px]"
             position="left"
           >
             <ShippingTab setActiveTab={setActiveTab} />
@@ -54,11 +52,11 @@ export default function page() {
       </div>
 
       {activeTab === "payment" && (
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-6xl">
             <SectionBlock
               title=""
               subtitle=""
-              className="px-3 pt-4 lg:container lg:m-auto"
+              className="px-3 pt-10 md:pt-[70px]"
               position="left"
             >
               <PaymentTab />

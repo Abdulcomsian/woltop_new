@@ -79,9 +79,9 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
               return (
                 <div className="flex flex-col justify-between lg:flex-row">
                   <div className="checkout-cart lg:w-auto">
-                    {cartData?.items?.map((item: any) => (
+                    {cartData?.items?.map((item: any, index: number) => (
                       <div
-                        key={`${item.id}-${item.variableId}`}
+                      key={item.id || `item-${index}`}
                         className="border-border-200 mb-5 flex w-full border-opacity-75 text-sm"
                         style={{ opacity: "1" }}
                       >
