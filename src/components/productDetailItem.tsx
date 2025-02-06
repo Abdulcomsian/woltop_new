@@ -89,16 +89,16 @@ export default function productDetailItem({
 
   const handleAddToCart = () => {
     console.log("response data", responseData);
-  
+
     if (responseData?.data) {
       let price, sale_price, discount;
       let selectedVariable = null; // Define selectedVariable in the outer scope
-  
+
       if (selectedId !== null) {
         selectedVariable = responseData.data.variables.find(
           (variable: any) => variable.id === selectedId,
         );
-  
+
         if (selectedVariable) {
           // Use prices from the selected variable
           price = Number(selectedVariable.price);
@@ -122,7 +122,7 @@ export default function productDetailItem({
           : price;
         discount = Number(responseData.data.discount);
       }
-  
+
       dispatch(
         addItemToCart({
           id: Number(responseData.data.id),
@@ -143,10 +143,10 @@ export default function productDetailItem({
   return (
     <>
       <div className="container mx-auto">
-        <div className="relative mx-auto max-w-screen-2xl md:py-16 lg:py-24">
+        <div className="relative mx-auto max-w-screen-2xl">
           <div className="flex flex-col gap-2 md:flex-row">
             <div className="flex flex-1 flex-col md:px-3">
-              <div className="mb-4 flex h-full max-h-[751px] w-full items-center justify-center overflow-hidden rounded-[6px]">
+              <div className="mb-4 flex h-[751px] max-h-[751px] w-full items-center justify-center overflow-hidden md:rounded-[6px]">
                 <img
                   className="h-full w-full object-cover"
                   src={
@@ -389,17 +389,20 @@ export default function productDetailItem({
                 {/* <ToolkitBar></ToolkitBar> */}
 
                 {products_features.length !== 0 && (
-                  <div className="mt-5 flex w-full overflow-x-auto">
+                  <div className="mt-5 flex w-full gap-3 overflow-x-auto">
                     {products_features?.map(
                       (feature: { image: string; name: string }, index) => (
-                        <Image
+                        <div
                           key={index}
-                          className="m-3 h-full w-full object-cover"
-                          src={feature.image}
-                          alt={feature.name}
-                          width={100}
-                          height={100}
-                        />
+                          className="relative h-[100px] w-[100px] overflow-hidden rounded-full"
+                        >
+                          <Image
+                            className="h-full w-full object-cover"
+                            src={feature.image}
+                            alt={feature.name}
+                            fill
+                          />
+                        </div>
                       ),
                     )}
                   </div>

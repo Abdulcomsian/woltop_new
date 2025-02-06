@@ -16,7 +16,7 @@ export default function SwiperItem() {
 
   return (
     <div className="container relative mx-auto">
-      <div className="scrollbar-hide mt-4 grid auto-cols-[minmax(145px,1fr)] grid-flow-col gap-4 overflow-x-auto">
+      <div className="scrollbar-hide grid auto-cols-[minmax(145px,1fr)] grid-flow-col gap-4 overflow-x-auto">
         {limitedCategories?.map((category) => (
           <div
             key={category.id}

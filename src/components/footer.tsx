@@ -9,10 +9,11 @@ import { VisaIcon } from "~/assets/iconsComp/visa";
 //   };
 
 export default function footer() {
+  const year = new Date().getFullYear()
   return (
     <div className="bg-[#EEF1F6]">
-      <div className="container m-auto px-3 lg:px-7 xl:px-10">
-        <div className="flex items-center justify-between pt-16 lg:container lg:m-auto">
+      <div className="mx-auto max-w-6xl px-3 lg:px-7 xl:px-10">
+        <div className="flex items-center justify-between pt-7 md:pt-12 lg:container lg:m-auto">
           <a className="inline-flex" href="/">
             <span className="relative h-[20px] w-[124px] md:h-[42px] md:w-[263.45px]">
               <img
@@ -151,13 +152,10 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="devider mb-12 mt-12 border border-[#DBDBDB]"></div>
+        <div className="devider my-7 md:my-12 border border-[#DBDBDB]"></div>
 
-        <div
-          style={{ marginBottom: "12px", marginTop: "2px" }}
-          className="my-4 w-full rounded-md border-2 border-dashed border-[#49AD91] bg-white p-6 lg:container lg:m-auto"
-        >
-          <div className="text-xs md:text-[14px]">
+        <div style={{marginBottom: "36px"}} className="w-full rounded-md border-2 border-dashed border-[#49AD91] bg-white p-6 lg:container lg:m-auto">
+          <div className="text-xs md:text-[14px] leading-[26px]">
             <span className="font-bold">Wallpapers :</span> Exclusive Wallpaper
             Designs  3D Wallpaper Kids Room Aesthetic Art & Paintings Tropical
             Vastu World Map Indian & Traditional Nature Abstract Animals Bamboo
@@ -173,8 +171,10 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-1 pt-4 lg:container lg:m-auto">
-          <p className="text-xl font-semibold md:text-[28px]">About Us</p>
+        <div className="lg:container lg:m-auto">
+          <p className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
+            About Us
+          </p>
           <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[28.8px]">
             Lorem ipsum dolor sit amet consectetur. Turpis viverra diam
             hendrerit risus enim diam aenean. Gravida nisl ullamcorper viverra
@@ -185,7 +185,7 @@ export default function footer() {
 
         <div className="flex flex-col gap-10 pt-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
           <div className="lg:w-3/4">
-            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
               Quick Links
             </h3>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
@@ -231,7 +231,7 @@ export default function footer() {
             </div>
           </div>
           <div className="lg:w-1/4">
-            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
               Contact Us
             </h3>
             <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
@@ -243,9 +243,9 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-10 py-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
+        <div className="flex flex-col gap-10 pt-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
           <div className="lg:w-3/4">
-            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
               Shop For
             </h3>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
@@ -283,7 +283,7 @@ export default function footer() {
             </div>
           </div>
           <div className="lg:w-1/4">
-            <h3 className="mb-4 text-xl font-semibold md:text-[28px]">
+            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
               Address
             </h3>
             <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
@@ -298,7 +298,8 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col justify-between gap-3 border-t-[1px] border-[#DBDBDB] py-[37px] lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
+        <hr className="my-[29px] text-[#DBDBDB]" />
+        <div className="pb-[29px] flex flex-col justify-between gap-3 lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
           <div className="flex space-x-6 text-xs text-[#656567] md:text-[18px]">
             <a href="terms" className="hover:underline">
               Terms &amp; Conditions
@@ -313,7 +314,7 @@ export default function footer() {
             <UnionPayIcon />
           </div>
           <div className="text-xs text-[#656567] md:text-[18px]">
-            © 2024 Wolpin. All rights reserved.
+            © {year} Wolpin. All rights reserved.
           </div>
         </div>
       </div>

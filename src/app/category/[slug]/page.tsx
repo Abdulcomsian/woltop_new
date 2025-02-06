@@ -88,7 +88,7 @@ export default function page({ params }: { params: PageParams }) {
       <SectionBlock
         title=""
         subtitle=""
-        className="mt-5 px-3 pt-4 lg:container lg:m-auto"
+        className="mt-5 px-3 pt-4 max-w-6xl mx-auto"
         position="left"
       >
         <Banner />
@@ -98,7 +98,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Popular In Living Room"
           subtitle="Enhance your living space with our stunning collection of living room wallpapers."
-          className="mt-4 px-3 pt-4 lg:container lg:m-auto"
+          className="mt-4 px-3 pt-4 max-w-6xl mx-auto"
           position="left"
         >
           <CategorieCard cardData={ShopRoomCardData}></CategorieCard>
@@ -108,7 +108,7 @@ export default function page({ params }: { params: PageParams }) {
       <SectionBlock
         title=""
         subtitle=""
-        className="mt-5 px-3 pt-4 lg:container lg:m-auto"
+        className="mt-5 px-3 pt-4 max-w-6xl mx-auto"
         position="left"
       >
         <VideoSection responseData={responseData?.data}></VideoSection>
@@ -118,7 +118,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Unreeling Some Wolpin Stories"
           subtitle=""
-          className="mt-4 px-3 pt-4 lg:container lg:m-auto"
+          className="mt-4 px-3 pt-4 max-w-6xl mx-auto"
           position="left"
         >
           <Reeling></Reeling>
@@ -129,7 +129,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Explore Our Other Categories"
           subtitle=""
-          className="mt-4 px-3 pt-4 lg:container lg:m-auto"
+          className="mt-4 px-3 pt-4 max-w-6xl mx-auto"
           position="center"
         >
           <SwiperItem></SwiperItem>
@@ -139,7 +139,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="@wolpinwallpaper.in"
           subtitle="Follow Us on Instagram"
-          className="mt-4 pt-4 lg:container lg:m-auto"
+          className="mt-4 pt-4 max-w-6xl mx-auto"
           position="center"
         ></SectionBlock>
       </div> */}

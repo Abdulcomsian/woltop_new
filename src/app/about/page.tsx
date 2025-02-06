@@ -11,11 +11,11 @@ export default function page() {
     desc: "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales."
   };
   return (
-    <main className="">
+    <>
       <SectionBlock
         title=""
         subtitle=""
-        className="pt-4 px-3 lg:container lg:m-auto"
+        className="px-3 max-w-6xl mx-auto mt-10 md:mt-[70px]"
         position="left"
       >
         <Banner bannerData={aboutBanner}></Banner>
@@ -24,11 +24,11 @@ export default function page() {
       <SectionBlock
         title="Elevate You Room"
         subtitle=""
-        className="pt-14 px-3 lg:container lg:m-auto"
+        className="px-3 max-w-6xl mx-auto"
         position="center"
       >
         <SwiperItem></SwiperItem>
       </SectionBlock>
-    </main>
+    </>
   );
 }

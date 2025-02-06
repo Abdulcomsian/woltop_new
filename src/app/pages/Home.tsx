@@ -41,7 +41,6 @@ export default function Home() {
     // isLoadingColors,
     // errorColors,
   } = useGetTagsQuery({});
-  if (isLoading) return <div>Loading...</div>;
 
   const colorTabs =
     colors?.data.map((color: any) => ({
@@ -128,18 +127,18 @@ export default function Home() {
   ];
 
   return (
-    <main>
-      <SectionBlock className="pt-14 px-3 lg:container lg:m-auto" position="center">
+    <>
+      <div className="mx-auto my-[22px] max-w-6xl px-3 md:my-[41px] lg:px-7 xl:px-10">
         <SwiperCard></SwiperCard>
-      </SectionBlock>
-      <SectionBlock className="px-3 lg:container lg:m-auto" position="center">
+      </div>
+      <SectionBlock className="mx-auto max-w-6xl px-3" position="center">
         <Banner></Banner>
       </SectionBlock>
 
       <SectionBlock
-        title="Popular Wallpaper"
+        title=""
         subtitle=""
-        className="px-3 pt-4 lg:container lg:m-auto"
+        className="mx-auto max-w-6xl px-3"
         position="center"
       >
         {popularProducts?.status === false ? (
@@ -147,13 +146,13 @@ export default function Home() {
         ) : popularProducts?.data?.length > 0 ? (
           <PopularWallpaper products={popularProducts}></PopularWallpaper>
         ) : (
-          <p>Products not found</p>
+          ""
         )}
       </SectionBlock>
       <SectionBlock
         title="Unreeling Some Wolpin Reels"
         subtitle=""
-        className="px-3 pt-4 lg:container lg:m-auto"
+        className="mx-auto max-w-6xl px-3"
         position="left"
       >
         <Reeling></Reeling>
@@ -162,7 +161,7 @@ export default function Home() {
       <SectionBlock
         title="Browse Our Ranges"
         subtitle=""
-        className="px-3 pt-14 lg:container lg:m-auto"
+        className="mx-auto max-w-6xl px-3"
         position="left"
       >
         <CategorieCard
@@ -174,17 +173,17 @@ export default function Home() {
       <SectionBlock
         title=""
         subtitle=""
-        className="px-3 lg:container lg:m-auto"
+        className="mx-auto max-w-6xl px-3"
         position="left"
       >
         <VideoSection></VideoSection>
       </SectionBlock>
       {/* <Card> </Card> */}
-      <div className="bg-[#F1FBFF]">
+      <div className="bg-[#F1FBFF] pt-10 md:pt-[70px] mb-10 md:mb-[70px]">
         <SectionBlock
           title="Shop By Room"
           subtitle="Wallpaper designs for every room"
-          className="bg-[#F1FBFF] px-3 pt-14 lg:container lg:m-auto"
+          className="mx-auto max-w-6xl bg-[#F1FBFF] px-3"
           position="left"
         >
           <CategorieCard
@@ -197,17 +196,17 @@ export default function Home() {
       <SectionBlock
         title=""
         subtitle=""
-        className="lg:container lg:m-auto"
+        className="mx-auto max-w-6xl"
         position="left"
       >
         <ConsultationSection></ConsultationSection>
       </SectionBlock>
 
-      <div className="mt-16 bg-[#FFF3F6]">
+      <div className="mt-10 mb-10 md:mb-[70px] bg-[#FFF3F6]">
         <SectionBlock
           title=""
           subtitle=""
-          className="px-3 lg:container lg:m-auto"
+          className="mx-auto max-w-6xl px-3"
           position="center"
         >
           {!colors?.data ? (
@@ -223,7 +222,7 @@ export default function Home() {
         <SectionBlock
           title="Styled Spaces by Our Clients"
           subtitle="Projects We’ve Brought to Life"
-          className="px-3 pt-4 lg:container lg:m-auto"
+          className="mx-auto max-w-6xl px-3"
           position="left"
         >
           <Reeling></Reeling>
@@ -233,17 +232,17 @@ export default function Home() {
       <SectionBlock
         title="Effortless Wallpaper Ordering"
         subtitle="Simplify Your Wallpaper Shopping Experience"
-        className="pt-14 lg:container lg:m-auto"
+        className="mx-auto max-w-6xl"
         position="center"
       >
         <StepSection />
       </SectionBlock>
 
-      <div className="bg-[#F1FBFF]">
+      <div className="bg-[#F1FBFF] mb-10 md:mb-[70px]">
         <SectionBlock
           title=""
           subtitle=""
-          className="px-3 lg:container lg:m-auto"
+          className="mx-auto max-w-6xl px-3"
           position="center"
         >
           {!tags?.data ? (
@@ -265,7 +264,7 @@ export default function Home() {
       <SectionBlock
         title="Recently Viewed"
         subtitle="Continue where you left off"
-        className="px-3 pt-14 lg:container lg:m-auto"
+        className="mx-auto max-w-6xl px-3"
         position="center"
       >
         <RecentCard />
@@ -274,7 +273,7 @@ export default function Home() {
       <SectionBlock
         title="Elevate You Room"
         subtitle=""
-        className="px-3 pt-14 lg:container lg:m-auto"
+        className="mx-auto max-w-6xl px-3"
         position="center"
       >
         <Swiper></Swiper>
@@ -287,6 +286,6 @@ export default function Home() {
       >
         <WolpinWallpaper />
       </SectionBlock> */}
-    </main>
+    </>
   );
 }

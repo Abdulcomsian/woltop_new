@@ -94,8 +94,8 @@ export default function StandsOut() {
   ];
 
   return (
-    <div className="w-full mx-auto md:w-3/5">
-      <p className="text-center">
+    <div className="w-full mx-auto md:w-4/5">
+      <p className="text-center mb-4">
         Our wallpapers are crafted from premium materials, ensuring both
         durability and long-lasting performance. Each design is distinctive and
         visually appealing, adding a layer of style and sophistication to any

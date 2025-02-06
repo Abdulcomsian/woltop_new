@@ -23,7 +23,7 @@ export default function RecentCard() {
   const dispatch = useDispatch();
   const [products, setProducts] = useState<Product[]>([]);
 
-  console.log(products, "Recent Product Data");
+  // console.log(products, "Recent Product Data");
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -102,7 +102,7 @@ export default function RecentCard() {
   }
 
   return (
-    <div className="3xl:pb-[60px] flex w-full flex-col pb-[20px] lg:container lg:m-auto lg:pb-[40px] xl:pb-[54px]">
+    <div className="flex w-full flex-col">
       <div className="w-full">
         <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-1 gap-5 gap-y-10 sm:grid-cols-2 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
           {products?.map((card: any, index) => (

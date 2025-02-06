@@ -8,7 +8,7 @@ export default function OurTeam() {
 
   return (
     <div className="container mx-auto">
-      <div className="py-[62px] text-center">
+      <div className="py-10 md:py-[62px] text-center">
         <h6 className="text-[22px] md:text-[34px] font-semibold">Meet Our Team</h6>
         <p className="mx-auto max-w-2xl text-[#4E4949] text-xs md:text-lg">
           Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis
@@ -20,10 +20,10 @@ export default function OurTeam() {
         {team?.data?.map((member) => (
           <article
             key={member.id}
-            className="product-card h-full transform rounded transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+            className="product-card h-full transform rounded transition-all duration-200 hover:-translate-y-1 hover:shadow"
           >
             <div className="mx-auto rounded">
-              <div className="relative h-48 bg-gray-100 md:h-[339px]">
+              <div className="relative h-[168.62px] bg-[#F7F7F7] md:h-[336px]">
                 <img
                   className="absolute bottom-0 left-0 right-0 mx-auto h-full object-cover"
                   src={member.image || "/default-profile.png"}

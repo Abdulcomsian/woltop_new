@@ -30,13 +30,13 @@ const SectionBlock: React.FC<SectionProps> = ({
   return (
     <div
       className={cn(
-        'flex w-full flex-col  pb-[20px]  lg:pb-[40px] lg:px-7 xl:px-10 xl:pb-[54px] 3xl:pb-[60px]',
+        'flex w-full flex-col pb-[40px] lg:px-7 xl:px-10 xl:pb-[70px]',
         className,
       )}
     >
       {title && (
         <div
-          className={`mb-7 flex justify-start flex-col gap-2 ${position === 'center' ? 'items-center' : 'items-start'
+          className={`mb-[26px] md:mb-[43px] flex justify-start flex-col gap-2 ${position === 'center' ? 'items-center' : 'items-start'
             }`}
         >
           {title && (

@@ -14,7 +14,7 @@ export default function page() {
       <SectionBlock
         title=""
         subtitle=""
-        className="pt-4 px-3 lg:container lg:m-auto"
+        className="mt-10 md:mt-[70px] px-3 max-w-6xl mx-auto"
         position="left"
       >
         <Banner bannerData={blogBanner}></Banner>
