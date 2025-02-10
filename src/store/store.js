@@ -60,7 +60,6 @@ const saveState = (state) => {
 // Configure the store
 export const store = configureStore({
   reducer: rootReducer,
-  preloadedState: loadState(), // Load initial state from localStorage
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
