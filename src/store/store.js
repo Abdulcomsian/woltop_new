@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
   [paramApi.reducerPath]: paramApi.reducer,
 });
 
-// Load state from localStorage (client-side only)
+// Load state for `cart` and `user` slices from localStorage
 const loadState = () => {
   if (typeof window !== "undefined") {
     try {
@@ -36,7 +36,11 @@ const loadState = () => {
       if (serializedState === null) {
         return undefined;
       }
-      return JSON.parse(serializedState);
+      const parsedState = JSON.parse(serializedState);
+      return {
+        cart: parsedState.cart || undefined,
+        user: parsedState.user || undefined,
+      };
     } catch (err) {
       console.error("Error loading state from localStorage:", err);
       return undefined;
@@ -45,11 +49,14 @@ const loadState = () => {
   return undefined;
 };
 
-// Save state to localStorage (client-side only)
+// Save only `cart` and `user` slices to localStorage
 const saveState = (state) => {
   if (typeof window !== "undefined") {
     try {
-      const serializedState = JSON.stringify(state);
+      const serializedState = JSON.stringify({
+        cart: state.cart,
+        user: state.user,
+      });
       localStorage.setItem("reduxState", serializedState);
     } catch (err) {
       console.error("Error saving state to localStorage:", err);
@@ -60,6 +67,7 @@ const saveState = (state) => {
 // Configure the store
 export const store = configureStore({
   reducer: rootReducer,
+  preloadedState: loadState(), // Load initial state for cart and user slices
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
@@ -76,7 +84,7 @@ export const store = configureStore({
       .concat(paramApi.middleware),
 });
 
-// Subscribe to store changes and save state to localStorage
+// Subscribe to store changes and save only cart and user slices to localStorage
 store.subscribe(() => {
   saveState(store.getState());
 });
