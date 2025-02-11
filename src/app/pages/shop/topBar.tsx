@@ -50,7 +50,7 @@ export default function TopBar({ time }: { time: TimeProps }) {
   return (
     <>
       <div className="w-full bg-gradient-to-r from-pink-700 via-pink-700 via-[60%] to-purple-700 py-2 text-center text-white">
-        <div className="flex flex-row items-center justify-between mx-auto max-w-6xl p-1 px-5 lg:px-7 xl:px-10">
+        <div className="flex flex-row items-center justify-between mx-auto max-w-[1075px] p-1 px-5">
           <div className="font-rubaik flex justify-items-start text-sm md:text-[18px] text-left sm:w-80 lg:w-1/2">
             FREE Delivery on orders over ₹1099 (T&amp;Cs apply)
           </div>
@@ -58,11 +58,11 @@ export default function TopBar({ time }: { time: TimeProps }) {
             <span className="w-8 bg-white p-1 text-black">
               {formatTime(remainingTime.hours)}
             </span>
-            :
+            <span className="text-black">:</span>
             <span className="w-8 bg-white p-1 text-black">
               {formatTime(remainingTime.minutes)}
             </span>
-            :
+            <span className="text-black">:</span>
             <span className="w-8 bg-white p-1 text-black">
               {formatTime(remainingTime.seconds)}
             </span>

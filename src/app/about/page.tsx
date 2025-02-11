@@ -15,7 +15,7 @@ export default function page() {
       <SectionBlock
         title=""
         subtitle=""
-        className="px-3 max-w-6xl mx-auto mt-10 md:mt-[70px]"
+        className="px-3 max-w-[1075px] mx-auto mt-10 md:mt-[70px]"
         position="left"
       >
         <Banner bannerData={aboutBanner}></Banner>
@@ -24,7 +24,7 @@ export default function page() {
       <SectionBlock
         title="Elevate You Room"
         subtitle=""
-        className="px-3 max-w-6xl mx-auto"
+        className="px-3 max-w-[1075px] mx-auto"
         position="center"
       >
         <SwiperItem></SwiperItem>

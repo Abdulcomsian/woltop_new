@@ -24,7 +24,7 @@ export default function moreInformationSteps({
   return (
     <div>
       <div className="flex flex-col justify-center md:flex-row">
-        <div className="">
+        <div className="md:w-[646px]">
           <div className="mx-auto w-full rounded-md border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
             <h6 className="p-2 text-xl md:text-2xl font-bold text-[#AA4A00] border-b-[0.8px] border-[#D9D9D9]">
               Storage & Usage Guide

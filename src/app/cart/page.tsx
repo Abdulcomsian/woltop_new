@@ -18,7 +18,7 @@ export default function page() {
           <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
 
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[1075px]">
         {activeTab === "cart" && (
           <>
             <SectionBlock

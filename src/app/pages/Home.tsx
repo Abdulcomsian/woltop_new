@@ -128,17 +128,17 @@ export default function Home() {
 
   return (
     <>
-      <div className="mx-auto my-[22px] max-w-6xl px-3 md:my-[41px] lg:px-7 xl:px-10">
+      <div className="mx-auto my-[22px] max-w-[1075px] px-3 md:my-[41px]">
         <SwiperCard></SwiperCard>
       </div>
-      <SectionBlock className="mx-auto max-w-6xl px-3" position="center">
+      <SectionBlock className="mx-auto max-w-[1075px] px-3" position="center">
         <Banner></Banner>
       </SectionBlock>
 
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
         {popularProducts?.status === false ? (
@@ -152,7 +152,7 @@ export default function Home() {
       <SectionBlock
         title="Unreeling Some Wolpin Reels"
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
         <Reeling></Reeling>
@@ -161,7 +161,7 @@ export default function Home() {
       <SectionBlock
         title="Browse Our Ranges"
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
         <CategorieCard
@@ -173,7 +173,7 @@ export default function Home() {
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
         <VideoSection></VideoSection>
@@ -183,7 +183,7 @@ export default function Home() {
         <SectionBlock
           title="Shop By Room"
           subtitle="Wallpaper designs for every room"
-          className="mx-auto max-w-6xl bg-[#F1FBFF] px-3"
+          className="mx-auto max-w-[1075px] bg-[#F1FBFF] px-3"
           position="left"
         >
           <CategorieCard
@@ -196,7 +196,7 @@ export default function Home() {
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto max-w-6xl"
+        className="mx-auto max-w-[1075px]"
         position="left"
       >
         <ConsultationSection></ConsultationSection>
@@ -206,7 +206,7 @@ export default function Home() {
         <SectionBlock
           title=""
           subtitle=""
-          className="mx-auto max-w-6xl px-3"
+          className="mx-auto max-w-[1075px] px-3"
           position="center"
         >
           {!colors?.data ? (
@@ -222,7 +222,7 @@ export default function Home() {
         <SectionBlock
           title="Styled Spaces by Our Clients"
           subtitle="Projects We’ve Brought to Life"
-          className="mx-auto max-w-6xl px-3"
+          className="mx-auto max-w-[1075px] px-3"
           position="left"
         >
           <Reeling></Reeling>
@@ -232,7 +232,7 @@ export default function Home() {
       <SectionBlock
         title="Effortless Wallpaper Ordering"
         subtitle="Simplify Your Wallpaper Shopping Experience"
-        className="mx-auto max-w-6xl"
+        className="mx-auto max-w-[1075px]"
         position="center"
       >
         <StepSection />
@@ -242,7 +242,7 @@ export default function Home() {
         <SectionBlock
           title=""
           subtitle=""
-          className="mx-auto max-w-6xl px-3"
+          className="mx-auto max-w-[1075px] px-3"
           position="center"
         >
           {!tags?.data ? (
@@ -264,7 +264,7 @@ export default function Home() {
       <SectionBlock
         title="Recently Viewed"
         subtitle="Continue where you left off"
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
         <RecentCard />
@@ -273,10 +273,11 @@ export default function Home() {
       <SectionBlock
         title="Elevate You Room"
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        <Swiper></Swiper>
+        {/* <Swiper></Swiper> */}
+        <SwiperCard></SwiperCard>
       </SectionBlock>
       {/* <SectionBlock
         title="@wolpinwallpaper.in"

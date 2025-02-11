@@ -18,7 +18,7 @@ export default function Page() {
 
   return (
     <main>
-      <div className="accordion-wrapper max-w-6xl mx-auto mb-16 px-3 py-7 lg:px-7 xl:px-10">
+      <div className="accordion-wrapper max-w-[1075px] mx-auto mb-16 px-3 py-7 lg:px-7 xl:px-10">
         <div className="my-[50px] text-center">
           <h1 className="text-3xl font-semibold md:text-[48px]">FAQs</h1>
         </div>

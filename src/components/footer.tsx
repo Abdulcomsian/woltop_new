@@ -12,7 +12,7 @@ export default function footer() {
   const year = new Date().getFullYear()
   return (
     <div className="bg-[#EEF1F6]">
-      <div className="mx-auto max-w-6xl px-3 lg:px-7 xl:px-10">
+      <div className="mx-auto max-w-[1075px] px-3 lg:px-7 xl:px-10">
         <div className="flex items-center justify-between pt-7 md:pt-12 lg:container lg:m-auto">
           <a className="inline-flex" href="/">
             <span className="relative h-[20px] w-[124px] md:h-[42px] md:w-[263.45px]">
@@ -304,7 +304,7 @@ export default function footer() {
             <a href="terms" className="hover:underline">
               Terms &amp; Conditions
             </a>
-            <a href="/shop/src/pages/terms.tsx" className="hover:underline">
+            <a href="terms" className="hover:underline">
               Privacy Policy
             </a>
           </div>

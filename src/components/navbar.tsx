@@ -45,9 +45,9 @@ export default function navbar() {
         className="bg-[#FFFFFF] font-poppins"
         style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}
       >
-        <div className="px-5 py-[16px] mx-auto max-w-6xl lg:px-7 xl:px-10">
+        <div className="px-3 py-[11px] md:py-[16px] mx-auto max-w-[1075px]">
           <div className="flex items-center justify-between">
-            <div className="flex space-x-4 lg:space-x-20">
+            <div className="flex items-center space-x-[10px]">
               {isMobileView && (
                 <button
                   className="mobile-menu-button md:hidden"
@@ -94,7 +94,7 @@ export default function navbar() {
                   className="flex items-center text-gray-700 hover:text-gray-900"
                 >
                   {/* <img className='w-100' src={mainLogo} alt="" />*/}
-                  <span className="relative h-[2.125rem] w-32 overflow-hidden md:w-[8.625rem]">
+                  <span className="relative h-[20px] w-32 overflow-hidden md:w-[236px] md:h-[37px]">
                     <img
                       src={footerLogo.src || null}
                       className="object-contain"
@@ -163,7 +163,7 @@ export default function navbar() {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                <span className="absolute -top-1/2 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[#49AD91] text-[10px] text-white ltr:-right-1/2 rtl:-left-1/2">
+                <span className="absolute -top-[3px] -right-[3px] md:-top-[6px] md:-right-[6px] flex w-[12px] h-[12px] md:w-[19px] md:h-[19px] items-center justify-center rounded-full bg-[#49AD91] text-[10px] text-white">
                   {isMounted ? cartItemsLength : 0}
                 </span>
               </Link>
@@ -236,7 +236,7 @@ export default function navbar() {
       {/* Search Bar */}
       {isSearchOpen && (
         <div className="bg-gray-100 shadow-md">
-          <div className="mx-auto p-4 lg:container lg:px-7 xl:px-10">
+          <div className="mx-auto px-3 py-4 max-w-[1075px]">
             <input
               type="text"
               className="w-full rounded-md border p-2 focus:outline-none focus:ring-2 focus:ring-pink-500"

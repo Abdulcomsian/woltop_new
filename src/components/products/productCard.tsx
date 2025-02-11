@@ -60,12 +60,12 @@ export function ProductCard({
       </CardContent>
       <CardFooter>
         <CardDescription>
-          <span className="text-heading text-sm font-semibold md:text-base">
-            {price}
+          <span className="text-heading text-sm text-[#121212] font-semibold md:text-base">
+          ₹{price}
           </span>
-          <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
+          {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
             {discountPrice}
-          </del>
+          </del> */}
         </CardDescription>
       </CardFooter>
     </div>
