@@ -7,10 +7,10 @@ export default function page() {
     <SectionBlock
       title=""
       subtitle=""
-      className="mt-4 px-3 pt-4 lg:container lg:m-auto"
+      className="mt-4 px-3 pt-4 max-w-[1075px] mx-auto"
       position="left"
     >
-      <section className="bg-light mx-auto w-full px-3 pb-8 lg:container lg:m-auto lg:pb-10 xl:pb-14">
+      <section className="bg-light mx-auto w-full px-3 pb-8 lg:pb-10 xl:pb-14">
         <h1 className="text-brand-dark text-center text-xl font-bold md:text-2xl lg:text-3xl 2xl:text-[40px] py-[64px]">
           <span className="text-3xl font-semibold md:text-[48px]">
             Terms &amp; conditions

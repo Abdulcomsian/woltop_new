@@ -30,7 +30,7 @@ const SectionBlock: React.FC<SectionProps> = ({
   return (
     <div
       className={cn(
-        'flex w-full flex-col pb-[40px] lg:px-7 xl:px-10 xl:pb-[70px]',
+        'flex w-full flex-col pb-[40px] xl:pb-[70px]',
         className,
       )}
     >

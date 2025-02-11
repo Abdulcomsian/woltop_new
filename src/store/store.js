@@ -1,3 +1,4 @@
+"use client"
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import cartReducer from "~/store/slices/cartSlice";
 import userReducer from "~/store/slices/userSlice";
@@ -11,6 +12,7 @@ import { faqsApi } from "./api/faqsApi";
 import { teamApi } from "./api/teamApi";
 import { blogsApi } from "./api/blogsApi";
 import { deliveryApi } from "./api/deliveryApi";
+import { deliveryPreference } from "./api/deliveryPreference";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -24,6 +26,7 @@ const rootReducer = combineReducers({
   [teamApi.reducerPath]: teamApi.reducer,
   [blogsApi.reducerPath]: blogsApi.reducer,
   [deliveryApi.reducerPath]: deliveryApi.reducer,
+  [deliveryPreference.reducerPath]: deliveryPreference.reducer,
   [catagoriesApi.reducerPath]: catagoriesApi.reducer,
   [paramApi.reducerPath]: paramApi.reducer,
 });
@@ -78,6 +81,7 @@ export const store = configureStore({
       .concat(faqsApi.middleware)
       .concat(teamApi.middleware)
       .concat(deliveryApi.middleware)
+      .concat(deliveryPreference.middleware)
       .concat(blogsApi.middleware)
       .concat(reviewsApi.middleware)
       .concat(catagoriesApi.middleware)

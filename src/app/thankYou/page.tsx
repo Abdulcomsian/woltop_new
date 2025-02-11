@@ -24,8 +24,8 @@ export default function page() {
 
   return (
     <>
-      <section className="w-full bg-[#F0F7F2] py-5">
-        <div className="m-auto md:w-2/5 bg-white">
+      <section className="w-full py-5">
+        <div className="m-auto md:w-3/6 bg-white shadow-sm">
           <div className="flex flex-col items-center border-b-2 py-5">
             <p className="text-[16px] font-[600]">THANK YOU JOHN DOE</p>
             <p>

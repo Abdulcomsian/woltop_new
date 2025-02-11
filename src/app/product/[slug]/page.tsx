@@ -21,6 +21,7 @@ import ProductDetailCard from "../../pages/shop/productDetailCard";
 import { useGetProductByIdQuery } from "~/store/api/productApi";
 import RecentCard from "~/app/pages/shop/RecentCard";
 import { useParams } from "next/navigation";
+import SwiperCard from "~/components/swiperCard";
 
 export default function Page() {
   const { slug } = useParams();
@@ -70,7 +71,7 @@ export default function Page() {
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto max-w-6xl md:mt-[60px]"
+        className="mx-auto max-w-[1075px] md:mt-[60px]"
         position="left"
       >
         <ProductDetailItem responseData={product}></ProductDetailItem>
@@ -79,7 +80,7 @@ export default function Page() {
         <SectionBlock
           title="Experience the Texture & Shine"
           subtitle="Transform Ordinary Walls into Extraordinary Masterpieces"
-          className="mx-auto max-w-6xl px-3 pt-[13px] md:pt-[33px]"
+          className="mx-auto max-w-[1075px] px-3 pt-[13px] md:pt-[33px]"
           position="left"
         >
           <VideoSection responseData={product}></VideoSection>
@@ -90,7 +91,7 @@ export default function Page() {
         <SectionBlock
           title=""
           subtitle=""
-          className="mx-auto max-w-6xl px-3 pt-4"
+          className="mx-auto max-w-[1075px] px-3 pt-4"
           position="left"
         >
           <ProductDescription responseData={product}></ProductDescription>
@@ -98,30 +99,35 @@ export default function Page() {
       </div>
 
       <div className="bg-[#FFF3F6] pt-5">
-        <SectionBlock
-          title="4 Steps Easy Installation"
-          subtitle=""
-          className="mx-auto max-w-6xl px-3 pt-[13px] md:pt-[33px]"
-          position="center"
-        >
-          <EasySteps responseData={product}></EasySteps>
-        </SectionBlock>
+        {product?.data?.design_application_details?.length !== 0 && (
+          <SectionBlock
+            title="4 Steps Easy Installation"
+            subtitle=""
+            className="mx-auto max-w-[1075px] px-3 pt-[13px] md:pt-[33px]"
+            position="center"
+          >
+            <EasySteps responseData={product}></EasySteps>
+          </SectionBlock>
+        )}
       </div>
+
       <div className="my-10 bg-[#F1FBFF] md:my-[70px]">
-        <SectionBlock
-          title="More Information"
-          subtitle=""
-          className="mx-auto max-w-6xl px-3 pt-6"
-          position="center"
-        >
-          <MoreInformationSteps responseData={product}></MoreInformationSteps>
-        </SectionBlock>
+        {product?.data?.storage_usage_details?.length !== null && (
+          <SectionBlock
+            title="More Information"
+            subtitle=""
+            className="mx-auto max-w-[1075px] px-3 pt-6"
+            position="center"
+          >
+            <MoreInformationSteps responseData={product}></MoreInformationSteps>
+          </SectionBlock>
+        )}
       </div>
 
       <SectionBlock
         title="Unreeling Some Wolpin Stories"
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
         <Reeling></Reeling>
@@ -131,7 +137,7 @@ export default function Page() {
         <SectionBlock
           title="Why #WolpinWallpaper Stands Out "
           subtitle=""
-          className="mx-auto max-w-6xl px-3 pt-10 md:mt-[70px]"
+          className="mx-auto max-w-[1075px] px-3 pt-10 md:mt-[70px]"
           position="center"
         >
           <StandsOut></StandsOut>
@@ -142,7 +148,7 @@ export default function Page() {
         <SectionBlock
           title=""
           subtitle=""
-          className="mx-auto max-w-6xl px-2 pt-10 md:pt-[70px]"
+          className="mx-auto max-w-[1075px] px-2 pt-10 md:pt-[70px]"
           position="left"
         >
           <RatedReview responseData={product}></RatedReview>
@@ -155,7 +161,7 @@ export default function Page() {
       <SectionBlock
         title="Other Products in this Range"
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
         <ProductDetailCard responseData={product}></ProductDetailCard>
@@ -163,15 +169,16 @@ export default function Page() {
       <SectionBlock
         title="Explore Our Other Categories"
         subtitle=""
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        <SwiperItem></SwiperItem>
+        {/* <SwiperItem></SwiperItem> */}
+        <SwiperCard></SwiperCard>
       </SectionBlock>
       <SectionBlock
         title="Recently Viewed"
         subtitle="Continue where you left off"
-        className="mx-auto max-w-6xl px-3"
+        className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
         <RecentCard />

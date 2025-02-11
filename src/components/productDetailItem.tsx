@@ -389,7 +389,7 @@ export default function productDetailItem({
                 {/* <ToolkitBar></ToolkitBar> */}
 
                 {products_features.length !== 0 && (
-                  <div className="mt-5 flex w-full gap-3 overflow-x-auto">
+                  <div className="mt-5 flex w-full gap-3 md:gap-6 overflow-x-auto">
                     {products_features?.map(
                       (feature: { image: string; name: string }, index) => (
                         <div
