@@ -37,9 +37,8 @@ export default function PopularWallpaper({ products }: PopularWallpaperProps) {
       <h3 className="3xl:text-3xl font-poppins text-xl mb-[26px] md:mb-[43px] mx-auto font-semibold lg:text-[27px]">
         Popular Wallpaper
       </h3>
-      {/* <div className="grid grid-cols-2 gap-4 lg:gap-2 px-3 lg:px-0 md:gap-6 gap-y-10 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] 3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))]"> */}
       <div className="w-full">
-        <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-2 gap-5 gap-y-10 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
           {cardData.map((card) => (
             <Link key={card?.id} href={`/product/${card.id}`}>
               <ProductCard
