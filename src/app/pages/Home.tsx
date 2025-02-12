@@ -1,12 +1,9 @@
 "use client";
 import Banner from "./shop/banner";
-import Swiper from "./shop/swiperItem";
 import PopularWallpaper from "./shop/popularWallpaper";
 import product1 from "../../assets/product/Woltop2222.png";
 import product2 from "../../assets/product/Woltop333333.png";
 import product3 from "../../assets/product/Woltop44444.png";
-import product4 from "../../assets/product/Woltop55555.png";
-import { ArrowRight } from "~/components/icons/Arrowfill";
 import Reeling from "./shop/reeling";
 import DetailCard from "./shop/detailCard";
 import TagsProductCard from "./shop/tagsProduct";
@@ -15,22 +12,18 @@ import VideoSection from "./shop/videoSection";
 import SectionBlock from "~/components/ui/section-block";
 import StepSection from "./shop/stepSection";
 import ConsultationSection from "./shop/consultation-background";
-import {
-  useGetPopularProductsQuery,
-  useGetProductsByColorQuery,
-} from "~/store/api/productApi";
+import { useGetPopularProductsQuery } from "~/store/api/productApi";
 import { useGetColorsQuery, useGetTagsQuery } from "~/store/api/paramApi";
 import TabsComponent from "~/components/tabComponent";
 import SwiperCard from "~/components/swiperCard";
-import ToolsCard from "./shop/toolsCard";
 import HomePageReviewCards from "./shop/homePageReviewCards";
 import RecentCard from "./shop/RecentCard";
+import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
+import { useGetRoomCategoriesQuery } from "~/store/api/roomCatagoriesApi";
+import OurRangesCard from "./shop/OurRangesCard";
+import { useGetHomeVideoQuery } from "~/store/api/homeVideoApi";
 export default function Home() {
-  const {
-    data: popularProducts,
-    isLoading,
-    error,
-  } = useGetPopularProductsQuery({});
+  const { data: popularProducts } = useGetPopularProductsQuery({});
   const {
     data: colors,
     // isLoadingColors,
@@ -41,6 +34,9 @@ export default function Home() {
     // isLoadingColors,
     // errorColors,
   } = useGetTagsQuery({});
+  const { data: categories } = useGetCategoriesQuery({});
+  const { data: roomCategories } = useGetRoomCategoriesQuery({});
+  const { data: homeVideo } = useGetHomeVideoQuery({});
 
   const colorTabs =
     colors?.data.map((color: any) => ({
@@ -65,52 +61,7 @@ export default function Home() {
     value: tab.value,
     component: <TagsProductCard tagId={tab.value} />,
   }));
-  const ShopRoomCardData = [
-    {
-      id: 1,
-      title: "Card Title 1",
-      img: product1,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "5%",
-      content: "Living Room",
-      icon: <ArrowRight />,
-    },
-    {
-      id: 2,
-      title: "Card Title 2",
-      img: product2,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "16%",
-      content: "Bedroom",
-      icon: <ArrowRight />,
-    },
-    {
-      id: 3,
-      title: "Card Title 3",
-      img: product3,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "10%",
-      content: "Kids Room",
-      icon: <ArrowRight />,
-    },
-    {
-      id: 4,
-      title: "Card Title 4",
-      img: product4,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "12%",
-      content: "hall",
-      icon: <ArrowRight />,
-    },
-  ];
+
   const BrowseCardData = [
     {
       id: 1,
@@ -129,7 +80,7 @@ export default function Home() {
   return (
     <>
       <div className="mx-auto my-[22px] max-w-[1075px] px-3 md:my-[41px]">
-        <SwiperCard></SwiperCard>
+        <SwiperCard categories={categories}></SwiperCard>
       </div>
       <SectionBlock className="mx-auto max-w-[1075px] px-3" position="center">
         <Banner></Banner>
@@ -164,10 +115,10 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
-        <CategorieCard
+        <OurRangesCard
           //@ts-ignore
-          cardData={BrowseCardData}
-        ></CategorieCard>
+          cardData={categories}
+        ></OurRangesCard>
       </SectionBlock>
 
       <SectionBlock
@@ -176,10 +127,11 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
-        <VideoSection></VideoSection>
+        {/* <VideoSection></VideoSection> */}
+        <VideoSection responseData={homeVideo}></VideoSection>
       </SectionBlock>
       {/* <Card> </Card> */}
-      <div className="bg-[#F1FBFF] pt-10 md:pt-[70px] mb-10 md:mb-[70px]">
+      <div className="mb-10 bg-[#F1FBFF] pt-10 md:mb-[70px] md:pt-[70px]">
         <SectionBlock
           title="Shop By Room"
           subtitle="Wallpaper designs for every room"
@@ -188,7 +140,7 @@ export default function Home() {
         >
           <CategorieCard
             //@ts-ignore
-            cardData={ShopRoomCardData}
+            cardData={roomCategories}
           ></CategorieCard>
         </SectionBlock>
       </div>
@@ -202,7 +154,7 @@ export default function Home() {
         <ConsultationSection></ConsultationSection>
       </SectionBlock>
 
-      <div className="mt-10 mb-10 md:mb-[70px] bg-[#FFF3F6]">
+      <div className="mb-10 mt-10 bg-[#FFF3F6] md:mb-[70px]">
         <SectionBlock
           title=""
           subtitle=""
@@ -222,7 +174,7 @@ export default function Home() {
         <SectionBlock
           title="Styled Spaces by Our Clients"
           subtitle="Projects We’ve Brought to Life"
-          className="mx-auto max-w-[1075px] px-3"
+          className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-[56px]"
           position="left"
         >
           <Reeling></Reeling>
@@ -238,7 +190,7 @@ export default function Home() {
         <StepSection />
       </SectionBlock>
 
-      <div className="bg-[#F1FBFF] mb-10 md:mb-[70px]">
+      <div className="mb-10 bg-[#F1FBFF] md:mb-[70px]">
         <SectionBlock
           title=""
           subtitle=""
@@ -276,8 +228,7 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        {/* <Swiper></Swiper> */}
-        <SwiperCard></SwiperCard>
+        <SwiperCard categories={roomCategories}></SwiperCard>
       </SectionBlock>
       {/* <SectionBlock
         title="@wolpinwallpaper.in"

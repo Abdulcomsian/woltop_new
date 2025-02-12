@@ -5,68 +5,18 @@ import { SearchIcon } from "./icons/searchIcon";
 import { FavriouteIcon } from "./icons/favriouteIcon";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-import { X } from 'lucide-react';
-
-const LoginModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg relative">
-        <button className="absolute right-3 top-3" onClick={onClose} type="button">
-          <X />
-        </button>
-        <h2 className="mb-4 text-xl text-center font-semibold">Login to continue</h2>
-        <form className="max-w-[300px] mx-auto">
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500"
-              placeholder="Enter your password"
-            />
-          </div>
-          <div className="w-full">
-            <button
-              type="submit"
-              className="rounded-md w-full bg-[#4bad91] px-4 py-2 text-white hover:bg-[#68d7b7]"
-            >
-              Login
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
+import LoginModal from "../components/LoginModal";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartItemsLength = useSelector((state: any) => state.cart.items.length);
   const [isMobileView, setIsMobileView] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen);
-  };
 
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -157,29 +107,34 @@ export default function Navbar() {
             </div>
             {/* <!-- primary nav --> */}
             <div className="hidden items-center text-[18px] md:flex md:gap-2.5 lg:gap-10">
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <a href="#" className="text-[#000000] hover:text-gray-900">
                 New Arrival
               </a>
-              <a href="/about" className="text-gray-700 hover:text-gray-900">
+              <a href="/about" className="text-[#000000] hover:text-gray-900">
                 About
               </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <a href="#" className="text-[#000000] hover:text-gray-900">
                 Tools
               </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <a href="/careers" className="text-[#000000] hover:text-gray-900">
                 Careers
               </a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">
+              <a href="/contact" className="text-[#000000] hover:text-gray-900">
                 Contact
               </a>
             </div>
 
             {/* <!-- secondary nav --> */}
             <div className="flex shrink-0 items-center space-x-2 md:space-x-4 rtl:space-x-reverse">
-              <button onClick={toggleSearch}>
+              <Link
+                href="/search"
+                //  onClick={toggleSearch}
+              >
                 <SearchIcon />
-              </button>
-              <FavriouteIcon />
+              </Link>
+              <Link href="/wishlist">
+                <FavriouteIcon />
+              </Link>
               <Link href="/cart" className="product-cart relative lg:flex">
                 <svg
                   width="24"
@@ -265,27 +220,20 @@ export default function Navbar() {
           <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
             Tools
           </a>
-          <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
+          <a
+            href="/careers"
+            className="block px-4 py-2 text-sm hover:bg-gray-200"
+          >
             Careers
           </a>
-          <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
+          <a
+            href="/contact"
+            className="block px-4 py-2 text-sm hover:bg-gray-200"
+          >
             Contact
           </a>
         </div>
       </nav>
-      {/* Search Bar */}
-      {isSearchOpen && (
-        <div className="bg-gray-100 shadow-md">
-          <div className="mx-auto max-w-[1075px] px-3 py-4">
-            <input
-              type="text"
-              className="w-full rounded-md border p-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
-              placeholder="Search for products..."
-            />
-          </div>
-        </div>
-      )}
-      {/* Login Modal */}
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}

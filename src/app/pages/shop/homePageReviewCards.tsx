@@ -8,14 +8,14 @@ interface ReviewCardProps {
 
 function ReviewCard({ stars, review, name, role, avatar }: ReviewCardProps) {
   return (
-    <div className="min-w-[333px] rounded-lg border-2 border-dashed bg-white p-6 shadow-md md:w-auto md:flex-shrink-0">
-      <div className="mb-4 flex gap-1">
-        <div className="flex text-yellow-400">
+    <div className="min-w-[333px] mt-[56px] md:mt-[63px] rounded-lg border-2 border-dashed bg-white p-6 shadow-md md:w-auto md:flex-shrink-0">
+      <div className="mb-4 hidden md:flex gap-1">
+        <div className="flex text-yellow-400 gap-[6px]">
           {Array.from({ length: stars }, (_, i) => (
             <svg
               key={i}
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 fill-current"
+              className="h-[30px] w-[30px] fill-current"
               viewBox="0 0 24 24"
             >
               <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
@@ -23,7 +23,7 @@ function ReviewCard({ stars, review, name, role, avatar }: ReviewCardProps) {
           ))}
         </div>
       </div>
-      <p className="mb-4 text-xs text-gray-600 md:text-sm">{review}</p>
+      <p className="mb-4 text-xs text-[#0B0B0B] md:text-base leading-[24px] md:leading-[30px]">{review}</p>
       <div className="flex items-center justify-between">
         <div className="flex">
           <div className="mr-4 h-12 w-12 overflow-hidden rounded-full">
@@ -40,7 +40,7 @@ function ReviewCard({ stars, review, name, role, avatar }: ReviewCardProps) {
             <h4 className="font-poppins text-lg font-semibold text-black">
               {name}
             </h4>
-            <p className="font-poppins text-xs text-gray-500">{role}</p>
+            <p className="font-poppins text-xs text-[#0B0B0B]">{role}</p>
           </div>
         </div>
         <svg

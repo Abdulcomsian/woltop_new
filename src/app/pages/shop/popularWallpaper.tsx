@@ -30,11 +30,11 @@ export default function PopularWallpaper({ products }: PopularWallpaperProps) {
     price: product.price,
     discountPrice: product.sale_price,
     discount: `${product.discount}%`,
-    content: `${product.title} - Description`, // You can modify this as needed
+    content: `${product.title}`,
   }));
   return (
     <div className="flex w-full flex-col">
-      <h3 className="3xl:text-3xl font-poppins text-xl mb-[26px] md:mb-[43px] mx-auto font-semibold lg:text-[27px]">
+      <h3 className="font-poppins text-[#000000] text-2xl mb-[26px] md:mb-[43px] mx-auto font-semibold lg:text-[34px]">
         Popular Wallpaper
       </h3>
       <div className="w-full">

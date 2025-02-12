@@ -120,13 +120,13 @@ export default function RecentCard() {
                   }}
                   className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover md:h-[305px] sm:w-auto"
                 >
-                  <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
+                  {/* <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
                     {card.data.discount || 0}%
-                  </div>
+                  </div> */}
                 </Card>
               </Link>
               <CardContent className="w-full" style={{ paddingTop: "0px" }}>
-                <p className="text-xs font-medium md:text-base">
+                <p className="text-xs text-[#000000] font-normal md:text-base truncate">
                   {card.data.title}
                 </p>
                 <div className="rating-wrapper flex items-center gap-1">
@@ -206,7 +206,7 @@ export default function RecentCard() {
                   ))}
                 </CardDescription>
                 <div className="mt-2 flex items-center gap-3">
-                  <div className="rounded-full border p-2">
+                  <div className="rounded-full border-[0.5px] border-[#A5A1A1] p-2">
                     <svg
                       width="20"
                       height="20"

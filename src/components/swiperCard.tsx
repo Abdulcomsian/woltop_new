@@ -3,10 +3,8 @@ import React, { useEffect } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
-import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 
-const SwiperCard = () => {
-  const { data: categories } = useGetCategoriesQuery({});
+const SwiperCard = ({categories}) => {
 
   useEffect(() => {
     // Initialize Swiper instance
@@ -73,7 +71,7 @@ const SwiperCard = () => {
                     />
                   </div>
                   <div className="mt-2 block text-center">
-                    <span className="text-heading text-center text-xs md:text-base font-normal transition-colors group-hover:text-orange-500">
+                    <span className="text-heading text-center text-[#000000] text-xs md:text-base font-normal transition-colors group-hover:text-orange-500">
                       {category.name}
                     </span>
                   </div>
