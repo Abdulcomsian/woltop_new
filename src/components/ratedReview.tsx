@@ -1,4 +1,5 @@
-import React from "react";
+import { X } from "lucide-react";
+import React, { useState } from "react";
 
 interface ReviewData {
   average: number;
@@ -19,6 +20,10 @@ interface ResponseData {
 export default function RatedReview({ responseData }: { responseData: ResponseData }) {
   const { reviews } = responseData?.data;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+
   if (!reviews) return null;
 
   const {
@@ -36,12 +41,30 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
       <svg
         key={index}
         xmlns="http://www.w3.org/2000/svg"
-        className={`h-5 w-5 fill-current ${index < rating ? "text-yellow-400" : "text-white"}`}
+        className={`h-5 w-5 fill-current ${index < rating ? "text-yellow-400" : "text-gray-300"}`}
         viewBox="0 0 24 24"
       >
         <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
       </svg>
     ));
+  };
+
+  const handleAddReview = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setReviewRating(0);
+    setReviewText("");
+  };
+
+  const handleSubmitReview = () => {
+    // Handle review submission (e.g., send data to an API)
+    console.log("Review Rating:", reviewRating);
+    console.log("Review Text:", reviewText);
+    alert("Thank you for your review!");
+    handleCloseModal();
   };
 
   return (
@@ -52,7 +75,7 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
             <h6 className="text-3xl font-bold">Rated {average}</h6>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-5 w-5 fill-current ${average ? "text-yellow-400" : "text-white"}`}
+              className={`h-5 w-5 fill-current ${average ? "text-yellow-400" : "text-gray-300"}`}
               viewBox="0 0 24 24"
             >
               <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
@@ -60,9 +83,12 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
           </div>
           <p className="mt-3">{total_count} verified reviews</p>
         </div>
-        <div className="btn hover:bg-[#49AD91]-700 flex h-12 justify-center rounded bg-[#49AD91] p-3 pl-5 pr-5 align-middle font-medium text-white">
+        <button
+          onClick={handleAddReview}
+          className="btn hover:bg-[#49AD91]-700 flex h-12 justify-center rounded bg-[#49AD91] p-3 pl-5 pr-5 align-middle font-medium text-white"
+        >
           ADD A REVIEW
-        </div>
+        </button>
       </div>
 
       {/* Breakdown of star counts */}
@@ -88,6 +114,61 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
           <div className="ml-3 text-[#A5A1A1]">({one_star_count})</div>
         </div>
       </div>
+
+      {/* Add Review Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+            <div className="flex justify-between">
+              <h2 className="text-xl font-bold">Add a Review</h2>
+              <button
+                onClick={handleCloseModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Rating
+              </label>
+              <div className="flex space-x-1">
+                {[...Array(5)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setReviewRating(index + 1)}
+                    className={`h-6 w-6 ${
+                      index < reviewRating ? "text-yellow-400" : "text-gray-300"
+                    }`}
+                  >
+                    ★
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Review
+              </label>
+              <textarea
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
+                rows={4}
+                className="mt-1 w-full rounded-md border border-gray-300 p-2 focus:border-[#49AD91] focus:outline-none focus:ring-[#49AD91]"
+                placeholder="Write your review..."
+              />
+            </div>
+            <div className="mt-6">
+              <button
+                onClick={handleSubmitReview}
+                className="w-full rounded-md bg-[#49AD91] px-4 py-2 text-white hover:bg-[#68d7b7]"
+              >
+                Submit Review
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

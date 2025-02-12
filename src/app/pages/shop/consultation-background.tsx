@@ -22,12 +22,12 @@ const ConsultationSection = () => {
       {/* Right Side - Content */}
       <div className="relative z-10 w-full p-6 pl-0 sm:w-[36%] text-left">
         <p className="text-base md:text-[20px] text-[#000000] ">In-Home</p>
-        <h2 className="mb-4 text-[36px] font-bold text-black">Consultation</h2>
-        <p className="mb-4 text-base md:text-[20px] text-[#000000]">
+        <h2 className="mb-4 text-[34px] font-bold text-[#000000]">Consultation</h2>
+        <p className="mb-[22px] text-base md:text-[20px] text-[#000000]">
           Tailored Wallpaper Consultation Brought to Your Doorstep
         </p>
-        <ul className="mb-6 list-disc md:pl-5 text-left text-base md:text-[20px] text-[#000000]">
-          <li className="mb-2 flex items-center gap-2">
+        <ul className="mb-[44px] list-disc text-left text-base md:text-[20px] text-[#000000]">
+          <li className="mb-5 flex items-center gap-2">
             <svg
               width="32"
               height="33"
@@ -57,7 +57,7 @@ const ConsultationSection = () => {
             </svg>
             Design Consultation
           </li>
-          <li className="mb-2 flex items-center gap-2">
+          <li className="mb-5 flex items-center gap-2">
             <svg
               width="32"
               height="33"

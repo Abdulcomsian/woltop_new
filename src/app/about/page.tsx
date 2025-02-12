@@ -1,21 +1,24 @@
 "use client";
 import Banner from "~/components/banner";
 import OurTeam from "~/components/ourTeam";
+import SwiperCard from "~/components/swiperCard";
 import SectionBlock from "~/components/ui/section-block";
-import SwiperItem from "../pages/shop/swiperItem";
+import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 
 export default function page() {
+  const { data: categories } = useGetCategoriesQuery({});
+
   const aboutBanner = {
     heading: "ABOUT WOLPIN",
     subHeading: "Lorem ipsum dolor sit amet",
-    desc: "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales."
+    desc: "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales.",
   };
   return (
     <>
       <SectionBlock
         title=""
         subtitle=""
-        className="px-3 max-w-[1075px] mx-auto mt-10 md:mt-[70px]"
+        className="mx-auto mt-10 max-w-[1075px] px-3 md:mt-[70px]"
         position="left"
       >
         <Banner bannerData={aboutBanner}></Banner>
@@ -24,10 +27,10 @@ export default function page() {
       <SectionBlock
         title="Elevate You Room"
         subtitle=""
-        className="px-3 max-w-[1075px] mx-auto"
+        className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        <SwiperItem></SwiperItem>
+        <SwiperCard categories={categories}></SwiperCard>
       </SectionBlock>
     </>
   );

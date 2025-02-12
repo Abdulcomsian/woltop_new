@@ -13,13 +13,19 @@ import { teamApi } from "./api/teamApi";
 import { blogsApi } from "./api/blogsApi";
 import { deliveryApi } from "./api/deliveryApi";
 import { deliveryPreference } from "./api/deliveryPreference";
+import { roomCatagoriesApi } from "./api/roomCatagoriesApi";
+import { allProductsApi } from "./api/allProductsApi";
+import { homeBannerApi } from "./api/homeBannerApi";
+import { homeVideoApi } from "./api/homeVideoApi";
 
 // Combine reducers
 const rootReducer = combineReducers({
   cart: cartReducer,
   user: userReducer,
   [productsApi.reducerPath]: productsApi.reducer,
+  [allProductsApi.reducerPath]: allProductsApi.reducer,
   [storiesApi.reducerPath]: storiesApi.reducer,
+  [homeBannerApi.reducerPath]: homeBannerApi.reducer,
   [reviewsApi.reducerPath]: reviewsApi.reducer,
   [toolsApi.reducerPath]: toolsApi.reducer,
   [faqsApi.reducerPath]: faqsApi.reducer,
@@ -28,10 +34,11 @@ const rootReducer = combineReducers({
   [deliveryApi.reducerPath]: deliveryApi.reducer,
   [deliveryPreference.reducerPath]: deliveryPreference.reducer,
   [catagoriesApi.reducerPath]: catagoriesApi.reducer,
+  [roomCatagoriesApi.reducerPath]: roomCatagoriesApi.reducer,
   [paramApi.reducerPath]: paramApi.reducer,
+  [homeVideoApi.reducerPath]: homeVideoApi.reducer,
 });
 
-// Load state for `cart` and `user` slices from localStorage
 const loadState = () => {
   if (typeof window !== "undefined") {
     try {
@@ -52,7 +59,6 @@ const loadState = () => {
   return undefined;
 };
 
-// Save only `cart` and `user` slices to localStorage
 const saveState = (state) => {
   if (typeof window !== "undefined") {
     try {
@@ -67,16 +73,17 @@ const saveState = (state) => {
   }
 };
 
-// Configure the store
 export const store = configureStore({
   reducer: rootReducer,
-  preloadedState: loadState(), // Load initial state for cart and user slices
+  preloadedState: loadState(),
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     })
       .concat(productsApi.middleware)
+      .concat(allProductsApi.middleware)
       .concat(storiesApi.middleware)
+      .concat(homeBannerApi.middleware)
       .concat(toolsApi.middleware)
       .concat(faqsApi.middleware)
       .concat(teamApi.middleware)
@@ -85,10 +92,11 @@ export const store = configureStore({
       .concat(blogsApi.middleware)
       .concat(reviewsApi.middleware)
       .concat(catagoriesApi.middleware)
-      .concat(paramApi.middleware),
+      .concat(roomCatagoriesApi.middleware)
+      .concat(paramApi.middleware)
+      .concat(homeVideoApi.middleware),
 });
 
-// Subscribe to store changes and save only cart and user slices to localStorage
 store.subscribe(() => {
   saveState(store.getState());
 });

@@ -9,12 +9,14 @@ interface CardData {
   icon?: React.ReactNode;
 }
 
-export default function categorieCard({cardData}) {
+export default function OurRangesCard({cardData}) {
+
+  const limitedCategories = cardData?.slice(0, 3);
   return (
     <div className="flex w-full flex-col">
       {/* <div className="grid grid-cols-2 gap-4 lg:gap-2 px-3 lg:px-0 md:gap-6 gap-y-10 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] 3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))]"> */}
-      <div className="scrollbar-hide grid auto-cols-[minmax(151px,1fr)] md:auto-cols-[minmax(250px,1fr)]  grid-flow-col overflow-x-auto gap-4">
-        {cardData?.map((card) => (
+      <div className="scrollbar-hide grid auto-cols-[minmax(195px,1fr)]  grid-flow-col overflow-x-auto gap-4">
+        {limitedCategories?.map((card) => (
           <div key={card.id} className="">
             <div className="card-wrapper relative">
               <Card
@@ -25,13 +27,6 @@ export default function categorieCard({cardData}) {
                 className="rounded-lg bg-center object-cover h-[158px] md:h-[337px]"
               >
               </Card>
-
-              <div className="mt-3 flex items-center justify-between md:px-0">
-                <span className="text-heading text-base font-normal text-[#383434] transition-colors group-hover:text-orange-500 md:text-[20px] ltr:text-left rtl:text-right">
-                  {card.name}
-                </span>
-                <div><ArrowRight /></div>
-              </div>
             </div>
           </div>
         ))}

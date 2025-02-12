@@ -77,7 +77,7 @@ export default function ProductDetailCard({ responseData }: ProductDetailCardPro
                 <CardHeader></CardHeader>
               </Card>
               <CardContent>
-                <p>{card.title}</p>
+                <p className="text-[#505050] truncate">{card.title}</p>
               </CardContent>
               <CardFooter>
                 <CardDescription>

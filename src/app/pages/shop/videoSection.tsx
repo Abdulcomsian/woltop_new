@@ -1,22 +1,14 @@
 import React from "react";
 
-interface ResponseData {
-  data?: {
-    video?: string;
-  };
-}
-
-export default function VideoSection({
-  responseData,
-}: {
-  responseData?: ResponseData;
-}) {
+export default function VideoSection({ responseData}) {
   const video = responseData?.data?.video;
+
+  console.log(video, "homevideo")
 
   return (
     <div className="container mx-auto">
       <div className="flex items-center justify-center">
-        <video className="w-full aspect-auto rounded-lg" controls>
+        <video className="aspect-auto w-full rounded-lg" controls>
           <source
             src={
               video ||

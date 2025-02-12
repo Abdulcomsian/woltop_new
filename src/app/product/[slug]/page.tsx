@@ -1,38 +1,33 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
-import Banner from "~/app/pages/shop/banner";
 import EasySteps from "~/components/easySteps";
 import RatedReview from "~/components/ratedReview";
 import ReviewCard from "../../pages/shop/reviewCard";
-import Pagination from "~/components/pagination";
-import SwiperItem from "../../pages/shop/swiperItem";
 import ProductDetailItem from "~/components/productDetailItem";
 import ProductDescription from "~/components/productDescription";
 import SectionBlock from "~/components/ui/section-block";
 import VideoSection from "../../pages/shop/videoSection";
 import Reeling from "../../pages/shop/reeling";
-import MoreInformation from "~/components/moreInformation";
 import StandsOut from "~/components/standsOut";
-import DetailCard from "../../pages/shop/detailCard";
 import MoreInformationSteps from "~/components/moreInformationSteps";
 import ProductDetailCard from "../../pages/shop/productDetailCard";
 import { useGetProductByIdQuery } from "~/store/api/productApi";
 import RecentCard from "~/app/pages/shop/RecentCard";
 import { useParams } from "next/navigation";
 import SwiperCard from "~/components/swiperCard";
+import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 
 export default function Page() {
   const { slug } = useParams();
-  // console.log(slug, "slug");
   const {
     data: product,
     isLoading,
     error,
   } = useGetProductByIdQuery(slug as string);
+  const { data: categories } = useGetCategoriesQuery({});
+  
 
-  // Store API data in localStorage when available
   useEffect(() => {
     if (product) {
       if (typeof window !== "undefined") {
@@ -172,8 +167,7 @@ export default function Page() {
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        {/* <SwiperItem></SwiperItem> */}
-        <SwiperCard></SwiperCard>
+        <SwiperCard categories={categories}></SwiperCard>
       </SectionBlock>
       <SectionBlock
         title="Recently Viewed"
