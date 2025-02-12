@@ -104,7 +104,7 @@ export default function RecentCard() {
   return (
     <div className="flex w-full flex-col">
       <div className="w-full">
-        <div className="3xl:grid-cols-[repeat(auto-fill,minmax(360px,1fr))] grid grid-cols-1 gap-5 gap-y-10 sm:grid-cols-2 md:gap-6 lg:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:gap-2 lg:px-0 xl:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] xl:gap-8 xl:gap-y-12 2xl:grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5">
           {products?.map((card: any, index) => (
             <div key={index} className="flex flex-row gap-3 sm:flex-col">
               <Link

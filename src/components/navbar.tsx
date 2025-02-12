@@ -1,18 +1,64 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import footerLogo from "~/assets/img/footer-logo.svg";
 import { SearchIcon } from "./icons/searchIcon";
 import { FavriouteIcon } from "./icons/favriouteIcon";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import { X } from 'lucide-react';
 
-export default function navbar() {
+const LoginModal = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg relative">
+        <button className="absolute right-3 top-3" onClick={onClose} type="button">
+          <X />
+        </button>
+        <h2 className="mb-4 text-xl text-center font-semibold">Login to continue</h2>
+        <form className="max-w-[300px] mx-auto">
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500"
+              placeholder="Enter your email"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500"
+              placeholder="Enter your password"
+            />
+          </div>
+          <div className="w-full">
+            <button
+              type="submit"
+              className="rounded-md w-full bg-[#4bad91] px-4 py-2 text-white hover:bg-[#68d7b7]"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartItemsLength = useSelector((state: any) => state.cart.items.length);
   const [isMobileView, setIsMobileView] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -25,6 +71,7 @@ export default function navbar() {
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
   const handleResize = () => {
     setIsMobileView(window.innerWidth < 768);
   };
@@ -38,6 +85,7 @@ export default function navbar() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <>
       {/* <!-- navbar goes here --> */}
@@ -45,7 +93,7 @@ export default function navbar() {
         className="bg-[#FFFFFF] font-poppins"
         style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}
       >
-        <div className="px-3 py-[11px] md:py-[16px] mx-auto max-w-[1075px]">
+        <div className="mx-auto max-w-[1075px] px-3 py-[11px] md:py-[16px]">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-[10px]">
               {isMobileView && (
@@ -93,8 +141,7 @@ export default function navbar() {
                   href="/"
                   className="flex items-center text-gray-700 hover:text-gray-900"
                 >
-                  {/* <img className='w-100' src={mainLogo} alt="" />*/}
-                  <span className="relative h-[20px] w-32 overflow-hidden md:w-[236px] md:h-[37px]">
+                  <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
                     <img
                       src={footerLogo.src || null}
                       className="object-contain"
@@ -130,7 +177,7 @@ export default function navbar() {
             {/* <!-- secondary nav --> */}
             <div className="flex shrink-0 items-center space-x-2 md:space-x-4 rtl:space-x-reverse">
               <button onClick={toggleSearch}>
-              <SearchIcon />
+                <SearchIcon />
               </button>
               <FavriouteIcon />
               <Link href="/cart" className="product-cart relative lg:flex">
@@ -163,11 +210,15 @@ export default function navbar() {
                     strokeLinejoin="round"
                   ></path>
                 </svg>
-                <span className="absolute -top-[3px] -right-[3px] md:-top-[6px] md:-right-[6px] flex w-[12px] h-[12px] md:w-[19px] md:h-[19px] items-center justify-center rounded-full bg-[#49AD91] text-[10px] text-white">
+                <span className="absolute -right-[3px] -top-[3px] flex h-[12px] w-[12px] items-center justify-center rounded-full bg-[#49AD91] text-[10px] text-white md:-right-[6px] md:-top-[6px] md:h-[19px] md:w-[19px]">
                   {isMounted ? cartItemsLength : 0}
                 </span>
               </Link>
-              <Link className="" href="/">
+              <Link
+                className=""
+                href="#"
+                onClick={() => setIsLoginModalOpen(true)}
+              >
                 <svg
                   width="24"
                   height="24"
@@ -192,17 +243,6 @@ export default function navbar() {
                 </svg>
               </Link>
             </div>
-
-            {/* <!-- mobile button goes here --> */}
-            {/* <div className="md:hidden flex items-center">
-            <button className="mobile-menu-button"  onClick={toggleMenu}>
-              <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" 
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div> */}
           </div>
         </div>
 
@@ -236,7 +276,7 @@ export default function navbar() {
       {/* Search Bar */}
       {isSearchOpen && (
         <div className="bg-gray-100 shadow-md">
-          <div className="mx-auto px-3 py-4 max-w-[1075px]">
+          <div className="mx-auto max-w-[1075px] px-3 py-4">
             <input
               type="text"
               className="w-full rounded-md border p-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
@@ -245,6 +285,11 @@ export default function navbar() {
           </div>
         </div>
       )}
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </>
   );
 }

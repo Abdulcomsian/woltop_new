@@ -290,7 +290,7 @@ export default function footer() {
               S.F.NO. 315, Angels Garden,
             </p>
             <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
-              Nagamanaickenpalayam, Pattanam,{" "}
+            Nagamanaickenpalayam, Pattanam, 
             </p>
             <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
               Coimbatore, Tamil Nadu, 641016
