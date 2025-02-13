@@ -5,6 +5,8 @@ import { type Metadata } from "next";
 import Navbar from "../components/navbar";
 import TopBar from "./pages/shop/topBar";
 import Footer from "../components/footer";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Wolpin Wallpaper",
@@ -23,6 +25,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <ToastContainer />
         </ReduxProvider>
       </body>
     </html>

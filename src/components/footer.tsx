@@ -1,19 +1,23 @@
+"use client"
 // import { PayPalIcon } from '@/components/icons/payment-gateways/paypal';
 import { MasterCardIcon } from "~/assets/iconsComp/mastercard";
 import footerLogo from "~/assets/img/footer-logo.svg";
 import { PayPalIcon } from "~/assets/iconsComp/paypal";
 import { UnionPayIcon } from "~/assets/iconsComp/unionpay";
 import { VisaIcon } from "~/assets/iconsComp/visa";
+import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 // export const icon: any = {
 //     paypal: <PayPalIcon />,
 //   };
 
 export default function footer() {
-  const year = new Date().getFullYear()
+  const { data: categories } = useGetCategoriesQuery({});
+
+  const year = new Date().getFullYear();
   return (
     <div className="bg-[#EEF1F6]">
       <div className="mx-auto max-w-[1075px] px-3 lg:px-7 xl:px-10">
-        <div className="flex items-center justify-between pt-7 md:pt-12 lg:container lg:m-auto">
+        <div className="flex items-center justify-between pt-7 lg:container md:pt-12 lg:m-auto">
           <a className="inline-flex" href="/">
             <span className="relative h-[20px] w-[124px] md:h-[42px] md:w-[263.45px]">
               <img
@@ -152,10 +156,13 @@ export default function footer() {
           </div>
         </div>
 
-        <div className="devider my-7 md:my-12 border border-[#DBDBDB]"></div>
+        <div className="devider my-7 border border-[#DBDBDB] md:my-12"></div>
 
-        <div style={{marginBottom: "36px"}} className="w-full rounded-md border-2 border-dashed border-[#49AD91] bg-white p-6 lg:container lg:m-auto">
-          <div className="text-xs md:text-[14px] leading-[26px]">
+        <div
+          style={{ marginBottom: "36px" }}
+          className="w-full rounded-md border-2 border-dashed border-[#49AD91] bg-white p-6 lg:container lg:m-auto"
+        >
+          <div className="text-xs leading-[26px] md:text-[14px]">
             <span className="font-bold">Wallpapers :</span> Exclusive Wallpaper
             Designs  3D Wallpaper Kids Room Aesthetic Art & Paintings Tropical
             Vastu World Map Indian & Traditional Nature Abstract Animals Bamboo
@@ -221,7 +228,7 @@ export default function footer() {
                 Order Tracking
               </a>
               <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
+              <a href="/account" className="hover:text-gray-900">
                 Account
               </a>
               <span className="text-[#000000]">|</span>
@@ -249,37 +256,20 @@ export default function footer() {
               Shop For
             </h3>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
-              <a href="#" className="hover:text-gray-900">
-                Popular Wallpaper
-              </a>
-              <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
-                Wallpaper
-              </a>
-              <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
-                3D wallpaper
-              </a>
-              <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
-                Living Room
-              </a>
-              <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
-                BedRoom
-              </a>
-              <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
-                Office
-              </a>
-              <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
-                Kids Room
-              </a>
-              <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
-                Hall
-              </a>
+              {categories?.map((category, index) => (
+                <>
+                  <a
+                    key={category.id}
+                    href={`/category/${category.id}`}
+                    className="hover:text-gray-900"
+                  >
+                    {category.name}
+                  </a>
+                  {index < categories.length - 1 && ( 
+                    <span className="text-[#000000]">|</span>
+                  )}
+                </>
+              ))}
             </div>
           </div>
           <div className="lg:w-1/4">
@@ -290,7 +280,7 @@ export default function footer() {
               S.F.NO. 315, Angels Garden,
             </p>
             <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
-            Nagamanaickenpalayam, Pattanam, 
+              Nagamanaickenpalayam, Pattanam,
             </p>
             <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
               Coimbatore, Tamil Nadu, 641016
@@ -299,7 +289,7 @@ export default function footer() {
         </div>
 
         <hr className="my-[29px] text-[#DBDBDB]" />
-        <div className="pb-[29px] flex flex-col justify-between gap-3 lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
+        <div className="flex flex-col justify-between gap-3 pb-[29px] lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
           <div className="flex space-x-6 text-xs text-[#656567] md:text-[18px]">
             <a href="terms" className="hover:underline">
               Terms &amp; Conditions

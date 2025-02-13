@@ -51,12 +51,12 @@ export default function Calculator({
             />
           </svg>
         </div>
-        <span className="text-[12px] md:text-[15px]">How many rolls do I need? Use our Calculator</span>
+        <span className="text-[12px] text-[#655F5F] md:text-[15px]">How many rolls do I need? Use our Calculator</span>
         <div style={{ cursor: "pointer" }}>
           {isCalculatorVisible ? (
             <svg
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               className="mr-2"
               viewBox="0 0 24 24"
               fill="none"
@@ -71,8 +71,8 @@ export default function Calculator({
             </svg>
           ) : (
             <svg
-              width="20"
-              height="20"
+              width="18"
+              height="18"
               className="mr-2"
               viewBox="0 0 24 24"
               fill="none"

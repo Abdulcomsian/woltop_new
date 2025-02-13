@@ -81,8 +81,8 @@ export default function ProductDetailCard({ responseData }: ProductDetailCardPro
               </CardContent>
               <CardFooter>
                 <CardDescription>
-                  <span className="text-heading text-sm font-semibold md:text-base">
-                    {card.sale_price || 0}
+                  <span className="text-heading text-[#121212] text-sm font-semibold md:text-base">
+                  ₹{card.sale_price || 0}
                   </span>
                   {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
                     {card.price}

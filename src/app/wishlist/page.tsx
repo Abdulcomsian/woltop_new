@@ -1,47 +1,82 @@
 "use client";
 
-import { useState } from "react";
 import { Heart, ShoppingCart, X } from "lucide-react";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import LoginModal from "~/components/LoginModal";
+import { toast } from "react-toastify";
+
+import {
+  useDeleteWishlistItemMutation,
+  useGetWishlistItemsQuery,
+} from "~/store/api/wishlistApi";
+import { addItemToCart } from "~/store/slices/cartSlice";
 
 const WishlistPage = () => {
-  const [wishlistItems, setWishlistItems] = useState([
-    {
-      id: 1,
-      name: "Wireless Headphones",
-      price: 99.99,
-      image: "/images/headphones.jpg",
-      inStock: true,
-    },
-    {
-      id: 2,
-      name: "Smart Watch",
-      price: 199.99,
-      image: "/images/smartwatch.jpg",
-      inStock: false,
-    },
-    {
-      id: 3,
-      name: "Leather Backpack",
-      price: 129.99,
-      image: "/images/backpack.jpg",
-      inStock: true,
-    },
-  ]);
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const { data: wishlistItems = [], refetch } = useGetWishlistItemsQuery([], {
+    skip: !isLoggedIn,
+  });
+  const [deleteWishlistItem] = useDeleteWishlistItemMutation();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleRemoveItem = (id) => {
-    setWishlistItems((prev) => prev.filter((item) => item.id !== id));
-    alert("Item removed from wishlist!");
+  const handleRemoveItem = async (id) => {
+    try {
+      await deleteWishlistItem(id).unwrap();
+      refetch();
+      toast.success("Item removed from wishlist!");
+    } catch (error) {
+      console.error("Error deleting wishlist item:", error);
+      toast.error("Failed to remove item. Please try again.");
+    }
   };
 
-  const handleMoveToCart = (id) => {
-    alert("Item moved to cart!");
-    handleRemoveItem(id);
+  const handleMoveToCart = (item) => {
+    dispatch(
+      addItemToCart({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        sale_price: item.sale_price || item.price,
+        discount: item.discount || 0,
+        featured_image: item.image,
+        variableId: 0,
+        variableName: "Default", 
+      }),
+    );
+    toast.success(`${item.name} added to cart!`);
+    handleRemoveItem(item.id);
   };
+
+  if (!isLoggedIn) {
+    return (
+      <>
+        <div className="flex h-[50vh] flex-col items-center justify-center text-center">
+          <p className="text-lg font-medium text-gray-600">
+            You need to log in to view your wishlist.
+          </p>
+          <button
+            onClick={() => {
+              setIsLoginModalOpen(true);
+            }}
+            className="mt-4 rounded-md bg-[#49AD91] px-4 py-2 text-white hover:bg-[#49ad91]"
+          >
+            Go to Login
+          </button>
+        </div>
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+        />
+      </>
+    );
+  }
 
   return (
     <>
       {/* Hero Section */}
-      <div className="bg-[#f7fcfc] py-12 mt-[2px]">
+      <div className="mt-[2px] bg-[#f7fcfc] py-12">
         <div className="mx-auto max-w-4xl px-4 text-center">
           <h1 className="text-4xl font-bold text-gray-800">Your Wishlist</h1>
           <p className="mt-4 text-lg text-gray-600">
@@ -70,7 +105,15 @@ const WishlistPage = () => {
                     <h2 className="text-xl font-semibold text-gray-800">
                       {item.name}
                     </h2>
-                    <p className="text-lg text-gray-600">${item.price}</p>
+                    <p className="text-gray-500 line-clamp-2">
+                      {item?.short_description}
+                    </p>
+                    <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+                      ₹{item.sale_price || 0}
+                    </span>
+                    <del className="ml-1 text-xs text-gray-500">
+                      ₹{item?.price}
+                    </del>
                     {!item.inStock && (
                       <p className="text-sm text-red-500">Out of Stock</p>
                     )}
@@ -80,7 +123,7 @@ const WishlistPage = () => {
                 {/* Actions */}
                 <div className="mt-4 flex items-center space-x-4 sm:mt-0">
                   <button
-                    onClick={() => handleMoveToCart(item.id)}
+                    onClick={() => handleMoveToCart(item)}
                     disabled={!item.inStock}
                     className={`flex items-center rounded-md px-4 py-2 text-white ${
                       item.inStock
@@ -89,7 +132,7 @@ const WishlistPage = () => {
                     }`}
                   >
                     <ShoppingCart className="mr-2 h-5 w-5" />
-                    Move to Cart
+                    Add to Cart
                   </button>
                   <button
                     onClick={() => handleRemoveItem(item.id)}

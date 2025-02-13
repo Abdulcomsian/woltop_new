@@ -146,7 +146,7 @@ export default function Page() {
           className="mx-auto max-w-[1075px] px-2 pt-10 md:pt-[70px]"
           position="left"
         >
-          <RatedReview responseData={product}></RatedReview>
+          <RatedReview responseData={product}  slug={slug} ></RatedReview>
           <ReviewCard
             //@ts-ignore
             slug={slug}

@@ -27,11 +27,11 @@ export default function ProductDescription({
     const lines = description.split("\n").filter((line) => line.trim() !== "");
 
     return (
-      <ul className="mb-4 p-4 pl-5">
+      <ul className="mb-4 p-4 pl-5 max-w-[80%]">
         {lines.map((line, index) => (
           <li
             key={index}
-            className="mt-3 flex text-xs text-[#49AD91] md:text-base"
+            className="mt-3 flex text-xs text-[#49AD91] md:text-lg"
           >
             <span dangerouslySetInnerHTML={{ __html: line }} />
           </li>
@@ -44,8 +44,8 @@ export default function ProductDescription({
     <div className="">
       <div className="mb-4 flex flex-col justify-between rounded-lg bg-white py-5 md:flex-row">
         <div className="">
-          <div className="border-rad h-10 w-60 rounded-br-full rounded-tr-full border-[0.7px] border-dashed border-[#49AD91] bg-[#E6F1FF]">
-            <h1 className="p-2 text-base font-semibold md:text-[18px]">
+          <div className="border-rad w-fit rounded-br-full rounded-tr-full border-[0.7px] border-dashed border-[#49AD91] bg-[#E6F1FF]">
+            <h1 className="px-[17px] md:px-6 py-[6px] text-[22px] text-[#000000] font-semibold md:text-[26px]">
               Product Description
             </h1>
           </div>

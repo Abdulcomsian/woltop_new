@@ -36,13 +36,13 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
           className="mb-5 w-full flex-shrink-0 rounded-lg border-2 border-dashed bg-white p-6 shadow-md"
         >
           {/* Rating */}
-          <div className="mb-3 flex gap-1">
-            <div className="flex text-yellow-400">
+          <div className="mb-3 flex gap-[6px]">
+            <div className="flex gap-[6px] text-yellow-400">
               {[...Array(5)].map((_, index) => (
                 <svg
                   key={index}
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-5 w-5 fill-current ${
+                  className={`h-[30px] w-[30px] fill-current ${
                     index < review.rating ? "text-yellow-400" : "text-gray-300"
                   }`}
                   viewBox="0 0 24 24"
@@ -53,7 +53,7 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
             </div>
           </div>
           {/* Description */}
-          <p className="mb-4 text-xs text-gray-600 md:text-base">
+          <p className="mb-4 text-xs text-[#000000] md:text-base">
             {review.description}
           </p>
           {/* User Info */}

@@ -1,5 +1,8 @@
 import { X } from "lucide-react";
 import React, { useState } from "react";
+import utils from "~/utils";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 interface ReviewData {
   average: number;
@@ -17,9 +20,14 @@ interface ResponseData {
   };
 }
 
-export default function RatedReview({ responseData }: { responseData: ResponseData }) {
-  const { reviews } = responseData?.data;
+interface RatedReviewProps {
+  responseData: ResponseData;
+  slug: string;
+}
 
+export default function RatedReview({ responseData, slug }: RatedReviewProps) {
+  const { reviews } = responseData?.data;
+  const { isLoggedIn } = useSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
@@ -41,7 +49,7 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
       <svg
         key={index}
         xmlns="http://www.w3.org/2000/svg"
-        className={`h-5 w-5 fill-current ${index < rating ? "text-yellow-400" : "text-gray-300"}`}
+        className={`h-[23px] w-[23px] md:h-[36px] md:w-[36px] fill-current ${index < rating ? "text-yellow-400" : "text-gray-300"}`}
         viewBox="0 0 24 24"
       >
         <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
@@ -50,6 +58,10 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
   };
 
   const handleAddReview = () => {
+    if (!isLoggedIn) {
+      toast.warning("You need to login first to submit a review.");
+      return;
+    }
     setIsModalOpen(true);
   };
 
@@ -59,29 +71,58 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
     setReviewText("");
   };
 
-  const handleSubmitReview = () => {
-    // Handle review submission (e.g., send data to an API)
-    console.log("Review Rating:", reviewRating);
-    console.log("Review Text:", reviewText);
-    alert("Thank you for your review!");
-    handleCloseModal();
+  const handleSubmitReview = async () => {
+    if (!reviewRating || !reviewText) {
+      toast.warning("Please provide a rating and review.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("description", reviewText);
+      formData.append("product_id", slug);
+      formData.append("rating", reviewRating.toString());
+
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(`${utils.BASE_URL}/store-review`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Review submitted successfully:", data);
+        toast.success("Thank you for your review!");
+        handleCloseModal();
+      } else {
+        console.error("Failed to submit review:", response.statusText);
+        toast.error("Failed to submit your review. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("An error occurred while submitting your review.");
+    }
   };
 
   return (
-    <div className="px-5 pt-4 md:px-0 mb-20">
+    <div className="mb-20 px-5 pt-4 md:px-0">
       <div className="flex justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h6 className="text-3xl font-bold">Rated {average}</h6>
+            <h6 className="text-[18px] md:text-[34px] text-[#000000] font-semibold">Rated {average}</h6>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-5 w-5 fill-current ${average ? "text-yellow-400" : "text-gray-300"}`}
+              className={`h-[23px] w-[23px] md:h-[36px] md:w-[36px] fill-current ${average ? "text-yellow-400" : "text-gray-300"}`}
               viewBox="0 0 24 24"
             >
               <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
             </svg>
           </div>
-          <p className="mt-3">{total_count} verified reviews</p>
+          <p className="mt-3 text-[14px] md:text-[22px]">{total_count} verified reviews</p>
         </div>
         <button
           onClick={handleAddReview}
@@ -93,25 +134,25 @@ export default function RatedReview({ responseData }: { responseData: ResponseDa
 
       {/* Breakdown of star counts */}
       <div className="mt-4">
-        <div className="flex items-center">
-          {fillStars(5)} {/* Display 5 stars */}
-          <div className="ml-3 text-[#A5A1A1]">({five_star_count})</div>
+        <div className="flex gap-[5px] md:gap-[7px] items-center">
+          {fillStars(5)}
+          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({five_star_count})</div>
         </div>
-        <div className="mt-2 flex items-center">
-          {fillStars(4)} {/* Display 4 stars */}
-          <div className="ml-3 text-[#A5A1A1]">({four_star_count})</div>
+        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+          {fillStars(4)}
+          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({four_star_count})</div>
         </div>
-        <div className="mt-2 flex items-center">
-          {fillStars(3)} {/* Display 3 stars */}
-          <div className="ml-3 text-[#A5A1A1]">({three_star_count})</div>
+        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+          {fillStars(3)}
+          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({three_star_count})</div>
         </div>
-        <div className="mt-2 flex items-center">
-          {fillStars(2)} {/* Display 2 stars */}
-          <div className="ml-3 text-[#A5A1A1]">({two_star_count})</div>
+        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+          {fillStars(2)}
+          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({two_star_count})</div>
         </div>
-        <div className="mt-2 flex items-center">
-          {fillStars(1)} {/* Display 1 star */}
-          <div className="ml-3 text-[#A5A1A1]">({one_star_count})</div>
+        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+          {fillStars(1)}
+          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({one_star_count})</div>
         </div>
       </div>
 

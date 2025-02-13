@@ -1,7 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Search, X } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 import { useGetAllProductsQuery } from "~/store/api/allProductsApi";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "~/store/slices/cartSlice"; // Import the addItemToCart action
 import {
   Card,
   CardContent,
@@ -10,14 +12,18 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import Link from "next/link";
+import { toast } from "react-toastify";
+
+const ITEMS_PER_PAGE = 8;
 
 const SearchPage = () => {
   const { data: allProducts, isLoading } = useGetAllProductsQuery({});
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch(); 
 
   useEffect(() => {
-    // Initialize filteredProducts with allProducts when data is fetched
     if (allProducts) {
       setFilteredProducts(allProducts);
     }
@@ -32,15 +38,42 @@ const SearchPage = () => {
         product.title.toLowerCase().includes(query),
       );
       setFilteredProducts(filtered);
+      setCurrentPage(1);
     }
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch(
+      addItemToCart({
+        id: product.id,
+        name: product.title,
+        price: product.price,
+        sale_price: product.sale_price || product.price,
+        discount: product.discount || 0,
+        featured_image: product.featured_image,
+        variableId: 0,
+        variableName: "Default",
+      }),
+    );
+    toast.success(`${product.title} added to cart!`);
+  };
+
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
 
   if (isLoading) {
     return <div>Loading products...</div>;
   }
 
   return (
-    <>
+    <div>
+      {/* Search Bar */}
       <div className="mt-[2px] bg-[#f7fcfc]">
         <div className="mx-auto flex max-w-[1075px] items-center gap-3 px-3 py-4">
           <Search className="text-gray-700" />
@@ -62,69 +95,105 @@ const SearchPage = () => {
           )}
         </div>
       </div>
-      <div className="mx-auto max-w-[1075px] px-3 py-8">
-        {/* Product List */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <Link
-                key={product?.id}
-                href={`/product/${product.id}`}
-                className="card-wrapper relative cursor-pointer"
-              >
-                <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
-                  <div className="flex w-11/12 justify-end">
-                    <button className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9">
-                      <svg
-                        fill="#49AD91"
-                        viewBox="0 0 24 24"
-                        stroke="#49AD91"
-                        className="h-5 w-5 stroke-2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        ></path>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
 
-                <Card
-                  style={{
-                    backgroundImage: `url(${product.featured_image})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                  className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
+      {/* Main Content */}
+      <div className="mx-auto flex max-w-[1075px] flex-col gap-4 px-3 py-8 lg:flex-row">
+        {/* Left: Product Cards */}
+        <div className="w-full lg:w-3/5">
+          {paginatedProducts.length > 0 ? (
+            paginatedProducts.map((product) => (
+              <div
+                key={product?.id}
+                className="relative mb-4 cursor-pointer border-b-[1px] border-l-4 border-l-transparent p-2 hover:border-l-[#49AD91] hover:bg-[#f7fcfc]"
+              >
+                <Link
+                  href={`/product/${product.id}`}
+                  className="flex w-full items-start gap-4"
                 >
-                  {/* <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
-                  {card.discount}
-                </div> */}
-                </Card>
-                <CardContent>
-                  <p className="truncate text-[#505050]">{product.title}</p>
-                </CardContent>
-                <CardFooter>
-                  <CardDescription>
+                  <Card
+                    style={{
+                      backgroundImage: `url(${product.featured_image})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                    className="h-24 w-24 rounded-lg object-cover"
+                  ></Card>
+                  <div>
+                    <p className="truncate text-[#505050]">{product.title}</p>
+                    <p className="text-gray-500  line-clamp-2">{product?.short_description}</p>
                     <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
-                      ₹{product.price || 0}
+                      ₹{product.sale_price || 0}
                     </span>
-                    {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
-                    {card.discountPrice}
-                  </del> */}
-                  </CardDescription>
-                </CardFooter>
-              </Link>
+                    <del className="text-gray-500 ml-1 text-xs">₹{product?.price}</del>
+                  </div>
+                </Link>
+
+                {/* Add to Cart Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToCart(product);
+                  }}
+                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 absolute bottom-2 right-2 flex w-auto items-center justify-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white md:text-[18px]"
+                >
+                  <Plus className="h-3 w-3 md:h-5 md:w-5" />
+                  ADD
+                </button>
+              </div>
             ))
           ) : (
             <p className="text-gray-500">No products found.</p>
           )}
         </div>
+
+        {/* Right: Blog Section */}
+        <div className="w-full border-l-[1px] pl-4 lg:w-2/5">
+          <h2 className="mb-4 text-xl font-semibold text-gray-800">
+            Latest in our BLOG
+          </h2>
+          <div className="mb-2 rounded-lg border bg-white p-6">
+            <h1 className="font-semibold">The Fresh Ubtan Guide</h1>
+            <p className="my-2 text-gray-600">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Doloremque, accusamus.
+            </p>
+            <Link href="/blogs" className="font-semibold text-[#49AD91]">
+              Read More
+            </Link>
+          </div>
+          <div className="rounded-lg border bg-white p-6">
+            <h1 className="font-semibold">The Fresh Ubtan Guide</h1>
+            <p className="my-2 text-gray-600">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Doloremque, accusamus.
+            </p>
+            <Link href="/blogs" className="font-semibold text-[#49AD91]">
+              Read More
+            </Link>
+          </div>
+        </div>
       </div>
-    </>
+
+      {/* Pagination */}
+      <div className="mx-auto my-4 flex max-w-[1075px] justify-start">
+        {Array.from({
+          length: Math.ceil(filteredProducts.length / ITEMS_PER_PAGE),
+        }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`mx-1 rounded px-3 py-1 ${
+              currentPage === index + 1
+                ? "bg-[#49AD91] text-white"
+                : "bg-gray-200 text-gray-800"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 };
 

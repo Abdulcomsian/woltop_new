@@ -1,3 +1,5 @@
+import { useGetAllReviewsQuery } from "~/store/api/allReviewsApi";
+
 interface ReviewCardProps {
   stars: number;
   review: string;
@@ -8,9 +10,9 @@ interface ReviewCardProps {
 
 function ReviewCard({ stars, review, name, role, avatar }: ReviewCardProps) {
   return (
-    <div className="min-w-[333px] mt-[56px] md:mt-[63px] rounded-lg border-2 border-dashed bg-white p-6 shadow-md md:w-auto md:flex-shrink-0">
-      <div className="mb-4 hidden md:flex gap-1">
-        <div className="flex text-yellow-400 gap-[6px]">
+    <div className="mt-[56px] min-w-[333px] rounded-lg border-2 border-dashed bg-white p-6 shadow-md md:mt-[63px] md:w-auto md:flex-shrink-0">
+      <div className="mb-4 hidden gap-1 md:flex">
+        <div className="flex gap-[6px] text-yellow-400">
           {Array.from({ length: stars }, (_, i) => (
             <svg
               key={i}
@@ -23,7 +25,9 @@ function ReviewCard({ stars, review, name, role, avatar }: ReviewCardProps) {
           ))}
         </div>
       </div>
-      <p className="mb-4 text-xs text-[#0B0B0B] md:text-base leading-[24px] md:leading-[30px]">{review}</p>
+      <p className="mb-4 text-xs leading-[24px] text-[#0B0B0B] md:text-base md:leading-[30px]">
+        {review}
+      </p>
       <div className="flex items-center justify-between">
         <div className="flex">
           <div className="mr-4 h-12 w-12 overflow-hidden rounded-full">
@@ -61,29 +65,23 @@ function ReviewCard({ stars, review, name, role, avatar }: ReviewCardProps) {
 }
 
 export default function HomePageReviewCards() {
-  const reviews = [
-    {
-      stars: 5,
-      review:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.",
-      name: "Kim Jhone",
-      role: "CEO of joyhome",
-      avatar: "https://ui-avatars.com/api/?name=Kim+Jhone&background=random",
-    },
-    {
-      stars: 5,
-      review:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.",
-      name: "Kim Jhone",
-      role: "CEO of joyhome",
-      avatar: "https://ui-avatars.com/api/?name=Kim+Jhone&background=random",
-    },
-  ];
+  const { data: allReviews } = useGetAllReviewsQuery([]);
+  const limitAllReviews = allReviews?.data?.slice(0, 2);
 
   return (
-    <div className="mt-10 flex gap-6 scrollbar-hide overflow-x-auto md:grid md:grid-cols-2 md:overflow-hidden">
-      {reviews.map((review, index) => (
-        <ReviewCard key={index} {...review} />
+    <div className="scrollbar-hide sm mt-10 flex gap-6 overflow-x-auto md:grid md:grid-cols-2 md:overflow-hidden">
+      {limitAllReviews?.map((review: any, index: number) => (
+        <ReviewCard
+          key={index}
+          stars={Number(review.rating)}
+          review={review.description}
+          name={review.user.name}
+          role={review.user.role || "User"}
+          avatar={
+            review.user.image ||
+            "https://ui-avatars.com/api/?name=User&background=random"
+          }
+        />
       ))}
     </div>
   );

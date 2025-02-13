@@ -53,7 +53,7 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
           {responseData.data.installation_steps.map((step) => (
             <div key={step.id} className="max-w-[246px]">
               <div className="relative">
-                <div className="h-[279px] overflow-hidden rounded">
+                <div className="h-[279px] overflow-hidden rounded-[8px]">
                   <img
                     src={step.image}
                     alt={step.name}
