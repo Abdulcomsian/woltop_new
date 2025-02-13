@@ -14,7 +14,7 @@ const userSlice = createSlice({
     login(state, action) {
       state.isLoggedIn = true;
       state.userInfo = action.payload.user;
-      state.token = action.payload.token;
+      state.token = action.payload.access_token;
     },
     register(state, action) {
       state.isRegistered = true;

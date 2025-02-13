@@ -82,6 +82,8 @@ export default function productDetailItem({
       : Number(responseData?.data?.id) || null, // Convert and handle null
   );
   const dispatch = useDispatch();
+  const [selectedFeaturedImage, setSelectedFeaturedImage] =
+    useState(featured_image);
 
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
@@ -150,7 +152,7 @@ export default function productDetailItem({
                 <img
                   className="h-full w-full object-cover"
                   src={
-                    featured_image ||
+                    selectedFeaturedImage ||
                     "https://images.unsplash.com/photo-1664764119004-999a3f80a1b8?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDEzMDc&ixlib=rb-4.0.3&q=80"
                   }
                   alt="img"
@@ -158,7 +160,10 @@ export default function productDetailItem({
               </div>
               <div className="hidden md:flex">
                 {product_images?.map((image) => (
-                  <div key={image.id}>
+                  <div
+                    key={image.id}
+                    onClick={() => setSelectedFeaturedImage(image.image_path)}
+                  >
                     <img
                       className="mr-2 h-[117px] w-[82px] rounded object-cover"
                       src={
@@ -204,7 +209,7 @@ export default function productDetailItem({
                     <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
                       /
                     </li>
-                    <li className="text-gray px-2 text-[8px] md:text-[14px]">
+                    <li className="text-[#000000] px-2 text-[8px] md:text-[14px]">
                       {title || "Wolpin Wallpaper Non-Woven"}
                     </li>
                   </ol>
@@ -290,7 +295,7 @@ export default function productDetailItem({
                   ))}
                 </div>
 
-                <div className="shipping-text border-b-[0.5px] border-[#D9D9D9] py-4 text-xs md:text-base">
+                <div className="shipping-text border-b-[0.5px] border-[#D9D9D9] py-4 text-[#7A7474] text-xs md:text-base">
                   {short_description?.split("\n").map((item, index) => (
                     <span key={index}>
                       - {item}
@@ -367,13 +372,13 @@ export default function productDetailItem({
 
                 <Calculator responseData={responseData}></Calculator>
                 <div className="mt-4 w-full">
-                  <h5 className="text-[20px] font-medium md:text-2xl">
+                  <h5 className="text-[20px] text-[#000000] font-medium md:text-2xl">
                     Delivery{" "}
                   </h5>
                   <div className="mt-4 flex justify-between gap-2 text-[14px] md:text-base">
                     {delivery_detail?.data?.map((detail) => (
                       <div key={detail.id}>
-                        <h6 className="text-wrap text-sm md:text-base">
+                        <h6 className="text-wrap text-[#4E4949] text-sm md:text-base">
                           {detail.city_details}
                         </h6>
                         <p className="text-xs text-[#908B8B] md:text-sm">
@@ -389,7 +394,7 @@ export default function productDetailItem({
                 {/* <ToolkitBar></ToolkitBar> */}
 
                 {products_features.length !== 0 && (
-                  <div className="mt-5 flex w-full gap-3 md:gap-6 overflow-x-auto">
+                  <div className="mt-5 flex w-full gap-3 overflow-x-auto md:gap-6">
                     {products_features?.map(
                       (feature: { image: string; name: string }, index) => (
                         <div

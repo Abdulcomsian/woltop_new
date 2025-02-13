@@ -26,8 +26,6 @@ export default function Home() {
   const { data: popularProducts } = useGetPopularProductsQuery({});
   const {
     data: colors,
-    // isLoadingColors,
-    // errorColors,
   } = useGetColorsQuery({});
   const {
     data: tags,

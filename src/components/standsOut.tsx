@@ -6,7 +6,7 @@ function Card({ title, icon }) {
   return (
     <div className="card-stand flex md:w-[180px] flex-col items-center justify-center border-[1px] border-dashed border-[#F11C54] bg-white py-5 text-center align-middle">
       <div className="mb-4">{icon}</div>
-      <h6>{title}</h6>
+      <h6 className="text-[#505050] text-sm md:text-[20px] font-medium">{title}</h6>
     </div>
   );
 }
@@ -95,7 +95,7 @@ export default function StandsOut() {
 
   return (
     <div className="w-full mx-auto md:w-4/5">
-      <p className="text-center mb-4">
+      <p className="text-center text-[#000000] leading-[24px] md:leading-[40px] mb-4">
         Our wallpapers are crafted from premium materials, ensuring both
         durability and long-lasting performance. Each design is distinctive and
         visually appealing, adding a layer of style and sophistication to any

@@ -2,10 +2,12 @@
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Card, CardContent, CardDescription } from "~/components/ui/card";
 import { useGetProductsByColorQuery } from "~/store/api/productApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
+import utils from "~/utils";
 type DetailCardProps = {
   rating?: boolean;
   colorId: number;
@@ -22,6 +24,7 @@ interface Product {
 export default function RecentCard() {
   const dispatch = useDispatch();
   const [products, setProducts] = useState<Product[]>([]);
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   // console.log(products, "Recent Product Data");
 
@@ -97,6 +100,36 @@ export default function RecentCard() {
     );
   };
 
+  const handleAddToWishlist = async (productId: number) => {
+    if (!isLoggedIn) {
+      toast.warning("You need to login first add to wishlist");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      formData.append("product_id", productId.toString());
+
+      const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        toast.success("Product added to wishlist");
+      } else {
+        toast.error("Failed to add to wishlist");
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
+  };
+
   if (products.length === 0) {
     return <div>No Recently Viewed products found.</div>;
   }
@@ -104,7 +137,7 @@ export default function RecentCard() {
   return (
     <div className="flex w-full flex-col">
       <div className="w-full">
-        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-4">
           {products?.map((card: any, index) => (
             <div key={index} className="flex flex-row gap-3 sm:flex-col">
               <Link
@@ -118,7 +151,7 @@ export default function RecentCard() {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
-                  className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover md:h-[305px] sm:w-auto"
+                  className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover sm:w-auto md:h-[305px]"
                 >
                   {/* <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
                     {card.data.discount || 0}%
@@ -126,7 +159,7 @@ export default function RecentCard() {
                 </Card>
               </Link>
               <CardContent className="w-full" style={{ paddingTop: "0px" }}>
-                <p className="text-xs text-[#000000] font-normal md:text-base truncate">
+                <p className="truncate text-xs font-normal text-[#000000] md:text-base">
                   {card.data.title}
                 </p>
                 <div className="rating-wrapper flex items-center gap-1">
@@ -206,7 +239,10 @@ export default function RecentCard() {
                   ))}
                 </CardDescription>
                 <div className="mt-2 flex items-center gap-3">
-                  <div className="rounded-full border-[0.5px] border-[#A5A1A1] p-2">
+                  <div
+                    onClick={() => handleAddToWishlist(card.data.id)}
+                    className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-2"
+                  >
                     <svg
                       width="20"
                       height="20"
@@ -230,9 +266,9 @@ export default function RecentCard() {
                       );
                       handleAddToCart(card, selectedVariable);
                     }}
-                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center gap-1 rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
                   >
-                    <Plus />
+                    <Plus className="h-3 w-3 md:h-5 md:w-5" />
                     ADD
                   </button>
                 </div>

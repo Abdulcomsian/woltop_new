@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import utils from "~/utils";
 import { useDispatch } from "react-redux";
 import { login, register } from "~/store/slices/userSlice";
+import { toast } from "react-toastify";
 
 const LoginModal = ({ isOpen, onClose }) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -56,7 +57,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       const formData = new FormData();
-
+    
       if (isLoginForm) {
         formData.append("email", values.email);
         formData.append("password", values.password);
@@ -65,45 +66,47 @@ const LoginModal = ({ isOpen, onClose }) => {
         formData.append("email", values.email);
         formData.append("password", values.password);
       }
-
+    
       const endpoint = isLoginForm ? "/login" : "/register";
-
+    
       try {
         const response = await fetch(`${utils.BASE_URL}${endpoint}`, {
           method: "POST",
           body: formData,
         });
-
+    
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-
+    
         const result = await response.json();
         console.log("API Response:", result);
+    
         if (isLoginForm) {
-          localStorage.setItem("token", result.token);
-
+          localStorage.setItem("token", result.access_token);
+    
           dispatch(
             login({
               user: result.user,
-              token: result.token,
+              token: result.access_token,
             })
           );
-
-          alert("Login successful!");
+    
+          toast.success("Login successful!");
         } else {
           dispatch(
             register({
               user: result.user,
             })
           );
-
-          alert("Registration successful!");
+    
+          toast.success("Registration successful!");
         }
+    
         onClose();
       } catch (error) {
         console.error("Error submitting form:", error);
-        alert("An error occurred. Please try again.");
+        toast.error("An error occurred. Please try again.");
       }
     },
   });
@@ -127,20 +130,17 @@ const LoginModal = ({ isOpen, onClose }) => {
           {isLoginForm ? (
             <>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
                 <input
                   type="email"
                   name="email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className={`mt-1 block w-full rounded-md border ${
+                  className={`mt-1 ${
                     formik.errors.email && formik.touched.email
                       ? "border-red-500"
                       : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500`}
+                  } w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent`}
                   placeholder="Enter your email"
                 />
                 {formik.errors.email && formik.touched.email && (
@@ -150,20 +150,17 @@ const LoginModal = ({ isOpen, onClose }) => {
                 )}
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
                 <input
                   type="password"
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className={`mt-1 block w-full rounded-md border ${
+                  className={`mt-1 ${
                     formik.errors.password && formik.touched.password
                       ? "border-red-500"
                       : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500`}
+                  } w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent`}
                   placeholder="Enter your password"
                 />
                 {formik.errors.password && formik.touched.password && (
@@ -176,21 +173,18 @@ const LoginModal = ({ isOpen, onClose }) => {
           ) : (
             <>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Name
-                </label>
                 <input
                   type="text"
                   name="name"
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className={`mt-1 block w-full rounded-md border ${
+                  className={`mt-1 ${
                     formik.errors.name && formik.touched.name
                       ? "border-red-500"
                       : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500`}
-                  placeholder="Enter your full name"
+                  } w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent`}
+                  placeholder="Enter your name"
                 />
                 {formik.errors.name && formik.touched.name && (
                   <p className="mt-1 text-sm text-red-500">
@@ -199,20 +193,17 @@ const LoginModal = ({ isOpen, onClose }) => {
                 )}
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
                 <input
                   type="email"
                   name="email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className={`mt-1 block w-full rounded-md border ${
+                  className={`mt-1 ${
                     formik.errors.email && formik.touched.email
                       ? "border-red-500"
                       : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500`}
+                  } w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent`}
                   placeholder="Enter your email"
                 />
                 {formik.errors.email && formik.touched.email && (
@@ -222,20 +213,17 @@ const LoginModal = ({ isOpen, onClose }) => {
                 )}
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
                 <input
                   type="password"
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className={`mt-1 block w-full rounded-md border ${
+                  className={`mt-1 ${
                     formik.errors.password && formik.touched.password
                       ? "border-red-500"
                       : "border-gray-300"
-                  } px-3 py-2 shadow-sm focus:border-pink-500 focus:outline-none focus:ring-pink-500`}
+                  } w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent`}
                   placeholder="Enter your password"
                 />
                 {formik.errors.password && formik.touched.password && (

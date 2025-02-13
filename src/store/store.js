@@ -17,6 +17,8 @@ import { roomCatagoriesApi } from "./api/roomCatagoriesApi";
 import { allProductsApi } from "./api/allProductsApi";
 import { homeBannerApi } from "./api/homeBannerApi";
 import { homeVideoApi } from "./api/homeVideoApi";
+import { wishlistApi } from "./api/wishlistApi";
+import { allReviewsApi } from "./api/allReviewsApi";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -27,6 +29,7 @@ const rootReducer = combineReducers({
   [storiesApi.reducerPath]: storiesApi.reducer,
   [homeBannerApi.reducerPath]: homeBannerApi.reducer,
   [reviewsApi.reducerPath]: reviewsApi.reducer,
+  [allReviewsApi.reducerPath]: allReviewsApi.reducer,
   [toolsApi.reducerPath]: toolsApi.reducer,
   [faqsApi.reducerPath]: faqsApi.reducer,
   [teamApi.reducerPath]: teamApi.reducer,
@@ -37,6 +40,7 @@ const rootReducer = combineReducers({
   [roomCatagoriesApi.reducerPath]: roomCatagoriesApi.reducer,
   [paramApi.reducerPath]: paramApi.reducer,
   [homeVideoApi.reducerPath]: homeVideoApi.reducer,
+  [wishlistApi.reducerPath]: wishlistApi.reducer,
 });
 
 const loadState = () => {
@@ -91,10 +95,12 @@ export const store = configureStore({
       .concat(deliveryPreference.middleware)
       .concat(blogsApi.middleware)
       .concat(reviewsApi.middleware)
+      .concat(allReviewsApi.middleware)
       .concat(catagoriesApi.middleware)
       .concat(roomCatagoriesApi.middleware)
       .concat(paramApi.middleware)
-      .concat(homeVideoApi.middleware),
+      .concat(homeVideoApi.middleware)
+      .concat(wishlistApi.middleware),
 });
 
 store.subscribe(() => {
