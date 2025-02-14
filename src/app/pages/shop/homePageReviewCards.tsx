@@ -70,19 +70,52 @@ export default function HomePageReviewCards() {
 
   return (
     <div className="scrollbar-hide sm mt-10 flex gap-6 overflow-x-auto md:grid md:grid-cols-2 md:overflow-hidden">
-      {limitAllReviews?.map((review: any, index: number) => (
-        <ReviewCard
-          key={index}
-          stars={Number(review.rating)}
-          review={review.description}
-          name={review.user.name}
-          role={review.user.role || "User"}
-          avatar={
-            review.user.image ||
-            "https://ui-avatars.com/api/?name=User&background=random"
-          }
-        />
-      ))}
+      {!limitAllReviews ? (
+        <>
+          {[1, 2].map((index) => (
+            <div
+              key={index}
+              className="mt-[56px] rounded-lg border-2 border-dashed bg-white p-6 shadow-md md:mt-[63px] md:w-auto md:flex-shrink-0"
+            >
+              <div className="mb-4 flex gap-1">
+                <div className="flex gap-[6px] text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="h-[30px] w-[30px] rounded-full bg-gray-300"
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="mb-4 h-6 w-full rounded-md bg-gray-300"></div>
+              <div className="flex items-center justify-between">
+                <div className="flex">
+                  <div className="mr-4 h-12 w-12 overflow-hidden rounded-full bg-gray-300"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-[120px] rounded-md bg-gray-300"></div>
+                    <div className="h-4 w-[80px] rounded-md bg-gray-300"></div>
+                  </div>
+                </div>
+                <div className="h-6 w-6 rounded-md bg-gray-300"></div>
+              </div>
+            </div>
+          ))}
+        </>
+      ) : (
+        limitAllReviews.map((review: any, index: number) => (
+          <ReviewCard
+            key={index}
+            stars={Number(review.rating)}
+            review={review.description}
+            name={review.user.name}
+            role={review.user.role || "User"}
+            avatar={
+              review.user.image ||
+              "https://ui-avatars.com/api/?name=User&background=random"
+            }
+          />
+        ))
+      )}
     </div>
   );
 }

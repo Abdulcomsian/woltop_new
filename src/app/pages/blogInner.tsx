@@ -82,10 +82,10 @@ export default function BlogInner({ resData }: { resData: ResData }) {
         </div>
       </div>
 
-      <p className="mb-[50px] text-[18px] font-normal">
+      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
         {resData?.data?.short_description}
       </p>
-      <p className="mb-[50px] text-[18px] font-normal">
+      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
         {resData?.data.description}
       </p>
 
@@ -102,23 +102,23 @@ export default function BlogInner({ resData }: { resData: ResData }) {
             fill="#A9A9A9"
           />
         </svg>
-        <span className="text-[48px] font-medium leading-[72px]">
+        <span className="text-[48px] font-medium text-[#000000] leading-[72px]">
           Knicker lining concealed back zip fasten swing style high waisted
           double layer full pattern floral.
         </span>
       </div>
 
-      <p className="mb-[50px] text-[18px] font-normal">
+      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
         {resData?.data?.short_description}
       </p>
-      <p className="mb-[50px] text-[18px] font-normal">
+      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
         {resData?.data.description}
       </p>
 
-      <p className="mb-[20px] text-[48px] font-medium leading-[72px]">
+      <p className="mb-[20px] text-[48px] font-medium text-[#000000] leading-[72px]">
         Eu ridiculus fringilla aenean
       </p>
-      <p className="mb-[50px] text-[18px] font-normal">
+      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
         Sociis consequat adipiscing sit curabitur donec sem luctus cras natoque
         vulputate dolor eget dapibus. Nec vitae eros ullamcorper laoreet dapibus
         mus ac ante viverra. A aenean sit augue curabitur et parturient nisi sed
@@ -126,7 +126,7 @@ export default function BlogInner({ resData }: { resData: ResData }) {
         venenatis dui ante luctus ultricies tellus montes. Quis in sapien
         tempus.
       </p>
-      <ul className="mb-[50px] text-[18px] font-normal">
+      <ul className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
         <li>Crisp fresh iconic elegant timeless clean perfume</li>
         <li>Neck straight sharp silhouette and dart detail</li>
         <li>
@@ -134,7 +134,7 @@ export default function BlogInner({ resData }: { resData: ResData }) {
           low waist
         </li>
       </ul>
-      <p className="mb-[50px] text-[18px] font-normal">
+      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
         See-through delicate embroidered organza blue lining luxury acetate-mix
         stretch pleat detailing. Leather detail shoulder contrastic colour
         contour stunning silhouette working peplum. Statement buttons cover-up

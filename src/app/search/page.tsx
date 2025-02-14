@@ -104,7 +104,7 @@ const SearchPage = () => {
             paginatedProducts.map((product) => (
               <div
                 key={product?.id}
-                className="relative mb-4 cursor-pointer border-b-[1px] border-l-4 border-l-transparent p-2 hover:border-l-[#49AD91] hover:bg-[#f7fcfc]"
+                className="relative mb-4 cursor-pointer border-b-[1px] transition-all duration-300 ease-in-out border-l-4 border-l-transparent p-2 hover:border-l-[#49AD91] hover:bg-[#f7fcfc]"
               >
                 <Link
                   href={`/product/${product.id}`}
@@ -135,7 +135,7 @@ const SearchPage = () => {
                     e.stopPropagation();
                     handleAddToCart(product);
                   }}
-                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 absolute bottom-2 right-2 flex w-auto items-center justify-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white md:text-[18px]"
+                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 absolute bottom-2 right-2 transition-colors duration-300 flex w-auto items-center justify-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white md:text-[18px]"
                 >
                   <Plus className="h-3 w-3 md:h-5 md:w-5" />
                   ADD

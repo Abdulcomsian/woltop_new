@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // import { PayPalIcon } from '@/components/icons/payment-gateways/paypal';
 import { MasterCardIcon } from "~/assets/iconsComp/mastercard";
 import footerLogo from "~/assets/img/footer-logo.svg";
@@ -257,18 +257,17 @@ export default function footer() {
             </h3>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
               {categories?.map((category, index) => (
-                <>
+                <div key={category.id}>
                   <a
-                    key={category.id}
                     href={`/category/${category.id}`}
                     className="hover:text-gray-900"
                   >
                     {category.name}
                   </a>
-                  {index < categories.length - 1 && ( 
-                    <span className="text-[#000000]">|</span>
+                  {index < categories.length - 1 && (
+                    <span className="text-[#000000] ml-2">|</span>
                   )}
-                </>
+                </div>
               ))}
             </div>
           </div>

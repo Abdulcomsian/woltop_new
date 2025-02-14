@@ -24,8 +24,8 @@ const WishlistPage = () => {
   const handleRemoveItem = async (id) => {
     try {
       await deleteWishlistItem(id).unwrap();
-      refetch();
       toast.success("Item removed from wishlist!");
+      refetch();
     } catch (error) {
       console.error("Error deleting wishlist item:", error);
       toast.error("Failed to remove item. Please try again.");

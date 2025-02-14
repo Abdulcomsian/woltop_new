@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription } from "~/components/ui/card";
 import { useGetProductsByColorQuery } from "~/store/api/productApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import utils from "~/utils";
+
 type DetailCardProps = {
   rating?: boolean;
   colorId: number;
@@ -26,8 +27,6 @@ export default function RecentCard() {
   const [products, setProducts] = useState<Product[]>([]);
   const { isLoggedIn } = useSelector((state) => state.user);
 
-  // console.log(products, "Recent Product Data");
-
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
       const storedProduct = localStorage.getItem("recentProducts");
@@ -38,7 +37,6 @@ export default function RecentCard() {
           : [parsedProduct];
         setProducts(productArray);
 
-        // Set selected ID after products have been updated
         if (
           productArray.length > 0 &&
           productArray[0]?.data?.variables?.length > 0
@@ -67,7 +65,6 @@ export default function RecentCard() {
     let price, sale_price, discount, variableId, variableName;
 
     if (selectedVariable) {
-      // Use prices from the selected variable
       price = Number(selectedVariable.price);
       sale_price = selectedVariable.sale_price
         ? Number(selectedVariable.sale_price)
@@ -76,7 +73,6 @@ export default function RecentCard() {
       variableId = selectedVariable.id;
       variableName = selectedVariable.name;
     } else {
-      // Use default product prices if no variable selected
       price = Number(product.data.price);
       sale_price = product.data.sale_price
         ? Number(product.data.sale_price)
@@ -131,7 +127,34 @@ export default function RecentCard() {
   };
 
   if (products.length === 0) {
-    return <div>No Recently Viewed products found.</div>;
+    return (
+      <div className="flex w-full flex-col">
+        <div className="w-full">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-4">
+            {[...Array(4)].map((_, index) => (
+              <div key={index} className="flex flex-row gap-3 sm:flex-col">
+                <div className="relative cursor-pointer">
+                  <Card className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-gray-200 animate-pulse sm:w-auto md:h-[305px]"></Card>
+                </div>
+                <CardContent className="w-full" style={{ paddingTop: "0px" }}>
+                  <div className="h-4 w-3/4 bg-gray-300 animate-pulse mb-2"></div>
+                  <div className="rating-wrapper flex items-center gap-1 mb-2">
+                    <div className="h-4 w-16 bg-gray-300 animate-pulse"></div>
+                  </div>
+                  <CardDescription className="mt-1 flex items-center justify-between gap-2">
+                    <div className="h-4 w-24 bg-gray-300 animate-pulse"></div>
+                  </CardDescription>
+                  <div className="mt-2 flex items-center gap-3">
+                    <div className="h-8 w-8 bg-gray-300 animate-pulse rounded-full"></div>
+                    <button className="h-10 w-full bg-gray-300 animate-pulse rounded"></button>
+                  </div>
+                </CardContent>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -153,9 +176,6 @@ export default function RecentCard() {
                   }}
                   className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover sm:w-auto md:h-[305px]"
                 >
-                  {/* <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
-                    {card.data.discount || 0}%
-                  </div> */}
                 </Card>
               </Link>
               <CardContent className="w-full" style={{ paddingTop: "0px" }}>
@@ -193,19 +213,16 @@ export default function RecentCard() {
                         selectedId === variable.id ? "bg-[#49AD911A]" : ""
                       }`}
                     >
-                      {/* Discount Badge */}
                       <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
                         <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
                           {variable.discount}% off
                         </span>
                       </div>
 
-                      {/* Product Dimensions */}
                       <div className="dimension text-[10px]">
                         {variable.name}
                       </div>
 
-                      {/* Pricing Details */}
                       <div className="price-wrapper flex items-center gap-1">
                         <div className="real-price text-base text-[#49AD91] md:text-lg">
                           ₹{variable.sale_price}
@@ -215,12 +232,10 @@ export default function RecentCard() {
                         </div>
                       </div>
 
-                      {/* Price Per Unit */}
                       <div className="product-size text-[9px]">
                         ₹{(variable.sale_price / 6).toFixed(2)}/ft²
                       </div>
 
-                      {/* Checkbox for High Discounts */}
                       {selectedId === variable.id && (
                         <div className="absolute right-3 top-5">
                           <input
@@ -229,7 +244,6 @@ export default function RecentCard() {
                             checked={selectedId === variable.id}
                             onChange={() => handleCardClick(variable.id)}
                           />
-
                           <label
                             htmlFor={`checkbox-${card.id}-${variable.id}`}
                           ></label>

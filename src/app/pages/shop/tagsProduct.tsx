@@ -41,11 +41,27 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
     content: `${product.title} - Description`, // You can modify this as needed
   }));
 
+  const SkeletonCard = () => (
+    <Card className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80 animate-pulse bg-gray-200">
+      <CardContent>
+        <div className="h-4 w-3/4 bg-gray-300 rounded-md mb-2"></div>
+        <div className="h-4 w-1/2 bg-gray-300 rounded-md"></div>
+      </CardContent>
+      <CardFooter>
+        <div className="h-5 w-1/4 bg-gray-300 rounded-md"></div>
+      </CardFooter>
+    </Card>
+  );
+
   return (
     <>
       <div className="w-full">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
-          {cardData?.map((card: any) => (
+        {isLoading
+            ? Array(cardData?.length)
+                .fill(0)
+                .map((_, index) => <SkeletonCard key={index} />)
+          : cardData?.map((card: any) => (
             <Link href={`/product/${card.id}`} key={card.id}>
               <div className="card-wrapper relative">
                 <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
