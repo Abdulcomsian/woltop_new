@@ -70,16 +70,14 @@ export default function productDetailItem({
     product_images,
     reviews,
     variables,
+    charges,
     products_features,
   } = responseData?.data || {};
   const { data: delivery_detail } = useGetDeliveryQuery({});
-  // const [selectedId, setSelectedId] = useState<number | null>(
-  //   responseData?.data?.variables?.[0]?.id ?? null,
-  // );
   const [selectedId, setSelectedId] = useState<number | null>(
     responseData?.data?.variables?.length > 0
-      ? Number(responseData.data.variables[0].id) // Convert to number
-      : Number(responseData?.data?.id) || null, // Convert and handle null
+      ? Number(responseData.data.variables[0].id)
+      : Number(responseData?.data?.id) || null,
   );
   const dispatch = useDispatch();
   const [selectedFeaturedImage, setSelectedFeaturedImage] =
@@ -94,22 +92,20 @@ export default function productDetailItem({
 
     if (responseData?.data) {
       let price, sale_price, discount;
-      let selectedVariable = null; // Define selectedVariable in the outer scope
+      let selectedVariable = null;
 
       if (selectedId !== null) {
         selectedVariable = responseData.data.variables.find(
-          (variable: any) => variable.id === selectedId,
+          (variable: any) => variable.id === selectedId
         );
 
         if (selectedVariable) {
-          // Use prices from the selected variable
           price = Number(selectedVariable.price);
           sale_price = selectedVariable.sale_price
             ? Number(selectedVariable.sale_price)
             : price;
           discount = Number(selectedVariable.discount);
         } else {
-          // Use default prices if variable is not found
           price = Number(responseData.data.price);
           sale_price = responseData.data.sale_price
             ? Number(responseData.data.sale_price)
@@ -117,13 +113,17 @@ export default function productDetailItem({
           discount = Number(responseData.data.discount);
         }
       } else {
-        // Use default prices if no variable is selected
         price = Number(responseData.data.price);
         sale_price = responseData.data.sale_price
           ? Number(responseData.data.sale_price)
           : price;
         discount = Number(responseData.data.discount);
       }
+
+      const installationCharges = Number(charges?.installation_charges || 0);
+      const codCharges = Number(charges?.cod_charges || 0);
+      const shippingCharges = Number(charges?.shipping_charges || 0);
+      const thresholdCharges = Number(charges?.threshold_charges || 0);
 
       dispatch(
         addItemToCart({
@@ -134,14 +134,17 @@ export default function productDetailItem({
           discount: discount,
           featured_image: responseData.data.featured_image,
           variableId: selectedId ?? 0,
-          variableName: selectedVariable ? selectedVariable.name : "Default", // Safely access selectedVariable
-        }),
+          variableName: selectedVariable ? selectedVariable.name : "Default",
+          installationCharges,
+          codCharges,
+          shippingCharges,
+          thresholdCharges,
+        })
       );
     } else {
       console.error("Response data missing");
     }
   };
-
   return (
     <>
       <div className="container mx-auto">

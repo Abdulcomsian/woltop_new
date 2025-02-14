@@ -4,6 +4,13 @@ import PopularWallpaper from "./shop/popularWallpaper";
 import product1 from "../../assets/product/Woltop2222.png";
 import product2 from "../../assets/product/Woltop333333.png";
 import product3 from "../../assets/product/Woltop44444.png";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+} from "~/components/ui/card";
 import Reeling from "./shop/reeling";
 import DetailCard from "./shop/detailCard";
 import TagsProductCard from "./shop/tagsProduct";
@@ -23,29 +30,28 @@ import { useGetRoomCategoriesQuery } from "~/store/api/roomCatagoriesApi";
 import OurRangesCard from "./shop/OurRangesCard";
 import { useGetHomeVideoQuery } from "~/store/api/homeVideoApi";
 export default function Home() {
-  const { data: popularProducts } = useGetPopularProductsQuery({});
-  const {
-    data: colors,
-  } = useGetColorsQuery({});
+  const { data: popularProducts, isLoading: isLoadingPopularProducts } =
+    useGetPopularProductsQuery({});
+  const { data: colors, isLoading: isLoadingColors } = useGetColorsQuery({});
   const {
     data: tags,
-    // isLoadingColors,
+    isLoading: isLoadingTags,
     // errorColors,
   } = useGetTagsQuery({});
-  const { data: categories } = useGetCategoriesQuery({});
-  const { data: roomCategories } = useGetRoomCategoriesQuery({});
+  const { data: categories, isLoading } = useGetCategoriesQuery({});
+  const { data: roomCategories, isLoading: isLoadingRoomCategories } =
+    useGetRoomCategoriesQuery({});
   const { data: homeVideo } = useGetHomeVideoQuery({});
 
   const colorTabs =
     colors?.data.map((color: any) => ({
       value: color.id,
       label: color.name,
-      // Including the ID for further use if needed
     })) || [];
 
   const colorContent = colorTabs.map((tab: any) => ({
     value: tab.value,
-    component: <DetailCard colorId={tab.value} />, // Customize the component as needed
+    component: <DetailCard colorId={tab.value} />,
   }));
 
   const productTabs =
@@ -78,7 +84,7 @@ export default function Home() {
   return (
     <>
       <div className="mx-auto my-[22px] max-w-[1075px] px-3 md:my-[41px]">
-        <SwiperCard categories={categories}></SwiperCard>
+        <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
       </div>
       <SectionBlock className="mx-auto max-w-[1075px] px-3" position="center">
         <Banner></Banner>
@@ -90,13 +96,10 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        {popularProducts?.status === false ? (
-          <p>{popularProducts.data}</p>
-        ) : popularProducts?.data?.length > 0 ? (
-          <PopularWallpaper products={popularProducts}></PopularWallpaper>
-        ) : (
-          ""
-        )}
+        <PopularWallpaper
+          products={popularProducts}
+          isLoading={isLoading}
+        ></PopularWallpaper>
       </SectionBlock>
       <SectionBlock
         title="Unreeling Some Wolpin Reels"
@@ -116,6 +119,7 @@ export default function Home() {
         <OurRangesCard
           //@ts-ignore
           cardData={categories}
+          isLoading={isLoading}
         ></OurRangesCard>
       </SectionBlock>
 
@@ -125,10 +129,8 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
-        {/* <VideoSection></VideoSection> */}
         <VideoSection responseData={homeVideo}></VideoSection>
       </SectionBlock>
-      {/* <Card> </Card> */}
       <div className="mb-10 bg-[#F1FBFF] pt-10 md:mb-[70px] md:pt-[70px]">
         <SectionBlock
           title="Shop By Room"
@@ -139,6 +141,7 @@ export default function Home() {
           <CategorieCard
             //@ts-ignore
             cardData={roomCategories}
+            isLoading={isLoading}
           ></CategorieCard>
         </SectionBlock>
       </div>
@@ -146,7 +149,7 @@ export default function Home() {
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto max-w-[1075px]"
+        className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
         <ConsultationSection></ConsultationSection>
@@ -159,8 +162,34 @@ export default function Home() {
           className="mx-auto max-w-[1075px] px-3"
           position="center"
         >
-          {!colors?.data ? (
-            <div>Loading colors...</div>
+          {isLoadingColors || !colorTabs?.length || !colorContent?.length ? (
+            <>
+              <div className="-mt-[39px] flex space-x-4">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-10 w-32 animate-pulse rounded-t-md bg-gray-300"
+                  ></div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 gap-5 pt-[58px] md:grid-cols-3 xl:grid-cols-4">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Card
+                    key={index}
+                    className="custom-card-class relative z-0 h-52 w-auto animate-pulse items-center justify-center bg-gray-200 md:h-80"
+                  >
+                    <CardContent>
+                      <div className="mb-2 h-4 w-3/4 rounded-md bg-gray-300"></div>
+                      <div className="h-4 w-1/2 rounded-md bg-gray-300"></div>
+                    </CardContent>
+                    <CardFooter>
+                      <div className="h-5 w-1/4 rounded-md bg-gray-300"></div>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </>
           ) : (
             <TabsComponent
               tabs={colorTabs}
@@ -195,8 +224,31 @@ export default function Home() {
           className="mx-auto max-w-[1075px] px-3"
           position="center"
         >
-          {!tags?.data ? (
-            <div>Loading Tags...</div>
+          {isLoadingTags ? (
+            <>
+              <div className="-mt-[39px] flex space-x-4">
+                {/* Skeleton loaders for tabs */}
+                {Array.from({ length: 2 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-10 w-32 animate-pulse rounded-t-md bg-gray-300"
+                  ></div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-5 pt-[58px] md:grid-cols-3 xl:grid-cols-4">
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Card key={index} className="custom-card-class relative z-0 h-52 w-auto animate-pulse items-center justify-center bg-gray-200 md:h-80">
+                    <CardContent>
+                      <div className="mb-2 h-4 w-3/4 rounded-md bg-gray-300"></div>
+                      <div className="h-4 w-1/2 rounded-md bg-gray-300"></div>
+                    </CardContent>
+                    <CardFooter>
+                      <div className="h-5 w-1/4 rounded-md bg-gray-300"></div>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </>
           ) : (
             <TabsComponent tabs={productTabs} content={productContent} />
           )}
@@ -226,7 +278,10 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        <SwiperCard categories={roomCategories}></SwiperCard>
+        <SwiperCard
+          categories={roomCategories}
+          isLoading={isLoading}
+        ></SwiperCard>
       </SectionBlock>
       {/* <SectionBlock
         title="@wolpinwallpaper.in"

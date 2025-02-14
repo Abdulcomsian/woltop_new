@@ -7,10 +7,12 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import { useGetProductsByColorQuery } from "~/store/api/productApi";
+
 type DetailCardProps = {
   rating?: boolean;
   colorId: number;
 };
+
 interface Product {
   id: number;
   title: string;
@@ -20,20 +22,12 @@ interface Product {
   discount: string;
 }
 
-export default function DetailCard({ colorId }: DetailCardProps) {
+export default function DetailCard({ colorId }) {
   const {
     data: products,
     isLoading,
     error,
   } = useGetProductsByColorQuery((colorId as unknown as string) || "1");
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error loading products.</div>;
-  }
 
   const cardData = products?.data.map((product: Product) => ({
     id: product?.id,
@@ -43,61 +37,76 @@ export default function DetailCard({ colorId }: DetailCardProps) {
     price: product.price,
     discountPrice: product.sale_price,
     discount: `${product.discount}%`,
-    content: `${product.title} - Description`, // Modify this as needed
+    content: `${product.title}`,
   }));
 
-  // console.log("Card Data", cardData);
+  const SkeletonCard = () => (
+    <Card className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80 animate-pulse bg-gray-200">
+      <CardContent>
+        <div className="h-4 w-3/4 bg-gray-300 rounded-md mb-2"></div>
+        <div className="h-4 w-1/2 bg-gray-300 rounded-md"></div>
+      </CardContent>
+      <CardFooter>
+        <div className="h-5 w-1/4 bg-gray-300 rounded-md"></div>
+      </CardFooter>
+    </Card>
+  );
 
   return (
     <div className="flex w-full flex-col">
       <div className="w-full">
         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
-          {cardData.map((card: any) => (
-            
-            <Link key={card?.id}  href={`/product/${card.id}`}  className="card-wrapper relative cursor-pointer">
-              <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
-                <div className="flex w-11/12 justify-end">
-                  <button className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9">
-                    <svg
-                      fill="#49AD91"
-                      viewBox="0 0 24 24"
-                      stroke="#49AD91"
-                      className="h-5 w-5 stroke-2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
+          {isLoading
+            ? Array(cardData?.length)
+                .fill(0)
+                .map((_, index) => <SkeletonCard key={index} />)
+            : cardData?.map((card: any) => (
+                <Link
+                  key={card?.id}
+                  href={`/product/${card.id}`}
+                  className="card-wrapper relative cursor-pointer"
+                >
+                  <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
+                    <div className="flex w-11/12 justify-end">
+                      <button className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9">
+                        <svg
+                          fill="#49AD91"
+                          viewBox="0 0 24 24"
+                          stroke="#49AD91"
+                          className="h-5 w-5 stroke-2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          ></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
 
-              <Card
-                key={card.id}
-                style={{ backgroundImage: `url(${card.img})`,  backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center" }}
-                className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
-              >
-                {/* <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
-                  {card.discount}
-                </div> */}
-              </Card>
-              <CardContent>
-                <p className="text-[#505050] truncate">{card.content}</p>
-              </CardContent>
-              <CardFooter>
-                <CardDescription>
-                  <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
-                  ₹{card.price || 0}
-                  </span>
-                  {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
-                    {card.discountPrice}
-                  </del> */}
-                </CardDescription>
-              </CardFooter>
-            </Link>
-          ))}
+                  <Card
+                    key={card.id}
+                    style={{
+                      backgroundImage: `url(${card.img})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                    className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
+                  ></Card>
+                  <CardContent>
+                    <p className="text-[#505050] truncate">{card.content}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <CardDescription>
+                      <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+                        ₹{card.price || 0}
+                      </span>
+                    </CardDescription>
+                  </CardFooter>
+                </Link>
+              ))}
         </div>
       </div>
     </div>

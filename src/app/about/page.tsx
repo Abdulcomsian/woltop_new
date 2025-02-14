@@ -6,7 +6,7 @@ import SectionBlock from "~/components/ui/section-block";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 
 export default function page() {
-  const { data: categories } = useGetCategoriesQuery({});
+  const { data: categories, isLoading } = useGetCategoriesQuery({});
 
   const aboutBanner = {
     heading: "ABOUT WOLPIN",
@@ -30,7 +30,7 @@ export default function page() {
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        <SwiperCard categories={categories}></SwiperCard>
+        <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
       </SectionBlock>
     </>
   );

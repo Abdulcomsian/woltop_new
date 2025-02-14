@@ -3,7 +3,7 @@ import React from "react";
 export default function VideoSection({ responseData}) {
   const video = responseData?.data?.video;
 
-  console.log(video, "homevideo")
+  // console.log(video, "homevideo")
 
   return (
     <div className="container mx-auto">

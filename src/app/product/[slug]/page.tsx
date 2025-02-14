@@ -25,7 +25,7 @@ export default function Page() {
     isLoading,
     error,
   } = useGetProductByIdQuery(slug as string);
-  const { data: categories } = useGetCategoriesQuery({});
+  const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery({});
   
 
   useEffect(() => {
@@ -54,11 +54,11 @@ export default function Page() {
   }, [product]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="text-center py-10">Loading...</div>;
   }
 
   if (error || !product) {
-    return <div>Something went wrong or product not found.</div>;
+    return <div className="text-center py-10">Something went wrong or product not found.</div>;
   }
 
   return (
@@ -167,7 +167,7 @@ export default function Page() {
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
-        <SwiperCard categories={categories}></SwiperCard>
+        <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
       </SectionBlock>
       <SectionBlock
         title="Recently Viewed"
