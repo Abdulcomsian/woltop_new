@@ -12,14 +12,14 @@ export default function page() {
     >
       <section className="bg-light mx-auto w-full px-3 pb-8 lg:pb-10 xl:pb-14">
         <h1 className="text-brand-dark text-center text-xl font-bold md:text-2xl lg:text-3xl 2xl:text-[40px] py-[64px]">
-          <span className="text-3xl font-semibold md:text-[48px]">
+          <span className="text-3xl text-black font-semibold md:text-[48px]">
             Terms &amp; conditions
           </span>
         </h1>
 
         <div className="w-fullpy-10 mx-auto">
           <div>
-            <h2 className="mb-3 text-2xl font-medium md:text-[30px]">
+            <h2 className="mb-3 text-2xl text-black font-medium md:text-[30px]">
               Overview
             </h2>
             <p className="text-sm text-[#00000080] md:text-lg">
@@ -65,7 +65,7 @@ export default function page() {
             </p>
           </div>
           <div>
-            <h2 className="mb-3 mt-4 text-2xl font-medium md:text-[30px]">
+            <h2 className="mb-3 mt-4 text-black text-2xl font-medium md:text-[30px]">
               Terms of Services
             </h2>
             <p className="text-sm text-[#00000080] md:text-lg">
@@ -77,7 +77,7 @@ export default function page() {
             </p>
           </div>
           <div>
-            <h2 className="mb-3 mt-4 text-2xl text-[30px] font-medium md:text-[30px]">
+            <h2 className="mb-3 mt-4 text-2xl text-black text-[30px] font-medium md:text-[30px]">
               Online Store Terms
             </h2>
             <p className="text-sm text-[#00000080] md:text-lg">
@@ -89,7 +89,7 @@ export default function page() {
             </p>
           </div>
           <div>
-            <h2 className="mb-3 mt-4 text-2xl text-[30px] font-medium md:text-[30px]">
+            <h2 className="mb-3 mt-4 text-2xl text-black text-[30px] font-medium md:text-[30px]">
               General Conditions
             </h2>
             <p className="text-sm text-[#00000080] md:text-lg">

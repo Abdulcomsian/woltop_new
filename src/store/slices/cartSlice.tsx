@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// Define the types for a cart item
 interface CartItem {
   id: number;
   name: string;
@@ -10,32 +11,21 @@ interface CartItem {
   featured_image: string;
   discount: number;
   variableId?: number;
-  installationCharges: number;
-  codCharges: number;
-  shippingCharges: number;
-  thresholdCharges: number;
 }
 
+// Define the initial state type
 interface CartState {
   items: CartItem[];
   totalQuantity: number;
   totalPrice: number;
-  totalCharges: number;
 }
 
+// Initial state
 const initialState: CartState = {
   items: [],
   totalQuantity: 0,
   totalPrice: 0,
-  totalCharges: 0,
 };
-
-const calculateTotalCharges = (items: CartItem[]): number =>
-  items.reduce((total, item) => {
-    const shippingCharges = item.totalPrice > item.thresholdCharges ? 0 : item.shippingCharges;
-    
-    return total + item.installationCharges + item.codCharges + shippingCharges + item.thresholdCharges;
-  }, 0);
 
 const calculateTotalPrice = (items: CartItem[]): number =>
   items.reduce((total, item) => total + item.totalPrice, 0);
@@ -55,18 +45,15 @@ const cartSlice = createSlice({
         discount: number;
         variableId: number;
         variableName: string;
-        installationCharges: number;
-        codCharges: number;
-        shippingCharges: number;
-        thresholdCharges: number;
-      }>
+      }>,
     ) {
       const newItem = action.payload;
       const existingItem = state.items.find(
-        (item) => item.id === newItem.id && item.variableId === newItem.variableId
+        (item) =>
+          item.id === newItem.id && item.variableId === newItem.variableId,
       );
       const itemPrice = newItem.sale_price ?? newItem.price;
-
+    
       if (existingItem) {
         existingItem.quantity++;
         existingItem.totalPrice = itemPrice * existingItem.quantity;
@@ -77,13 +64,12 @@ const cartSlice = createSlice({
           totalPrice: itemPrice,
         });
       }
-
+    
       state.totalQuantity = state.items.reduce(
         (total, item) => total + item.quantity,
-        0
+        0,
       );
       state.totalPrice = calculateTotalPrice(state.items);
-      state.totalCharges = calculateTotalCharges(state.items);
     },
 
     updateItemQuantity(
@@ -92,43 +78,44 @@ const cartSlice = createSlice({
         id: number;
         variableId: number;
         quantity: number;
-      }>
+      }>,
     ) {
       const { id, variableId, quantity } = action.payload;
       const existingItem = state.items.find(
-        (item) => item.id === id && item.variableId === variableId
+        (item) => item.id === id && item.variableId === variableId,
       );
 
       if (existingItem) {
         existingItem.quantity = quantity;
-        existingItem.totalPrice =
-          (existingItem.sale_price ?? existingItem.price) * quantity;
+        existingItem.totalPrice = existingItem.sale_price * quantity;
 
+        // Recalculate totalQuantity and totalPrice
         state.totalQuantity = state.items.reduce(
           (total, item) => total + item.quantity,
-          0
+          0,
         );
         state.totalPrice = calculateTotalPrice(state.items);
-        state.totalCharges = calculateTotalCharges(state.items);
       }
     },
 
     removeItemFromCart(
       state,
-      action: PayloadAction<{ id: number; variableId: number }>
+      action: PayloadAction<{ id: number; variableId: number }>,
     ) {
       const { id, variableId } = action.payload;
       const existingItemIndex = state.items.findIndex(
-        (item) => item.id === id && item.variableId === variableId
+        (item) => item.id === id && item.variableId === variableId,
       );
 
       if (existingItemIndex !== -1) {
         const removedItem = state.items[existingItemIndex];
-        state.totalQuantity -= removedItem.quantity;
+        if (removedItem) {
+          state.totalQuantity -= removedItem.quantity;
+        }
         state.items.splice(existingItemIndex, 1);
 
+        // Recalculate totalPrice
         state.totalPrice = calculateTotalPrice(state.items);
-        state.totalCharges = calculateTotalCharges(state.items);
       }
     },
 
@@ -136,7 +123,6 @@ const cartSlice = createSlice({
       state.items = [];
       state.totalQuantity = 0;
       state.totalPrice = 0;
-      state.totalCharges = 0;
     },
   },
 });
