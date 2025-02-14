@@ -18,6 +18,12 @@ import { useParams } from "next/navigation";
 import SwiperCard from "~/components/swiperCard";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 
+const Spinner = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#49AD91] border-t-transparent"></div>
+  </div>
+);
+
 export default function Page() {
   const { slug } = useParams();
   const {
@@ -53,8 +59,13 @@ export default function Page() {
     }
   }, [product]);
 
+  
   if (isLoading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
 
   if (error || !product) {

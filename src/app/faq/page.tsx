@@ -20,7 +20,7 @@ export default function Page() {
     <main>
       <div className="accordion-wrapper max-w-[1075px] mx-auto mb-16 px-3 py-7 lg:px-7 xl:px-10">
         <div className="my-[50px] text-center">
-          <h1 className="text-3xl font-semibold md:text-[48px]">FAQs</h1>
+          <h1 className="text-3xl font-semibold text-black md:text-[48px]">FAQs</h1>
         </div>
         {faqs && faqs.data && (
           <Accordion type="single" collapsible className="w-full accordion-container">
@@ -38,7 +38,7 @@ export default function Page() {
                   <span className="min-w-[30px] text-lg font-medium transition-colors md:text-2xl">
                     {String(faq.id).padStart(2, "0")}
                   </span>
-                  <p className="flex-1 text-lg font-medium md:text-2xl">
+                  <p className="flex-1 text-lg text-black font-medium md:text-2xl">
                     {faq.question}
                   </p>
                   <p className="text-lg font-medium md:text-2xl">

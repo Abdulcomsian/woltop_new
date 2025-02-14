@@ -70,7 +70,6 @@ export default function productDetailItem({
     product_images,
     reviews,
     variables,
-    charges,
     products_features,
   } = responseData?.data || {};
   const { data: delivery_detail } = useGetDeliveryQuery({});
@@ -92,20 +91,22 @@ export default function productDetailItem({
 
     if (responseData?.data) {
       let price, sale_price, discount;
-      let selectedVariable = null;
+      let selectedVariable = null; // Define selectedVariable in the outer scope
 
       if (selectedId !== null) {
         selectedVariable = responseData.data.variables.find(
-          (variable: any) => variable.id === selectedId
+          (variable: any) => variable.id === selectedId,
         );
 
         if (selectedVariable) {
+          // Use prices from the selected variable
           price = Number(selectedVariable.price);
           sale_price = selectedVariable.sale_price
             ? Number(selectedVariable.sale_price)
             : price;
           discount = Number(selectedVariable.discount);
         } else {
+          // Use default prices if variable is not found
           price = Number(responseData.data.price);
           sale_price = responseData.data.sale_price
             ? Number(responseData.data.sale_price)
@@ -113,17 +114,13 @@ export default function productDetailItem({
           discount = Number(responseData.data.discount);
         }
       } else {
+        // Use default prices if no variable is selected
         price = Number(responseData.data.price);
         sale_price = responseData.data.sale_price
           ? Number(responseData.data.sale_price)
           : price;
         discount = Number(responseData.data.discount);
       }
-
-      const installationCharges = Number(charges?.installation_charges || 0);
-      const codCharges = Number(charges?.cod_charges || 0);
-      const shippingCharges = Number(charges?.shipping_charges || 0);
-      const thresholdCharges = Number(charges?.threshold_charges || 0);
 
       dispatch(
         addItemToCart({
@@ -134,17 +131,14 @@ export default function productDetailItem({
           discount: discount,
           featured_image: responseData.data.featured_image,
           variableId: selectedId ?? 0,
-          variableName: selectedVariable ? selectedVariable.name : "Default",
-          installationCharges,
-          codCharges,
-          shippingCharges,
-          thresholdCharges,
-        })
+          variableName: selectedVariable ? selectedVariable.name : "Default", // Safely access selectedVariable
+        }),
       );
     } else {
       console.error("Response data missing");
     }
   };
+
   return (
     <>
       <div className="container mx-auto">
