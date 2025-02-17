@@ -101,7 +101,7 @@ export default function DetailCard({ colorId }) {
                   <CardFooter>
                     <CardDescription>
                       <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
-                        ₹{card.price || 0}
+                        ₹{card.discountPrice || 0}
                       </span>
                     </CardDescription>
                   </CardFooter>

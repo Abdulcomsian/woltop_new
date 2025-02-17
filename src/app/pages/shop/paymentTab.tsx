@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CheckoutArrow } from "~/components/icons/CheckoutArrow";
 import Image from "next/image";
 import coins from "../../../../public/icons/coin.svg";
@@ -15,12 +15,27 @@ import {
 } from "../../../components/ui/accordion";
 import { Cart } from "~/components/icons/Cart";
 import Link from "next/link";
-const PaymentTab = () => {
+const PaymentTab = ({ chargess }) => {
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
   const cartData = useSelector((state: any) => state.cart);
+  const {
+    shipping_charges,
+    cod_charges,
+    threshold_charges,
+    installation_charges,
+  } = chargess?.data || {};
+  const isShippingFree = totalPrice > threshold_charges;
+  const finalShippingCharges = isShippingFree ? 0 : shipping_charges;
+
+  const [isInstallationChecked, setIsInstallationChecked] = useState(false);
+  const finalTotalPrice = isInstallationChecked
+    ? Number(totalPrice) +
+      Number(finalShippingCharges) +
+      Number(installation_charges)
+    : Number(totalPrice) + Number(finalShippingCharges);
 
   return (
-    <section className="w-full m-auto md:w-3/6 shadow-md">
+    <section className="m-auto w-full shadow-md md:w-3/6">
       <div className="md:p-4d m-auto w-full bg-white">
         <div className="rounded p-3">
           <div className="bill-detail">
@@ -44,15 +59,18 @@ const PaymentTab = () => {
               </li>
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Cart Discount</div>
-                <div className="font-medium text-[#000000]">-₹155</div>
+                <div className="font-medium text-[#000000]">{cartData.items[0].discount}%</div>
+                
               </li>
               <li className="text-body flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Shipping Charges</div>
                 <div className="font-medium text-[#000000]">
-                  ₹50{" "}
-                  <span className="text-[12px] text-[#49AD91] md:text-base">
-                    FREE
-                  </span>
+                  ₹{finalShippingCharges}
+                  {isShippingFree && (
+                    <span className="pl-3 text-[14px] text-[#49AD91]">
+                      FREE
+                    </span>
+                  )}
                 </div>
               </li>
             </ul>
@@ -62,7 +80,7 @@ const PaymentTab = () => {
               <span className="text-base font-medium md:text-lg">
                 Sub Total
               </span>
-              <span>₹{totalPrice}</span>
+              <span>₹{Number(finalTotalPrice)}</span>
             </h4>
             <p className="text-body text-[12px] text-[#7A7474] md:text-base">
               COD is available. Tap payment options on <br /> bottom left.
@@ -148,6 +166,10 @@ const PaymentTab = () => {
               <input
                 type="checkbox"
                 id="installationCheckbox"
+                checked={isInstallationChecked}
+                onChange={() =>
+                  setIsInstallationChecked(!isInstallationChecked)
+                }
                 className="h-[15px] w-[15px] cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-[#49AD91] checked:bg-[#49AD91] focus:outline-none focus:ring-2 focus:ring-[#49AD91]"
               />
               <label htmlFor="installationCheckbox"></label>
@@ -167,32 +189,42 @@ const PaymentTab = () => {
               <span className="text-xs font-medium md:text-base">
                 Need Installation Service?
               </span>
-              <span className="text-[9px] text-gray-500 md:text-xs" style={{width:"95%"}}>
+              <span
+                className="text-[9px] text-gray-500 md:text-xs"
+                style={{ width: "95%" }}
+              >
                 Get professional installation for just{" "}
-                <span className="font-bold">₹450/Roll</span>. Uncheck if you’d
-                like to install it yourself.
+                <span className="font-bold">
+                  ₹{installation_charges || 0}/Roll
+                </span>
+                . Uncheck if you’d like to install it yourself.
               </span>
             </div>
           </label>
 
           <section className="accordian mt-5">
-            <Accordion type="single" collapsible className="w-full border rounded-lg p-2" style={{paddingBottom: "0px"}}>
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full rounded-lg border p-2"
+              style={{ paddingBottom: "0px" }}
+            >
               <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger
-                  className="text-sm font-semibold md:text-lg mb-2"
+                  className="mb-2 text-sm font-semibold md:text-lg"
                   style={{ textDecoration: "none", padding: "0px" }}
                 >
                   {cartData?.items?.length} Item - ₹{totalPrice}
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="checkout-cart grid grid-cols-1 ">
-                    {cartData?.items?.map((item: any,  index: number) => (
+                  <div className="checkout-cart grid grid-cols-1">
+                    {cartData?.items?.map((item: any, index: number) => (
                       <div
-                      key={item.id || `item-${index}`}
-                        className="border-border-200 flex w-full border-opacity-75 text-sm border-b-2 py-4" 
+                        key={item.id || `item-${index}`}
+                        className="border-border-200 flex w-full border-b-2 border-opacity-75 py-4 text-sm"
                         style={{ opacity: "1" }}
                       >
-                        <div className="relative flex h-[102px] md:h-[179] w-[71px] md:w-1/4 shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100">
+                        <div className="relative flex h-[102px] w-[71px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100 md:h-[179] md:w-1/4">
                           <img
                             alt={item.name}
                             className="h-full w-full object-cover"
@@ -241,7 +273,6 @@ const PaymentTab = () => {
                                 alt=""
                               />
                             </div>
-                          
                           </div>
                         </div>
                       </div>

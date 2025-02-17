@@ -20,7 +20,7 @@ export default {
 					'Rubaik',
 					...fontFamily.sans
 				],
-				lovelace: ["Lovelace"],
+				lovelace: ["Lovelace Text"],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

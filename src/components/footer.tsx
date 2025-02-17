@@ -6,6 +6,7 @@ import { PayPalIcon } from "~/assets/iconsComp/paypal";
 import { UnionPayIcon } from "~/assets/iconsComp/unionpay";
 import { VisaIcon } from "~/assets/iconsComp/visa";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
+import Link from "next/link";
 // export const icon: any = {
 //     paypal: <PayPalIcon />,
 //   };
@@ -258,12 +259,12 @@ export default function footer() {
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
               {categories?.map((category, index) => (
                 <div key={category.id}>
-                  <a
+                  <Link
                     href={`/category/${category.id}`}
                     className="hover:text-gray-900"
                   >
                     {category.name}
-                  </a>
+                  </Link>
                   {index < categories.length - 1 && (
                     <span className="text-[#000000] ml-2">|</span>
                   )}
@@ -290,12 +291,12 @@ export default function footer() {
         <hr className="my-[29px] text-[#DBDBDB]" />
         <div className="flex flex-col justify-between gap-3 pb-[29px] lg:container md:pb-16 lg:m-auto lg:flex-row lg:items-center lg:pb-12">
           <div className="flex space-x-6 text-xs text-[#656567] md:text-[18px]">
-            <a href="terms" className="hover:underline">
+            <Link href="/terms" className="hover:underline">
               Terms &amp; Conditions
-            </a>
-            <a href="terms" className="hover:underline">
+            </Link>
+            <Link href="/privacyPolicy" className="hover:underline">
               Privacy Policy
-            </a>
+            </Link>
           </div>
           <div className="flex space-x-3">
             <MasterCardIcon />

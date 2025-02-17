@@ -26,15 +26,31 @@ import {
 interface CartTabProps {
   cartData: any;
   setActiveTab: (tab: string) => void;
+  chargess: any;
 }
 
-const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
+const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const dispatch = useDispatch();
   const cartData = useSelector((state: any) => state.cart);
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
 
+  const totalDiscount = cartData.items.reduce(
+    (acc, item) => acc + item.discount,
+    0,
+  );
+  const avgDiscount = Number((totalDiscount / cartData.items.length).toFixed(2));
 
-  console.log(cartData, "cartData")
+  const {
+    shipping_charges,
+    cod_charges,
+    threshold_charges,
+    installation_charges,
+  } = chargess?.data || {};
+
+  const isShippingFree = totalPrice > threshold_charges;
+  const finalShippingCharges = isShippingFree ? 0 : shipping_charges;
+
+  console.log(cartData, "cartData");
 
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
@@ -81,32 +97,32 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                   <div className="checkout-cart lg:w-auto">
                     {cartData?.items?.map((item: any, index: number) => (
                       <div
-                      key={item.id || `item-${index}`}
-                        className="border-border-200 mb-5 flex w-full border-opacity-75 text-sm"
+                        key={item.id || `item-${index}`}
+                        className="border-border-200 mb-5 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
                         style={{ opacity: "1" }}
                       >
-                        <div className="relative flex h-[173px] w-[123px] rounded-[6px] shrink-0 items-center justify-center overflow-hidden bg-gray-100">
+                        <div className="relative flex h-[173px] w-[123px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100">
                           <img
                             alt={item.name}
-                            className="object-cover w-full h-full"
+                            className="h-full w-full object-cover"
                             src={
                               item?.featured_image ||
                               "https://placehold.co/600x400.png"
                             }
                           />
                         </div>
-                        <div className="relative w-full px-2">
-                          <h3 className="text-heading text-xs font-medium md:text-base">
+                        <div className="relative w-full">
+                          <h3 className="text-heading text-xs font-medium text-black md:text-base">
                             {item.name}
                           </h3>
-                          <p className="color-[#000000] text-[10px] md:text-[12px]">
+                          <p className="text-[10px] text-[#000000] md:text-[12px]">
                             Size: {item.variableName || "N/A"}
                           </p>{" "}
-                          <div className="flex">
-                            <p className="my-2.5 text-sm font-semibold text-[#49AD91] md:text-lg">
+                          <div className="flex items-center">
+                            <p className="my-2.5 text-sm font-medium text-[#49AD91] md:text-lg">
                               ₹{item.sale_price}
                             </p>
-                            <div className="text-body my-2.5 ml-2 w-20 text-[10px] text-[#9e9e9e] line-through md:text-sm">
+                            <div className="text-body my-2.5 ml-2 w-20 text-[10px] text-[#BAB8B8] line-through md:text-sm">
                               ₹{item.price}{" "}
                             </div>
                           </div>
@@ -136,7 +152,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
 
                               <div className="flex rounded border border-[#49AD91]">
                                 <button
-                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[12px] py-[10px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                                   onClick={() =>
                                     handleDecrement(item.id, item.variableId)
                                   }
@@ -144,11 +160,11 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                                   <span className="sr-only">minus</span>
                                   <Minus />
                                 </button>
-                                <div className="flex items-center justify-center bg-[#49AD91] px-[20px] py-[10px] text-sm font-semibold text-[#fff]">
+                                <div className="flex items-center justify-center bg-[#49AD91] px-[20px] py-[11px] text-sm font-semibold text-[#fff]">
                                   {item.quantity}
                                 </div>
                                 <button
-                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[12px] py-[10px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                                  className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                                   onClick={() =>
                                     handleIncrement(item.id, item.variableId)
                                   }
@@ -164,7 +180,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                     ))}
 
                     <div className="save-content md:p-0">
-                      <div className="flex justify-between ">
+                      <div className="flex justify-between">
                         <div className="text-content w-3/5">
                           <p className="flex items-center gap-2">
                             <span className="icon">
@@ -192,17 +208,17 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                         </div>
                         <div className="img-contain flex items-center justify-center">
                           <div className="media-contain">
-                          <Image
+                            <Image
                               src={Woltop666}
-                              className="w-[36px] h-[48px] rounded"
+                              className="h-[48px] w-[36px] rounded"
                               alt="img"
                             />
                           </div>
                           <div className="m-1 font-black">+</div>
                           <div className="media-contain">
-                          <Image
+                            <Image
                               src={Woltop666}
-                              className="w-[36px] h-[48px] rounded"
+                              className="h-[48px] w-[36px] rounded"
                               alt="img"
                             />
                           </div>
@@ -238,31 +254,39 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                   </div>
 
                   <div className="relative mb-10 overflow-hidden pt-3 sm:mb-12 md:pt-0 lg:mb-0 lg:w-auto">
-                    <div className="gift-wrapper mb-3">
+                    <div className="gift-wrapper relative mb-3">
+                      {/* Background Image */}
                       <Image
-                        className="h-48 w-full object-cover"
+                        className="w-full h-[197px] object-cover"
                         src={objectsBg}
                         alt="Flower and sky"
                       />
-                      <div className="absolute left-0 top-0 w-full p-3 lg:p-8">
-                        <div className="flex w-full max-w-sm lg:max-w-full">
+
+                      {/* Content Overlay */}
+                      <div className="absolute top-1/2 transform -translate-y-1/2 w-full px-[14px] py-6">
+                        {/* Main Content Container */}
+                        <div className="flex w-full mb-3 max-w-sm lg:max-w-full">
+                          {/* Left Section: Image */}
                           <div
-                            className="h-26 w-14 flex-none overflow-hidden rounded-t bg-cover pt-3 text-center md:h- lg:h-auto lg:w-14 lg:rounded-l lg:rounded-t-none"
+                            className="h-26 w-14 flex-none overflow-hidden rounded-t bg-cover pt-3 text-center md:h-auto lg:h-auto lg:w-14 lg:rounded-l lg:rounded-t-none"
                             title="Woman holding a mug"
                           >
                             <Image
                               src={Woltop666}
-                              className="w-full h-[72px] rounded"
+                              className="h-[72px] w-full rounded"
                               alt="img"
                             />
                           </div>
+
+                          {/* Right Section: Text and Links */}
                           <div
                             className="flex flex-col justify-between rounded-b p-2 leading-normal lg:rounded-b-none"
                             style={{ width: "100%" }}
                           >
                             <div className="mb-2">
+                              {/* Free Gift Set Section */}
                               <div className="flex items-center justify-between gap-2">
-                                <div className="flex pb-2 pt-2">
+                                <div className="flex items-center">
                                   <span className="icon pr-2">
                                     <Image
                                       src={gift}
@@ -270,38 +294,47 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                                       alt="img"
                                     />
                                   </span>
-                                  <span className="text-[12px] text-xl font-bold">
-                                    Free Gift Set{" "}
+                                  <span className="text-[12px] text-sm font-medium text-[#000000] md:text-base">
+                                    Free Gift Set
                                   </span>
                                 </div>
                                 <a
-                                  className="text-black-950 text-[12px] text-[#7A7474] underline"
+                                  className="text-black-950 text-[10px] font-medium text-[#7A7474] underline"
                                   href=""
                                 >
                                   Tap to Apply
                                 </a>
                               </div>
-                              <p className="font-poppins text-[10px] md:text-[12px] text-[#7A7474]">
+
+                              {/* Description */}
+                              <p className="max-w-[228px] text-[10px] font-medium text-[#7A7474] md:text-[12px]">
                                 Enjoy your ultimate wallpaper tool set worth
                                 ₹799
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className="offer-bar relative mb-2 flex justify-center mt-4 overflow-hidden">
+
+                        {/* Offer Bar Section */}
+                        <div className="offer-bar relative flex justify-center overflow-hidden md:mt-0">
                           <div className="m-auto flex w-full overflow-hidden">
-                            <div className="box-1 basis-20 border border-r-0 border-pink-500 bg-white px-3 py-2">
+                            {/* Offers Box */}
+                            <div className="box-1 basis-20 border border-r-0 border-[#F11C544D] bg-white px-3 py-2">
                               <div className="offer-text flex items-center justify-center text-[12px] text-[#FF4C7B]">
                                 <span>
-                                  <Offer></Offer>
+                                  <Offer />
                                 </span>
                                 OFFERS
                               </div>
                             </div>
-                            <div className="box-4 absolute -top-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#FF4C7B] bg-[#FFF3F6]"></div>
-                            <div className="box-3 absolute -bottom-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#FF4C7B] bg-[#FFF3F6]"></div>
-                            <div className="box-2 flex-grow basis-40 border border-pink-500 bg-white px-2 py-2 text-[12px]">
-                              <div className="text-center text-[9px]">
+
+                            {/* Circular Decorations */}
+                            <div className="box-4 absolute -top-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#F11C544D] bg-[#FFF3F6]"></div>
+                            <div className="box-3 absolute -bottom-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#F11C544D] bg-[#FFF3F6]"></div>
+
+                            {/* Coupon Box */}
+                            <div className="box-2 flex-grow basis-40 border border-[#F11C544D] bg-white px-2 py-2 text-[12px]">
+                              <div className="text-center text-[9px] text-black md:text-sm">
                                 Apply coupon or tap to explore more offers
                               </div>
                             </div>
@@ -323,11 +356,14 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                         </div>
                         <div className="bill-detail mx-3">
                           <div className="border-border-200 flex flex-col border-b p-2 py-3">
-                            <h4 className="mt-3 text-base font-medium">Bill Details</h4>
+                            <h4 className="text-base text-black font-medium">
+                              Bill Details
+                            </h4>
                             <div className="mt-2 flex">
                               <Image src={coins} className="w-4" alt="icon" />
                               <p className="ml-2 text-xs text-[#7A7474]">
-                                Total Wol Cash <span className="font-semibold">₹0</span>
+                                Total Wol Cash{" "}
+                                <span className="font-semibold">₹0</span>
                               </p>
                             </div>
                           </div>
@@ -335,36 +371,46 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab }) => {
                         <div className="border-border-200 mx-3 border-b p-2 py-3">
                           <ul>
                             <li className="text-body mb-2 flex justify-between text-[14px]">
-                              <div className="text-[#7A7474] text-xs">Total MRP</div>
+                              <div className="text-xs text-[#7A7474]">
+                                Total MRP
+                              </div>
                               <div className="font-medium text-[#000000]">
                                 ₹{totalPrice}
                               </div>
                             </li>
                             <li className="text-body mb-2 flex justify-between text-[14px]">
-                              <div className="text-[#7A7474] text-xs">
+                              <div className="text-xs text-[#7A7474]">
                                 Cart Discount
                               </div>
                               <div className="font-medium text-[#000000]">
-                                -₹155
+                                {avgDiscount}%
                               </div>
                             </li>
                             <li className="text-body flex justify-between text-[14px]">
-                              <div className="text-[#7A7474] text-xs">
+                              <div className="text-xs text-[#7A7474]">
                                 Shipping Charges
                               </div>
                               <div className="font-medium text-[#000000]">
-                                ₹50
-                                <span className="pl-3 text-[14px] text-[#49AD91]">
-                                  FREE
-                                </span>
+                                ₹{finalShippingCharges}
+                                {isShippingFree && (
+                                  <span className="pl-3 text-[14px] text-[#49AD91]">
+                                    FREE
+                                  </span>
+                                )}
                               </div>
                             </li>
                           </ul>
                         </div>
                         <div className="subtotal mx-3 mt-2 pb-3 pl-2 pr-2">
                           <h4 className="flex items-center justify-between font-medium">
-                            <span className=" text-base font-medium">Sub Total</span>
-                            <span>₹{totalPrice}</span>{" "}
+                            <span className="text-base text-[#000000] font-medium">
+                              Sub Total
+                            </span>
+                            <span>
+                              ₹
+                              {Number(totalPrice) +
+                                Number(finalShippingCharges)}
+                            </span>
                             {/* Adjust for discount and shipping */}
                           </h4>
                           <p className="text-body text-xs text-[#7A7474]">

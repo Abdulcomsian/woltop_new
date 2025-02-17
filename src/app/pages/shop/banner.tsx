@@ -38,7 +38,7 @@ export default function Banner() {
                 onError={handleImageError}
               />
             </div>
-            <h1 className="font-lovelace text-[28px] font-normal tracking-[1%] text-white md:text-4xl lg:text-7xl xl:text-7xl">
+            <h1 className="lovelace text-[28px] font-normal tracking-[1%] text-white md:text-4xl lg:text-7xl xl:text-7xl">
               {homeBanner?.text || "Luxe Designs"}
             </h1>
             <a
