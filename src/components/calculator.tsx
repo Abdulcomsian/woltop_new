@@ -12,7 +12,7 @@ export default function Calculator({
   responseData: ResponseData;
 }) {
   const [isCalculatorVisible, setIsCalculatorVisible] = useState(false);
-  const [isMeter, setIsMeter] = useState(true); // Toggle between feet and meter
+  const [isMeter, setIsMeter] = useState(true);
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const rollPrice = responseData?.data?.sale_price || 0;
@@ -126,7 +126,6 @@ export default function Calculator({
               <div className="relative">
                 <input
                   type="number"
-                  value={width}
                   onChange={(e) => setWidth(Number(e.target.value))}
                   className="border-white p-2"
                   placeholder="0"
@@ -143,7 +142,6 @@ export default function Calculator({
               <div className="relative">
                 <input
                   type="number"
-                  value={height}
                   onChange={(e) => setHeight(Number(e.target.value))}
                   className="border-white p-2"
                   placeholder="0"

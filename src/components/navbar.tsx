@@ -191,9 +191,9 @@ export default function Navbar() {
                   >
                     About
                   </a>
-                  <a href="#" className="text-[#000000] hover:text-gray-900">
+                  {/* <a href="#" className="text-[#000000] hover:text-gray-900">
                     Tools
-                  </a>
+                  </a> */}
                   <a
                     href="/careers"
                     className="text-[#000000] hover:text-gray-900"
@@ -299,9 +299,9 @@ export default function Navbar() {
           >
             About
           </a>
-          <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
+          {/* <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
             Tools
-          </a>
+          </a> */}
           <a
             href="/careers"
             className="block px-4 py-2 text-sm hover:bg-gray-200"

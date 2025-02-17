@@ -1,5 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@font-face {
+  font-family: lovelace;
+  src: url("../assets/font/Zetafonts\ -\ Lovelace\ Text\ Regular.otf");
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -29,8 +34,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
-  ;
+    --radius: 0.5rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -38,7 +42,8 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%}
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -63,8 +68,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
-  ;
+    --chart-5: 340 75% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -72,7 +76,8 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%}
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
 }
 @layer base {
   * {
@@ -80,60 +85,56 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Poppins', sans-serif; 
+    font-family: "Poppins", sans-serif;
   }
 }
 
-
 /* ----------custom-style----- */
 .star-rating {
- 
-  
-  display:flex;
+  display: flex;
   flex-direction: row-reverse;
-  font-size:1.5em;
-  justify-content:space-around;
-  padding:0 .2em;
-  text-align:center;
-  width:5em;
+  font-size: 1.5em;
+  justify-content: space-around;
+  padding: 0 0.2em;
+  text-align: center;
+  width: 5em;
 }
 
 .star-rating input {
-  display:none;
+  display: none;
 }
 
 .star-rating label {
-  color:#ccc;
-  cursor:pointer;
+  color: #ccc;
+  cursor: pointer;
 }
 
-.star-rating  label {
-  color:#FFD943;
+.star-rating label {
+  color: #ffd943;
 }
 .star-rating :checked ~ label {
-  color:#FFD943;
+  color: #ffd943;
 }
 
 .star-rating label:hover,
 .star-rating label:hover ~ label {
-  color:#fc0;
+  color: #fc0;
 }
 
-.descount-price{
+.descount-price {
   font-size: 12px;
   margin-top: 4px;
   margin-left: 4px;
 }
 .product-size {
- margin-top: 6px;
-font-size: 14px;
-font-weight: 400;
-line-height: 11px;
-text-align: left;
-
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 11px;
+  text-align: left;
 }
 .product-price-wrapper {
-  border-color:#D9D9D9;
+  border-color: #d9d9d9;
   border-width: 2px;
 }
 
@@ -143,16 +144,16 @@ text-align: left;
   left: -9999px;
 }
 
-[type="checkbox"]:not(:checked)+label,
-[type="checkbox"]:checked+label {
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
   position: relative;
   padding-left: 25px;
   cursor: pointer;
 }
 
-[type="checkbox"]:not(:checked)+label:before,
-[type="checkbox"]:checked+label:before {
-  content: '';
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+  content: "";
   position: absolute;
   left: 0;
   top: -5px;
@@ -160,16 +161,16 @@ text-align: left;
   height: 20px;
   background: #fff;
   border-radius: 3px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  background-color: #49AD91;
+  background-color: #49ad91;
   outline: none;
 }
 
-[type="checkbox"]:not(:checked)+label:after,
-[type="checkbox"]:checked+label:after {
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
   /* content: '✔'; */
-  content: '\2713';
+  content: "\2713";
   position: absolute;
   top: 0px;
   left: 5px;
@@ -179,15 +180,15 @@ text-align: left;
   font-size: 24px; */
   line-height: 0.8;
   color: #fff;
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
-[type="checkbox"]:not(:checked)+label:after {
+[type="checkbox"]:not(:checked) + label:after {
   opacity: 0;
   transform: scale(0);
 }
 
-[type="checkbox"]:checked+label:after {
+[type="checkbox"]:checked + label:after {
   opacity: 1;
   transform: scale(1);
 }
@@ -198,11 +199,13 @@ input[type="radio"]:checked + span {
 
 /* homePageColorsTabs style start...  */
 /* Scoped styles for the colors Tabs section */
-.colors-tabs-section .data-\[state\=active\]\:bg-background[data-state="active"] {
-  background-color: #FFF3F6 !important;
+.colors-tabs-section
+  .data-\[state\=active\]\:bg-background[data-state="active"] {
+  background-color: #fff3f6 !important;
 }
-.colors-tabs-section .data-\[state\=active\]\:text-foreground[data-state="active"] {
-  color: #D23760 !important;
+.colors-tabs-section
+  .data-\[state\=active\]\:text-foreground[data-state="active"] {
+  color: #d23760 !important;
 }
 .colors-tabs-section .data-\[state\=active\]\:shadow-sm[data-state="active"] {
   box-shadow: none !important;
@@ -210,10 +213,10 @@ input[type="radio"]:checked + span {
 
 /* Scoped styles for the tabs Tabs section */
 .tabs-section .data-\[state\=active\]\:bg-background[data-state="active"] {
-  background-color: #F1FBFF !important;
+  background-color: #f1fbff !important;
 }
 .tabs-section .data-\[state\=active\]\:text-foreground[data-state="active"] {
-  color: #49AD91 !important;
+  color: #49ad91 !important;
 }
 .tabs-section .data-\[state\=active\]\:shadow-sm[data-state="active"] {
   box-shadow: none !important;
@@ -224,7 +227,7 @@ input[type="radio"]:checked + span {
   display: none; /* Chrome, Safari, and Opera */
 }
 .accordion-container [data-state="open"] > span {
-  color: #49AD91 !important;
+  color: #49ad91 !important;
 }
 
 /* Hide svg when accordion is open */
@@ -237,3 +240,9 @@ input[type="radio"]:checked + span {
   display: none;
 }
 
+.lovelace {
+  font-family: lovelace;
+}
+.landingForm {
+  font-family: "Inter", serif;
+}

@@ -7,15 +7,18 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import DetailCard from "../pages/shop/detailCard";
 import TabSteps from "~/components/TabsSteps";
+import { useGetChargesQuery } from "~/store/api/chargessApi";
 
 export default function page() {
+  const { data: chargess } = useGetChargesQuery({});
   const [activeTab, setActiveTab] = useState("cart");
   const cartData = useSelector((state: any) => state?.cart);
 
+  console.log(chargess, "chargess");
   return (
     <>
-      <div className="bg-[#F1FBFF] mt-[2px]">
-          <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="mt-[2px] bg-[#F1FBFF]">
+        <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
 
       <div className="mx-auto max-w-[1075px]">
@@ -27,7 +30,7 @@ export default function page() {
               className="px-3 pt-10 md:pt-[70px]"
               position="left"
             >
-              <CartTab cartData={cartData} setActiveTab={setActiveTab} />
+              <CartTab cartData={cartData} chargess={chargess} setActiveTab={setActiveTab} />
             </SectionBlock>
             <SectionBlock
               title="Your Last Minute Addons"
@@ -52,16 +55,16 @@ export default function page() {
       </div>
 
       {activeTab === "payment" && (
-          <div className="mx-auto max-w-6xl">
-            <SectionBlock
-              title=""
-              subtitle=""
-              className="px-3 pt-10 md:pt-[70px]"
-              position="left"
-            >
-              <PaymentTab />
-            </SectionBlock>
-          </div>
+        <div className="mx-auto max-w-6xl">
+          <SectionBlock
+            title=""
+            subtitle=""
+            className="px-3 pt-10 md:pt-[70px]"
+            position="left"
+          >
+            <PaymentTab chargess={chargess} />
+          </SectionBlock>
+        </div>
       )}
     </>
   );

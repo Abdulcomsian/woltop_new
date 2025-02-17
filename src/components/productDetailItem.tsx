@@ -1,9 +1,17 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import Calculator from "./calculator";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import { Heart } from "lucide-react";
+import { toast } from "react-toastify";
+import utils from "~/utils";
 
 interface ProductImage {
   id: string;
@@ -71,6 +79,9 @@ export default function productDetailItem({
     reviews,
     variables,
     products_features,
+    sale_price,
+    price,
+    id
   } = responseData?.data || {};
   const { data: delivery_detail } = useGetDeliveryQuery({});
   const [selectedId, setSelectedId] = useState<number | null>(
@@ -81,9 +92,40 @@ export default function productDetailItem({
   const dispatch = useDispatch();
   const [selectedFeaturedImage, setSelectedFeaturedImage] =
     useState(featured_image);
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
+  };
+
+  const handleAddToWishlist = async (productId: number) => {
+    if (!isLoggedIn) {
+      toast.warning("You need to login first add to wishlist");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const formData = new FormData();
+      formData.append("product_id", productId.toString());
+
+      const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        toast.success("Product added to wishlist");
+      } else {
+        toast.error("Failed to add to wishlist");
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
   };
 
   const handleAddToCart = () => {
@@ -162,7 +204,7 @@ export default function productDetailItem({
                     onClick={() => setSelectedFeaturedImage(image.image_path)}
                   >
                     <img
-                      className="mr-2 h-[117px] w-[82px] rounded object-cover"
+                      className={`mr-2 h-[117px] w-[82px] cursor-pointer rounded object-cover ${selectedFeaturedImage === image.image_path ? "border-[1px] border-[#655F5F] p-1" : "border-none"} `}
                       src={
                         image.image_path ||
                         "https://images.unsplash.com/photo-1665391837905-74d250172dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDMxNzc&ixlib=rb-4.0.3&q=80&w=400"
@@ -206,7 +248,7 @@ export default function productDetailItem({
                     <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
                       /
                     </li>
-                    <li className="text-[#000000] px-2 text-[8px] md:text-[14px]">
+                    <li className="px-2 text-[8px] text-[#000000] md:text-[14px]">
                       {title || "Wolpin Wallpaper Non-Woven"}
                     </li>
                   </ol>
@@ -241,6 +283,16 @@ export default function productDetailItem({
                     </span>
                   </div>
                 </div>
+                {variables?.length === 0 && (
+                  <div className="price-wrapper flex">
+                    <div className="real-price text-[#49AD91]">
+                      ₹{sale_price}
+                    </div>
+                    <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
+                      ₹{price}
+                    </div>
+                  </div>
+                )}
 
                 {/* <ProductPrice responseData={responseData}></ProductPrice> */}
                 <div className="flex items-center justify-start gap-2 border-b-[0.5px] border-[#D9D9D9] py-4">
@@ -292,7 +344,7 @@ export default function productDetailItem({
                   ))}
                 </div>
 
-                <div className="shipping-text border-b-[0.5px] border-[#D9D9D9] py-4 text-[#7A7474] text-xs md:text-base">
+                <div className="shipping-text border-b-[0.5px] border-[#D9D9D9] py-4 text-xs text-[#7A7474] md:text-base">
                   {short_description?.split("\n").map((item, index) => (
                     <span key={index}>
                       - {item}
@@ -305,29 +357,12 @@ export default function productDetailItem({
                 </div>
 
                 <div className="shipping-btn mt-3 flex justify-start gap-4">
-                  <button className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]">
-                    <svg
-                      width="24"
-                      height="22"
-                      className="mr-3"
-                      viewBox="0 0 24 22"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M3.94949 15.0786C2.77858 15.0786 1.82861 16.0286 1.82861 17.1995C1.82861 18.3704 2.77858 19.3204 3.94949 19.3204C5.1204 19.3204 6.07037 18.3704 6.07037 17.1995C6.07037 16.0286 5.1204 15.0786 3.94949 15.0786ZM3.94949 16.0791C4.56808 16.0791 5.06991 16.5809 5.06991 17.1995C5.06991 17.8181 4.56808 18.3199 3.94949 18.3199C3.3309 18.3199 2.82907 17.8181 2.82907 17.1995C2.82907 16.5809 3.3309 16.0791 3.94949 16.0791Z"
-                        fill="#A5A1A1"
-                      />
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M14.274 1.2896L1.214 14.3496C0.466004 15.0676 0 16.0786 0 17.1976C0 17.1996 0 17.2016 0 17.2016C0 19.3826 1.768 21.1496 3.948 21.1496H22.5C23.328 21.1496 24 20.4786 24 19.6496V14.7496C24 13.9216 23.328 13.2496 22.5 13.2496H13.486L19.86 6.8756C20.141 6.59459 20.299 6.2136 20.299 5.8156C20.299 5.4176 20.141 5.03559 19.86 4.75459C18.934 3.82859 17.321 2.2156 16.395 1.2896C16.114 1.0086 15.732 0.850586 15.334 0.850586C14.937 0.850586 14.555 1.0086 14.274 1.2896ZM11.5 14.2496H3.948C3.159 14.2496 2.443 14.5596 1.914 15.0646L1.86301 15.1156C1.85601 15.1216 1.85 15.1276 1.843 15.1336C1.322 15.6656 1 16.3936 1 17.1976V17.2016C1 18.8296 2.32 20.1496 3.948 20.1496H11.5V14.2496ZM12.5 14.2496V20.1496H17.25V14.2496H12.5ZM18.25 14.2496H22.5C22.776 14.2496 23 14.4736 23 14.7496V19.6496C23 19.9256 22.776 20.1496 22.5 20.1496H18.25V14.2496ZM10.677 13.2496L7.203 9.77559L3.722 13.2566C3.797 13.2516 3.872 13.2496 3.948 13.2496H10.677ZM7.91 9.06859L12.082 13.2396L15.44 9.88159L11.269 5.70959L7.91 9.06859ZM16.148 9.17459L19.153 6.16859C19.247 6.07559 19.299 5.9476 19.299 5.8156C19.299 5.6826 19.247 5.55559 19.153 5.46159L15.688 1.9966C15.594 1.9036 15.467 1.85059 15.334 1.85059C15.202 1.85059 15.075 1.9036 14.981 1.9966L11.976 5.00259L16.148 9.17459Z"
-                        fill="#A5A1A1"
-                      />
-                    </svg>
-                    ORDER A SAMPLE
+                  <button
+                    onClick={() => handleAddToWishlist(id)}
+                    className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center gap-2 rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]"
+                  >
+                    <Heart />
+                    WISHLIST
                   </button>
                   <button
                     onClick={handleAddToCart}
@@ -369,13 +404,13 @@ export default function productDetailItem({
 
                 <Calculator responseData={responseData}></Calculator>
                 <div className="mt-4 w-full">
-                  <h5 className="text-[20px] text-[#000000] font-medium md:text-2xl">
+                  <h5 className="text-[20px] font-medium text-[#000000] md:text-2xl">
                     Delivery{" "}
                   </h5>
                   <div className="mt-4 flex justify-between gap-2 text-[14px] md:text-base">
                     {delivery_detail?.data?.map((detail) => (
                       <div key={detail.id}>
-                        <h6 className="text-wrap text-[#4E4949] text-sm md:text-base">
+                        <h6 className="text-wrap text-sm text-[#4E4949] md:text-base">
                           {detail.city_details}
                         </h6>
                         <p className="text-xs text-[#908B8B] md:text-sm">

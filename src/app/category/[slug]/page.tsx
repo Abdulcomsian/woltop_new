@@ -1,79 +1,24 @@
 "use client";
 import Banner from "~/app/pages/shop/banner";
-import SwiperItem from "../../pages/shop/swiperItem";
 import SectionBlock from "~/components/ui/section-block";
 import Reeling from "../../pages/shop/reeling";
 import CategorieCard from "../../pages/shop/categorieCard";
-import product1 from "../../../assets/product/Woltop2222.png";
-import product2 from "../../../assets/product/Woltop333333.png";
-import product3 from "../../../assets/product/Woltop44444.png";
-import product4 from "../../../assets/product/Woltop55555.png";
-import { ArrowRight } from "~/components/icons/Arrowfill";
 import {
-  useGetPopularProductsQuery,
-  useGetProductsByColorQuery,
   useGetProductByIdQuery,
 } from "~/store/api/productApi";
 import VideoSection from "~/app/pages/shop/videoSection";
+import SwiperCard from "~/components/swiperCard";
+import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
+import { useParams } from "next/navigation";
 
-interface PageParams {
-  slug: string;
-}
-
-export default function page({ params }: { params: PageParams }) {
-  const { slug } = params;
-  // console.log("Slug", slug);
+export default function page() {
+  const { slug } = useParams();
+  const { data: categories, isLoading: isLoadingCategories } =
+    useGetCategoriesQuery({});
 
   const { data: product, isLoading, error } = useGetProductByIdQuery(slug);
-  // console.log("Product Details", product);
+  // console.log("Category Details", category);
   const responseData = product ? { data: product, status: true } : null;
-
-  const ShopRoomCardData = [
-    {
-      id: 1,
-      title: "Card Title 1",
-      img: product1,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "5%",
-      content: "Living Room",
-      icon: <ArrowRight />
-    },
-    {
-      id: 2,
-      title: "Card Title 2",
-      img: product2,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "16%",
-      content: "Bedroom",
-      icon: <ArrowRight />
-    },
-    {
-      id: 3,
-      title: "Card Title 3",
-      img: product3,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "10%",
-      content: "Kids Room",
-      icon: <ArrowRight />
-    },
-    {
-      id: 4,
-      title: "Card Title 4",
-      img: product4,
-      description: "$250.00",
-      price: "$250.00",
-      discountPrice: "$250.00",
-      discount: "12%",
-      content: "hall",
-      icon: <ArrowRight />
-    },
-  ];
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -88,7 +33,7 @@ export default function page({ params }: { params: PageParams }) {
       <SectionBlock
         title=""
         subtitle=""
-        className="mt-5 px-3 pt-4 max-w-[1075px] mx-auto"
+        className="mx-auto mt-5 max-w-[1075px] px-3 pt-4"
         position="left"
       >
         <Banner />
@@ -98,17 +43,20 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Popular In Living Room"
           subtitle="Enhance your living space with our stunning collection of living room wallpapers."
-          className="mt-4 px-3 pt-4 max-w-[1075px] mx-auto"
+          className="mx-auto mt-4 max-w-[1075px] px-3 pt-4"
           position="left"
         >
-          <CategorieCard cardData={ShopRoomCardData}></CategorieCard>
+          <CategorieCard
+            cardData={categories}
+            isLoading={isLoading}
+          ></CategorieCard>
         </SectionBlock>
       </div>
 
       <SectionBlock
         title=""
         subtitle=""
-        className="mt-5 px-3 pt-4 max-w-[1075px] mx-auto"
+        className="mx-auto mt-5 max-w-[1075px] px-3 pt-4"
         position="left"
       >
         <VideoSection responseData={responseData?.data}></VideoSection>
@@ -118,7 +66,7 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Unreeling Some Wolpin Stories"
           subtitle=""
-          className="mt-4 px-3 pt-4 max-w-[1075px] mx-auto"
+          className="mx-auto mt-4 max-w-[1075px] px-3 pt-4"
           position="left"
         >
           <Reeling></Reeling>
@@ -129,20 +77,15 @@ export default function page({ params }: { params: PageParams }) {
         <SectionBlock
           title="Explore Our Other Categories"
           subtitle=""
-          className="mt-4 px-3 pt-4 max-w-[1075px] mx-auto"
+          className="mx-auto mt-4 max-w-[1075px] px-3 pt-4"
           position="center"
         >
-          <SwiperItem></SwiperItem>
+          <SwiperCard
+            categories={categories}
+            isLoading={isLoading}
+          ></SwiperCard>
         </SectionBlock>
       </div>
-      {/* <div className="mt-5">
-        <SectionBlock
-          title="@wolpinwallpaper.in"
-          subtitle="Follow Us on Instagram"
-          className="mt-4 pt-4 max-w-[1075px] mx-auto"
-          position="center"
-        ></SectionBlock>
-      </div> */}
     </main>
   );
 }
