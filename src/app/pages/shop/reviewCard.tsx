@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGetReviewByProductQuery } from "~/store/api/reviewsApi";
+import { format } from "date-fns";
 
 interface ReviewCardProps {
   slug: string;
@@ -80,7 +81,9 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
               </div>
             </div>
             <p className="font-poppins text-xs text-[#A5A1A1] md:text-base">
-              {review.created_at}
+              {review.created_at
+                ? format(new Date(review.created_at), "MMMM EEE dd, yyyy")
+                : "Invalid Date"}
             </p>
           </div>
         </div>

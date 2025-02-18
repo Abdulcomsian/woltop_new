@@ -47,7 +47,12 @@ export function ProductCard({
       </div>
 
       <Card
-        style={{ backgroundImage: `url(${img})`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center" }}
+        style={{
+          backgroundImage: `url(${img})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
         className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
       >
         {/* <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
@@ -56,13 +61,15 @@ export function ProductCard({
         <CardHeader></CardHeader>
       </Card>
       <CardContent>
-        <p className="text-[#505050] truncate">{content}</p>
+        <p className="truncate text-[#505050]">{content}</p>
       </CardContent>
       <CardFooter>
         <CardDescription>
-          <span className="text-heading text-sm text-[#121212] font-semibold md:text-base">
-          ₹{discountPrice}
-          </span>
+          {discountPrice !== null && (
+            <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+              ₹{discountPrice}
+            </span>
+          )}
           {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">
             {discountPrice}
           </del> */}

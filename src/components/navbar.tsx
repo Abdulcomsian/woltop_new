@@ -11,6 +11,12 @@ import { logout } from "~/store/slices/userSlice";
 import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
 import arroDownOutline from "../assets/img/arrow-down-outline.svg";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Thumbs } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/thumbs";
 
 export default function Navbar() {
   const { isLoggedIn } = useSelector((state) => state.user);
@@ -65,7 +71,7 @@ export default function Navbar() {
     <>
       {/* <!-- navbar goes here --> */}
       <nav
-        className="bg-[#FFFFFF] font-poppins"
+        className="bg-[#FFFFFF] sticky top-0 z-50"
         style={{ boxShadow: "0px 4px 4px 0px #0000001A" }}
       >
         <div className="mx-auto max-w-[1075px] px-3 py-[11px] md:py-[16px]">

@@ -51,7 +51,7 @@ export default function Calculator({
             />
           </svg>
         </div>
-        <span className="text-[12px] text-[#655F5F] md:text-[15px]">How many rolls do I need? Use our Calculator</span>
+        <span className="text-[12px] text-[#655F5F] md:text-[15px]">How many rolls do I need? Use our <span className="underline">Calculator</span></span>
         <div style={{ cursor: "pointer" }}>
           {isCalculatorVisible ? (
             <svg
@@ -106,8 +106,8 @@ export default function Calculator({
                 className="peer sr-only"
               />
               <div
-                className={`peer relative h-6 w-11 rounded-full ${
-                  isMeter ? "bg-gray-200" : "bg-[#49AD91]"
+                className={`peer relative h-6 w-11 rounded-full  ${
+                  isMeter ? "bg-[#49AD91]" : "bg-[#49AD91]"
                 } after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] ${
                   !isMeter
                     ? "peer-checked:after:translate-x-full peer-checked:after:border-white"

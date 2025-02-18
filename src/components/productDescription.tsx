@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import desImg from "../../public/productdescription.png";
+import parse from "html-react-parser";
 
 interface ProductData {
   featured_image: any;
@@ -22,38 +23,52 @@ export default function ProductDescription({
   // Function to parse and render the description
   const renderDescription = () => {
     if (!description) return null;
-
-    // Split the description by new lines and filter out empty lines
-    const lines = description.split("\n").filter((line) => line.trim() !== "");
-
-    return (
-      <ul className="mb-4 p-4 pl-5 max-w-[80%]">
-        {lines.map((line, index) => (
-          <li
-            key={index}
-            className="mt-3 flex text-xs text-[#49AD91] md:text-lg"
-          >
-            <span dangerouslySetInnerHTML={{ __html: line }} />
-          </li>
-        ))}
-      </ul>
-    );
+  
+    // Parse the existing HTML and wrap each li with the icon
+    const modifiedDescription = parse(description, {
+      replace: (domNode) => {
+        if (domNode.name === "li") {
+          return (
+            <li className="mt-3 flex items-start w-full text-xs text-[#49AD91] md:text-lg">
+              <svg
+                width="22"
+                height="17"
+                viewBox="0 0 22 17"
+                className="w-5 h-5 mr-2 mt-1 shrink-0"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.1671 0.646264C20.018 1.1908 18.835 1.69328 17.7372 2.32429C17.3007 2.57202 16.8767 2.83027 16.4627 3.10255C12.8787 5.38821 9.93697 8.31068 7.42914 11.7452C7.29366 11.4974 7.22968 11.3502 7.14061 11.2182C6.49456 10.2611 5.87484 9.28542 5.18489 8.36459C4.61913 7.61089 3.75229 7.31408 2.834 7.55713C2.05372 7.76397 1.2609 8.09584 0.618608 8.55272C-0.260788 9.17788 -0.188015 10.0216 0.744054 10.5837C2.79262 11.8223 4.14499 13.5331 4.909 15.6632C5.09843 16.1925 5.46099 16.411 6.02299 16.4706C7.66136 16.6471 8.8945 16.0219 9.78394 14.7891C10.4037 13.9244 10.9782 13.0304 11.5151 12.1201C13.1723 9.30863 15.0188 6.63379 17.3471 4.30614C18.0923 3.56177 18.8889 2.84897 19.7457 2.18172C20.4846 1.60679 21.2486 1.06342 22 0.503691C21.6914 0.486163 21.4154 0.530567 21.1721 0.647422L21.1671 0.646264Z"
+                  fill="#49AD91"
+                />
+              </svg>
+              {domNode.children.map((child, index) => (
+                <span key={index}>{child.data}</span>
+              ))}
+            </li>
+          );
+        }
+      },
+    });
+  
+    return <ul className="mb-4 w-full max-w-[90%] p-4">{modifiedDescription}</ul>;
   };
 
   return (
     <div className="">
       <div className="mb-4 flex flex-col justify-between rounded-lg bg-white py-5 md:flex-row">
-        <div className="">
+        <div className="w-full">
           <div className="border-rad w-fit rounded-br-full rounded-tr-full border-[0.7px] border-dashed border-[#49AD91] bg-[#E6F1FF]">
-            <h1 className="px-[17px] md:px-6 py-[6px] text-[22px] text-[#000000] font-semibold md:text-[26px]">
+            <h1 className="px-[17px] py-[6px] text-[22px] font-semibold text-[#000000] md:px-6 md:text-[26px]">
               Product Description
             </h1>
           </div>
           {renderDescription()}
         </div>
-        <div className="relative h-[147.88px] w-auto overflow-hidden rounded-[6px] mx-5 md:h-[291.1px] md:w-[260px]">
+        <div className="relative mx-5 h-[147.88px] w-auto overflow-hidden rounded-[6px] md:h-[291.1px] md:w-[260px]">
           <Image
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             src={featured_image}
             alt="Banner Background2"
             fill
@@ -81,7 +96,7 @@ export default function ProductDescription({
             HOW TO CARE
           </span>
         </h6>
-        <p className="ml-5 mt-1 pb-5 pl-4 text-xs text-[#49AD91] md:text-base">
+        <p className="ml-5 mt-1 pb-5 pl-4 text-xs text-[#49AD91] md:max-w-[80%] md:text-base">
           Use a damp cloth to clean the wallpaper. Avoid pasting the wallpaper
           on a cracked, textured or wall surface with moisture.
         </p>
