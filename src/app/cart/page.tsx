@@ -14,7 +14,7 @@ export default function page() {
   const [activeTab, setActiveTab] = useState("cart");
   const cartData = useSelector((state: any) => state?.cart);
 
-  console.log(chargess, "chargess");
+  // console.log(chargess, "chargess");
   return (
     <>
       <div className="mt-[2px] bg-[#F1FBFF]">

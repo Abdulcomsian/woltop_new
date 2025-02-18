@@ -276,13 +276,13 @@ export default function footer() {
             <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
               Address
             </h3>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
+            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
               S.F.NO. 315, Angels Garden,
             </p>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
+            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
               Nagamanaickenpalayam, Pattanam,
             </p>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
+            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
               Coimbatore, Tamil Nadu, 641016
             </p>
           </div>

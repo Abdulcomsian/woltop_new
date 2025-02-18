@@ -18,6 +18,7 @@ type DosDont = {
 
 type DesignApplicationDetails = {
   room_type: string;
+  finish_type: string;
   pattern_repeat: string;
   pattern_match: string;
   application_guide: string;
@@ -124,6 +125,14 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
                         {details?.room_type}
                       </td>
                     </tr>
+                    <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9] text-left">
+                      <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
+                      Finish Type
+                      </td>
+                      <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
+                        {details?.finish_type}
+                      </td>
+                    </tr>
                     <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
                       <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
                         Pattern Repeat
@@ -141,8 +150,8 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
                       </td>
                     </tr>
                     <tr>
-                      <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
-                        Application Guide
+                      <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
+                        Application <br />Guide
                       </td>
                       <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
                         {details?.application_guide}

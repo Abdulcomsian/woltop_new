@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight } from "~/components/icons/Arrowfill";
 import { Card } from "~/components/ui/card";
 
@@ -23,7 +24,7 @@ export default function CategorieCard({ cardData, isLoading }) {
               ))
           : 
             cardData?.map((card) => (
-              <div key={card.id}>
+              <Link href={`/category/${card.id}`} key={card?.id}>
                 <div className="card-wrapper relative">
                   <Card
                     style={{
@@ -42,7 +43,7 @@ export default function CategorieCard({ cardData, isLoading }) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
       </div>
     </div>

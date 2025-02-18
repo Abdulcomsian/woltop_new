@@ -4,11 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import Calculator from "./calculator";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
 import { Heart } from "lucide-react";
 import { toast } from "react-toastify";
 import utils from "~/utils";
@@ -431,13 +426,14 @@ export default function productDetailItem({
                       (feature: { image: string; name: string }, index) => (
                         <div
                           key={index}
-                          className="relative h-[100px] w-[100px] overflow-hidden rounded-full"
+                          className="relative rounded-full"
                         >
                           <Image
-                            className="h-full w-full object-cover"
+                            className="h-full w-full rounded-full"
                             src={feature.image}
                             alt={feature.name}
-                            fill
+                            height={100}
+                            width={100}
                           />
                         </div>
                       ),

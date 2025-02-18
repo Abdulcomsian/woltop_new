@@ -118,7 +118,7 @@ export default function Page() {
       </div>
 
       <div className="my-10 bg-[#F1FBFF] md:my-[70px]">
-        {product?.data?.storage_usage_details?.length !== null && (
+        {product?.data?.storage_usage_details?.length !== 0 && (
           <SectionBlock
             title="More Information"
             subtitle=""

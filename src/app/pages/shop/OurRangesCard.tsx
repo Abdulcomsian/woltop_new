@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowRight } from "~/components/icons/Arrowfill";
 import { Card } from "~/components/ui/card";
 
@@ -31,7 +32,7 @@ export default function OurRangesCard({ cardData, isLoading }) {
     <div className="flex w-full flex-col">
       <div className="scrollbar-hide grid auto-cols-[minmax(195px,1fr)] grid-flow-col overflow-x-auto gap-4">
         {limitedCategories?.map((card) => (
-          <div key={card.id} className="card-wrapper relative">
+          <Link href={`/category/${card.id}`} key={card.id} className="card-wrapper relative">
             <Card
               style={{
                 backgroundImage: `url(${card.image})`,
@@ -39,7 +40,7 @@ export default function OurRangesCard({ cardData, isLoading }) {
               }}
               className="rounded-lg bg-center object-cover h-[158px] md:h-[337px]"
             ></Card>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
