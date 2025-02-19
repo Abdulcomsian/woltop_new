@@ -8,9 +8,10 @@ import { Heart } from "lucide-react";
 import { toast } from "react-toastify";
 import utils from "~/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, Zoom } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import "../styles/custom.css";
 interface ProductImage {
   id: string;
   image_path: string;
@@ -189,7 +190,7 @@ export default function productDetailItem({
     <>
       <div className="max-w-[944px]">
         <div className="jsut flex flex-col md:flex-row md:gap-[39px]">
-          <div className="flex flex-col overflow-x-hidden md:w-[460px] md:px-3">
+          <div className="flex flex-col overflow-x-hidden md:w-[460px]">
             <div className="mb-4 flex h-[751px] max-h-[751px] w-full items-center justify-center overflow-hidden md:rounded-[6px]">
               <Swiper
                 autoplay={{
@@ -200,18 +201,21 @@ export default function productDetailItem({
                 pagination={{
                   clickable: true,
                 }}
-                modules={[Autoplay, Pagination]}
+                zoom={true}
+                modules={[Autoplay, Pagination, Zoom]}
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                 onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                 className="mySwiper h-full"
               >
                 {product_images?.map((image) => (
                   <SwiperSlide key={image.id}>
-                    <img
-                      className="h-full object-cover"
-                      src={image.image_path}
-                      alt={`Product Image ${image.id}`}
-                    />
+                    <div className="swiper-zoom-container h-full">
+                      <img
+                        className="h-full object-cover"
+                        src={image.image_path}
+                        alt={`Product Image ${image.id}`}
+                      />
+                    </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -232,7 +236,7 @@ export default function productDetailItem({
               ))}
             </div>
           </div>
-          <div className="flex flex-1 flex-col overflow-x-hidden border-red-100 px-3 md:w-[445px]">
+          <div className="flex flex-1 flex-col overflow-x-hidden border-red-100 px-3 md:w-[445px] md:px-0">
             <div className="breadcrum mb-[15px] mt-4 md:mt-0">
               <nav className="container">
                 <ol className="list-reset bg-grey-light text-grey flex rounded">
@@ -320,8 +324,9 @@ export default function productDetailItem({
                       selectedId === variable.id ? "bg-[#49AD911A]" : ""
                     }`}
                     style={{
-                      borderColor: selectedId === variable.id ? "#49AD91" : "#D9D9D9",
-                    }}                    
+                      borderColor:
+                        selectedId === variable.id ? "#49AD91" : "#D9D9D9",
+                    }}
                   >
                     {/* Discount Badge */}
                     <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
@@ -448,7 +453,10 @@ export default function productDetailItem({
                 <div className="mt-5 flex w-full justify-center gap-3 overflow-x-auto md:justify-start md:gap-6">
                   {products_features?.map(
                     (feature: { image: string; name: string }, index) => (
-                      <div key={index} className="relative w-[62px] h-[68px] md:w-[91px] md:h-[99px]  rounded-full">
+                      <div
+                        key={index}
+                        className="relative h-[68px] w-[62px] rounded-full md:h-[99px] md:w-[91px]"
+                      >
                         <Image
                           className="rounded-full"
                           src={feature.image}

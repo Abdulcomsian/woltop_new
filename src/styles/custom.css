@@ -1,47 +1,32 @@
-.img-contain img {
-    /* width:  500px;*/
-    height: auto;
-    width: 25px;
-    /* object-fit: cover; */
-  }
-  .img-contain-about .main-img {
-    z-index: 99;
-    /* border: 2px solid red; */
-    /* height: 100%; */
-    /* width:  100%; */
-  }
-  .img-contain-about {
-    position: relative;
-    /* height: 50px; */
-    /* border: 2px solid red; */
-   width: auto;
-   overflow: hidden;
-  }
-  .img-contain {
-    position: relative;
-    height: 50px;
-    /* border: 2px solid red; */
-    width: auto;
-    overflow: hidden;
-  }
-  .img-contain .main-img {
-    z-index: 99;
-    /* border: 2px solid red; */
-    height: 100%;
-    /* position: absolute; */
+  @media (max-width: 768px) {
+    .swiper-pagination {
+      display: flex !important;
+    }
   }
   
-  .banner-wrapper {
-    background: url(../../../public/img/blue-bg.png);
-    height: auto; /* You must set a specified height */
-    background-position: center center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
-    /* border: 2px solid red; */
-    height: 100%;
-    margin-top: 3%;
-    margin-bottom: 3%;
-    background-color: #eefaff;
+  @media (min-width: 769px) {
+    .swiper-pagination {
+      display: none !important;
+    }
   }
-
+  
+  .swiper-pagination {
+    background: #D9D9D966;
+    border: 1px solid #d9d9d9;
+    width: auto;
+    border-radius: 25px;
+    padding: 7px 25px;
+  }
+  .swiper-pagination-clickable .swiper-pagination-bullet {
+    background-color: white !important;
+  }
+  .swiper-pagination-fraction,
+  .swiper-pagination-custom,
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    position: absolute;
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: fit-content !important;
+  }
   

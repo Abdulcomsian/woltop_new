@@ -77,7 +77,7 @@ export default function Page() {
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto max-w-[1075px] md:mt-[60px]"
+        className="mx-auto max-w-[1075px] md:mt-[60px] md:pl-3"
         position="left"
       >
         <ProductDetailItem responseData={product}></ProductDetailItem>
@@ -181,8 +181,8 @@ export default function Page() {
         <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
       </SectionBlock>
       <SectionBlock
-        title="Recently Viewed"
-        subtitle="Continue where you left off"
+        title=""
+        subtitle=""
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >
