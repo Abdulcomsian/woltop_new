@@ -8,7 +8,7 @@ export default function Banner() {
   const { data: homeBanner, isLoading } = useGetHomeBannerQuery({});
 
   const handleImageError = (event) => {
-    event.target.src = placeholderImage.src;
+    event.target.src = banner.src;
   };
 
   return (
@@ -31,7 +31,7 @@ export default function Banner() {
           <div className="container relative z-20 mx-auto text-center text-white">
             <div className="mb-3 md:mb-5 flex justify-center">
               <Image
-                src={homeBanner?.logo || placeholderImage.src}
+                src={homeBanner?.logo || homeBannerWings.src}
                 alt="img"
                 width={76}
                 height={46}
@@ -67,7 +67,7 @@ export default function Banner() {
                 color: "transparent",
               }}
               fill
-              src={homeBanner?.banner || placeholderImage.src}
+              src={homeBanner?.banner || banner.src}
               className="h-full w-full object-cover object-center"
               alt="img"
               onError={handleImageError}

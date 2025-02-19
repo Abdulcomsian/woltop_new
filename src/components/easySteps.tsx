@@ -50,11 +50,11 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
 
       {/* Installation Steps Section */}
       {responseData?.data?.installation_steps?.length > 0 && (
-        <div className="scrollbar-hide grid auto-cols-[minmax(246px,1fr)] grid-flow-col lg:grid-cols-4 overflow-x-auto gap-4">
+        <div className="scrollbar-hide grid auto-cols-[minmax(146px,1fr)] md:auto-cols-[minmax(246px,1fr)] grid-flow-col lg:grid-cols-4 overflow-x-auto gap-4">
           {responseData.data.installation_steps.map((step) => (
-            <div key={step.id} className="max-w-[246px]">
+            <div key={step.id} className="max-w-[146px] md:max-w-[246px]">
               <div className="relative">
-                <div className="h-[279px] overflow-hidden rounded-[8px]">
+                <div className="h-[146] md:h-[279px] overflow-hidden rounded-[8px]">
                   <img
                     src={step.image}
                     alt={step.name}
@@ -63,11 +63,11 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
                 </div>
 
                 <div className="relative p-4">
-                  <div className="mb-2 text-center text-2xl leading-7">
-                    <h6 className="hover:text-[#AA4A00]-900 font-bold text-[#AA4A00] hover:underline hover:underline-offset-4">
+                  <div className="mb-2 text-center">
+                    <h6 className="hover:text-[#AA4A00]-900 font-semibold text-[17px] md:text-2xl text-[#AA4A00] hover:underline hover:underline-offset-4">
                       {step.name}
                     </h6>
-                    <p className="hover:text-[#656567]-900 pt-4 text-base text-[#656567] hover:underline hover:underline-offset-4">
+                    <p className="hover:text-[#656567]-900 pt-[10px] md:pt-4 text-xs md:text-base text-[#656567] hover:underline hover:underline-offset-4">
                       {step.description}
                     </p>
                   </div>

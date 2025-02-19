@@ -34,7 +34,7 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
       {paginatedReviews.map((review: any) => (
         <div
           key={review.id}
-          className="mb-5 w-full flex-shrink-0 rounded-lg border-2 border-dashed bg-white p-6 shadow-md"
+          className="mb-5 w-full flex-shrink-0 rounded-[10px] bg-white p-3 md:p-6 shadow-md"
         >
           {/* Rating */}
           <div className="mb-3 flex gap-[6px]">
@@ -43,7 +43,7 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
                 <svg
                   key={index}
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-[30px] w-[30px] fill-current ${
+                  className={`md:h-[30px] md:w-[30px] h-[24px] w-[24px] fill-current ${
                     index < review.rating ? "text-yellow-400" : "text-gray-300"
                   }`}
                   viewBox="0 0 24 24"

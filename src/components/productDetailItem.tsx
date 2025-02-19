@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
@@ -7,7 +7,10 @@ import Calculator from "./calculator";
 import { Heart } from "lucide-react";
 import { toast } from "react-toastify";
 import utils from "~/utils";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 interface ProductImage {
   id: string;
   image_path: string;
@@ -76,7 +79,7 @@ export default function productDetailItem({
     products_features,
     sale_price,
     price,
-    id
+    id,
   } = responseData?.data || {};
   const { data: delivery_detail } = useGetDeliveryQuery({});
   const [selectedId, setSelectedId] = useState<number | null>(
@@ -87,10 +90,16 @@ export default function productDetailItem({
   const dispatch = useDispatch();
   const [selectedFeaturedImage, setSelectedFeaturedImage] =
     useState(featured_image);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const swiperRef = useRef(null);
   const { isLoggedIn } = useSelector((state) => state.user);
 
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
+  };
+  const handleThumbnailClick = (index) => {
+    setActiveIndex(index);
+    swiperRef.current?.slideTo(index); // Move Swiper to selected image
   };
 
   const handleAddToWishlist = async (productId: number) => {
@@ -178,269 +187,279 @@ export default function productDetailItem({
 
   return (
     <>
-      <div className="container mx-auto">
-        <div className="relative mx-auto max-w-screen-2xl">
-          <div className="flex flex-col gap-2 md:flex-row">
-            <div className="flex flex-1 flex-col md:px-3">
-              <div className="mb-4 flex h-[751px] max-h-[751px] w-full items-center justify-center overflow-hidden md:rounded-[6px]">
-                <img
-                  className="h-full w-full object-cover"
-                  src={
-                    selectedFeaturedImage ||
-                    "https://images.unsplash.com/photo-1664764119004-999a3f80a1b8?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDEzMDc&ixlib=rb-4.0.3&q=80"
-                  }
-                  alt="img"
-                />
-              </div>
-              <div className="hidden md:flex">
+      <div className="max-w-[944px]">
+        <div className="jsut flex flex-col md:flex-row md:gap-[39px]">
+          <div className="flex flex-col overflow-x-hidden md:w-[460px] md:px-3">
+            <div className="mb-4 flex h-[751px] max-h-[751px] w-full items-center justify-center overflow-hidden md:rounded-[6px]">
+              <Swiper
+                autoplay={{
+                  delay: 5000,
+                  disableOnInteraction: false,
+                }}
+                speed={300}
+                pagination={{
+                  clickable: true,
+                }}
+                modules={[Autoplay, Pagination]}
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
+                onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                className="mySwiper h-full"
+              >
                 {product_images?.map((image) => (
-                  <div
-                    key={image.id}
-                    onClick={() => setSelectedFeaturedImage(image.image_path)}
-                  >
+                  <SwiperSlide key={image.id}>
                     <img
-                      className={`mr-2 h-[117px] w-[82px] cursor-pointer rounded object-cover ${selectedFeaturedImage === image.image_path ? "border-[1px] border-[#655F5F] p-1" : "border-none"} `}
-                      src={
-                        image.image_path ||
-                        "https://images.unsplash.com/photo-1665391837905-74d250172dd3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjY2NDMxNzc&ixlib=rb-4.0.3&q=80&w=400"
-                      }
+                      className="h-full object-cover"
+                      src={image.image_path}
                       alt={`Product Image ${image.id}`}
                     />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            <div className="hidden md:flex">
+              {product_images?.map((image, index) => (
+                <div key={image.id} onClick={() => handleThumbnailClick(index)}>
+                  <img
+                    className={`mr-2 h-[117px] w-[82px] cursor-pointer rounded object-cover ${
+                      activeIndex === index
+                        ? "border-[1px] border-[#655F5F] p-[2px]"
+                        : "border-none"
+                    }`}
+                    src={image.image_path}
+                    alt={`Product Image ${image.id}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-1 flex-col overflow-x-hidden border-red-100 px-3 md:w-[445px]">
+            <div className="breadcrum mb-[15px] mt-4 md:mt-0">
+              <nav className="container">
+                <ol className="list-reset bg-grey-light text-grey flex rounded">
+                  <li className="pr-[2px] text-[8px] text-[#A5A1A1] md:text-[14px]">
+                    <a
+                      href="/"
+                      className="text-indigo text-[8px] no-underline md:text-[14px]"
+                    >
+                      Home
+                    </a>
+                  </li>
+                  <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
+                    /
+                  </li>
+
+                  <li className="px-[2px] text-[8px] text-[#A5A1A1] md:text-[14px]">
+                    <a
+                      href="#"
+                      className="text-indigo text-[8px] no-underline md:text-[14px]"
+                    >
+                      Wallpaper
+                    </a>
+                  </li>
+                  <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
+                    /
+                  </li>
+                  <li className="px-[2px] text-[8px] text-[#A5A1A1] md:text-[14px]">
+                    Livingroom
+                  </li>
+                  <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
+                    /
+                  </li>
+                  <li className="pl-[2px] text-[8px] text-[#000000] md:text-[14px]">
+                    {title || "Wolpin Wallpaper Non-Woven"}
+                  </li>
+                </ol>
+              </nav>
+            </div>
+            <div className="detail-wrapper">
+              <div className="title-product text-[20px] font-semibold leading-[33.6px] text-[#000000] md:text-[28px]">
+                {title || "Wolpin Wallpaper Non-Woven"}
+              </div>
+              <div className="rating-wrapper flex items-center gap-1">
+                <div className="star-rating">
+                  {[5, 4, 3, 2, 1].map((star, index) => (
+                    <React.Fragment key={index}>
+                      <input
+                        type="radio"
+                        id={`${star}-stars`}
+                        name="rating"
+                        value={star}
+                        disabled
+                        readOnly
+                        checked={Math.round(reviews.average) === star}
+                      />
+                      <label htmlFor={`${star}-stars`} className="star">
+                        &#9733;
+                      </label>
+                    </React.Fragment>
+                  ))}
+                </div>
+                <div className="mr-4 text-[18px] text-[#49AD91]">
+                  {reviews.average.toFixed(1)}
+                  <span className="ml-2 text-[#A5A1A1]">
+                    ({reviews.total_count})
+                  </span>
+                </div>
+              </div>
+              {variables?.length === 0 && (
+                <div className="price-wrapper flex">
+                  <div className="real-price text-[#49AD91]">₹{sale_price}</div>
+                  <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
+                    ₹{price}
+                  </div>
+                </div>
+              )}
+
+              {/* <ProductPrice responseData={responseData}></ProductPrice> */}
+              <div className="flex items-center justify-start gap-2 border-b-[0.5px] border-[#D9D9D9] py-4">
+                {variables?.map((variable) => (
+                  <div
+                    key={variable.id}
+                    onClick={() => handleCardClick(variable.id)}
+                    className={`product-price-wrapper relative w-full cursor-pointer rounded-sm border-dashed p-4 ${
+                      selectedId === variable.id ? "bg-[#49AD911A]" : ""
+                    }`}
+                    style={{
+                      borderColor: selectedId === variable.id ? "#49AD91" : "#D9D9D9",
+                    }}                    
+                  >
+                    {/* Discount Badge */}
+                    <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                      <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
+                        {variable.discount}% off
+                      </span>
+                    </div>
+
+                    {/* Product Dimensions */}
+                    <div className="dimension mt-1">{variable.name}</div>
+
+                    {/* Pricing Details */}
+                    <div className="price-wrapper flex">
+                      <div className="real-price text-[#49AD91]">
+                        ₹{variable.sale_price}
+                      </div>
+                      <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
+                        ₹{variable.price}
+                      </div>
+                    </div>
+
+                    {/* Price Per Unit */}
+                    <div className="product-size">
+                      ₹{(variable.sale_price / 6).toFixed(2)}/ft²
+                    </div>
+
+                    {/* Checkbox for High Discounts */}
+                    {selectedId === variable.id && (
+                      <div className="absolute right-3 top-5">
+                        <input
+                          type="checkbox"
+                          id={`checkbox-${variable.id}`}
+                          defaultChecked
+                        />
+                        <label htmlFor={`checkbox-${variable.id}`}></label>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="w-100 flex flex-1 flex-col border-red-100 px-3 md:w-2/5">
-              <div className="breadcrum mb-4 mt-4 md:mt-0">
-                <nav className="container">
-                  <ol className="list-reset bg-grey-light text-grey flex rounded">
-                    <li className="pr-2 text-[8px] text-[#A5A1A1] md:text-[14px]">
-                      <a
-                        href="/"
-                        className="text-indigo text-[8px] no-underline md:text-[14px]"
-                      >
-                        Home
-                      </a>
-                    </li>
-                    <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
-                      /
-                    </li>
 
-                    <li className="px-2 text-[8px] text-[#A5A1A1] md:text-[14px]">
-                      <a
-                        href="#"
-                        className="text-indigo text-[8px] no-underline md:text-[14px]"
-                      >
-                        Wallpaper
-                      </a>
-                    </li>
-                    <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
-                      /
-                    </li>
-                    <li className="px-2 text-[8px] text-[#A5A1A1] md:text-[14px]">
-                      Livingroom
-                    </li>
-                    <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
-                      /
-                    </li>
-                    <li className="px-2 text-[8px] text-[#000000] md:text-[14px]">
-                      {title || "Wolpin Wallpaper Non-Woven"}
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-              <div className="detail-wrapper">
-                <div className="title-product text-[20px] font-semibold leading-[33.6px] text-[#000000] md:text-[28px]">
-                  {title || "Wolpin Wallpaper Non-Woven"}
-                </div>
-                <div className="rating-wrapper flex items-center gap-1">
-                  <div className="star-rating">
-                    {[5, 4, 3, 2, 1].map((star, index) => (
-                      <React.Fragment key={index}>
-                        <input
-                          type="radio"
-                          id={`${star}-stars`}
-                          name="rating"
-                          value={star}
-                          disabled
-                          checked={Math.round(reviews.average) === star}
-                        />
-                        <label htmlFor={`${star}-stars`} className="star">
-                          &#9733;
-                        </label>
-                      </React.Fragment>
-                    ))}
-                  </div>
-                  <div className="mr-4 text-[18px] text-[#49AD91]">
-                    {reviews.average.toFixed(1)}
-                    <span className="ml-2 text-[#A5A1A1]">
-                      ({reviews.total_count})
-                    </span>
-                  </div>
-                </div>
-                {variables?.length === 0 && (
-                  <div className="price-wrapper flex">
-                    <div className="real-price text-[#49AD91]">
-                      ₹{sale_price}
-                    </div>
-                    <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
-                      ₹{price}
-                    </div>
-                  </div>
-                )}
-
-                {/* <ProductPrice responseData={responseData}></ProductPrice> */}
-                <div className="flex items-center justify-start gap-2 border-b-[0.5px] border-[#D9D9D9] py-4">
-                  {variables?.map((variable) => (
-                    <div
-                      key={variable.id}
-                      onClick={() => handleCardClick(variable.id)}
-                      className={`product-price-wrapper relative w-full cursor-pointer rounded-lg border-dashed p-4 ${
-                        selectedId === variable.id ? "bg-[#49AD911A]" : ""
-                      }`}
-                    >
-                      {/* Discount Badge */}
-                      <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
-                        <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
-                          {variable.discount}% off
-                        </span>
-                      </div>
-
-                      {/* Product Dimensions */}
-                      <div className="dimension mt-1">{variable.name}</div>
-
-                      {/* Pricing Details */}
-                      <div className="price-wrapper flex">
-                        <div className="real-price text-[#49AD91]">
-                          ₹{variable.sale_price}
-                        </div>
-                        <div className="descount-price text-[12px] text-[#BAB8B8] line-through">
-                          ₹{variable.price}
-                        </div>
-                      </div>
-
-                      {/* Price Per Unit */}
-                      <div className="product-size">
-                        ₹{(variable.sale_price / 6).toFixed(2)}/ft²
-                      </div>
-
-                      {/* Checkbox for High Discounts */}
-                      {selectedId === variable.id && (
-                        <div className="absolute right-3 top-5">
-                          <input
-                            type="checkbox"
-                            id={`checkbox-${variable.id}`}
-                            checked
-                          />
-                          <label htmlFor={`checkbox-${variable.id}`}></label>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="shipping-text border-b-[0.5px] border-[#D9D9D9] py-4 text-xs text-[#7A7474] md:text-base">
-                  {short_description?.split("\n").map((item, index) => (
-                    <span key={index}>
-                      - {item}
-                      <br />
-                    </span>
-                  ))}
-                  {/* <p className="mt-2 font-normal text-[#7A7474]">
+              <div className="shipping-text border-b-[0.5px] border-[#D9D9D9] py-4 text-xs text-[#7A7474] md:text-base">
+                {short_description?.split("\n").map((item, index) => (
+                  <span key={index}>
+                    - {item}
+                    <br />
+                  </span>
+                ))}
+                {/* <p className="mt-2 font-normal text-[#7A7474]">
                     - Cash on delivery available at ₹20 COD charges
                   </p> */}
-                </div>
-
-                <div className="shipping-btn mt-3 flex justify-start gap-4">
-                  <button
-                    onClick={() => handleAddToWishlist(id)}
-                    className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center gap-2 rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]"
-                  >
-                    <Heart />
-                    WISHLIST
-                  </button>
-                  <button
-                    onClick={handleAddToCart}
-                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91] py-2 text-[14px] font-medium text-white lg:text-[18px]"
-                  >
-                    <svg
-                      width="25"
-                      height="24"
-                      className="mr-3"
-                      viewBox="0 0 25 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9.5 22C10.0523 22 10.5 21.5523 10.5 21C10.5 20.4477 10.0523 20 9.5 20C8.94772 20 8.5 20.4477 8.5 21C8.5 21.5523 8.94772 22 9.5 22Z"
-                        stroke="#FAFAFA"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M20.5 22C21.0523 22 21.5 21.5523 21.5 21C21.5 20.4477 21.0523 20 20.5 20C19.9477 20 19.5 20.4477 19.5 21C19.5 21.5523 19.9477 22 20.5 22Z"
-                        stroke="#FAFAFA"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M1.5 1H5.5L8.18 14.39C8.27144 14.8504 8.52191 15.264 8.88755 15.5583C9.25318 15.8526 9.7107 16.009 10.18 16H19.9C20.3693 16.009 20.8268 15.8526 21.1925 15.5583C21.5581 15.264 21.8086 14.8504 21.9 14.39L23.5 6H6.5"
-                        stroke="#FAFAFA"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    ADD TO CART
-                  </button>
-                </div>
-
-                <Calculator responseData={responseData}></Calculator>
-                <div className="mt-4 w-full">
-                  <h5 className="text-[20px] font-medium text-[#000000] md:text-2xl">
-                    Delivery{" "}
-                  </h5>
-                  <div className="mt-4 flex justify-between gap-2 text-[14px] md:text-base">
-                    {delivery_detail?.data?.map((detail) => (
-                      <div key={detail.id}>
-                        <h6 className="text-wrap text-sm text-[#4E4949] md:text-base">
-                          {detail.city_details}
-                        </h6>
-                        <p className="text-xs text-[#908B8B] md:text-sm">
-                          {detail.days}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* <MoreInformation></MoreInformation> */}
-
-                {/* <ToolkitBar></ToolkitBar> */}
-
-                {products_features.length !== 0 && (
-                  <div className="mt-5 flex w-full gap-3 overflow-x-auto md:gap-6">
-                    {products_features?.map(
-                      (feature: { image: string; name: string }, index) => (
-                        <div
-                          key={index}
-                          className="relative rounded-full"
-                        >
-                          <Image
-                            className="h-full w-full rounded-full"
-                            src={feature.image}
-                            alt={feature.name}
-                            height={100}
-                            width={100}
-                          />
-                        </div>
-                      ),
-                    )}
-                  </div>
-                )}
               </div>
+
+              <div className="shipping-btn mt-[14px] flex justify-start gap-3 md:gap-4">
+                <button
+                  onClick={() => handleAddToWishlist(id)}
+                  className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center gap-2 rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]"
+                >
+                  <Heart />
+                  WISHLIST
+                </button>
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91] py-2 text-[14px] font-medium text-white lg:text-[18px]"
+                >
+                  <svg
+                    width="25"
+                    height="24"
+                    className="mr-3"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.5 22C10.0523 22 10.5 21.5523 10.5 21C10.5 20.4477 10.0523 20 9.5 20C8.94772 20 8.5 20.4477 8.5 21C8.5 21.5523 8.94772 22 9.5 22Z"
+                      stroke="#FAFAFA"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M20.5 22C21.0523 22 21.5 21.5523 21.5 21C21.5 20.4477 21.0523 20 20.5 20C19.9477 20 19.5 20.4477 19.5 21C19.5 21.5523 19.9477 22 20.5 22Z"
+                      stroke="#FAFAFA"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M1.5 1H5.5L8.18 14.39C8.27144 14.8504 8.52191 15.264 8.88755 15.5583C9.25318 15.8526 9.7107 16.009 10.18 16H19.9C20.3693 16.009 20.8268 15.8526 21.1925 15.5583C21.5581 15.264 21.8086 14.8504 21.9 14.39L23.5 6H6.5"
+                      stroke="#FAFAFA"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  ADD TO CART
+                </button>
+              </div>
+
+              <Calculator responseData={responseData}></Calculator>
+              <div className="mt-[17px] w-full">
+                <h5 className="text-[20px] font-medium text-[#000000] md:text-2xl">
+                  Delivery{" "}
+                </h5>
+                <div className="mt-4 flex justify-between gap-2 text-[14px] md:text-base">
+                  {delivery_detail?.data?.map((detail) => (
+                    <div key={detail.id}>
+                      <h6 className="text-wrap text-sm text-[#4E4949] md:text-base">
+                        {detail.city_details}
+                      </h6>
+                      <p className="text-xs text-[#908B8B] md:text-sm">
+                        {detail.days}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* <MoreInformation></MoreInformation> */}
+
+              {/* <ToolkitBar></ToolkitBar> */}
+
+              {products_features.length !== 0 && (
+                <div className="mt-5 flex w-full justify-center gap-3 overflow-x-auto md:justify-start md:gap-6">
+                  {products_features?.map(
+                    (feature: { image: string; name: string }, index) => (
+                      <div key={index} className="relative w-[62px] h-[68px] md:w-[91px] md:h-[99px]  rounded-full">
+                        <Image
+                          className="rounded-full"
+                          src={feature.image}
+                          alt={feature.name}
+                          fill
+                        />
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
