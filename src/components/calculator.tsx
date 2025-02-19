@@ -37,7 +37,7 @@ export default function Calculator({
         style={{ cursor: "pointer" }}
         className="Corsor mt-4 flex w-full items-center justify-between rounded-3xl bg-[#FFF3F6] py-3 align-middle"
       >
-        <div className="ml-4 mr-4">
+        <div className="ml-4 mr-2">
           <svg
             width="16"
             height="21"

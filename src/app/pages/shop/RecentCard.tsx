@@ -209,9 +209,12 @@ export default function RecentCard() {
                     <div
                       key={`${card.id}-${variable.id}`}
                       onClick={() => handleCardClick(variable.id)}
-                      className={`border-[#00000]-900 product-price-wrapper relative w-[100px] rounded-lg border-dashed p-2 md:w-full md:p-4 ${
+                      className={`border-[#00000]-900 product-price-wrapper relative w-[100px] rounded-sm border-dashed p-2 md:w-full md:p-4 ${
                         selectedId === variable.id ? "bg-[#49AD911A]" : ""
                       }`}
+                      style={{
+                        borderColor: selectedId === variable.id ? "#49AD91" : "#D9D9D9",
+                      }}  
                     >
                       <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
                         <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
@@ -237,7 +240,7 @@ export default function RecentCard() {
                       </div>
 
                       {selectedId === variable.id && (
-                        <div className="absolute right-3 top-5">
+                        <div className="absolute right-1 top-3">
                           <input
                             type="checkbox"
                             id={`checkbox-${card.id}-${variable.id}`}
@@ -255,7 +258,7 @@ export default function RecentCard() {
                 <div className="mt-2 flex items-center gap-3">
                   <div
                     onClick={() => handleAddToWishlist(card.data.id)}
-                    className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-2"
+                    className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-2"
                   >
                     <svg
                       width="20"

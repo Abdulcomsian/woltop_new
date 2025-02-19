@@ -41,7 +41,7 @@ export default function Home() {
   const { data: categories, isLoading } = useGetCategoriesQuery({});
   const { data: roomCategories, isLoading: isLoadingRoomCategories } =
     useGetRoomCategoriesQuery({});
-  const { data: homeVideo } = useGetHomeVideoQuery({});
+  const { data: homeVideo, isLoading: isLoadingHomeVideo } = useGetHomeVideoQuery({});
 
   const colorTabs =
     colors?.data.map((color: any) => ({
@@ -129,7 +129,7 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
-        <VideoSection responseData={homeVideo}></VideoSection>
+        <VideoSection responseData={homeVideo} isLoading={isLoading} ></VideoSection>
       </SectionBlock>
       <div className="mb-10 bg-[#F1FBFF] pt-10 md:mb-[70px] md:pt-[70px]">
         <SectionBlock

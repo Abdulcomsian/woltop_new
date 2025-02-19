@@ -89,7 +89,7 @@ export default function Page() {
           className="mx-auto max-w-[1075px] px-3 pt-[13px] md:pt-[33px]"
           position="left"
         >
-          <VideoSection responseData={product}></VideoSection>
+          <VideoSection responseData={product} isLoading={isLoading}></VideoSection>
         </SectionBlock>
       </div>
 
@@ -139,7 +139,7 @@ export default function Page() {
         <Reeling></Reeling>
       </SectionBlock>
 
-      <div className="bg-[#FFF3F6]">
+      <div className="bg-[#FFF3F6] text-center">
         <SectionBlock
           title="Why #WolpinWallpaper Stands Out "
           subtitle=""
