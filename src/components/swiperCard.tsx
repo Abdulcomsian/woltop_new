@@ -104,7 +104,7 @@ const SwiperCard = ({ categories, isLoading }) => {
                 </div>
               ))}
         </div>
-        <div className="swiper-pagination"></div>
+        {/* <div className="swiper-pagination"></div> */}
       </div>
     </div>
   );

@@ -200,7 +200,7 @@ export default function Home() {
         </SectionBlock>
         <SectionBlock
           title="Styled Spaces by Our Clients"
-          subtitle="Projects We’ve Brought to Life"
+          subtitle="Projects We've Brought to Life"
           className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-[56px]"
           position="left"
         >
@@ -264,8 +264,8 @@ export default function Home() {
         <ToolsCard></ToolsCard>
       </SectionBlock> */}
       <SectionBlock
-        title="Recently Viewed"
-        subtitle="Continue where you left off"
+        title=""
+        subtitle=""
         className="mx-auto max-w-[1075px] px-3"
         position="center"
       >

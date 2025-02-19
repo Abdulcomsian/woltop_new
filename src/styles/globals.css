@@ -247,34 +247,3 @@ input[type="radio"]:checked + span {
   font-family: "Inter", serif;
 }
 
-@media (max-width: 768px) {
-  .swiper-pagination {
-    display: flex !important;
-  }
-}
-
-@media (min-width: 769px) {
-  .swiper-pagination {
-    display: none !important;
-  }
-}
-
-.swiper-pagination {
-  background: #D9D9D966;
-  border: 1px solid #d9d9d9;
-  width: auto;
-  border-radius: 25px;
-  padding: 7px 25px;
-}
-.swiper-pagination-clickable .swiper-pagination-bullet {
-  background-color: white !important;
-}
-.swiper-pagination-fraction,
-.swiper-pagination-custom,
-.swiper-horizontal > .swiper-pagination-bullets,
-.swiper-pagination-bullets.swiper-pagination-horizontal {
-  position: absolute;
-  left: 50% !important;
-  transform: translateX(-50%);
-  width: fit-content !important;
-}
