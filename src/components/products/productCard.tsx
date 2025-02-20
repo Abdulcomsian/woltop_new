@@ -24,6 +24,7 @@ export function ProductCard({
   discountPrice,
   discount,
   content,
+  range,
 }: ProductCardProps) {
   return (
     <div className="card-wrapper relative">
@@ -65,9 +66,13 @@ export function ProductCard({
       </CardContent>
       <CardFooter>
         <CardDescription>
-          {discountPrice !== null && (
+          {discountPrice !== null ? (
             <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
               ₹{discountPrice}
+            </span>
+          ) : (
+            <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+              ₹{range}
             </span>
           )}
           {/* <del className="text-body ml-2 text-xs md:text-sm ltr:ml-2 rtl:mr-2">

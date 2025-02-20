@@ -1,19 +1,19 @@
 import { useGetTeamQuery } from "~/store/api/teamApi";
 
-export default function OurTeam() {
+export default function OurTeam({ bannerData }) {
   const { data: team, isLoading } = useGetTeamQuery({});
 
   const skeletonCount = 6;
 
   return (
     <div className="container mx-auto">
-      <div className="py-10 md:py-[62px] text-center">
-        <h6 className="text-[22px] md:text-[34px] text-black font-semibold">
-          Meet Our Team
+      <div className="py-10 text-center md:py-[62px]">
+        <h6 className="text-[22px] font-semibold text-black md:text-[34px]">
+          {bannerData?.team_title || "Meet Our Team"}
         </h6>
-        <p className="mx-auto max-w-2xl text-[#4E4949] text-xs md:text-lg">
-          Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis
-          ornare justo maecenas auctor sodales. Libero ut tortor dignissim
+        <p className="mx-auto max-w-2xl text-xs text-[#4E4949] md:text-lg">
+          {bannerData?.team_description ||
+            "Lorem ipsum dolor sit amet consectetur. Penatibus leo ac iaculis ornare justo maecenas auctor sodales. Libero ut tortor dignissim"}
         </p>
       </div>
 
@@ -22,19 +22,19 @@ export default function OurTeam() {
           ? Array.from({ length: skeletonCount }).map((_, index) => (
               <div
                 key={index}
-                className="animate-pulse h-full transform rounded transition-all duration-200 hover:-translate-y-1 hover:shadow"
+                className="h-full transform animate-pulse rounded transition-all duration-200 hover:-translate-y-1 hover:shadow"
               >
                 <div className="mx-auto rounded">
                   <div className="relative h-[168.62px] bg-[#F7F7F7] md:h-[336px]">
                     <div className="absolute bottom-0 left-0 right-0 mx-auto h-full w-full bg-gray-300"></div>
                   </div>
-                  <div className="py-4 space-y-2">
-                    <div className="h-4 bg-gray-300 rounded-md w-3/4 mx-auto"></div>
-                    <div className="h-4 bg-gray-300 rounded-md w-1/2 mx-auto"></div>
+                  <div className="space-y-2 py-4">
+                    <div className="mx-auto h-4 w-3/4 rounded-md bg-gray-300"></div>
+                    <div className="mx-auto h-4 w-1/2 rounded-md bg-gray-300"></div>
                   </div>
                   <div className="flex justify-center gap-4">
-                    <div className="h-6 w-6 bg-gray-300 rounded-full"></div>
-                    <div className="h-6 w-6 bg-gray-300 rounded-full"></div>
+                    <div className="h-6 w-6 rounded-full bg-gray-300"></div>
+                    <div className="h-6 w-6 rounded-full bg-gray-300"></div>
                   </div>
                 </div>
               </div>
@@ -53,14 +53,14 @@ export default function OurTeam() {
                     />
                   </div>
                   <div className="py-4">
-                    <div className="text-base md:text-2xl text-black font-medium">
+                    <div className="text-base font-medium text-black md:text-2xl">
                       {member.name}
                     </div>
-                    <p className="text-xs md:text-[18px] text-[#0B0A0A] tracking-[2%]">
+                    <p className="text-xs tracking-[2%] text-[#0B0A0A] md:text-[18px]">
                       {member.designation}
                     </p>
                   </div>
-                  <div className="flex mb-10 gap-4">
+                  <div className="mb-10 flex gap-4">
                     {member.x_profile && (
                       <a
                         href={member.x_profile}

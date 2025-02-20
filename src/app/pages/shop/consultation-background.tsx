@@ -9,7 +9,7 @@ const ConsultationSection = () => {
 
   return (
     <div
-      className="relative mt-8 flex h-[481px] items-center justify-end rounded-lg bg-cover md:bg-center p-8"
+      className="relative mt-8 flex h-[598px] md:h-[481px] justify-end rounded-lg bg-cover md:bg-center p-8 bg-no-repeat"
       style={{ backgroundImage: `url(${logoSrc.src})` }}
     >
       <img
@@ -26,7 +26,7 @@ const ConsultationSection = () => {
         <p className="mb-[22px] text-base md:text-[20px] text-[#000000]">
           Tailored Wallpaper Consultation Brought to Your Doorstep
         </p>
-        <ul className="mb-[44px] list-disc text-left text-base md:text-[20px] text-[#000000]">
+        <ul className="mb-[28px] md:mb-[40px] list-disc text-left text-base md:text-[20px] text-[#000000]">
           <li className="mb-5 flex items-center gap-2">
             <svg
               width="32"

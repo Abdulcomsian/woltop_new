@@ -7,7 +7,7 @@ export const homeBannerApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: utils.BASE_URL }),
   endpoints: (builder) => ({
     getHomeBanner: builder.query({
-      query: () => "/get-home-banner",
+      query: () => "/get-home",
       transformResponse: (response: { data: { id: number; name: string; image: string }[]; status: boolean }) => {
         return response.data;
       },

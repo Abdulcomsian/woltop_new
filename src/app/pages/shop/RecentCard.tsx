@@ -1,18 +1,12 @@
 "use client";
-import { Plus } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Card, CardContent, CardDescription } from "~/components/ui/card";
-import { useGetProductsByColorQuery } from "~/store/api/productApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import utils from "~/utils";
-
-type DetailCardProps = {
-  rating?: boolean;
-  colorId: number;
-};
 interface Product {
   id: number;
   title: string;
@@ -162,7 +156,7 @@ export default function RecentCard() {
   if (products?.length !== 0) {
     return (
       <div className="flex w-full flex-col">
-        <div className="mb-[18px] md:mb-[35px] text-center">
+        <div className="mb-[18px] text-center md:mb-[35px]">
           <h1 className="text-[22px] font-semibold text-[#000000] md:text-[34px]">
             Recently Viewed
           </h1>
@@ -214,62 +208,92 @@ export default function RecentCard() {
                     </div>
                   </div>
 
-                  <CardDescription className="mt-1 flex items-center justify-between gap-2">
-                    {card?.data?.variables?.map((variable) => (
-                      <div
-                        key={`${card.id}-${variable.id}`}
-                        onClick={() => handleCardClick(variable.id)}
-                        className={`border-[#00000]-900 product-price-wrapper relative w-[100px] rounded-sm border-dashed p-2 md:w-full md:p-4 ${
-                          selectedId === variable.id ? "bg-[#49AD911A]" : ""
-                        }`}
-                        style={{
-                          borderColor:
-                            selectedId === variable.id ? "#49AD91" : "#D9D9D9",
-                        }}
-                      >
-                        <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
-                          <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
-                            {variable.discount}% off
-                          </span>
-                        </div>
+                  <CardDescription className="mb-4 mt-4 flex items-center justify-between gap-2 md:mt-1">
+                    {card?.data?.variables?.length > 0 ? (
+                      card.data.variables.map((variable) => (
+                        <div
+                          key={`${card.id}-${variable.id}`}
+                          onClick={() => handleCardClick(variable.id)}
+                          className={`border-[#00000]-900 product-price-wrapper relative w-[100px] rounded-sm border-dashed p-2 md:w-full md:p-4 ${
+                            selectedId === variable.id ? "bg-[#49AD911A]" : ""
+                          }`}
+                          style={{
+                            borderColor:
+                              selectedId === variable.id
+                                ? "#49AD91"
+                                : "#D9D9D9",
+                          }}
+                        >
+                          <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                            <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
+                              {variable.discount}% off
+                            </span>
+                          </div>
 
-                        <div className="dimension text-[10px]">
-                          {variable.name}
+                          <div className="dimension text-[10px]">
+                            {variable.name}
+                          </div>
+
+                          <div className="price-wrapper flex items-center gap-1">
+                            <div className="real-price text-base text-[#49AD91] md:text-lg">
+                              ₹{variable.sale_price}
+                            </div>
+                            <div className="discount-price text-[10px] text-[#BAB8B8] line-through">
+                              ₹{variable.price}
+                            </div>
+                          </div>
+
+                          <div className="product-size text-[9px]">
+                            ₹{(variable.sale_price / 6).toFixed(2)}/ft²
+                          </div>
+
+                          {selectedId === variable.id && (
+                            <div className="absolute right-1 top-1">
+                              <input
+                                type="checkbox"
+                                id={`checkbox-${card.id}-${variable.id}`}
+                                checked={selectedId === variable.id}
+                                onChange={() => handleCardClick(variable.id)}
+                              />
+                              <Check
+                                color="white"
+                                size={16}
+                                className="rounded-full bg-[#49AD91] p-[2px]"
+                              />
+                              <label
+                                htmlFor={`checkbox-${card.id}-${variable.id}`}
+                              ></label>
+                            </div>
+                          )}
                         </div>
+                      ))
+                    ) : (
+                      <div className="w-full">
+                        {/* <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                          <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
+                            {card.data.discount}% off
+                          </span>
+                        </div> */}
 
                         <div className="price-wrapper flex items-center gap-1">
                           <div className="real-price text-base text-[#49AD91] md:text-lg">
-                            ₹{variable.sale_price}
+                            ₹{card.data.sale_price}
                           </div>
                           <div className="discount-price text-[10px] text-[#BAB8B8] line-through">
-                            ₹{variable.price}
+                            ₹{card.data.price}
                           </div>
                         </div>
-
+                        {/* 
                         <div className="product-size text-[9px]">
-                          ₹{(variable.sale_price / 6).toFixed(2)}/ft²
-                        </div>
-
-                        {selectedId === variable.id && (
-                          <div className="absolute right-1 top-3">
-                            <input
-                              type="checkbox"
-                              id={`checkbox-${card.id}-${variable.id}`}
-                              checked={selectedId === variable.id}
-                              onChange={() => handleCardClick(variable.id)}
-                            />
-                            <label
-                              htmlFor={`checkbox-${card.id}-${variable.id}`}
-                            ></label>
-                          </div>
-                        )}
+                          ₹{(card.data.sale_price / 6).toFixed(2)}/ft²
+                        </div> */}
                       </div>
-                    ))}
+                    )}
                   </CardDescription>
                   <div className="mt-2 flex items-center gap-3">
                     <div
                       onClick={() => handleAddToWishlist(card.data.id)}
-                      className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-2"
+                      className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-1.5"
                     >
                       <svg
                         width="20"

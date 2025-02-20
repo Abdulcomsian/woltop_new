@@ -20,6 +20,8 @@ import { homeVideoApi } from "./api/homeVideoApi";
 import { wishlistApi } from "./api/wishlistApi";
 import { allReviewsApi } from "./api/allReviewsApi";
 import { chargessApi } from "./api/chargessApi";
+import { contactInfoApi } from "./api/contactInfoApi";
+import { aboutApi } from "./api/aboutApi";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -43,6 +45,9 @@ const rootReducer = combineReducers({
   [homeVideoApi.reducerPath]: homeVideoApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,
   [chargessApi.reducerPath]: chargessApi.reducer,  
+  [contactInfoApi.reducerPath]: contactInfoApi.reducer,  
+  [aboutApi.reducerPath]: aboutApi.reducer,  
+  
 });
 
 const loadState = () => {
@@ -103,6 +108,8 @@ export const store = configureStore({
       .concat(paramApi.middleware)
       .concat(homeVideoApi.middleware)
       .concat(chargessApi.middleware)
+      .concat(contactInfoApi.middleware)
+      .concat(aboutApi.middleware)
       .concat(wishlistApi.middleware),
 });
 

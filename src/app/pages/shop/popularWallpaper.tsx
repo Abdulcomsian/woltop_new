@@ -33,6 +33,7 @@ export default function PopularWallpaper({ products, isLoading }: PopularWallpap
     img: product.featured_image,
     description: product.price,
     price: product.price,
+    range: product?.range?.sale_price,
     discountPrice: product.sale_price,
     discount: `${product.discount}%`,
     content: `${product.title}`,
@@ -79,6 +80,7 @@ export default function PopularWallpaper({ products, isLoading }: PopularWallpap
                 discountPrice={card.discountPrice}
                 discount={card.discount}
                 content={card.content}
+                range={card?.range}
               />
             </Link>
           ))}
