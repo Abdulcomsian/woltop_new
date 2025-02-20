@@ -149,7 +149,7 @@ export default function Home() {
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto max-w-[1075px] px-3"
+        className="mx-auto max-w-[1075px] md:px-3"
         position="left"
       >
         <ConsultationSection></ConsultationSection>

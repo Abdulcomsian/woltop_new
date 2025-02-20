@@ -76,8 +76,8 @@ export default function ProductDescription({
         </div>
       </div>
 
-      <div className="div rounded border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
-        <h6 className="mt-4 flex justify-start align-middle font-semibold text-[#000000]">
+      <div className="div rounded border-[0.7px] border-dashed border-[#4E4949] bg-white p-4 md:p-[21px]">
+        <h6 className="flex justify-start align-middle font-semibold text-[#000000]">
           <svg
             width="22"
             height="28"
@@ -96,7 +96,7 @@ export default function ProductDescription({
             HOW TO CARE
           </span>
         </h6>
-        <p className="ml-5 mt-1 pb-5 pl-4 text-xs text-[#49AD91] md:max-w-[80%] md:text-base">
+        <p className="md:ml-9 mt-1 text-xs text-[#49AD91] md:max-w-[80%] md:text-base">
           Use a damp cloth to clean the wallpaper. Avoid pasting the wallpaper
           on a cracked, textured or wall surface with moisture.
         </p>

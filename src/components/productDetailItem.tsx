@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import Calculator from "./calculator";
-import { Heart } from "lucide-react";
+import { Check, Heart } from "lucide-react";
 import { toast } from "react-toastify";
 import utils from "~/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -240,36 +240,36 @@ export default function productDetailItem({
             <div className="breadcrum mb-[15px] mt-4 md:mt-0">
               <nav className="container">
                 <ol className="list-reset bg-grey-light text-grey flex rounded">
-                  <li className="pr-[2px] text-[8px] text-[#A5A1A1] md:text-[14px]">
+                  <li className="pr-[2px] text-[10px] text-[#A5A1A1] md:text-[14px]">
                     <a
                       href="/"
-                      className="text-indigo text-[8px] no-underline md:text-[14px]"
+                      className="text-indigo text-[10px] no-underline md:text-[14px]"
                     >
                       Home
                     </a>
                   </li>
-                  <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
+                  <li className="text-[10px] text-[#A5A1A1] md:text-[14px]">
                     /
                   </li>
 
-                  <li className="px-[2px] text-[8px] text-[#A5A1A1] md:text-[14px]">
+                  <li className="px-[2px] text-[10px] text-[#A5A1A1] md:text-[14px]">
                     <a
                       href="#"
-                      className="text-indigo text-[8px] no-underline md:text-[14px]"
+                      className="text-indigo text-[10px] no-underline md:text-[14px]"
                     >
                       Wallpaper
                     </a>
                   </li>
-                  <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
+                  <li className="text-[10px] text-[#A5A1A1] md:text-[14px]">
                     /
                   </li>
-                  <li className="px-[2px] text-[8px] text-[#A5A1A1] md:text-[14px]">
+                  <li className="px-[2px] text-[10px] text-[#A5A1A1] md:text-[14px]">
                     Livingroom
                   </li>
-                  <li className="text-[8px] text-[#A5A1A1] md:text-[14px]">
+                  <li className="text-[10px] text-[#A5A1A1] md:text-[14px]">
                     /
                   </li>
-                  <li className="pl-[2px] text-[8px] text-[#000000] md:text-[14px]">
+                  <li className="pl-[2px] text-[10px] text-[#000000] md:text-[14px]">
                     {title || "Wolpin Wallpaper Non-Woven"}
                   </li>
                 </ol>
@@ -336,7 +336,7 @@ export default function productDetailItem({
                     </div>
 
                     {/* Product Dimensions */}
-                    <div className="dimension mt-1">{variable.name}</div>
+                    <div className="dimension mt-1 text-black text-sm">{variable.title}</div>
 
                     {/* Pricing Details */}
                     <div className="price-wrapper flex">
@@ -349,18 +349,19 @@ export default function productDetailItem({
                     </div>
 
                     {/* Price Per Unit */}
-                    <div className="product-size">
+                    <div className="product-size text-[#7A7474] text-xs md:text-sm" style={{fontFamily: "Rubik"}}>
                       ₹{(variable.sale_price / 6).toFixed(2)}/ft²
                     </div>
 
                     {/* Checkbox for High Discounts */}
                     {selectedId === variable.id && (
-                      <div className="absolute right-3 top-5">
+                      <div className="absolute right-2 top-2">
                         <input
                           type="checkbox"
                           id={`checkbox-${variable.id}`}
                           defaultChecked
                         />
+                        <Check color="white" size={16} className="bg-[#49AD91] rounded-full p-[2px]" />
                         <label htmlFor={`checkbox-${variable.id}`}></label>
                       </div>
                     )}
@@ -458,10 +459,11 @@ export default function productDetailItem({
                         className="relative h-[68px] w-[62px] rounded-full md:h-[99px] md:w-[91px]"
                       >
                         <Image
-                          className="rounded-full"
+                          className="w-full h-full"
                           src={feature.image}
                           alt={feature.name}
-                          fill
+                          width={100}
+                          height={100}
                         />
                       </div>
                     ),

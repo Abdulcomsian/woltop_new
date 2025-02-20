@@ -3,6 +3,7 @@ import step1 from "../../public/step1.png";
 import step2 from "../../public/step2.png";
 import step3 from "../../public/step3.png";
 import step4 from "../../public/step4.png";
+import Image from "next/image";
 
 type InstallationStep = {
   id: number;
@@ -43,31 +44,32 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
   return (
     <>
       <div className="flex justify-center text-center">
-        <p className="btn mb-[40px] border-{#0B0A0A} hover:bg-[#0B0A0A]-700 flex justify-center rounded-[8px] border-2 bg-[#AA4A00] px-5 py-2 md:py-4 text-base md:text-[22px] font-semibold text-white">
+        <p className="hover:bg-[#0B0A0A]-700 mb-[40px] flex justify-center rounded-[8px] bg-[#AA4A00] px-5 py-2 text-base font-semibold text-white md:py-4 md:text-[22px]">
           How To Install
         </p>
       </div>
 
       {/* Installation Steps Section */}
       {responseData?.data?.installation_steps?.length > 0 && (
-        <div className="scrollbar-hide grid auto-cols-[minmax(146px,1fr)] md:auto-cols-[minmax(246px,1fr)] grid-flow-col lg:grid-cols-4 overflow-x-auto gap-4">
+        <div className="scrollbar-hide grid auto-cols-[minmax(146px,1fr)] grid-flow-col gap-4 overflow-x-auto md:auto-cols-[minmax(246px,1fr)] lg:grid-cols-4">
           {responseData.data.installation_steps.map((step) => (
             <div key={step.id} className="max-w-[146px] md:max-w-[246px]">
               <div className="relative">
-                <div className="h-[146] md:h-[279px] overflow-hidden rounded-[8px]">
-                  <img
+                <div className="relative min-h-[146] overflow-hidden rounded-[8px] md:h-[279px]">
+                  <Image
                     src={step.image}
                     alt={step.name}
                     className="h-full w-full object-cover"
+                    fill
                   />
                 </div>
 
                 <div className="relative p-4">
                   <div className="mb-2 text-center">
-                    <h6 className="hover:text-[#AA4A00]-900 font-semibold text-[17px] md:text-2xl text-[#AA4A00] hover:underline hover:underline-offset-4">
+                    <h6 className="hover:text-[#AA4A00]-900 text-[17px] font-semibold text-[#AA4A00] hover:underline hover:underline-offset-4 md:text-2xl">
                       {step.name}
                     </h6>
-                    <p className="hover:text-[#656567]-900 pt-[10px] md:pt-4 text-xs md:text-base text-[#656567] hover:underline hover:underline-offset-4">
+                    <p className="hover:text-[#656567]-900 pt-[10px] text-xs text-[#656567] hover:underline hover:underline-offset-4 md:pt-4 md:text-base">
                       {step.description}
                     </p>
                   </div>
@@ -79,12 +81,16 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
       )}
 
       {/* Dos & Don’ts and Design & Application Details Sections */}
-      {(responseData?.data?.dos_dont?.length > 0 || responseData?.data?.design_application_details?.length > 0) && (
-        <div className={`flex flex-col ${
-          responseData?.data?.dos_dont?.length > 0 && responseData?.data?.design_application_details?.length > 0
-            ? "justify-between"
-            : "justify-center"
-        } gap-6 md:flex-row`}>
+      {(responseData?.data?.dos_dont?.length > 0 ||
+        responseData?.data?.design_application_details?.length > 0) && (
+        <div
+          className={`flex flex-col ${
+            responseData?.data?.dos_dont?.length > 0 &&
+            responseData?.data?.design_application_details?.length > 0
+              ? "justify-between"
+              : "justify-center"
+          } gap-6 md:flex-row`}
+        >
           {/* Dos & Don’ts Section */}
           {responseData?.data?.dos_dont?.length > 0 && (
             <div className="w-full md:w-1/2">
@@ -117,46 +123,57 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
 
                 <table className="w-full table-fixed">
                   <tbody>
-                    <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9] text-left">
-                      <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
-                        Room Type
-                      </td>
-                      <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
-                        {details?.room_type}
-                      </td>
-                    </tr>
-                    <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9] text-left">
-                      <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
-                      Finish Type
-                      </td>
-                      <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
-                        {details?.finish_type}
-                      </td>
-                    </tr>
-                    <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
-                      <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
-                        Pattern Repeat
-                      </td>
-                      <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
-                        {details?.pattern_repeat}
-                      </td>
-                    </tr>
-                    <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
-                      <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
-                        Pattern Match
-                      </td>
-                      <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
-                        {details?.pattern_match}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="md:w-[30%] w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:py-[15px] md:text-base">
-                        Application <br />Guide
-                      </td>
-                      <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
-                        {details?.application_guide}
-                      </td>
-                    </tr>
+                    {details?.room_type && (
+                      <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9] text-left">
+                        <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:w-[30%] md:py-[15px] md:text-base">
+                          Room Type
+                        </td>
+                        <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
+                          {details?.room_type}
+                        </td>
+                      </tr>
+                    )}
+                    {details?.finish_type && (
+                      <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9] text-left">
+                        <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:w-[30%] md:py-[15px] md:text-base">
+                          Finish Type
+                        </td>
+                        <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
+                          {details?.finish_type}
+                        </td>
+                      </tr>
+                    )}
+                    {details?.pattern_repeat && (
+                      <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
+                        <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:w-[30%] md:py-[15px] md:text-base">
+                          Pattern Repeat
+                        </td>
+                        <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
+                          {details?.pattern_repeat}
+                        </td>
+                      </tr>
+                    )}
+                    {details?.pattern_match && (
+                      <tr className="border-b-[0.8px] border-dashed border-[#D9D9D9]">
+                        <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:w-[30%] md:py-[15px] md:text-base">
+                          Pattern Match
+                        </td>
+                        <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
+                          {details?.pattern_match}
+                        </td>
+                      </tr>
+                    )}
+                    {details?.application_guide && (
+                      <tr>
+                        <td className="w-[35%] max-w-[150px] whitespace-nowrap py-[10px] pr-3 text-xs font-[500] text-[#AA4A00] md:w-[30%] md:py-[15px] md:text-base">
+                          Application <br />
+                          Guide
+                        </td>
+                        <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
+                          {details?.application_guide}
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>

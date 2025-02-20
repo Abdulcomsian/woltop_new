@@ -55,15 +55,15 @@ export default function TopBar({ time }: { time: TimeProps }) {
             FREE Delivery on orders over ₹1099 (T&amp;Cs apply)
           </div>
           <div className="countdown ml-4 flex items-center w-1/2 justify-end gap-1">
-            <span className="w-8 bg-white p-1 text-black">
+            <span className="w-[26px] md:w-[30px] h-[26px] md:h-[30px] bg-white text-black flex items-center justify-center">
               {formatTime(remainingTime.hours)}
             </span>
             <span className="text-black">:</span>
-            <span className="w-8 bg-white p-1 text-black">
+            <span className="w-[26px] md:w-[30px] h-[26px] md:h-[30px] bg-white text-black flex items-center justify-center">
               {formatTime(remainingTime.minutes)}
             </span>
             <span className="text-black">:</span>
-            <span className="w-8 bg-white p-1 text-black">
+            <span className="w-[26px] md:w-[30px] h-[26px] md:h-[30px] bg-white text-black flex items-center justify-center">
               {formatTime(remainingTime.seconds)}
             </span>
           </div>
