@@ -1,35 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useGetDeliveryPreferenceQuery } from "~/store/api/deliveryPreference";
+import utils from "~/utils";
 
 interface ShippingTabProps {
   setActiveTab: (tab: string) => void;
+  setShippingData: (data: any) => void;
 }
 
-const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
+const ShippingTab: React.FC<ShippingTabProps> = ({
+  setActiveTab,
+  setShippingData,
+}) => {
   const { data: delivery_preferences } = useGetDeliveryPreferenceQuery({});
   const [loading, setLoading] = useState(false);
 
-  console.log(delivery_preferences, "delivery_preferences");
 
+  
   const formik = useFormik({
     initialValues: {
       name: "",
-      mobileNumber: "",
+      email: "",
+      phone_number: "",
       pincode: "",
       city: "",
       state: "",
       address: "",
       locality: "",
       landmark: "",
-      deliveryPreference: "home",
+      deliveryPreference: "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Name is required"),
-      mobileNumber: Yup.string()
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      phone_number: Yup.string()
         .required("Mobile number is required")
-        .matches(/^[0-9]{10}$/, "Invalid mobile number"),
+        .matches(/^[0-9]{11}$/, "Invalid mobile number"),
       pincode: Yup.string()
         .required("Pincode is required")
         .matches(/^[0-9]{6}$/, "Invalid pincode"),
@@ -38,12 +47,52 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
       address: Yup.string().required("Address is required"),
       locality: Yup.string().required("Locality is required"),
     }),
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
-      setActiveTab("payment");
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const formData = new FormData();
+
+        formData.append("name", values.name);
+        formData.append("email", values.email);
+        formData.append("phone_number", values.phone_number);
+        formData.append("pincode", values.pincode);
+        formData.append("city", values.city);
+        formData.append("state", values.state);
+        formData.append("address", values.address);
+        formData.append("landmark", values.landmark);
+        formData.append("locality", values.locality);
+        formData.append(
+          "delivery_preference_id",
+          String(values.deliveryPreference),
+        );
+
+        const response = await fetch(`${utils.BASE_URL}/store-address`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          setShippingData({ address_id: result.address_id });
+          console.log("Address saved:", result);
+          setActiveTab("payment");
+        } else {
+          console.error("Failed to store address:", result);
+        }
+      } catch (error) {
+        console.error("Error storing address:", error);
+      } finally {
+        setLoading(false);
+      }
     },
   });
+
+  useEffect(() => {
+    if (!formik.values.deliveryPreference && delivery_preferences?.data?.length) {
+      formik.setFieldValue("deliveryPreference", delivery_preferences.data[0].id);
+    }
+  }, [delivery_preferences?.data]);
 
   const handlePincodeChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -81,7 +130,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
       <h5 className="text-center text-xs font-semibold text-gray-800 md:text-[18px]">
         ADD ADDRESS
       </h5>
-      <hr className="my-4 border-t-2 border-gray-200" />
+      <hr className="my-4 border-t-[1px] border-[#D9D9D9]" />
 
       <h5 className="mb-4 text-xs font-semibold md:text-[18px]">
         Contact Details
@@ -93,7 +142,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="name"
             name="name"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Name *"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -104,20 +153,36 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
           ) : null}
         </div>
 
-        <div className="react-tel-input mb-4">
+        <div className="mb-4">
           <input
-            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
-            placeholder="Mobile Number *"
-            type="tel"
-            id="mobileNumber"
-            name="mobileNumber"
+            id="email"
+            name="email"
+            type="email"
+            className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            placeholder="Email *"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.mobileNumber}
+            value={formik.values.email}
           />
-          {formik.touched.mobileNumber && formik.errors.mobileNumber ? (
+          {formik.touched.email && formik.errors.email && (
+            <div className="text-sm text-red-500">{formik.errors.email}</div>
+          )}
+        </div>
+
+        <div className="react-tel-input mb-4">
+          <input
+            className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            placeholder="Mobile Number *"
+            type="tel"
+            id="phone_number"
+            name="phone_number"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.phone_number}
+          />
+          {formik.touched.phone_number && formik.errors.phone_number ? (
             <div className="text-sm text-red-500">
-              {formik.errors.mobileNumber}
+              {formik.errors.phone_number}
             </div>
           ) : null}
         </div>
@@ -131,7 +196,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="pincode"
             name="pincode"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Pincode *"
             onChange={handlePincodeChange}
             onBlur={formik.handleBlur}
@@ -148,7 +213,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
               id="city"
               name="city"
               type="text"
-              className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="City / Town *"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -165,7 +230,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
               id="state"
               name="state"
               type="text"
-              className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder="State *"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -184,7 +249,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="address"
             name="address"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Address *"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -200,7 +265,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="locality"
             name="locality"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Locality *"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -216,7 +281,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
             id="landmark"
             name="landmark"
             type="text"
-            className="w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+            className="w-full rounded-md border border-[#DBDBDB] px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
             placeholder="Landmark (optional)"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -234,10 +299,9 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
               {delivery_preferences?.data?.map((item) => (
                 <div key={item.id} className="flex-1">
                   <label
-                    htmlFor={`deliveryPreference-${item.name.toLowerCase()}`}
-                    className={`relative flex cursor-pointer flex-col rounded-lg bg-white px-[13px] py-[13px] shadow-md md:px-[21px] md:py-[14px] ${
-                      formik.values.deliveryPreference ===
-                      item.name.toLowerCase()
+                    htmlFor={`deliveryPreference-${item.id}`}
+                    className={`relative flex cursor-pointer flex-col rounded-[4px] bg-white px-[13px] py-[13px] border-[#D9D9D9] border-[1px] md:px-[21px] md:py-[14px] ${
+                      formik.values.deliveryPreference === item.id
                         ? "border-2 border-[#49AD91] bg-[#49AD910D]"
                         : ""
                     }`}
@@ -246,26 +310,25 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
                       {item.name}
                     </h4>
                     <p className="text-[12px] text-[#7A7474]">{item.time}</p>
+
                     <input
                       type="radio"
                       name="deliveryPreference"
-                      id={`deliveryPreference-${item.name.toLowerCase()}`}
-                      value={item.name.toLowerCase()}
+                      id={`deliveryPreference-${item.id}`}
+                      value={item.id}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      checked={
-                        formik.values.deliveryPreference ===
-                        item.name.toLowerCase()
-                      }
+                      checked={formik.values.deliveryPreference === item.id}
                       className="absolute h-0 w-0 appearance-none"
                     />
-                    {formik.values.deliveryPreference ===
-                      item.name.toLowerCase() && (
+
+                    {/* Selected Indicator */}
+                    {formik.values.deliveryPreference == String(item.id) && (
                       <span
                         aria-hidden="true"
-                        className="absolute inset-0 rounded-lg border-2 border-[#49AD91] bg-[#49AD910D] bg-opacity-50"
+                        className="absolute inset-0 rounded-[4px] border-2 border-[#49AD91] bg-[#49AD910D] bg-opacity-50"
                       >
-                        <span className="absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#49AD91]">
+                        <span className="absolute right-2 top-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#49AD91]">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
@@ -290,7 +353,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({ setActiveTab }) => {
 
         <button
           type="submit"
-          className="hover:bg-accent-hover focus:ring-accent-700 inline-flex w-full items-center justify-center rounded-lg border border-transparent bg-[#49AD91] px-5 py-[18px] font-semibold text-white focus:ring-2"
+          className="hover:bg-accent-hover focus:ring-accent-700 inline-flex w-full items-center justify-center rounded-[6px] border border-transparent bg-[#49AD91] px-5 py-[18px] font-semibold text-white focus:ring-2"
         >
           ADD ADDRESS
         </button>
