@@ -17,36 +17,46 @@ import { Cart } from "~/components/icons/Cart";
 import Link from "next/link";
 import { WhatsApp } from "~/components/icons/WhatsApp";
 import { CheckCircle } from "~/components/icons/CheckCircle";
+import { useSearchParams } from "next/navigation";
 
 export default function page() {
+  const searchParams = useSearchParams();
+
+  const order_id = searchParams.get("order_id");
+  const total_amount = searchParams.get("total_amount");
+  const shipping_charges = searchParams.get("shipping_charges");
+  const installation_charges = searchParams.get("installation_charges");
+
   const cartData = useSelector((state: any) => state?.cart);
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
 
   return (
     <>
       <section className="w-full py-5">
-        <div className="m-auto md:w-3/6 bg-white shadow-sm">
+        <div className="m-auto bg-white shadow-sm md:w-3/6">
           <div className="flex flex-col items-center border-b-2 py-5">
             <p className="text-[16px] font-[600]">THANK YOU JOHN DOE</p>
             <p>
               Order ID:{" "}
-              <span className="text-[16px] font-[600]">AB-123456789</span>
+              <span className="text-[16px] font-[600]">
+                {order_id || "N/A"}
+              </span>
             </p>
           </div>
           <div className="rounded p-3">
             <div className="orderStatus flex items-center gap-2 py-5">
               <CheckCircle />
               <div className="flex flex-col">
-                <p className="text-[16px] md:text-lg font-[500]">
+                <p className="text-[16px] font-[500] md:text-lg">
                   Your order is confirmed
                 </p>
-                <p className="w-[70%] text-[#7A7474] text-xs md:text-base">
+                <p className="w-[70%] text-xs text-[#7A7474] md:text-base">
                   Order will delivered to you in 2 -3 days on following address
                 </p>
               </div>
             </div>
             <div className="deliveryAddress py-6">
-              <div className="mb-2 hidden flex justify-between">
+              <div className="mb-2 flex hidden justify-between">
                 <span className="text-base font-bold md:text-xl">
                   Delivery Address
                 </span>
@@ -132,9 +142,12 @@ export default function page() {
                 <span className="text-xs font-medium md:text-base">
                   Need Installation Service?
                 </span>
-                <span className="text-[9px] text-gray-500 md:text-xs" style={{width:"95%"}}>
+                <span
+                  className="text-[9px] text-gray-500 md:text-xs"
+                  style={{ width: "95%" }}
+                >
                   Get professional installation for just{" "}
-                  <span className="font-bold">₹450/Roll</span>. Uncheck if you’d
+                  <span className="font-bold">₹{installation_charges}/Roll</span>. Uncheck if you'd
                   like to install it yourself.
                 </span>
               </div>
@@ -159,7 +172,7 @@ export default function page() {
                       {cartData?.items?.map((item: any) => (
                         <div
                           key={`${item.id}-${item.variableId}`}
-                          className="border-border-200 flex w-full border-opacity-75 text-sm border-b-2 py-4"
+                          className="border-border-200 flex w-full border-b-2 border-opacity-75 py-4 text-sm"
                           style={{ opacity: "1" }}
                         >
                           <div className="relative flex h-[102px] w-[71px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100 md:h-[179] md:w-1/4">
@@ -246,22 +259,24 @@ export default function page() {
                 <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                   <div>Shipping Charges</div>
                   <div className="font-medium text-[#000000]">
-                    ₹50{" "}
-                    <span className="text-[12px] text-[#49AD91] md:text-base">
+                    <span>₹{shipping_charges}</span>
+                    <span className="ml-1 text-[12px] text-[#49AD91] md:text-base">
                       FREE
                     </span>
                   </div>
                 </li>
                 <li className="text-body flex justify-between text-[12px] text-[#7A7474] md:text-base">
                   <div>Installation Charges</div>
-                  <div className="font-medium text-[#000000]">₹450</div>
+                  <div className="font-medium text-[#000000]">
+                    ₹{installation_charges}
+                  </div>
                 </li>
               </ul>
             </div>
             <div className="subtotal mt-2 border-b pb-3">
               <h4 className="flex items-center justify-between font-bold">
                 <span className="font-bold">Subtotal</span>
-                <span>₹{totalPrice}</span>
+                <span>₹{total_amount}</span>
               </h4>
             </div>
             <div className="py-3">

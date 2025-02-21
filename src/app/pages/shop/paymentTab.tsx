@@ -15,8 +15,12 @@ import {
 } from "../../../components/ui/accordion";
 import { Cart } from "~/components/icons/Cart";
 import Link from "next/link";
-const PaymentTab = ({ chargess }) => {
+import utils from "~/utils";
+import { useRouter } from "next/navigation";
+const PaymentTab = ({ chargess, shippingData }) => {
+  const router = useRouter();
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
+  const totalDiscount = useSelector((state: any) => state.cart.discount);
   const cartData = useSelector((state: any) => state.cart);
   const {
     shipping_charges,
@@ -33,6 +37,54 @@ const PaymentTab = ({ chargess }) => {
       Number(finalShippingCharges) +
       Number(installation_charges)
     : Number(totalPrice) + Number(finalShippingCharges);
+  console.log(shippingData?.address_id, "shippingData AddressId");
+  const [loading, setLoading] = useState(false);
+  
+  const handlePlaceOrder = async () => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("address_id", shippingData?.address_id);
+      formData.append("total_mrp", totalPrice);
+      formData.append("cart_discount", cartData?.items[0]?.discount);
+      formData.append("shipping_charges", finalShippingCharges);
+      formData.append(
+        "need_installation_service",
+        isInstallationChecked ? true : false,
+      );
+      formData.append("installation_charges", installation_charges);
+      formData.append("total_amount", finalTotalPrice);
+
+      const response = await fetch(`${utils.BASE_URL}/place-order`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to place order");
+      }
+
+      const result = await response.json();
+      console.log("Order placed successfully:", result);
+
+      // window.location.href = "/thankYou";
+      const query = new URLSearchParams({
+        order_id: result?.order_id,
+        total_amount: finalTotalPrice?.toString(),
+        shipping_charges: finalShippingCharges?.toString(),
+        installation_charges: (isInstallationChecked
+          ? installation_charges
+          : 0
+        ).toString(),
+      }).toString();
+      router.push(`/thankYou?${query}`);
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Failed to place order. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="m-auto w-full shadow-md md:w-3/6">
@@ -59,8 +111,9 @@ const PaymentTab = ({ chargess }) => {
               </li>
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Cart Discount</div>
-                <div className="font-medium text-[#000000]">{cartData.items[0].discount}%</div>
-                
+                <div className="font-medium text-[#000000]">
+                  {cartData.items[0].discount}%
+                </div>
               </li>
               <li className="text-body flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Shipping Charges</div>
@@ -318,8 +371,9 @@ const PaymentTab = ({ chargess }) => {
                 Change
               </a>
             </div>
-            <Link
-              href="/thankYou"
+            <button
+              onClick={handlePlaceOrder}
+              disabled={loading}
               data-variant="normal"
               className="focus:ring-accent-700 hover:bg-accent-hover inline-flex h-10 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-3 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1 md:h-12 md:px-5"
             >
@@ -330,10 +384,10 @@ const PaymentTab = ({ chargess }) => {
                 </span>
               </div>
               <div className="flex items-center text-sm md:text-base">
-                <span>Place Order</span>
-                <CheckoutArrow></CheckoutArrow>
+                <span>{loading ? "Placing Order..." : "Place Order"}</span>
+                {!loading && <CheckoutArrow></CheckoutArrow>}
               </div>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

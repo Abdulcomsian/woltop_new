@@ -13,6 +13,7 @@ export default function page() {
   const { data: chargess } = useGetChargesQuery({});
   const [activeTab, setActiveTab] = useState("cart");
   const cartData = useSelector((state: any) => state?.cart);
+  const [shippingData, setShippingData] = useState(null);
 
   // console.log(chargess, "chargess");
   return (
@@ -49,7 +50,7 @@ export default function page() {
             className="px-3 pt-10 md:pt-[70px]"
             position="left"
           >
-            <ShippingTab setActiveTab={setActiveTab} />
+            <ShippingTab setActiveTab={setActiveTab} setShippingData={setShippingData} />
           </SectionBlock>
         )}
       </div>
@@ -62,7 +63,7 @@ export default function page() {
             className="px-3 pt-10 md:pt-[70px]"
             position="left"
           >
-            <PaymentTab chargess={chargess} />
+            <PaymentTab chargess={chargess} shippingData={shippingData} />
           </SectionBlock>
         </div>
       )}

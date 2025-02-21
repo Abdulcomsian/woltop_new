@@ -7,7 +7,7 @@ export const homeVideoApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: utils.BASE_URL }),
   endpoints: (builder) => ({
     getHomeVideo: builder.query({
-      query: () => "/get-video",
+      query: () => "/get-home",
     }),
   }),
 });

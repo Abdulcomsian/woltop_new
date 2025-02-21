@@ -6,7 +6,7 @@ export const ShopingCart: React.FC<ShopingCartProps & React.SVGAttributes<{}>> =
   const strokeColor = activeTab === "cart" ? "black" : "#7A7474";
   
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         d="M9 22.5C9.55228 22.5 10 22.0523 10 21.5C10 20.9477 9.55228 20.5 9 20.5C8.44772 20.5 8 20.9477 8 21.5C8 22.0523 8.44772 22.5 9 22.5Z"
         stroke={strokeColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"

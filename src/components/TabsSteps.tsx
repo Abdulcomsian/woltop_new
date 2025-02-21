@@ -33,7 +33,7 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="bg-[#F1FBFF] py-5 md:py-7">
-      <div className="px-3 lg:px-7 xl:px-10 mx-auto max-w-[1075px]">
+      <div className="mx-auto max-w-[1075px] px-3 lg:px-7 xl:px-10">
         <Steps
           current={currentStep}
           onChange={(stepIndex) => {
@@ -48,7 +48,7 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
           {steps.map((step) => (
             <Step
               key={step.key}
-              icon={null} // Remove the default step numbers
+              icon={null}
               title={
                 <div
                   className={`flex items-center ${
@@ -59,7 +59,7 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
                 >
                   {/* Custom Radio Button */}
                   <div
-                    className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${
+                    className={`flex h-3 w-3 md:mt-1 items-center justify-center rounded-full border-2 md:h-4 md:w-4 ${
                       activeTab === step.key
                         ? "border-[#49AD91] bg-[#49AD91]"
                         : "border-gray-400 bg-white"
@@ -73,10 +73,12 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
                   </div>
 
                   {/* Icon */}
-                  <div className="ml-2">{step.icon}</div>
+                  <div className="ml-2 md:mt-1">{step.icon}</div>
 
                   {/* Title */}
-                  <span className="ml-2">{step.title}</span>
+                  <span className="ml-2 md:mt-1 text-[10px] md:text-base">
+                    {step.title}
+                  </span>
                 </div>
               }
             />
@@ -92,12 +94,23 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
           :where(.css-dev-only-do-not-override-1kf000u).ant-steps .ant-steps-item-process .ant-steps-item-icon {
             display: none !important;
           }
+          :where(.css-dev-only-do-not-override-1kf000u).ant-steps.ant-steps-vertical >.ant-steps-item .ant-steps-item-content{
+            min-height:0;
+          }
 
-       /* Global CSS to override Ant Design's default styles */
-.ant-steps .ant-steps-item::before {
-  border-top: 2px dotted #49AD91 !important; /* Dotted green line */
-  background-color: transparent !important; /* Remove default background */
-}
+          :where(.css-dev-only-do-not-override-1kf000u).ant-steps .ant-steps-item-title{
+            display: flex;
+            justify-content: center;
+          }
+          /* Global CSS to override Ant Design's default styles */
+          .ant-steps .ant-steps-item::before {
+            border-top: 2px dotted #49AD91 !important; /* Dotted green line */
+            background-color: transparent !important; /* Remove default background */
+          }
+          .ant-steps-vertical{
+            display: flex !important;
+            flex-direction: row !important;
+          }
         `}
       </style>
     </div>

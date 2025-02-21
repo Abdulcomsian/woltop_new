@@ -42,12 +42,12 @@ export default function OurTeam({ bannerData }) {
           : team?.data?.map((member) => (
               <article
                 key={member.id}
-                className="product-card h-full transform rounded transition-all duration-200 hover:-translate-y-1 hover:shadow"
+                className="product-card h-full transform rounded transition-all duration-200 hover:scale-105"
               >
                 <div className="mx-auto rounded">
                   <div className="relative h-[168.62px] bg-[#F7F7F7] md:h-[336px]">
                     <img
-                      className="absolute bottom-0 left-0 right-0 mx-auto h-full object-cover"
+                      className="absolute bottom-0 left-0 right-0 mx-auto h-[196px] md:h-[391px] object-cover"
                       src={member.image || "/default-profile.png"}
                       alt={`${member.name}'s profile`}
                     />
