@@ -33,12 +33,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const dispatch = useDispatch();
   const cartData = useSelector((state: any) => state.cart);
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
-
-  const totalDiscount = cartData.items.reduce(
-    (acc, item) => acc + item.discount,
-    0,
-  );
-  const avgDiscount = Number((totalDiscount / cartData.items.length).toFixed(2));
+  const totalDiscount = useSelector((state: any) => state.cart.totalDiscount);
 
   const {
     shipping_charges,
@@ -383,7 +378,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                                 Cart Discount
                               </div>
                               <div className="font-medium text-[#000000]">
-                                {avgDiscount}%
+                              ₹{totalDiscount}
                               </div>
                             </li>
                             <li className="text-body flex justify-between text-[14px]">

@@ -29,12 +29,12 @@ export default function ProductDescription({
       replace: (domNode) => {
         if (domNode.name === "li") {
           return (
-            <li className="mt-3 flex items-start w-full text-xs text-[#49AD91] md:text-lg">
+            <li className="mt-3 flex items-center gap-[10px] md:gap-[15px] w-full text-xs text-[#49AD91] md:text-lg">
               <svg
                 width="22"
                 height="17"
                 viewBox="0 0 22 17"
-                className="w-5 h-5 mr-2 mt-1 shrink-0"
+                className="w-5 h-5 shrink-0"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >

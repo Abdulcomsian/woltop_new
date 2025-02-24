@@ -1,8 +1,8 @@
 import React from "react";
 
 export default function VideoSection({ responseData, isLoading }) {
-  const video = responseData?.data?.video;
 
+  const videoSrc = responseData?.video || responseData?.data?.video;
   return (
     <div className="container mx-auto">
       {isLoading ? (
@@ -12,7 +12,7 @@ export default function VideoSection({ responseData, isLoading }) {
       ) : (
         <div className="flex items-center justify-center">
           <video className="aspect-video w-full rounded-lg" controls>
-            <source src={video} type="video/mp4" />
+            <source src={videoSrc} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>

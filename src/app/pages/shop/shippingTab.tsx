@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useGetDeliveryPreferenceQuery } from "~/store/api/deliveryPreference";
 import utils from "~/utils";
+import { useSelector } from "react-redux";
 
 interface ShippingTabProps {
   setActiveTab: (tab: string) => void;
@@ -16,8 +17,6 @@ const ShippingTab: React.FC<ShippingTabProps> = ({
   const { data: delivery_preferences } = useGetDeliveryPreferenceQuery({});
   const [loading, setLoading] = useState(false);
 
-
-  
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -74,7 +73,12 @@ const ShippingTab: React.FC<ShippingTabProps> = ({
         const result = await response.json();
 
         if (response.ok) {
-          setShippingData({ address_id: result.address_id });
+          setShippingData({
+            address_id: result.address_id,
+            name: values.name,
+            phone_number: values.phone_number,
+            address: values.address,
+          });
           console.log("Address saved:", result);
           setActiveTab("payment");
         } else {
@@ -89,8 +93,14 @@ const ShippingTab: React.FC<ShippingTabProps> = ({
   });
 
   useEffect(() => {
-    if (!formik.values.deliveryPreference && delivery_preferences?.data?.length) {
-      formik.setFieldValue("deliveryPreference", delivery_preferences.data[0].id);
+    if (
+      !formik.values.deliveryPreference &&
+      delivery_preferences?.data?.length
+    ) {
+      formik.setFieldValue(
+        "deliveryPreference",
+        delivery_preferences.data[0].id,
+      );
     }
   }, [delivery_preferences?.data]);
 
@@ -300,7 +310,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({
                 <div key={item.id} className="flex-1">
                   <label
                     htmlFor={`deliveryPreference-${item.id}`}
-                    className={`relative flex cursor-pointer flex-col rounded-[4px] bg-white px-[13px] py-[13px] border-[#D9D9D9] border-[1px] md:px-[21px] md:py-[14px] ${
+                    className={`relative flex cursor-pointer flex-col rounded-[4px] border-[1px] border-[#D9D9D9] bg-white px-[13px] py-[13px] md:px-[21px] md:py-[14px] ${
                       formik.values.deliveryPreference === item.id
                         ? "border-2 border-[#49AD91] bg-[#49AD910D]"
                         : ""

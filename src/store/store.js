@@ -16,7 +16,6 @@ import { deliveryPreference } from "./api/deliveryPreference";
 import { roomCatagoriesApi } from "./api/roomCatagoriesApi";
 import { allProductsApi } from "./api/allProductsApi";
 import { homeBannerApi } from "./api/homeBannerApi";
-import { homeVideoApi } from "./api/homeVideoApi";
 import { wishlistApi } from "./api/wishlistApi";
 import { allReviewsApi } from "./api/allReviewsApi";
 import { chargessApi } from "./api/chargessApi";
@@ -42,7 +41,6 @@ const rootReducer = combineReducers({
   [catagoriesApi.reducerPath]: catagoriesApi.reducer,
   [roomCatagoriesApi.reducerPath]: roomCatagoriesApi.reducer,
   [paramApi.reducerPath]: paramApi.reducer,
-  [homeVideoApi.reducerPath]: homeVideoApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,
   [chargessApi.reducerPath]: chargessApi.reducer,  
   [contactInfoApi.reducerPath]: contactInfoApi.reducer,  
@@ -106,7 +104,6 @@ export const store = configureStore({
       .concat(catagoriesApi.middleware)
       .concat(roomCatagoriesApi.middleware)
       .concat(paramApi.middleware)
-      .concat(homeVideoApi.middleware)
       .concat(chargessApi.middleware)
       .concat(contactInfoApi.middleware)
       .concat(aboutApi.middleware)

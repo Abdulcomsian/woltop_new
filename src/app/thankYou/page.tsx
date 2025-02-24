@@ -5,15 +5,12 @@ import Image from "next/image";
 import coins from "../../../public/icons/coin.svg";
 import { useSelector } from "react-redux";
 import installationIcon from "../../../public/installationIcon.png";
-import { Minus } from "~/components/icons/Minus";
-import { Plus } from "~/components/icons/Plus";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../../components/ui/accordion";
-import { Cart } from "~/components/icons/Cart";
 import Link from "next/link";
 import { WhatsApp } from "~/components/icons/WhatsApp";
 import { CheckCircle } from "~/components/icons/CheckCircle";
@@ -26,28 +23,32 @@ export default function page() {
   const total_amount = searchParams.get("total_amount");
   const shipping_charges = searchParams.get("shipping_charges");
   const installation_charges = searchParams.get("installation_charges");
+  const name = searchParams.get("name");
+  const phoneNumber = searchParams.get("phone_number");
+  const address = searchParams.get("address");
 
   const cartData = useSelector((state: any) => state?.cart);
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
+  const totalDiscount = useSelector((state: any) => state.cart.totalDiscount);
+  const hasItems = cartData?.items?.length > 0;
 
   return (
     <>
-      <section className="w-full py-5">
-        <div className="m-auto bg-white shadow-sm md:w-3/6">
-          <div className="flex flex-col items-center border-b-2 py-5">
-            <p className="text-[16px] font-[600]">THANK YOU JOHN DOE</p>
-            <p>
-              Order ID:{" "}
-              <span className="text-[16px] font-[600]">
-                {order_id || "N/A"}
-              </span>
+      <section className="mb-5 w-full">
+        <div className="m-auto bg-white md:w-3/6">
+          <div className="flex flex-col items-center border-b-[1px] border-[#DBDBDB] py-5">
+            <p className="text-[16px] font-semibold uppercase text-black">
+              THANK YOU {name || "John Doe"}
+            </p>
+            <p className="text-xs text-black">
+              Order ID: <span className="font-[600]">{order_id || "N/A"}</span>
             </p>
           </div>
-          <div className="rounded p-3">
+          <div className="rounded px-3">
             <div className="orderStatus flex items-center gap-2 py-5">
               <CheckCircle />
               <div className="flex flex-col">
-                <p className="text-[16px] font-[500] md:text-lg">
+                <p className="text-[18px] font-medium text-black md:text-lg">
                   Your order is confirmed
                 </p>
                 <p className="w-[70%] text-xs text-[#7A7474] md:text-base">
@@ -55,14 +56,11 @@ export default function page() {
                 </p>
               </div>
             </div>
-            <div className="deliveryAddress py-6">
-              <div className="mb-2 flex hidden justify-between">
+            <div className="deliveryAddress mb-5">
+              <div className="mb-2 flex justify-between">
                 <span className="text-base font-bold md:text-xl">
                   Delivery Address
                 </span>
-                <a className="text-blue-400 underline" href="#">
-                  Change
-                </a>
               </div>
               <div className="rounded-md border p-3 text-[12px] md:text-base">
                 <div className="contact border-b pb-2">
@@ -81,12 +79,16 @@ export default function page() {
                         strokeMiterlimit="10"
                       />
                     </svg>
-                    <span className="font-medium">Contact</span>
+                    <span className="font-medium text-black">Contact</span>
                   </div>
                   <div className="flex gap-2">
-                    <span className="name font-medium">John Doe</span>
+                    <span className="name font-medium text-[#0B0A0A]">
+                      {name || "John Doe"}
+                    </span>
                     <span>•</span>
-                    <span className="text-[#7A7474]">+911 1234 30789</span>
+                    <span className="text-[#7A7474]">
+                      {phoneNumber || "+911 1234 30789"}
+                    </span>
                   </div>
                 </div>
                 <div className="address pt-2">
@@ -113,130 +115,111 @@ export default function page() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span className="font-medium">Ship To</span>
+                    <span className="font-medium text-black">Ship To</span>
                   </div>
                   <span className="name text-[#7A7474]">
-                    Lorem ipsum dolor sit amet diam in lacus
+                    {address || "Lorem ipsum dolor sit amet diam in lacus"}
                   </span>
                 </div>
               </div>
             </div>
-            <div className="installation relative flex items-center rounded-md border bg-[#2ECDA01A] p-3 opacity-90">
-              <input
-                type="checkbox"
-                className="absolute right-3 top-2 h-5 w-5 cursor-pointer"
-                id="installationCheckbox"
-              />
-              <label
-                htmlFor="installationCheckbox"
-                className="absolute inset-0 right-1 hidden cursor-pointer"
-              ></label>
-              <div className="icon mr-3 h-14 w-24 md:h-28 md:w-28">
-                <Image
-                  src={installationIcon}
-                  className="h-full w-full"
-                  alt="Installation Icon"
+            {installation_charges !== null && (
+              <div className="installation relative flex items-center rounded-md border bg-[#2ECDA01A] p-3 opacity-90">
+                <input
+                  type="checkbox"
+                  className="absolute right-3 top-2 h-5 w-5 cursor-pointer"
+                  id="installationCheckbox"
                 />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs font-medium md:text-base">
-                  Need Installation Service?
-                </span>
-                <span
-                  className="text-[9px] text-gray-500 md:text-xs"
-                  style={{ width: "95%" }}
-                >
-                  Get professional installation for just{" "}
-                  <span className="font-bold">₹{installation_charges}/Roll</span>. Uncheck if you'd
-                  like to install it yourself.
-                </span>
-              </div>
-            </div>
-
-            <section className="accordian mt-5">
-              <Accordion
-                type="single"
-                collapsible
-                className="w-full rounded-lg border p-2"
-                style={{ paddingBottom: "0px" }}
-              >
-                <AccordionItem value="item-1" className="border-none">
-                  <AccordionTrigger
-                    className="mb-2 text-sm font-semibold md:text-lg"
-                    style={{ textDecoration: "none", padding: "0px" }}
+                <label
+                  htmlFor="installationCheckbox"
+                  className="absolute inset-0 right-1 hidden cursor-pointer"
+                ></label>
+                <div className="icon mr-2 h-14 w-24 md:h-28 md:w-28">
+                  <Image
+                    src={installationIcon}
+                    className="h-full w-full"
+                    alt="Installation Icon"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-medium text-black md:text-base">
+                    Installation Service Added
+                  </span>
+                  <span
+                    className="text-[9px] text-[#7A7474] md:text-xs"
+                    style={{ width: "95%" }}
                   >
-                    {cartData?.items?.length} Item - ₹{totalPrice}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="checkout-cart grid grid-cols-1">
-                      {cartData?.items?.map((item: any) => (
-                        <div
-                          key={`${item.id}-${item.variableId}`}
-                          className="border-border-200 flex w-full border-b-2 border-opacity-75 py-4 text-sm"
-                          style={{ opacity: "1" }}
-                        >
-                          <div className="relative flex h-[102px] w-[71px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100 md:h-[179] md:w-1/4">
-                            <img
-                              alt={item.name}
-                              className="h-full w-full object-cover"
-                              src={
-                                item?.featured_image ||
-                                "https://placehold.co/600x400.png"
-                              }
-                            />
+                    Installation will be done post-delivery. We'll contact you
+                    on your mobile/WhatsApp to schedule it.
+                  </span>
+                </div>
+              </div>
+            )}
+            <Accordion
+              type="single"
+              collapsible
+              className="accordian mt-5 w-full rounded-lg border p-2"
+              style={{ paddingBottom: "0px" }}
+              defaultValue={hasItems ? "item-1" : undefined}
+            >
+              <AccordionItem value="item-1" className="border-none">
+                <AccordionTrigger
+                  className="mb-2 text-sm font-semibold md:text-lg"
+                  style={{ textDecoration: "none", padding: "0px" }}
+                >
+                  {cartData?.items?.length} Item - ₹{totalPrice}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="checkout-cart grid grid-cols-1">
+                    {cartData?.items?.map((item: any) => (
+                      <div
+                        key={`${item.id}-${item.variableId}`}
+                        className="border-border-200 flex w-full border-b-[1px] border-opacity-75 py-4 text-sm"
+                        style={{ opacity: "1" }}
+                      >
+                        <div className="relative flex h-[102px] w-[71px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100 md:h-[179] md:w-1/4">
+                          <img
+                            alt={item.name}
+                            className="h-full w-full object-cover"
+                            src={
+                              item?.featured_image ||
+                              "https://placehold.co/600x400.png"
+                            }
+                          />
+                        </div>
+                        <div className="relative w-full px-2">
+                          <h3 className="text-heading text-xs font-medium md:text-base">
+                            {item.name}
+                          </h3>
+                          <p className="color-[#000000] text-[10px] md:text-[12px]">
+                            Size: {item.variableName || "N/A"}
+                          </p>{" "}
+                          <div className="flex">
+                            <p className="my-2.5 text-sm font-semibold text-[#49AD91] md:text-lg">
+                              ₹{item.sale_price}
+                            </p>
+                            <div className="text-body my-2.5 ml-2 w-20 text-[10px] text-[#9e9e9e] line-through md:text-sm">
+                              ₹{item.price}{" "}
+                            </div>
                           </div>
-                          <div className="relative w-full px-2">
-                            <h3 className="text-heading text-xs font-medium md:text-base">
-                              {item.name}
-                            </h3>
-                            {/* <div className="absolute right-0 top-2">
-                              <input
-                                type="checkbox"
-                                id={`itemCheckbox-${item.id}-${item.variableId}`}
-                                className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-[#49AD91] checked:bg-[#49AD91] focus:outline-none focus:ring-2 focus:ring-[#49AD91]"
-                              />
-                              <label
-                                htmlFor={`itemCheckbox-${item.id}-${item.variableId}`}
-                              ></label>
-                            </div> */}
-                            <p className="color-[#000000] text-[10px] md:text-[12px]">
-                              Size: {item.variableName || "N/A"}
-                            </p>{" "}
-                            <div className="flex">
-                              <p className="my-2.5 text-sm font-semibold text-[#49AD91] md:text-lg">
-                                ₹{item.sale_price}
-                              </p>
-                              <div className="text-body my-2.5 ml-2 w-20 text-[10px] text-[#9e9e9e] line-through md:text-sm">
-                                ₹{item.price}{" "}
-                              </div>
-                            </div>
-                            <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
-                              <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
-                                {item.discount
-                                  ? `${item.discount}% off`
-                                  : "No Discount"}
-                              </span>
-                            </div>
-                            <div className="counter-with-trash-icon absolute bottom-0 flex w-full justify-between">
-                              <div className="trash-icon pl-1 pt-2">
-                                <img
-                                  src="../../../public/img/trash1.png"
-                                  alt=""
-                                />
-                              </div>
-                            </div>
+                          <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                            <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
+                              {item.discount
+                                ? `${item.discount}% off`
+                                : "No Discount"}
+                            </span>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </section>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
-          <div className="bill-detail p-3">
+          <div className="bill-detail px-3">
             <div className="border-border-200 flex flex-col border-b py-3">
-              <h4 className="mt-3 font-medium">Bill Details</h4>
+              <h4 className="font-medium">Bill Details</h4>
               <div className="mt-2 flex">
                 <Image src={coins || null} className="w-4" alt="" />
                 <p className="ml-2 text-[8px] text-base text-[#7A7474]">
@@ -254,21 +237,26 @@ export default function page() {
                 </li>
                 <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                   <div>Cart Discount</div>
-                  <div className="font-medium text-[#000000]">-₹155</div>
+                  <div className="font-medium text-[#000000]">
+                    ₹{totalDiscount}
+                  </div>
                 </li>
                 <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                   <div>Shipping Charges</div>
                   <div className="font-medium text-[#000000]">
-                    <span>₹{shipping_charges}</span>
-                    <span className="ml-1 text-[12px] text-[#49AD91] md:text-base">
-                      FREE
-                    </span>
+                    {shipping_charges === null ? (
+                      <span className="ml-1 text-[12px] text-[#49AD91] md:text-base">
+                        FREE
+                      </span>
+                    ) : (
+                      <span>₹{shipping_charges || 0}</span>
+                    )}
                   </div>
                 </li>
                 <li className="text-body flex justify-between text-[12px] text-[#7A7474] md:text-base">
                   <div>Installation Charges</div>
                   <div className="font-medium text-[#000000]">
-                    ₹{installation_charges}
+                    ₹{installation_charges || 0}
                   </div>
                 </li>
               </ul>
@@ -276,7 +264,7 @@ export default function page() {
             <div className="subtotal mt-2 border-b pb-3">
               <h4 className="flex items-center justify-between font-bold">
                 <span className="font-bold">Subtotal</span>
-                <span>₹{total_amount}</span>
+                <span>₹{total_amount || 0}</span>
               </h4>
             </div>
             <div className="py-3">
@@ -291,7 +279,7 @@ export default function page() {
               </div>
             </div>
           </div>
-          <div className="rounded bg-[#F0F7F2] py-3">
+          <div className="bg-[#F0F7F2] py-3">
             <p className="flex items-center justify-center gap-2">
               <span className="icon">
                 <svg
@@ -312,18 +300,16 @@ export default function page() {
               </span>
             </p>
           </div>
-          <div className="bg-white p-3">
-            <Link
-              href="/thankYou"
-              data-variant="normal"
-              className="focus:ring-accent-700 hover:bg-accent-hover flex h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
-            >
-              <div className="flex items-center">
-                <span>Continue Shopping</span>
-                <CheckoutArrow></CheckoutArrow>
-              </div>
-            </Link>
-          </div>
+          <Link
+            href="/"
+            data-variant="normal"
+            className="focus:ring-accent-700 hover:bg-accent-hover m-3 md:m-0 md:mt-3 flex h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
+          >
+            <div className="flex items-center">
+              <span>Continue Shopping</span>
+              <CheckoutArrow></CheckoutArrow>
+            </div>
+          </Link>
         </div>
       </section>
     </>

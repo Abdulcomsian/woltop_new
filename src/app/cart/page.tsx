@@ -60,7 +60,7 @@ export default function page() {
           <SectionBlock
             title=""
             subtitle=""
-            className="px-3 pt-10 md:pt-[70px]"
+            className="px-3"
             position="left"
           >
             <PaymentTab chargess={chargess} shippingData={shippingData} />

@@ -6,14 +6,16 @@ interface ReviewCardProps {
   slug: string;
 }
 
+const Spinner = () => (
+  <div className="flex items-center justify-center">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#49AD91] border-t-transparent"></div>
+  </div>
+);
+
 export default function ReviewCard({ slug }: ReviewCardProps) {
   const { data: review, isFetching } = useGetReviewByProductQuery(slug);
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 5;
-
-  if (isFetching) {
-    return <div>Loading...</div>;
-  }
 
   const reviews = review?.data || [];
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);
@@ -29,12 +31,18 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
     }
   };
 
+  if (isFetching) {
+    <div className="flex h-screen items-center justify-center">
+      <Spinner />
+    </div>;
+  }
+
   return (
     <div className="mx-auto grid w-full grid-cols-1 overflow-y-auto">
       {paginatedReviews.map((review: any) => (
         <div
           key={review.id}
-          className="mb-5 w-full flex-shrink-0 rounded-[10px] bg-white p-3 md:p-6 shadow-md"
+          className="mb-5 w-full flex-shrink-0 rounded-[10px] bg-white p-3 shadow-md md:p-6"
         >
           {/* Rating */}
           <div className="mb-3 flex gap-[6px]">
@@ -43,7 +51,7 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
                 <svg
                   key={index}
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`md:h-[30px] md:w-[30px] h-[24px] w-[24px] fill-current ${
+                  className={`h-[24px] w-[24px] fill-current md:h-[30px] md:w-[30px] ${
                     index < review.rating ? "text-yellow-400" : "text-gray-300"
                   }`}
                   viewBox="0 0 24 24"
@@ -90,7 +98,7 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
       ))}
 
       {/* Pagination */}
-      {reviews.length > reviewsPerPage && (
+      {reviews?.length > reviewsPerPage && (
         <div className="mx-auto flex w-full items-center justify-between lg:w-[40%]">
           {/* Previous Button */}
           <div
@@ -121,7 +129,7 @@ export default function ReviewCard({ slug }: ReviewCardProps) {
 
           {/* Page Numbers */}
           <div className="hidden sm:flex">
-            {Array.from({ length: totalPages }, (_, index) => (
+            {Array?.from({ length: totalPages }, (_, index) => (
               <p
                 key={index}
                 onClick={() => handlePageChange(index + 1)}

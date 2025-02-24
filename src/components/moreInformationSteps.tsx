@@ -49,7 +49,7 @@ export default function moreInformationSteps({
                     </td>
                     <td className="py-[10px] text-xs text-[#000000] md:py-[15px] md:text-base">
                       {" "}
-                      {details?.net_weight}
+                      {details?.net_weight} g
                     </td>
                   </tr>
                 )}
