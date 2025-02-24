@@ -16,6 +16,12 @@ import { toast } from "react-toastify";
 
 const ITEMS_PER_PAGE = 8;
 
+const Spinner = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#49AD91] border-t-transparent"></div>
+  </div>
+);
+
 const SearchPage = () => {
   const { data: allProducts, isLoading } = useGetAllProductsQuery({});
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,7 +74,11 @@ const SearchPage = () => {
   );
 
   if (isLoading) {
-    return <div>Loading products...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
 
   return (

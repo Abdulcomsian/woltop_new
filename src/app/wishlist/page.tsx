@@ -12,9 +12,15 @@ import {
 } from "~/store/api/wishlistApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 
+const Spinner = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#49AD91] border-t-transparent"></div>
+  </div>
+);
+
 const WishlistPage = () => {
   const { isLoggedIn } = useSelector((state) => state.user);
-  const { data: wishlistItems = [], refetch } = useGetWishlistItemsQuery([], {
+  const { data: wishlistItems = [], isLoading, refetch } = useGetWishlistItemsQuery([], {
     skip: !isLoggedIn,
   });
   const [deleteWishlistItem] = useDeleteWishlistItemMutation();
@@ -48,6 +54,14 @@ const WishlistPage = () => {
     toast.success(`${item.name} added to cart!`);
     handleRemoveItem(item.id);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
 
   if (!isLoggedIn) {
     return (

@@ -3,9 +3,23 @@ import { BlogArrow } from "./icons/BlogArrow";
 import { useGetBlogsQuery } from "~/store/api/blogsApi";
 import Link from "next/link";
 
+const Spinner = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#49AD91] border-t-transparent"></div>
+  </div>
+);
+
 export default function BlogsItems() {
   const { data: blogs, isLoading } = useGetBlogsQuery({});
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+  
   return (
     <div className="container mx-auto mb-5 mt-14">
       <div className="-m-3 flex flex-wrap">

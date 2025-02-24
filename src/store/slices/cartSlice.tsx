@@ -18,6 +18,7 @@ interface CartState {
   items: CartItem[];
   totalQuantity: number;
   totalPrice: number;
+  totalDiscount: 0,
 }
 
 // Initial state
@@ -25,10 +26,18 @@ const initialState: CartState = {
   items: [],
   totalQuantity: 0,
   totalPrice: 0,
+  totalDiscount: 0,
 };
 
 const calculateTotalPrice = (items: CartItem[]): number =>
   items.reduce((total, item) => total + item.totalPrice, 0);
+
+const calculateTotalDiscount = (items: CartItem[]): number =>
+  items.reduce(
+    (total, item) =>
+      total + (item.price - (item.sale_price ?? item.price)) * item.quantity,
+    0,
+  );
 
 const cartSlice = createSlice({
   name: "cart",
@@ -70,6 +79,7 @@ const cartSlice = createSlice({
         0,
       );
       state.totalPrice = calculateTotalPrice(state.items);
+      state.totalDiscount = calculateTotalDiscount(state.items);
     },
 
     updateItemQuantity(
@@ -95,6 +105,7 @@ const cartSlice = createSlice({
           0,
         );
         state.totalPrice = calculateTotalPrice(state.items);
+        state.totalDiscount = calculateTotalDiscount(state.items);
       }
     },
 
@@ -116,6 +127,7 @@ const cartSlice = createSlice({
 
         // Recalculate totalPrice
         state.totalPrice = calculateTotalPrice(state.items);
+        state.totalDiscount = calculateTotalDiscount(state.items);
       }
     },
 
@@ -123,6 +135,7 @@ const cartSlice = createSlice({
       state.items = [];
       state.totalQuantity = 0;
       state.totalPrice = 0;
+      state.totalDiscount = 0;
     },
   },
 });

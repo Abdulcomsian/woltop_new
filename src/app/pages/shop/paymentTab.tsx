@@ -4,8 +4,6 @@ import Image from "next/image";
 import coins from "../../../../public/icons/coin.svg";
 import { useSelector } from "react-redux";
 import installationIcon from "../../../../public/installationIcon.png";
-import { Minus } from "~/components/icons/Minus";
-import { Plus } from "~/components/icons/Plus";
 
 import {
   Accordion,
@@ -13,15 +11,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../../components/ui/accordion";
-import { Cart } from "~/components/icons/Cart";
-import Link from "next/link";
 import utils from "~/utils";
 import { useRouter } from "next/navigation";
 const PaymentTab = ({ chargess, shippingData }) => {
   const router = useRouter();
-  const totalPrice = useSelector((state: any) => state.cart.totalPrice);
-  const totalDiscount = useSelector((state: any) => state.cart.discount);
+  const { totalPrice, totalDiscount } = useSelector((state: any) => state.cart);
   const cartData = useSelector((state: any) => state.cart);
+  const hasItems = cartData?.items?.length > 0;
+
   const {
     shipping_charges,
     cod_charges,
@@ -37,46 +34,107 @@ const PaymentTab = ({ chargess, shippingData }) => {
       Number(finalShippingCharges) +
       Number(installation_charges)
     : Number(totalPrice) + Number(finalShippingCharges);
-  console.log(shippingData?.address_id, "shippingData AddressId");
   const [loading, setLoading] = useState(false);
-  
+
+  // const handlePlaceOrder = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("address_id", shippingData?.address_id);
+  //     formData.append("total_mrp", totalPrice);
+  //     formData.append("cart_discount", cartData?.items[0]?.discount);
+  //     formData.append("shipping_charges", finalShippingCharges);
+  //     formData.append(
+  //       "need_installation_service",
+  //       isInstallationChecked ? true : false,
+  //     );
+  //     formData.append("installation_charges", installation_charges);
+  //     formData.append("total_amount", finalTotalPrice);
+
+  //     const response = await fetch(`${utils.BASE_URL}/place-order`, {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to place order");
+  //     }
+
+  //     const result = await response.json();
+  //     console.log("Order placed successfully:", result);
+
+  //     // window.location.href = "/thankYou";
+  //     const query = new URLSearchParams({
+  //       order_id: result?.order_id,
+  //       total_amount: finalTotalPrice?.toString(),
+  //       shipping_charges: finalShippingCharges?.toString(),
+  //       installation_charges: (isInstallationChecked
+  //         ? installation_charges
+  //         : 0
+  //       ).toString(),
+  //       name: shippingData?.name || "",
+  //       phone_number: shippingData?.phone_number || "",
+  //       address: shippingData?.address || "",
+  //     }).toString();
+  //     router.push(`/thankYou?${query}`);
+  //   } catch (error) {
+  //     console.error("Error placing order:", error);
+  //     alert("Failed to place order. Please try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handlePlaceOrder = async () => {
     setLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("address_id", shippingData?.address_id);
-      formData.append("total_mrp", totalPrice);
-      formData.append("cart_discount", cartData?.items[0]?.discount);
-      formData.append("shipping_charges", finalShippingCharges);
-      formData.append(
-        "need_installation_service",
-        isInstallationChecked ? true : false,
-      );
-      formData.append("installation_charges", installation_charges);
-      formData.append("total_amount", finalTotalPrice);
-
+      const products_orders = cartData?.items?.map((item) => ({
+        product_id: item.variableId === item.id ? item.id : item.variableId ? null : item.id,
+        variable_id: item.variableId === item.id ? null : item.variableId,
+        quantity: item.quantity,
+      })) || [];
+      
+      console.log("Final products_orders:", products_orders);
+      
+      
+          
+  
+      const orderData = {
+        address_id: shippingData?.address_id,
+        total_mrp: totalPrice,
+        cart_discount: totalDiscount,
+        shipping_charges: finalShippingCharges,
+        need_installation_service: isInstallationChecked,
+        installation_charges: installation_charges,
+        total_amount: finalTotalPrice,
+        products_orders,
+      };
+  
       const response = await fetch(`${utils.BASE_URL}/place-order`, {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to place order");
       }
-
+  
       const result = await response.json();
       console.log("Order placed successfully:", result);
-
-      // window.location.href = "/thankYou";
+  
       const query = new URLSearchParams({
         order_id: result?.order_id,
         total_amount: finalTotalPrice?.toString(),
         shipping_charges: finalShippingCharges?.toString(),
-        installation_charges: (isInstallationChecked
-          ? installation_charges
-          : 0
-        ).toString(),
+        installation_charges: (isInstallationChecked ? installation_charges : 0).toString(),
+        name: shippingData?.name || "",
+        phone_number: shippingData?.phone_number || "",
+        address: shippingData?.address || "",
       }).toString();
+  
       router.push(`/thankYou?${query}`);
     } catch (error) {
       console.error("Error placing order:", error);
@@ -85,11 +143,11 @@ const PaymentTab = ({ chargess, shippingData }) => {
       setLoading(false);
     }
   };
-
+  
   return (
-    <section className="m-auto w-full shadow-md md:w-3/6">
+    <section className="m-auto w-full md:w-3/6">
       <div className="md:p-4d m-auto w-full bg-white">
-        <div className="rounded p-3">
+        <div className="rounded">
           <div className="bill-detail">
             <div className="border-border-200 flex flex-col border-b py-3">
               <h4 className="mt-3 text-base font-medium md:text-lg">
@@ -112,17 +170,18 @@ const PaymentTab = ({ chargess, shippingData }) => {
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Cart Discount</div>
                 <div className="font-medium text-[#000000]">
-                  {cartData.items[0].discount}%
+                  ₹{totalDiscount}
                 </div>
               </li>
               <li className="text-body flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Shipping Charges</div>
                 <div className="font-medium text-[#000000]">
-                  ₹{finalShippingCharges}
-                  {isShippingFree && (
+                  {isShippingFree ? (
                     <span className="pl-3 text-[14px] text-[#49AD91]">
                       FREE
                     </span>
+                  ) : (
+                    <span>₹{finalShippingCharges}</span>
                   )}
                 </div>
               </li>
@@ -169,9 +228,13 @@ const PaymentTab = ({ chargess, shippingData }) => {
                   <span className="font-medium">Contact</span>
                 </div>
                 <div className="flex gap-2">
-                  <span className="name font-medium">John Doe</span>
+                  <span className="name font-medium">
+                    {shippingData?.name || "John Doe"}
+                  </span>
                   <span>•</span>
-                  <span className="text-[#7A7474]">+911 1234 30789</span>
+                  <span className="text-[#7A7474]">
+                    {shippingData?.phone_number || "+911 1234 30789"}
+                  </span>
                 </div>
               </div>
               <div className="address pt-2">
@@ -201,7 +264,8 @@ const PaymentTab = ({ chargess, shippingData }) => {
                   <span className="font-medium">Ship To</span>
                 </div>
                 <span className="name text-[#7A7474]">
-                  Lorem ipsum dolor sit amet diam in lacus
+                  {shippingData?.address ||
+                    "Lorem ipsum dolor sit amet diam in lacus"}
                 </span>
               </div>
             </div>
@@ -209,7 +273,7 @@ const PaymentTab = ({ chargess, shippingData }) => {
 
           <label
             htmlFor="installationCheckbox"
-            className={`installation relative flex w-full cursor-pointer items-center rounded-lg border-0 bg-[#2ECDA01A] p-2 md:p-0`}
+            className={`installation relative flex w-full cursor-pointer items-center rounded-lg border-0 bg-[#2ECDA01A] p-[10px] md:p-0`}
           >
             {/* Checkbox */}
             <div
@@ -239,11 +303,11 @@ const PaymentTab = ({ chargess, shippingData }) => {
 
             {/* Text Content */}
             <div className="flex flex-col">
-              <span className="text-xs font-medium md:text-base">
+              <span className="text-xs font-medium text-black md:text-base">
                 Need Installation Service?
               </span>
               <span
-                className="text-[9px] text-gray-500 md:text-xs"
+                className="text-[9px] text-[#7A7474] md:text-xs"
                 style={{ width: "95%" }}
               >
                 Get professional installation for just{" "}
@@ -255,88 +319,79 @@ const PaymentTab = ({ chargess, shippingData }) => {
             </div>
           </label>
 
-          <section className="accordian mt-5">
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full rounded-lg border p-2"
-              style={{ paddingBottom: "0px" }}
-            >
-              <AccordionItem value="item-1" className="border-none">
-                <AccordionTrigger
-                  className="mb-2 text-sm font-semibold md:text-lg"
-                  style={{ textDecoration: "none", padding: "0px" }}
-                >
-                  {cartData?.items?.length} Item - ₹{totalPrice}
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="checkout-cart grid grid-cols-1">
-                    {cartData?.items?.map((item: any, index: number) => (
-                      <div
-                        key={item.id || `item-${index}`}
-                        className="border-border-200 flex w-full border-b-2 border-opacity-75 py-4 text-sm"
-                        style={{ opacity: "1" }}
-                      >
-                        <div className="relative flex h-[102px] w-[71px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100 md:h-[179] md:w-1/4">
-                          <img
-                            alt={item.name}
-                            className="h-full w-full object-cover"
-                            src={
-                              item?.featured_image ||
-                              "https://placehold.co/600x400.png"
-                            }
+          <Accordion
+            type="single"
+            collapsible
+            className="accordian my-5 w-full rounded-lg border p-[10px]"
+            style={{ paddingBottom: "0px" }}
+            defaultValue={hasItems ? "item-1" : undefined}
+          >
+            <AccordionItem value="item-1" className="border-none">
+              <AccordionTrigger
+                className="mb-2 text-sm font-semibold md:text-lg"
+                style={{ textDecoration: "none", padding: "0px" }}
+              >
+                {cartData?.items?.length} Item - ₹{totalPrice}
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="checkout-cart grid grid-cols-1">
+                  {cartData?.items?.map((item: any, index: number) => (
+                    <div
+                      key={item.id || `item-${index}`}
+                      className={`border-border-200 flex gap-2 w-full ${cartData?.items?.length > 1 && "border-b-2 pb-4"} border-opacity-75 text-sm`}
+                      style={{ opacity: "1" }}
+                    >
+                      <div className="relative flex h-[102px] w-[71px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100 md:h-[179] md:w-1/4">
+                        <img
+                          alt={item.name}
+                          className="h-full w-full object-cover"
+                          src={
+                            item?.featured_image ||
+                            "https://placehold.co/600x400.png"
+                          }
+                        />
+                      </div>
+                      <div className="relative w-full">
+                        <h3 className="text-heading text-xs font-medium md:text-base">
+                          {item.name}
+                        </h3>
+                        <div className="absolute right-0 top-2">
+                          <input
+                            type="checkbox"
+                            id={`itemCheckbox-${item.id}-${item.variableId}`}
+                            className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-[#49AD91] checked:bg-[#49AD91] focus:outline-none focus:ring-2 focus:ring-[#49AD91]"
                           />
+                          <label
+                            htmlFor={`itemCheckbox-${item.id}-${item.variableId}`}
+                          ></label>
                         </div>
-                        <div className="relative w-full px-2">
-                          <h3 className="text-heading text-xs font-medium md:text-base">
-                            {item.name}
-                          </h3>
-                          <div className="absolute right-0 top-2">
-                            <input
-                              type="checkbox"
-                              id={`itemCheckbox-${item.id}-${item.variableId}`}
-                              className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-gray-400 checked:border-[#49AD91] checked:bg-[#49AD91] focus:outline-none focus:ring-2 focus:ring-[#49AD91]"
-                            />
-                            <label
-                              htmlFor={`itemCheckbox-${item.id}-${item.variableId}`}
-                            ></label>
+                        <p className="color-[#000000] text-[10px] md:text-[12px]">
+                          Size: {item.variableName || "N/A"}
+                        </p>{" "}
+                        <div className="flex">
+                          <p className="my-2.5 text-sm font-semibold text-[#49AD91] md:text-lg">
+                            ₹{item.sale_price}
+                          </p>
+                          <div className="text-body my-2.5 ml-2 w-20 text-[10px] text-[#9e9e9e] line-through md:text-sm">
+                            ₹{item.price}{" "}
                           </div>
-                          <p className="color-[#000000] text-[10px] md:text-[12px]">
-                            Size: {item.variableName || "N/A"}
-                          </p>{" "}
-                          <div className="flex">
-                            <p className="my-2.5 text-sm font-semibold text-[#49AD91] md:text-lg">
-                              ₹{item.sale_price}
-                            </p>
-                            <div className="text-body my-2.5 ml-2 w-20 text-[10px] text-[#9e9e9e] line-through md:text-sm">
-                              ₹{item.price}{" "}
-                            </div>
-                          </div>
-                          <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
-                            <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
-                              {item.discount
-                                ? `${item.discount}% off`
-                                : "No Discount"}
-                            </span>
-                          </div>
-                          <div className="counter-with-trash-icon absolute bottom-0 flex w-full justify-between">
-                            <div className="trash-icon pl-1 pt-2">
-                              <img
-                                src="../../../public/img/trash1.png"
-                                alt=""
-                              />
-                            </div>
-                          </div>
+                        </div>
+                        <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                          <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
+                            {item.discount
+                              ? `${item.discount}% off`
+                              : "No Discount"}
+                          </span>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </section>
+                    </div>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
-        <div className="">
+        <div>
           <div className="bg-[#F0F7F2] py-3">
             <p className="flex items-center justify-center gap-2">
               <span className="icon">
@@ -358,7 +413,7 @@ const PaymentTab = ({ chargess, shippingData }) => {
               </span>
             </p>
           </div>
-          <div className="flex justify-between gap-1 bg-white p-3">
+          <div className="flex justify-between gap-1 bg-white py-3">
             <div className="flex flex-col leading-[18px]">
               <span className="text-sm font-medium md:text-lg">
                 Payment Method

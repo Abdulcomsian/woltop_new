@@ -8,14 +8,28 @@ import {
 } from "../../../components/ui/accordion";
 import { useState } from "react";
 
+const Spinner = () => (
+  <div className="flex justify-center items-center">
+    <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#49AD91] border-t-transparent"></div>
+  </div>
+);
+
 export default function Faqs() {
-  const { data: faqs } = useGetFaqsQuery({});
+  const { data: faqs, isLoading } = useGetFaqsQuery({});
   const [expandedItem, setExpandedItem] = useState(null);
 
   const handleToggle = (id) => {
     setExpandedItem(expandedItem === id ? null : id); // Toggle the expanded state
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+  
   return (
     <main>
       <div className="accordion-wrapper max-w-[1075px] mx-auto">

@@ -28,7 +28,7 @@ import RecentCard from "./shop/RecentCard";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 import { useGetRoomCategoriesQuery } from "~/store/api/roomCatagoriesApi";
 import OurRangesCard from "./shop/OurRangesCard";
-import { useGetHomeVideoQuery } from "~/store/api/homeVideoApi";
+import { useGetHomeBannerQuery } from "~/store/api/homeBannerApi";
 export default function Home() {
   const { data: popularProducts, isLoading: isLoadingPopularProducts } =
     useGetPopularProductsQuery({});
@@ -41,7 +41,7 @@ export default function Home() {
   const { data: categories, isLoading } = useGetCategoriesQuery({});
   const { data: roomCategories, isLoading: isLoadingRoomCategories } =
     useGetRoomCategoriesQuery({});
-  const { data: homeVideo, isLoading: isLoadingHomeVideo } = useGetHomeVideoQuery({});
+  const { data: homeVideo, isLoading: isLoadingHomeVideo } = useGetHomeBannerQuery({});
 
   const colorTabs =
     colors?.data.map((color: any) => ({

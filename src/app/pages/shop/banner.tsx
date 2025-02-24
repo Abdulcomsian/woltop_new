@@ -3,6 +3,7 @@ import banner from "../../../assets/banner/banner.png";
 import homeBannerWings from "../../../../public/homeBannerWings.png";
 import placeholderImage from "../../../../public/aboutbanner.jpg";
 import { useGetHomeBannerQuery } from "~/store/api/homeBannerApi";
+import Link from "next/link";
 
 export default function Banner() {
   const { data: homeBanner, isLoading } = useGetHomeBannerQuery({});
@@ -41,7 +42,7 @@ export default function Banner() {
             <h1 className="lovelace text-[28px] font-normal tracking-[1%] text-white md:text-4xl lg:text-7xl xl:text-7xl">
               {homeBanner?.text || "Luxe Designs"}
             </h1>
-            <a
+            <Link
               href={homeBanner?.button_link || "#"}
               target="_blank"
               rel="noopener noreferrer"
@@ -52,7 +53,7 @@ export default function Banner() {
               >
                 <span className="font-normal tracking-[1%]">Shop Now</span>
               </button>
-            </a>
+            </Link>
           </div>
           <div className="absolute inset-0 z-10">
             <Image
