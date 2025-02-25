@@ -13,12 +13,23 @@ interface CartItem {
   variableId?: number;
 }
 
+interface Coupon {
+  id: number;
+  code: string;
+  is_countable: number;
+  counting: number | null;
+  start_date: string;
+  end_date: string;
+  percentage: string;
+}
+
 // Define the initial state type
 interface CartState {
   items: CartItem[];
   totalQuantity: number;
   totalPrice: number;
-  totalDiscount: 0,
+  totalDiscount: 0;
+  appliedCoupon: Coupon | null;
 }
 
 // Initial state
@@ -27,6 +38,7 @@ const initialState: CartState = {
   totalQuantity: 0,
   totalPrice: 0,
   totalDiscount: 0,
+  appliedCoupon: null,
 };
 
 const calculateTotalPrice = (items: CartItem[]): number =>
@@ -62,7 +74,7 @@ const cartSlice = createSlice({
           item.id === newItem.id && item.variableId === newItem.variableId,
       );
       const itemPrice = newItem.sale_price ?? newItem.price;
-    
+
       if (existingItem) {
         existingItem.quantity++;
         existingItem.totalPrice = itemPrice * existingItem.quantity;
@@ -73,7 +85,7 @@ const cartSlice = createSlice({
           totalPrice: itemPrice,
         });
       }
-    
+
       state.totalQuantity = state.items.reduce(
         (total, item) => total + item.quantity,
         0,
@@ -136,6 +148,29 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
       state.totalPrice = 0;
       state.totalDiscount = 0;
+      state.appliedCoupon = null;
+    },
+
+    applyCoupon(state, action: PayloadAction<Coupon>) {
+      const coupon = action.payload;
+      state.appliedCoupon = coupon;
+
+      if (coupon.percentage) {
+        const discountPercentage = parseFloat(coupon.percentage);
+        const couponDiscount = (state.totalPrice * discountPercentage) / 100;
+        state.totalDiscount += couponDiscount;
+        state.totalPrice -= couponDiscount;
+      }
+    },
+
+    removeCoupon(state) {
+      if (state.appliedCoupon) {
+        const discountPercentage = parseFloat(state.appliedCoupon.percentage);
+        const couponDiscount = (state.totalPrice * discountPercentage) / 100;
+        state.totalDiscount -= couponDiscount;
+        state.totalPrice += couponDiscount;
+        state.appliedCoupon = null;
+      }
     },
   },
 });
@@ -145,5 +180,7 @@ export const {
   removeItemFromCart,
   clearCart,
   updateItemQuantity,
+  applyCoupon,
+  removeCoupon,
 } = cartSlice.actions;
 export default cartSlice.reducer;

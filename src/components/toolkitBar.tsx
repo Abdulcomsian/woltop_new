@@ -1,15 +1,23 @@
 import React from "react";
 import Image from "next/image";
-import background from "../../public/background.png";
-import { useGetToolsQuery } from "~/store/api/toolsApi";
+import ToolkitImg from "../assets/cards/toolkit.png";
+
+// Static data for tools
+const staticTools = [
+  {
+    id: 1,
+    name: "Complete Your Decorating Toolkit",
+    description: "All your DIY essentials More Info",
+    price: 799,
+    image: ToolkitImg,
+  }
+];
 
 export default function ToolkitBar() {
-  const { data: tools } = useGetToolsQuery({});
-
-  // Get a random tool if tools exist
-  const randomTool = tools?.data?.length
-    ? tools.data[Math.floor(Math.random() * tools.data.length)]
-    : null;
+  const randomTool =
+    staticTools.length > 0
+      ? staticTools[Math.floor(Math.random() * staticTools.length)]
+      : null;
 
   return (
     <div className="border-1 mt-5 w-full rounded border-b border-l border-r border-t border-gray-400">
@@ -33,15 +41,17 @@ export default function ToolkitBar() {
               <div className="mb-2 text-xs md:text-sm font-bold text-gray-900">
                 {randomTool.name}
               </div>
-              <p className="text-[10px] md:text-xs text-gray-700">{randomTool.description}</p>
+              <p className="text-[10px] md:text-xs text-gray-700">
+                {randomTool.description}
+              </p>
             </div>
-              <button className="border-{#0B0A0A} text-[13px] md:text-[18px] bg-[#49AD91]-500 hover:bg-[#0B0A0A]-700 flex w-full lg:w-4/5 justify-center rounded border-2 px-6 py-2 font-medium text-[#0B0A0A]">
-                Add - ₹{randomTool.price}
-              </button>
+            <button className="border-{#0B0A0A} text-[13px] md:text-[18px] bg-[#49AD91]-500 hover:bg-[#0B0A0A]-700 flex w-full lg:w-4/5 justify-center rounded border-2 px-6 py-2 font-medium text-[#0B0A0A]">
+              Add - ₹{randomTool.price}
+            </button>
           </div>
         </div>
       ) : (
-        <p className="p-4 text-center text-gray-500">Loading...</p>
+        <p className="p-4 text-center text-gray-500">No tools available.</p>
       )}
     </div>
   );

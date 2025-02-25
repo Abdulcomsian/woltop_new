@@ -75,6 +75,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({
         if (response.ok) {
           setShippingData({
             address_id: result.address_id,
+            user_id: result.user_id,
             name: values.name,
             phone_number: values.phone_number,
             address: values.address,
