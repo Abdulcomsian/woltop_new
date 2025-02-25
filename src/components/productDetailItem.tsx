@@ -12,6 +12,7 @@ import { Autoplay, Pagination, Zoom } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../styles/custom.css";
+import ToolkitBar from "./toolkitBar";
 interface ProductImage {
   id: string;
   image_path: string;
@@ -387,7 +388,7 @@ export default function productDetailItem({
                   className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center gap-2 rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]"
                 >
                   <Heart />
-                  WISHLIST
+                 ADD TO WISHLIST
                 </button>
                 <button
                   onClick={handleAddToCart}
@@ -448,7 +449,7 @@ export default function productDetailItem({
 
               {/* <MoreInformation></MoreInformation> */}
 
-              {/* <ToolkitBar></ToolkitBar> */}
+              <ToolkitBar></ToolkitBar>
 
               {products_features.length !== 0 && (
                 <div className="mt-5 flex w-full justify-center gap-3 overflow-x-auto md:justify-start md:gap-6">

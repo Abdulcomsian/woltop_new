@@ -268,7 +268,7 @@ export default function RecentCard() {
                         </div>
                       ))
                     ) : (
-                      <div className="w-full">
+                      <div className="w-full border-[#00000]-900 product-price-wrapper relative h-[83px] md:h-[101px] rounded-sm border-dashed p-2 md:w-full md:p-4">
                         {/* <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
                           <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
                             {card.data.discount}% off

@@ -15,7 +15,7 @@ import utils from "~/utils";
 import { useRouter } from "next/navigation";
 const PaymentTab = ({ chargess, shippingData }) => {
   const router = useRouter();
-  const { totalPrice, totalDiscount } = useSelector((state: any) => state.cart);
+  const { totalPrice, totalDiscount, appliedCoupon } = useSelector((state: any) => state.cart);
   const cartData = useSelector((state: any) => state.cart);
   const hasItems = cartData?.items?.length > 0;
 
@@ -101,6 +101,7 @@ const PaymentTab = ({ chargess, shippingData }) => {
   
       const orderData = {
         address_id: shippingData?.address_id,
+        user_id: shippingData?.user_id,
         total_mrp: totalPrice,
         cart_discount: totalDiscount,
         shipping_charges: finalShippingCharges,
@@ -108,6 +109,8 @@ const PaymentTab = ({ chargess, shippingData }) => {
         installation_charges: installation_charges,
         total_amount: finalTotalPrice,
         products_orders,
+        is_coupon_applied: !!appliedCoupon,
+        coupon_id: appliedCoupon?.id || null,
       };
   
       const response = await fetch(`${utils.BASE_URL}/place-order`, {

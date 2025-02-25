@@ -19,9 +19,11 @@ import bgrender from "../../../../public/bgrender.png";
 import { Gift } from "~/components/icons/Gift";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  applyCoupon,
   removeItemFromCart,
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
+import CouponModal from "~/components/CouponModal";
 
 interface CartTabProps {
   cartData: any;
@@ -46,6 +48,13 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const finalShippingCharges = isShippingFree ? 0 : shipping_charges;
 
   console.log(cartData, "cartData");
+  const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
+
+  const handleApplyCoupon = (coupon: Coupon) => {
+    dispatch(applyCoupon(coupon));
+    console.log("Applying coupon:", coupon);
+  };
+
 
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
@@ -252,15 +261,15 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                     <div className="gift-wrapper relative mb-3">
                       {/* Background Image */}
                       <Image
-                        className="w-full h-[197px] object-cover"
+                        className="h-[197px] w-full object-cover"
                         src={objectsBg}
                         alt="Flower and sky"
                       />
 
                       {/* Content Overlay */}
-                      <div className="absolute top-1/2 transform -translate-y-1/2 w-full px-[14px] py-6">
+                      <div className="absolute top-1/2 w-full -translate-y-1/2 transform px-[14px] py-6">
                         {/* Main Content Container */}
-                        <div className="flex w-full mb-3 max-w-sm lg:max-w-full">
+                        <div className="mb-3 flex w-full max-w-sm lg:max-w-full">
                           {/* Left Section: Image */}
                           <div
                             className="h-26 w-14 flex-none overflow-hidden rounded-t bg-cover pt-3 text-center md:h-auto lg:h-auto lg:w-14 lg:rounded-l lg:rounded-t-none"
@@ -329,7 +338,10 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
 
                             {/* Coupon Box */}
                             <div className="box-2 flex-grow basis-40 border border-[#F11C544D] bg-white px-2 py-2 text-[12px]">
-                              <div className="text-center text-[9px] text-black md:text-sm">
+                              <div
+                                onClick={() => setIsCouponModalOpen(true)}
+                                className="text-center text-[9px] text-black md:text-sm"
+                              >
                                 Apply coupon or tap to explore more offers
                               </div>
                             </div>
@@ -351,7 +363,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                         </div>
                         <div className="bill-detail mx-3">
                           <div className="border-border-200 flex flex-col border-b p-2 py-3">
-                            <h4 className="text-base text-black font-medium">
+                            <h4 className="text-base font-medium text-black">
                               Bill Details
                             </h4>
                             <div className="mt-2 flex">
@@ -378,7 +390,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                                 Cart Discount
                               </div>
                               <div className="font-medium text-[#000000]">
-                              ₹{totalDiscount}
+                                ₹{totalDiscount}
                               </div>
                             </li>
                             <li className="text-body flex justify-between text-[14px]">
@@ -398,7 +410,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                         </div>
                         <div className="subtotal mx-3 mt-2 pb-3 pl-2 pr-2">
                           <h4 className="flex items-center justify-between font-medium">
-                            <span className="text-base text-[#000000] font-medium">
+                            <span className="text-base font-medium text-[#000000]">
                               Sub Total
                             </span>
                             <span>
@@ -431,6 +443,13 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
             })()}
         </div>
       </div>
+
+      {/* Coupon Modal */}
+      <CouponModal
+        isOpen={isCouponModalOpen}
+        onClose={() => setIsCouponModalOpen(false)}
+        onApplyCoupon={handleApplyCoupon}
+      />
     </>
   );
 };
