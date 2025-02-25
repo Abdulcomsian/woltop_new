@@ -248,3 +248,10 @@ input[type="radio"]:checked + span {
   font-family: "Inter", serif;
 }
 
+.custom-date-input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
