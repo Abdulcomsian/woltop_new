@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { CheckoutArrow } from "~/components/icons/CheckoutArrow";
 import Image from "next/image";
 import coins from "../../../public/icons/coin.svg";
@@ -33,7 +33,7 @@ export default function page() {
   const hasItems = cartData?.items?.length > 0;
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <section className="mb-5 w-full">
         <div className="m-auto bg-white md:w-3/6">
           <div className="flex flex-col items-center border-b-[1px] border-[#DBDBDB] py-5">
@@ -312,6 +312,6 @@ export default function page() {
           </Link>
         </div>
       </section>
-    </>
+    </Suspense>
   );
 }
