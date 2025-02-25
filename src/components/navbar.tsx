@@ -2,31 +2,15 @@
 import { useEffect, useState } from "react";
 import footerLogo from "~/assets/img/footer-logo.svg";
 import { SearchIcon } from "./icons/searchIcon";
-import { FavriouteIcon } from "./icons/favriouteIcon";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Link from "next/link";
-import LoginModal from "../components/LoginModal";
-import ConfirmationModal from "./ConfirmationModal";
-import { logout } from "~/store/slices/userSlice";
-import { toast } from "react-toastify";
 import { usePathname } from "next/navigation";
-import arroDownOutline from "../assets/img/arrow-down-outline.svg";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Thumbs } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
 
 export default function Navbar() {
-  const { isLoggedIn } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartItemsLength = useSelector((state: any) => state.cart.items.length);
   const [isMobileView, setIsMobileView] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const pathname = usePathname();
   const SimpleHeader = pathname === "/cart" || pathname === "/thankYou";
 
@@ -51,21 +35,6 @@ export default function Navbar() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const handleLoginClick = () => {
-    if (isLoggedIn) {
-      setIsConfirmationModalOpen(true);
-    } else {
-      setIsLoginModalOpen(true);
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    dispatch(logout());
-    toast.success("You have been logged out.");
-    setIsConfirmationModalOpen(false);
-  };
 
   return (
     <>
@@ -216,10 +185,7 @@ export default function Navbar() {
 
                 {/* <!-- secondary nav --> */}
                 <div className="flex shrink-0 items-center space-x-2 md:space-x-4 rtl:space-x-reverse">
-                  <Link
-                    href="/search"
-                    //  onClick={toggleSearch}
-                  >
+                  <Link href="/search">
                     <SearchIcon />
                   </Link>
                   <Link href="/wishlist">
@@ -273,7 +239,7 @@ export default function Navbar() {
                       {isMounted ? cartItemsLength : 0}
                     </span>
                   </Link>
-                  <Link className="" href="#" onClick={handleLoginClick}>
+                  <Link className="" href="/menu">
                     <svg
                       width="24"
                       height="24"
@@ -336,15 +302,6 @@ export default function Navbar() {
           </a>
         </div>
       </nav>
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-      />
-      <ConfirmationModal
-        isOpen={isConfirmationModalOpen}
-        onClose={() => setIsConfirmationModalOpen(false)}
-        onConfirm={handleLogout}
-      />
     </>
   );
 }

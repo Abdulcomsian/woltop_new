@@ -3,22 +3,16 @@ import { useState, useEffect } from "react";
 import { Plus, Search, X } from "lucide-react";
 import { useGetAllProductsQuery } from "~/store/api/allProductsApi";
 import { useDispatch } from "react-redux";
-import { addItemToCart } from "~/store/slices/cartSlice"; // Import the addItemToCart action
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+import { addItemToCart } from "~/store/slices/cartSlice";
+import { Card } from "~/components/ui/card";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
 const ITEMS_PER_PAGE = 8;
 
 const Spinner = () => (
-  <div className="flex justify-center items-center">
-    <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#49AD91] border-t-transparent"></div>
+  <div className="flex items-center justify-center">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#49AD91] border-t-transparent"></div>
   </div>
 );
 
@@ -27,7 +21,7 @@ const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (allProducts) {
@@ -75,7 +69,7 @@ const SearchPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         <Spinner />
       </div>
     );
@@ -114,7 +108,7 @@ const SearchPage = () => {
             paginatedProducts.map((product) => (
               <div
                 key={product?.id}
-                className="relative mb-4 cursor-pointer border-b-[1px] transition-all duration-300 ease-in-out border-l-4 border-l-transparent p-2 hover:border-l-[#49AD91] hover:bg-[#f7fcfc]"
+                className="relative mb-4 cursor-pointer border-b-[1px] border-l-4 border-l-transparent p-2 transition-all duration-300 ease-in-out hover:border-l-[#49AD91] hover:bg-[#f7fcfc]"
               >
                 <Link
                   href={`/product/${product.id}`}
@@ -131,11 +125,15 @@ const SearchPage = () => {
                   ></Card>
                   <div>
                     <p className="truncate text-[#505050]">{product.title}</p>
-                    <p className="text-gray-500  line-clamp-2">{product?.short_description}</p>
+                    <p className="line-clamp-2 text-gray-500">
+                      {product?.short_description}
+                    </p>
                     <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
                       ₹{product.sale_price || 0}
                     </span>
-                    <del className="text-gray-500 ml-1 text-xs">₹{product?.price}</del>
+                    <del className="ml-1 text-xs text-gray-500">
+                      ₹{product?.price}
+                    </del>
                   </div>
                 </Link>
 
@@ -145,7 +143,7 @@ const SearchPage = () => {
                     e.stopPropagation();
                     handleAddToCart(product);
                   }}
-                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 absolute bottom-2 right-2 transition-colors duration-300 flex w-auto items-center justify-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white md:text-[18px]"
+                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 absolute bottom-2 right-2 flex w-auto items-center justify-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white transition-colors duration-300 md:text-[18px]"
                 >
                   <Plus className="h-3 w-3 md:h-5 md:w-5" />
                   ADD
