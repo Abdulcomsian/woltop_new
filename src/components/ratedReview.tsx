@@ -109,7 +109,7 @@ export default function RatedReview({ responseData, slug }: RatedReviewProps) {
   };
 
   return (
-    <div className="mb-20 px-5 pt-4 md:px-0">
+    <div className="mb-20">
       <div className="flex justify-between">
         <div>
           <div className="flex items-center gap-2">
@@ -126,7 +126,7 @@ export default function RatedReview({ responseData, slug }: RatedReviewProps) {
         </div>
         <button
           onClick={handleAddReview}
-          className="btn hover:bg-[#49AD91]-700 flex h-12 justify-center rounded bg-[#49AD91] p-3 pl-5 pr-5 align-middle font-medium text-white"
+          className="btn flex h-[32px] md:h-[50px] items-center justify-center rounded bg-[#49AD91] p-[10px] font-medium text-xs md:text-xl md:px-[35px] text-white"
         >
           ADD A REVIEW
         </button>

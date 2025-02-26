@@ -1,4 +1,5 @@
 "use client";
+import { Drawer } from "antd";
 import { Check, Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -21,6 +22,8 @@ export default function RecentCard() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isLoggedIn } = useSelector((state) => state.user);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const cartData = useSelector((state: any) => state?.cart);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -36,28 +39,30 @@ export default function RecentCard() {
           productArray.length > 0 &&
           productArray[0]?.data?.variables?.length > 0
         ) {
-          setSelectedId(productArray[0].data.variables[0].id);
         }
       }
       setIsLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    if (products.length > 0 && products[0]?.data?.variables?.length > 0) {
-      setSelectedId(products[0].data.variables[0].id);
-    }
-  }, [products]);
+  // useEffect(() => {
+  //   if (products.length > 0 && products[0]?.data?.variables?.length > 0) {
+  //     setSelectedId(products[0].data.variables[0].id);
+  //   }
+  // }, [products]);
 
-  const [selectedId, setSelectedId] = useState<number | null>(
-    products?.data?.variables?.[0]?.id ?? null,
-  );
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
   };
 
   const handleAddToCart = (product: any, selectedVariable: any) => {
+    if (product?.data?.variables?.length > 0 && !selectedVariable) {
+      toast.warning("Please select a variant before adding to cart");
+      return;
+    }
+    
     let price, sale_price, discount, variableId, variableName;
 
     if (selectedVariable) {
@@ -90,6 +95,7 @@ export default function RecentCard() {
         variableName: variableName,
       }),
     );
+    setIsDrawerOpen(true);
   };
 
   const handleAddToWishlist = async (productId: number) => {
@@ -155,181 +161,221 @@ export default function RecentCard() {
 
   if (products?.length !== 0) {
     return (
-      <div className="flex w-full flex-col">
-        <div className="mb-[18px] text-center md:mb-[35px]">
-          <h1 className="text-[22px] font-semibold text-[#000000] md:text-[34px]">
-            Recently Viewed
-          </h1>
-          <h3 className="text-xs font-normal text-[#7A7474] md:text-[22px]">
-            Continue where you left off
-          </h3>
-        </div>
-        <div className="w-full">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-4">
-            {products?.map((card: any, index) => (
-              <div key={index} className="flex flex-row gap-3 sm:flex-col">
-                <Link
-                  href={`/product/${card.data.id}`}
-                  className="relative cursor-pointer"
-                >
-                  <Card
-                    style={{
-                      backgroundImage: `url(${card.data.featured_image})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                    className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover sm:w-auto md:h-[305px]"
-                  ></Card>
-                </Link>
-                <CardContent className="w-full" style={{ paddingTop: "0px" }}>
-                  <p className="truncate text-xs font-normal text-[#000000] md:text-base">
-                    {card.data.title}
-                  </p>
-                  <div className="rating-wrapper flex items-center gap-1">
-                    <div className="star-rating" style={{ width: "24px" }}>
-                      <input
-                        type="radio"
-                        id="1-star"
-                        name="rating"
-                        value="1"
-                        disabled
-                        checked={Math.round(card.data.reviews.average) === 1}
-                      />
-                      <label htmlFor="1-star" className="star">
-                        &#9733;
-                      </label>
+      <>
+        <div className="flex w-full flex-col">
+          <div className="mb-[18px] text-center md:mb-[35px]">
+            <h1 className="text-[22px] font-semibold text-[#000000] md:text-[34px]">
+              Recently Viewed
+            </h1>
+            <h3 className="text-xs font-normal text-[#7A7474] md:text-[22px]">
+              Continue where you left off
+            </h3>
+          </div>
+          <div className="w-full">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3 xl:grid-cols-4">
+              {products?.map((card: any, index) => (
+                <div key={index} className="flex flex-row gap-3 sm:flex-col">
+                  <Link
+                    href={`/product/${card.data.id}`}
+                    className="relative cursor-pointer"
+                  >
+                    <Card
+                      style={{
+                        backgroundImage: `url(${card.data.featured_image})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                      className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover sm:w-auto md:h-[305px]"
+                    ></Card>
+                  </Link>
+                  <CardContent className="w-full" style={{ paddingTop: "0px" }}>
+                    <p className="truncate text-xs font-normal text-[#000000] md:text-base">
+                      {card.data.title}
+                    </p>
+                    <div className="rating-wrapper flex items-center gap-1">
+                      <div className="star-rating" style={{ width: "24px" }}>
+                        <input
+                          type="radio"
+                          id="1-star"
+                          name="rating"
+                          value="1"
+                          disabled
+                          checked={Math.round(card.data.reviews.average) === 1}
+                        />
+                        <label htmlFor="1-star" className="star">
+                          &#9733;
+                        </label>
+                      </div>
+                      <div className="mr-4 text-[18px] text-[#49AD91]">
+                        {card.data.reviews.average.toFixed(1)}
+                        <span className="ml-2 text-[#A5A1A1]">
+                          ({card.data.reviews.total_count})
+                        </span>
+                      </div>
                     </div>
-                    <div className="mr-4 text-[18px] text-[#49AD91]">
-                      {card.data.reviews.average.toFixed(1)}
-                      <span className="ml-2 text-[#A5A1A1]">
-                        ({card.data.reviews.total_count})
-                      </span>
-                    </div>
-                  </div>
 
-                  <CardDescription className="mb-4 mt-4 flex items-center justify-between gap-2 md:mt-1">
-                    {card?.data?.variables?.length > 0 ? (
-                      card.data.variables.map((variable) => (
-                        <div
-                          key={`${card.id}-${variable.id}`}
-                          onClick={() => handleCardClick(variable.id)}
-                          className={`border-[#00000]-900 product-price-wrapper relative w-[100px] rounded-sm border-dashed p-2 md:w-full md:p-4 ${
-                            selectedId === variable.id ? "bg-[#49AD911A]" : ""
-                          }`}
-                          style={{
-                            borderColor:
-                              selectedId === variable.id
-                                ? "#49AD91"
-                                : "#D9D9D9",
-                          }}
-                        >
-                          <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
-                            <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
-                              {variable.discount}% off
-                            </span>
-                          </div>
-
-                          <div className="dimension text-[10px]">
-                            {variable.name}
-                          </div>
-
-                          <div className="price-wrapper flex items-center gap-1">
-                            <div className="real-price text-base text-[#49AD91] md:text-lg">
-                              ₹{variable.sale_price}
+                    <CardDescription className="mb-4 mt-4 flex items-center justify-between gap-2 md:mt-1">
+                      {card?.data?.variables?.length > 0 ? (
+                        card.data.variables.map((variable) => (
+                          <div
+                            key={`${card.id}-${variable.id}`}
+                            onClick={() => handleCardClick(variable.id)}
+                            className={`border-[#00000]-900 product-price-wrapper relative w-[100px] cursor-pointer rounded-sm border-dashed px-[11px] py-[6px] md:w-full ${
+                              selectedId === variable.id ? "bg-[#49AD911A]" : ""
+                            }`}
+                            style={{
+                              borderColor:
+                                selectedId === variable.id
+                                  ? "#49AD91"
+                                  : "#D9D9D9",
+                            }}
+                          >
+                            <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                              <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
+                                {variable.discount}% off
+                              </span>
                             </div>
-                            <div className="discount-price text-[10px] text-[#BAB8B8] line-through">
-                              ₹{variable.price}
-                            </div>
-                          </div>
 
-                          <div className="product-size text-[9px]">
-                            ₹{(variable.sale_price / 6).toFixed(2)}/ft²
-                          </div>
-
-                          {selectedId === variable.id && (
-                            <div className="absolute right-1 top-1">
-                              <input
-                                type="checkbox"
-                                id={`checkbox-${card.id}-${variable.id}`}
-                                checked={selectedId === variable.id}
-                                onChange={() => handleCardClick(variable.id)}
-                              />
-                              <Check
-                                color="white"
-                                size={16}
-                                className="rounded-full bg-[#49AD91] p-[2px]"
-                              />
-                              <label
-                                htmlFor={`checkbox-${card.id}-${variable.id}`}
-                              ></label>
+                            <div className="dimension text-[10px]">
+                              {variable.name}
                             </div>
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <div className="w-full border-[#00000]-900 product-price-wrapper relative h-[83px] md:h-[101px] rounded-sm border-dashed p-2 md:w-full md:p-4">
-                        {/* <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+
+                            <div className="price-wrapper flex items-center gap-1">
+                              <div className="real-price text-base text-[#49AD91] md:text-lg">
+                                ₹{variable.sale_price}
+                              </div>
+                              <div className="discount-price text-[10px] text-[#BAB8B8] line-through">
+                                ₹{variable.price}
+                              </div>
+                            </div>
+
+                            <div className="product-size text-[9px]">
+                              ₹{(variable.sale_price / 6).toFixed(2)}/ft²
+                            </div>
+
+                            {selectedId === variable.id && (
+                              <div className="absolute right-1 top-1">
+                                <input
+                                  type="checkbox"
+                                  id={`checkbox-${card.id}-${variable.id}`}
+                                  checked={selectedId === variable.id}
+                                  onChange={() => handleCardClick(variable.id)}
+                                />
+                                <Check
+                                  color="white"
+                                  size={16}
+                                  className="rounded-full bg-[#49AD91] p-[2px]"
+                                />
+                                <label
+                                  htmlFor={`checkbox-${card.id}-${variable.id}`}
+                                ></label>
+                              </div>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="border-[#00000]-900 product-price-wrapper relative h-[83px] w-full rounded-sm border-dashed px-[11px] py-[6px] md:h-[101px] md:w-full">
+                          {/* <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
                           <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
                             {card.data.discount}% off
                           </span>
                         </div> */}
 
-                        <div className="price-wrapper flex items-center gap-1">
-                          <div className="real-price text-base text-[#49AD91] md:text-lg">
-                            ₹{card.data.sale_price}
+                          <div className="price-wrapper flex items-center gap-1">
+                            <div className="real-price text-base text-[#49AD91] md:text-lg">
+                              ₹{card.data.sale_price}
+                            </div>
+                            <div className="discount-price text-[10px] text-[#BAB8B8] line-through">
+                              ₹{card.data.price}
+                            </div>
                           </div>
-                          <div className="discount-price text-[10px] text-[#BAB8B8] line-through">
-                            ₹{card.data.price}
-                          </div>
-                        </div>
-                        {/* 
+                          {/* 
                         <div className="product-size text-[9px]">
                           ₹{(card.data.sale_price / 6).toFixed(2)}/ft²
                         </div> */}
-                      </div>
-                    )}
-                  </CardDescription>
-                  <div className="mt-2 flex items-center gap-3">
-                    <div
-                      onClick={() => handleAddToWishlist(card.data.id)}
-                      className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-1.5"
-                    >
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                        </div>
+                      )}
+                    </CardDescription>
+                    <div className="mt-2 flex items-center gap-3">
+                      <div
+                        onClick={() => handleAddToWishlist(card.data.id)}
+                        className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-1.5"
                       >
-                        <path
-                          d="M17.3651 3.84172C16.9395 3.41589 16.4342 3.0781 15.8779 2.84763C15.3217 2.61716 14.7255 2.49854 14.1235 2.49854C13.5214 2.49854 12.9252 2.61716 12.369 2.84763C11.8128 3.0781 11.3074 3.41589 10.8818 3.84172L9.99847 4.72506L9.11514 3.84172C8.25539 2.98198 7.08933 2.49898 5.87347 2.49898C4.65761 2.49898 3.49155 2.98198 2.6318 3.84172C1.77206 4.70147 1.28906 5.86753 1.28906 7.08339C1.28906 8.29925 1.77206 9.46531 2.6318 10.3251L3.51514 11.2084L9.99847 17.6917L16.4818 11.2084L17.3651 10.3251C17.791 9.89943 18.1288 9.39407 18.3592 8.83785C18.5897 8.28164 18.7083 7.68546 18.7083 7.08339C18.7083 6.48132 18.5897 5.88514 18.3592 5.32893C18.1288 4.77271 17.791 4.26735 17.3651 3.84172Z"
-                          stroke="#A5A1A1"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M17.3651 3.84172C16.9395 3.41589 16.4342 3.0781 15.8779 2.84763C15.3217 2.61716 14.7255 2.49854 14.1235 2.49854C13.5214 2.49854 12.9252 2.61716 12.369 2.84763C11.8128 3.0781 11.3074 3.41589 10.8818 3.84172L9.99847 4.72506L9.11514 3.84172C8.25539 2.98198 7.08933 2.49898 5.87347 2.49898C4.65761 2.49898 3.49155 2.98198 2.6318 3.84172C1.77206 4.70147 1.28906 5.86753 1.28906 7.08339C1.28906 8.29925 1.77206 9.46531 2.6318 10.3251L3.51514 11.2084L9.99847 17.6917L16.4818 11.2084L17.3651 10.3251C17.791 9.89943 18.1288 9.39407 18.3592 8.83785C18.5897 8.28164 18.7083 7.68546 18.7083 7.08339C18.7083 6.48132 18.5897 5.88514 18.3592 5.32893C18.1288 4.77271 17.791 4.26735 17.3651 3.84172Z"
+                            stroke="#A5A1A1"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const selectedVariable = card.data.variables.find(
+                            (v: any) => v.id === selectedId,
+                          );
+                          handleAddToCart(card, selectedVariable);
+                        }}
+                        className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center gap-1 rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
+                      >
+                        <Plus className="h-3 w-3 md:h-5 md:w-5" />
+                        ADD
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        const selectedVariable = card.data.variables.find(
-                          (v: any) => v.id === selectedId,
-                        );
-                        handleAddToCart(card, selectedVariable);
-                      }}
-                      className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center gap-1 rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
-                    >
-                      <Plus className="h-3 w-3 md:h-5 md:w-5" />
-                      ADD
-                    </button>
-                  </div>
-                </CardContent>
-              </div>
-            ))}
+                  </CardContent>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+
+        <Drawer
+          title="Item Added to Cart"
+          placement="bottom"
+          onClose={() => setIsDrawerOpen(false)}
+          open={isDrawerOpen}
+          height={180}
+        >
+          <div className="mx-auto flex w-fit items-center justify-center gap-10">
+            {cartData?.items?.map((item: any, index: number) => (
+              <div
+                key={item.id || `item-${index}`}
+                className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
+                style={{ opacity: "1" }}
+              >
+                <Link
+                  href={`/product/${item?.id}`}
+                  className="relative flex h-[60px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+                >
+                  <img
+                    alt={item.name}
+                    className="h-full w-full object-cover"
+                    src={
+                      item?.featured_image || "https://placehold.co/600x400.png"
+                    }
+                  />
+                </Link>
+              </div>
+            ))}
+            <Link
+              href="/cart"
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex min-w-36 justify-center rounded bg-[#49AD91] px-6 py-2 font-medium uppercase text-white"
+            >
+              Go to Cart
+            </Link>
+          </div>
+        </Drawer>
+      </>
     );
   }
 }

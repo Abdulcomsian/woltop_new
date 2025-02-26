@@ -206,45 +206,45 @@ export default function footer() {
               Quick Links
             </h3>
             <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
-              <a href="/" className="hover:text-gray-900">
+              <Link href="/" className="hover:text-gray-900">
                 Home
-              </a>
+              </Link>
               <span className="text-[#000000]">|</span>
-              <a href="about" className="hover:text-gray-900">
+              <Link href="/about" className="hover:text-gray-900">
                 About
-              </a>
-              <span className="text-[#000000]">|</span>
+              </Link>
+              {/* <span className="text-[#000000]">|</span>
               <a href="#" className="hover:text-gray-900">
                 Tools
-              </a>
+              </a> */}
               <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
+              <Link href="/careers" className="hover:text-gray-900">
                 Careers
-              </a>
+              </Link>
               <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
+              <Link href="/contact" className="hover:text-gray-900">
                 Contact
-              </a>
+              </Link>
               <span className="text-[#000000]">|</span>
-              <a href="faq" className="hover:text-gray-900">
+              <Link href="/faq" className="hover:text-gray-900">
                 FAQs
-              </a>
+              </Link>
               <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
+              <Link href="#" className="hover:text-gray-900">
                 Legal
-              </a>
+              </Link>
               <span className="text-[#000000]">|</span>
-              <a href="#" className="hover:text-gray-900">
+              <Link href="#" className="hover:text-gray-900">
                 Order Tracking
-              </a>
+              </Link>
               <span className="text-[#000000]">|</span>
-              <a href="/account" className="hover:text-gray-900">
+              <Link href="/account" className="hover:text-gray-900">
                 Account
-              </a>
+              </Link>
               <span className="text-[#000000]">|</span>
-              <a href="/blogs" className="hover:text-gray-900">
+              <Link href="/blogs" className="hover:text-gray-900">
                 Blogs
-              </a>
+              </Link>
             </div>
           </div>
           <div className="hidden lg:block lg:w-1/4">

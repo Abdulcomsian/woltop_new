@@ -33,12 +33,13 @@ const TabsComponent: FC<TabsComponentProps> = ({ tabs, content, flag }) => {
           onValueChange={setSelectedTab}
           className="-mt-9 border-solid"
         >
-          <TabsList className="bg-transparent w-full md:w-auto scrollbar-hide overflow-x-scroll md:overflow-hidden">
+          <div className="w-full md:w-auto scrollbar-hide overflow-x-scroll">
+          <TabsList className="bg-transparent">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className={`font-poppins mr-2 w-full rounded-t-md md:px-[39px] py-2 text-sm md:text-[18px] font-medium leading-5 transition-all duration-300 ${
+                className={`mr-2 min-w-[101px] md:min-w-[155px] rounded-t-md py-2 text-sm md:text-[18px] font-medium leading-5 transition-all duration-300 ${
                   selectedTab === tab.value
                     ? "bg-green-300 text-green-500"
                     : "bg-[#F9F9F9] text-[#908B8B]"
@@ -48,6 +49,7 @@ const TabsComponent: FC<TabsComponentProps> = ({ tabs, content, flag }) => {
               </TabsTrigger>
             ))}
           </TabsList>
+          </div>
           {content.map((item) => (
             <TabsContent
               key={item.value}

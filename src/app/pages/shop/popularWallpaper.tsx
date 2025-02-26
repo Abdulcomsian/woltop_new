@@ -1,13 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
 import { ProductCard } from "~/components/products/productCard";
 import Link from "next/link";
-
 interface Product {
   id: number;
   title: string;
@@ -16,14 +8,12 @@ interface Product {
   sale_price: string;
   discount: string;
 }
-
 interface ProductResponse {
   data: Product[];
 }
-
 interface PopularWallpaperProps {
   products: ProductResponse;
-  isLoading: boolean; // Added isLoading prop to handle loading state
+  isLoading: boolean;
 }
 
 export default function PopularWallpaper({ products, isLoading }: PopularWallpaperProps) {
@@ -47,7 +37,7 @@ export default function PopularWallpaper({ products, isLoading }: PopularWallpap
         </h3>
         <div className="w-full">
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
-            {Array(4) // Adjust the number based on the expected grid items
+            {Array(4) 
               .fill(null)
               .map((_, index) => (
                 <div key={index} className="animate-pulse">

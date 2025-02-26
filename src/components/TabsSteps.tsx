@@ -33,7 +33,7 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
 
   return (
     <div className="bg-[#F1FBFF] py-5 md:py-7">
-      <div className="mx-auto max-w-[1075px] px-3 lg:px-7 xl:px-10">
+      <div className="mx-auto max-w-[1075px] px-3">
         <Steps
           current={currentStep}
           onChange={(stepIndex) => {

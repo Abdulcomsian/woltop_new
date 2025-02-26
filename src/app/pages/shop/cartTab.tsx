@@ -24,6 +24,7 @@ import {
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
 import CouponModal from "~/components/CouponModal";
+import Link from "next/link";
 
 interface CartTabProps {
   cartData: any;
@@ -54,7 +55,6 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     dispatch(applyCoupon(coupon));
     console.log("Applying coupon:", coupon);
   };
-
 
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
@@ -105,7 +105,10 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                         className="border-border-200 mb-5 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
                         style={{ opacity: "1" }}
                       >
-                        <div className="relative flex h-[173px] w-[123px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100">
+                        <Link
+                          href={`/product/${item?.id}`}
+                          className="relative flex h-[173px] w-[123px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100"
+                        >
                           <img
                             alt={item.name}
                             className="h-full w-full object-cover"
@@ -114,11 +117,14 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                               "https://placehold.co/600x400.png"
                             }
                           />
-                        </div>
+                        </Link>
                         <div className="relative w-full">
-                          <h3 className="text-heading text-xs font-medium text-black md:text-base">
+                          <Link
+                            href={`/product/${item?.id}`}
+                            className="text-heading text-xs font-medium text-black md:text-base"
+                          >
                             {item.name}
-                          </h3>
+                          </Link>
                           <p className="text-[10px] text-[#000000] md:text-[12px]">
                             Size: {item.variableName || "N/A"}
                           </p>{" "}
@@ -351,28 +357,31 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                     </div>
                     <div className="w-full">
                       <div className="rounded border">
-                        <div className="header bg-[#F0F7F2] p-2">
-                          <p className="flex items-center gap-2">
-                            <span className="icon">
-                              <Yay />
-                            </span>
-                            <span className="text-[12px] text-[#749362]">
-                              Yay! You have saved ₹799 on this order
-                            </span>
-                          </p>
-                        </div>
+                        {totalDiscount > 0 && (
+                          <div className="header bg-[#F0F7F2] p-2">
+                            <p className="flex items-center gap-2">
+                              <span className="icon">
+                                <Yay />
+                              </span>
+                              <span className="text-[12px] text-[#749362]">
+                                Yay! You have saved ₹{totalDiscount} on this
+                                order
+                              </span>
+                            </p>
+                          </div>
+                        )}
                         <div className="bill-detail mx-3">
                           <div className="border-border-200 flex flex-col border-b p-2 py-3">
                             <h4 className="text-base font-medium text-black">
                               Bill Details
                             </h4>
-                            <div className="mt-2 flex">
+                            {/* <div className="mt-2 flex">
                               <Image src={coins} className="w-4" alt="icon" />
                               <p className="ml-2 text-xs text-[#7A7474]">
                                 Total Wol Cash{" "}
                                 <span className="font-semibold">₹0</span>
                               </p>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                         <div className="border-border-200 mx-3 border-b p-2 py-3">

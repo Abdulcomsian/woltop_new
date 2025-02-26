@@ -36,7 +36,7 @@ const SectionBlock: React.FC<SectionProps> = ({
     >
       {title && (
         <div
-          className={`mb-[26px] md:mb-[43px] flex justify-start flex-col gap-2 ${position === 'center' ? 'items-center' : 'items-start'
+          className={`mb-[20px] md:mb-[30px] flex justify-start flex-col gap-1 ${position === 'center' ? 'items-center' : 'items-start'
             }`}
         >
           {title && (

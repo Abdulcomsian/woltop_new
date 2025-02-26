@@ -97,19 +97,19 @@ export default function Page() {
         <SectionBlock
           title=""
           subtitle=""
-          className="mx-auto max-w-[1075px] px-3 pt-4"
+          className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-[70px]"
           position="left"
         >
           <ProductDescription responseData={product}></ProductDescription>
         </SectionBlock>
       </div>
 
-      <div className="bg-[#FFF3F6] pt-5">
+      <div className="bg-[#FFF3F6]">
         {product?.data?.design_application_details?.length !== 0 && (
           <SectionBlock
             title="4 Steps Easy Installation"
             subtitle=""
-            className="mx-auto max-w-[1075px] px-3 pt-[13px] md:pt-[33px]"
+            className="mx-auto max-w-[1075px] px-3 pt-[32px] md:pt-[69px]"
             position="center"
           >
             <EasySteps responseData={product}></EasySteps>
@@ -154,7 +154,7 @@ export default function Page() {
         <SectionBlock
           title=""
           subtitle=""
-          className="mx-auto max-w-[1075px] px-2 pt-10 md:pt-[70px]"
+          className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-[70px]"
           position="left"
         >
           <RatedReview responseData={product}  slug={slug} ></RatedReview>
