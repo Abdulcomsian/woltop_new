@@ -91,7 +91,7 @@ const CouponModal: React.FC<CouponModalProps> = ({ isOpen, onClose, onApplyCoupo
                 Cancel
               </button>
               <button
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className="bg-[#49AD91] text-white px-4 py-2 rounded"
                 onClick={handleApplyCoupon}
                 disabled={!selectedCoupon}
               >

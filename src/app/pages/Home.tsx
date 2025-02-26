@@ -1,16 +1,7 @@
 "use client";
 import Banner from "./shop/banner";
 import PopularWallpaper from "./shop/popularWallpaper";
-import product1 from "../../assets/product/Woltop2222.png";
-import product2 from "../../assets/product/Woltop333333.png";
-import product3 from "../../assets/product/Woltop44444.png";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+import { Card, CardContent, CardFooter } from "~/components/ui/card";
 import Reeling from "./shop/reeling";
 import DetailCard from "./shop/detailCard";
 import TagsProductCard from "./shop/tagsProduct";
@@ -33,15 +24,12 @@ export default function Home() {
   const { data: popularProducts, isLoading: isLoadingPopularProducts } =
     useGetPopularProductsQuery({});
   const { data: colors, isLoading: isLoadingColors } = useGetColorsQuery({});
-  const {
-    data: tags,
-    isLoading: isLoadingTags,
-    // errorColors,
-  } = useGetTagsQuery({});
+  const { data: tags, isLoading: isLoadingTags } = useGetTagsQuery({});
   const { data: categories, isLoading } = useGetCategoriesQuery({});
   const { data: roomCategories, isLoading: isLoadingRoomCategories } =
     useGetRoomCategoriesQuery({});
-  const { data: homeVideo, isLoading: isLoadingHomeVideo } = useGetHomeBannerQuery({});
+  const { data: homeVideo, isLoading: isLoadingHomeVideo } =
+    useGetHomeBannerQuery({});
 
   const colorTabs =
     colors?.data.map((color: any) => ({
@@ -58,7 +46,6 @@ export default function Home() {
     tags?.data.map((tags: any) => ({
       value: tags.id,
       label: tags.name,
-      // Including the ID for further use if needed
     })) || [];
 
   const productContent = productTabs.map((tab: any) => ({
@@ -66,24 +53,9 @@ export default function Home() {
     component: <TagsProductCard tagId={tab.value} />,
   }));
 
-  const BrowseCardData = [
-    {
-      id: 1,
-      img: product1,
-    },
-    {
-      id: 2,
-      img: product2,
-    },
-    {
-      id: 3,
-      img: product3,
-    },
-  ];
-
   return (
     <>
-      <div className="mx-auto my-[22px] max-w-[1075px] px-3 md:my-[41px]">
+      <div className="mx-auto mt-[22px] mb-[36px] max-w-[1075px] px-3 md:mt-[41px] mb:mt-[46px]">
         <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
       </div>
       <SectionBlock className="mx-auto max-w-[1075px] px-3" position="center">
@@ -129,7 +101,10 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
-        <VideoSection responseData={homeVideo} isLoading={isLoading} ></VideoSection>
+        <VideoSection
+          responseData={homeVideo}
+          isLoading={isLoading}
+        ></VideoSection>
       </SectionBlock>
       <div className="mb-10 bg-[#F1FBFF] pt-10 md:mb-[70px] md:pt-[70px]">
         <SectionBlock
@@ -237,7 +212,10 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-2 gap-5 pt-[58px] md:grid-cols-3 xl:grid-cols-4">
                 {Array.from({ length: 4 }).map((_, index) => (
-                  <Card key={index} className="custom-card-class relative z-0 h-52 w-auto animate-pulse items-center justify-center bg-gray-200 md:h-80">
+                  <Card
+                    key={index}
+                    className="custom-card-class relative z-0 h-52 w-auto animate-pulse items-center justify-center bg-gray-200 md:h-80"
+                  >
                     <CardContent>
                       <div className="mb-2 h-4 w-3/4 rounded-md bg-gray-300"></div>
                       <div className="h-4 w-1/2 rounded-md bg-gray-300"></div>

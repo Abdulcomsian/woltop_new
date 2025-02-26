@@ -44,14 +44,14 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
   return (
     <>
       <div className="flex justify-center text-center">
-        <p className="hover:bg-[#0B0A0A]-700 mb-[40px] flex justify-center rounded-[8px] bg-[#AA4A00] px-5 py-2 text-base font-semibold text-white md:py-4 md:text-[22px]">
+        <p className="mb-[35px] md:mb-[45px] flex justify-center rounded-[8px] bg-[#AA4A00] px-5 py-2 text-base font-semibold text-white md:py-4 md:text-[22px]">
           How To Install
         </p>
       </div>
 
       {/* Installation Steps Section */}
       {responseData?.data?.installation_steps?.length > 0 && (
-        <div className="scrollbar-hide grid auto-cols-[minmax(146px,1fr)] grid-flow-col gap-4 overflow-x-auto md:auto-cols-[minmax(246px,1fr)] lg:grid-cols-4">
+        <div className="scrollbar-hide grid auto-cols-[minmax(146px,1fr)] grid-flow-col gap-4 overflow-x-auto md:auto-cols-[minmax(246px,1fr)] lg:grid-cols-4 mb-[35px]">
           {responseData.data.installation_steps.map((step) => (
             <div key={step.id} className="max-w-[146px] md:max-w-[246px]">
               <div className="relative">
@@ -64,7 +64,7 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
                   />
                 </div>
 
-                <div className="relative p-4">
+                <div className="relative mt-[22px]">
                   <div className="mb-2 text-center">
                     <h6 className="hover:text-[#AA4A00]-900 text-[17px] font-semibold text-[#AA4A00] hover:underline hover:underline-offset-4 md:text-2xl">
                       {step.name}
@@ -95,7 +95,7 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
           {responseData?.data?.dos_dont?.length > 0 && (
             <div className="w-full md:w-1/2">
               <div className="mx-auto w-full rounded-md border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
-                <h6 className="border-b-[0.8px] border-[#D9D9D9] p-2 text-xl font-bold text-[#AA4A00] md:text-2xl">
+                <h6 className="border-b-[0.8px] pb-[15px] border-[#D9D9D9] text-xl font-semibold text-[#AA4A00] md:text-2xl">
                   Other Dos & Don’ts
                 </h6>
 
@@ -117,7 +117,7 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
           {responseData?.data?.design_application_details?.length > 0 && (
             <div className="m-0 w-full md:w-1/2">
               <div className="mx-auto w-full rounded-md border-[0.7px] border-dashed border-[#4E4949] bg-white p-4">
-                <h6 className="border-b-[0.8px] border-[#D9D9D9] p-2 text-xl font-bold text-[#AA4A00] md:text-2xl">
+                <h6 className="border-b-[0.8px] border-[#D9D9D9] pb-[15px] text-xl font-semibold text-[#AA4A00] md:text-2xl">
                   Design & Application Details
                 </h6>
 

@@ -17,6 +17,10 @@ const ShippingTab: React.FC<ShippingTabProps> = ({
   const { data: delivery_preferences } = useGetDeliveryPreferenceQuery({});
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       name: "",

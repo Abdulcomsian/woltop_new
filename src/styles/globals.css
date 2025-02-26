@@ -152,6 +152,14 @@
   cursor: pointer;
 }
 
+[type="checkbox"]:not(:checked) + label:before {
+  background-color: #ccc !important;
+}
+
+[type="checkbox"]:checked + label:before {
+  background-color: #49ad91;
+}
+
 [type="checkbox"]:not(:checked) + label:before,
 [type="checkbox"]:checked + label:before {
   content: "";

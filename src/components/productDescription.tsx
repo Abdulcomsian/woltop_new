@@ -52,7 +52,7 @@ export default function ProductDescription({
       },
     });
   
-    return <ul className="mb-4 w-full max-w-[90%] p-4">{modifiedDescription}</ul>;
+    return <ul className="mb-2 w-full max-w-[90%] p-4">{modifiedDescription}</ul>;
   };
 
   return (

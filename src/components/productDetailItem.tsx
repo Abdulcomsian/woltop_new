@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import Calculator from "./calculator";
-import { Check, Heart } from "lucide-react";
+import { Check, Heart, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import utils from "~/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,6 +13,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "../styles/custom.css";
 import ToolkitBar from "./toolkitBar";
+import { Drawer } from "antd";
+import Link from "next/link";
 interface ProductImage {
   id: string;
   image_path: string;
@@ -95,13 +97,16 @@ export default function productDetailItem({
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
   const { isLoggedIn } = useSelector((state) => state.user);
+  const cartData = useSelector((state: any) => state?.cart);
+  const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
   };
   const handleThumbnailClick = (index) => {
     setActiveIndex(index);
-    swiperRef.current?.slideTo(index); // Move Swiper to selected image
+    swiperRef.current?.slideTo(index);
   };
 
   const handleAddToWishlist = async (productId: number) => {
@@ -109,6 +114,8 @@ export default function productDetailItem({
       toast.warning("You need to login first add to wishlist");
       return;
     }
+
+    setIsAddingToWishlist(true);
 
     try {
       const token = localStorage.getItem("token");
@@ -131,15 +138,15 @@ export default function productDetailItem({
       }
     } catch (error) {
       console.error("Error adding to wishlist:", error);
+    } finally {
+      setIsAddingToWishlist(false);
     }
   };
 
   const handleAddToCart = () => {
-    console.log("response data", responseData);
-
     if (responseData?.data) {
       let price, sale_price, discount;
-      let selectedVariable = null; // Define selectedVariable in the outer scope
+      let selectedVariable = null;
 
       if (selectedId !== null) {
         selectedVariable = responseData.data.variables.find(
@@ -147,14 +154,12 @@ export default function productDetailItem({
         );
 
         if (selectedVariable) {
-          // Use prices from the selected variable
           price = Number(selectedVariable.price);
           sale_price = selectedVariable.sale_price
             ? Number(selectedVariable.sale_price)
             : price;
           discount = Number(selectedVariable.discount);
         } else {
-          // Use default prices if variable is not found
           price = Number(responseData.data.price);
           sale_price = responseData.data.sale_price
             ? Number(responseData.data.sale_price)
@@ -162,7 +167,6 @@ export default function productDetailItem({
           discount = Number(responseData.data.discount);
         }
       } else {
-        // Use default prices if no variable is selected
         price = Number(responseData.data.price);
         sale_price = responseData.data.sale_price
           ? Number(responseData.data.sale_price)
@@ -179,9 +183,10 @@ export default function productDetailItem({
           discount: discount,
           featured_image: responseData.data.featured_image,
           variableId: selectedId ?? 0,
-          variableName: selectedVariable ? selectedVariable.name : "Default", // Safely access selectedVariable
+          variableName: selectedVariable ? selectedVariable.name : "Default",
         }),
       );
+      setIsDrawerOpen(true);
     } else {
       console.error("Response data missing");
     }
@@ -321,7 +326,7 @@ export default function productDetailItem({
                   <div
                     key={variable.id}
                     onClick={() => handleCardClick(variable.id)}
-                    className={`product-price-wrapper relative w-full cursor-pointer rounded-sm border-dashed p-4 ${
+                    className={`product-price-wrapper relative w-full cursor-pointer rounded-sm border-dashed px-[14px] py-[9px] ${
                       selectedId === variable.id ? "bg-[#49AD911A]" : ""
                     }`}
                     style={{
@@ -337,7 +342,9 @@ export default function productDetailItem({
                     </div>
 
                     {/* Product Dimensions */}
-                    <div className="dimension mt-1 text-black text-sm">{variable.title}</div>
+                    <div className="dimension mt-1 text-sm text-black">
+                      {variable.title}
+                    </div>
 
                     {/* Pricing Details */}
                     <div className="price-wrapper flex">
@@ -350,7 +357,10 @@ export default function productDetailItem({
                     </div>
 
                     {/* Price Per Unit */}
-                    <div className="product-size text-[#7A7474] text-xs md:text-sm" style={{fontFamily: "Rubik"}}>
+                    <div
+                      className="product-size text-xs text-[#7A7474] md:text-sm"
+                      style={{ fontFamily: "Rubik" }}
+                    >
                       ₹{(variable.sale_price / 6).toFixed(2)}/ft²
                     </div>
 
@@ -362,7 +372,11 @@ export default function productDetailItem({
                           id={`checkbox-${variable.id}`}
                           defaultChecked
                         />
-                        <Check color="white" size={16} className="bg-[#49AD91] rounded-full p-[2px]" />
+                        <Check
+                          color="white"
+                          size={16}
+                          className="rounded-full bg-[#49AD91] p-[2px]"
+                        />
                         <label htmlFor={`checkbox-${variable.id}`}></label>
                       </div>
                     )}
@@ -385,10 +399,17 @@ export default function productDetailItem({
               <div className="shipping-btn mt-[14px] flex justify-start gap-3 md:gap-4">
                 <button
                   onClick={() => handleAddToWishlist(id)}
+                  disabled={isAddingToWishlist}
                   className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center gap-2 rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]"
                 >
-                  <Heart />
-                 ADD TO WISHLIST
+                  {isAddingToWishlist ? (
+                    <Loader2 className="animate-spin" />
+                  ) : (
+                    <>
+                      <Heart />
+                      ADD TO WISHLIST
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={handleAddToCart}
@@ -460,7 +481,7 @@ export default function productDetailItem({
                         className="relative h-[68px] w-[62px] rounded-full md:h-[99px] md:w-[91px]"
                       >
                         <Image
-                          className="w-full h-full"
+                          className="h-full w-full"
                           src={feature.image}
                           alt={feature.name}
                           width={100}
@@ -475,6 +496,44 @@ export default function productDetailItem({
           </div>
         </div>
       </div>
+
+      <Drawer
+        title="Item Added to Cart"
+        placement="bottom"
+        onClose={() => setIsDrawerOpen(false)}
+        open={isDrawerOpen}
+        height={180}
+      >
+        <div className="flex w-fit mx-auto items-center justify-center gap-10">
+          {cartData?.items?.map((item: any, index: number) => (
+            <div
+              key={item.id || `item-${index}`}
+              className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
+              style={{ opacity: "1" }}
+            >
+              <Link
+                href={`/product/${item?.id}`}
+                className="relative flex h-[60px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+              >
+                <img
+                  alt={item.name}
+                  className="h-full w-full object-cover"
+                  src={
+                    item?.featured_image || "https://placehold.co/600x400.png"
+                  }
+                />
+              </Link>
+            </div>
+          ))}
+          <Link
+            href="/cart"
+            onClick={() => setIsDrawerOpen(false)}
+            className="rounded min-w-36 bg-[#49AD91] px-6 py-2 flex justify-center font-medium uppercase text-white"
+          >
+            Go to Cart
+          </Link>
+        </div>
+      </Drawer>
     </>
   );
 }

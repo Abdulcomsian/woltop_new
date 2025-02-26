@@ -15,6 +15,7 @@ interface ProductCardProps {
   discountPrice?: string;
   discount?: string;
   content?: string;
+  range?: string;
 }
 
 export function ProductCard({
@@ -59,11 +60,8 @@ export function ProductCard({
         {/* <div className="text-light absolute left-2 top-2 rounded bg-accent bg-emerald-600 px-1.5 text-xs font-semibold leading-6 text-white sm:px-2 md:top-2 md:px-2.5 ltr:left-3 ltr:md:left-4 rtl:right-2 rtl:md:right-2">
           {discount || 0}
         </div> */}
-        <CardHeader></CardHeader>
       </Card>
-      <CardContent>
-        <p className="truncate text-[#505050]">{content}</p>
-      </CardContent>
+      <p className="truncate text-[#505050] mt-[11px]">{content}</p>
       <CardFooter>
         <CardDescription>
           {discountPrice !== null ? (

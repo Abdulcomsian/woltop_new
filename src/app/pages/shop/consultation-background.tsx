@@ -9,7 +9,7 @@ const ConsultationSection = () => {
 
   return (
     <div
-      className="relative mt-8 flex h-[598px] md:h-[481px] justify-end rounded-lg bg-cover md:bg-center p-8 bg-no-repeat"
+      className="relative mt-8 flex h-[598px] md:h-[481px] justify-end md:rounded-lg bg-cover md:bg-center p-8 bg-no-repeat"
       style={{ backgroundImage: `url(${logoSrc.src})` }}
     >
       <img
