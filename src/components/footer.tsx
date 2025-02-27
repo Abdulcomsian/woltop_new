@@ -8,6 +8,7 @@ import { VisaIcon } from "~/assets/iconsComp/visa";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 import Link from "next/link";
 import { useGetContactInfoQuery } from "~/store/api/contactInfoApi";
+import { useGetAboutQuery } from "~/store/api/aboutApi";
 // export const icon: any = {
 //     paypal: <PayPalIcon />,
 //   };
@@ -15,6 +16,8 @@ import { useGetContactInfoQuery } from "~/store/api/contactInfoApi";
 export default function footer() {
   const { data: categories } = useGetCategoriesQuery({});
   const { data: contactInfoResponse } = useGetContactInfoQuery({});
+  const { data: aboutDescription } = useGetAboutQuery({});
+
   const contactInfo = contactInfoResponse?.data;
 
   const year = new Date().getFullYear();
@@ -193,10 +196,8 @@ export default function footer() {
             About Us
           </p>
           <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[28.8px]">
-            Lorem ipsum dolor sit amet consectetur. Turpis viverra diam
-            hendrerit risus enim diam aenean. Gravida nisl ullamcorper viverra
-            vel. Fames accumsan ullamcorper at ante sed faucibus platea
-            consequat.
+            {aboutDescription?.data?.description ||
+              "Welcome to Wolpin, your premier destination for exquisite wallpapers and decorative designs. At Wolpin, we believe that every space tells a story, and our mission is to help you create environments that reflect your unique style and personality."}
           </p>
         </div>
 

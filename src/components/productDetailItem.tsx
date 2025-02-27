@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
@@ -109,6 +109,20 @@ export default function productDetailItem({
     swiperRef.current?.slideTo(index);
   };
 
+  const [itemsToShow, setItemsToShow] = useState(2);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsToShow(window.innerWidth >= 768 ? 5 : 2);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const lastItemPrice =
+    cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
+
   const handleAddToWishlist = async (productId: number) => {
     if (!isLoggedIn) {
       toast.warning("You need to login first add to wishlist");
@@ -172,6 +186,17 @@ export default function productDetailItem({
           ? Number(responseData.data.sale_price)
           : price;
         discount = Number(responseData.data.discount);
+      }
+
+      const existingItem = cartData.items.find(
+        (item) => item.id === responseData.data.id && item.variableId === selectedId,
+      );
+  
+    console.log(existingItem, "extistj")
+
+      if (existingItem) {
+        toast.info("Product is already in the cart");
+        return;
       }
 
       dispatch(
@@ -498,22 +523,21 @@ export default function productDetailItem({
       </div>
 
       <Drawer
-        title="Item Added to Cart"
         placement="bottom"
         onClose={() => setIsDrawerOpen(false)}
         open={isDrawerOpen}
-        height={180}
+        height={100}
+        headerStyle={{ display: "none" }}
       >
-        <div className="flex w-fit mx-auto items-center justify-center gap-10">
-          {cartData?.items?.map((item: any, index: number) => (
+        <div className="mx-auto flex w-fit items-center justify-center gap-[10px]">
+          {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
             <div
               key={item.id || `item-${index}`}
               className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
-              style={{ opacity: "1" }}
             >
               <Link
                 href={`/product/${item?.id}`}
-                className="relative flex h-[60px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+                className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
               >
                 <img
                   alt={item.name}
@@ -525,12 +549,17 @@ export default function productDetailItem({
               </Link>
             </div>
           ))}
+          {cartData?.items?.length > itemsToShow && (
+            <span className="flex min-w-12 text-xs font-medium">
+              +{cartData.items.length - itemsToShow} items
+            </span>
+          )}
           <Link
             href="/cart"
             onClick={() => setIsDrawerOpen(false)}
-            className="rounded min-w-36 bg-[#49AD91] px-6 py-2 flex justify-center font-medium uppercase text-white"
+            className="flex min-w-[175px] justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-medium uppercase text-white"
           >
-            Go to Cart
+            ₹ {lastItemPrice} • Go to Cart
           </Link>
         </div>
       </Drawer>

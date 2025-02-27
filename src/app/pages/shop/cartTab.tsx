@@ -25,6 +25,7 @@ import {
 } from "~/store/slices/cartSlice";
 import CouponModal from "~/components/CouponModal";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 interface CartTabProps {
   cartData: any;
@@ -88,6 +89,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
 
   const handleRemoveItem = (itemId: number, variableId: number) => {
     dispatch(removeItemFromCart({ id: itemId, variableId }));
+    // toast.success("Item removed from cart");
   };
 
   return (
@@ -308,12 +310,12 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                                     Free Gift Set
                                   </span>
                                 </div>
-                                <a
+                                {/* <a
                                   className="text-black-950 text-[10px] font-medium text-[#7A7474] underline"
                                   href=""
                                 >
                                   Tap to Apply
-                                </a>
+                                </a> */}
                               </div>
 
                               {/* Description */}

@@ -15,12 +15,9 @@ export default function page() {
   const cartData = useSelector((state: any) => state?.cart);
   const [shippingData, setShippingData] = useState(null);
 
-  // console.log(chargess, "chargess");
   return (
     <>
-      <div className="mt-[2px] bg-[#F1FBFF]">
-        <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
-      </div>
+      <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="mx-auto max-w-[1075px]">
         {activeTab === "cart" && (
@@ -31,7 +28,11 @@ export default function page() {
               className="px-3 pt-10 md:pt-[70px]"
               position="left"
             >
-              <CartTab cartData={cartData} chargess={chargess} setActiveTab={setActiveTab} />
+              <CartTab
+                cartData={cartData}
+                chargess={chargess}
+                setActiveTab={setActiveTab}
+              />
             </SectionBlock>
             <SectionBlock
               title="Your Last Minute Addons"
@@ -50,19 +51,17 @@ export default function page() {
             className="px-3 pt-10 md:pt-[70px]"
             position="left"
           >
-            <ShippingTab setActiveTab={setActiveTab} setShippingData={setShippingData} />
+            <ShippingTab
+              setActiveTab={setActiveTab}
+              setShippingData={setShippingData}
+            />
           </SectionBlock>
         )}
       </div>
 
       {activeTab === "payment" && (
         <div className="mx-auto max-w-6xl">
-          <SectionBlock
-            title=""
-            subtitle=""
-            className="px-3"
-            position="left"
-          >
+          <SectionBlock title="" subtitle="" className="px-3" position="left">
             <PaymentTab chargess={chargess} shippingData={shippingData} />
           </SectionBlock>
         </div>
