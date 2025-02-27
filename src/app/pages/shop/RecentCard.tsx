@@ -62,7 +62,7 @@ export default function RecentCard() {
       toast.warning("Please select a variant before adding to cart");
       return;
     }
-    
+
     let price, sale_price, discount, variableId, variableName;
 
     if (selectedVariable) {
@@ -83,6 +83,17 @@ export default function RecentCard() {
       variableName = "Default";
     }
 
+    const existingItem = cartData.items.find(
+      (item) =>
+        item.id === Number(product.id) && item.variableId === variableId,
+    );
+  
+    console.log(existingItem, "extistj")
+    if (existingItem) {
+      toast.info("Product is already in the cart");
+      return;
+    }
+  
     dispatch(
       addItemToCart({
         id: Number(product.id),
@@ -127,6 +138,20 @@ export default function RecentCard() {
       console.error("Error adding to wishlist:", error);
     }
   };
+
+  const [itemsToShow, setItemsToShow] = useState(2);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsToShow(window.innerWidth >= 768 ? 5 : 2);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const lastItemPrice =
+    cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
 
   if (isLoading) {
     return (
@@ -275,7 +300,7 @@ export default function RecentCard() {
                           </div>
                         ))
                       ) : (
-                        <div className="border-[#00000]-900 product-price-wrapper relative h-[83px] w-full rounded-sm border-dashed px-[11px] py-[6px] md:h-[101px] md:w-full">
+                        <div className="border-[#00000]-900 product-price-wrapper relative h-[79px] w-full rounded-sm border-dashed px-[11px] py-[6px] md:h-[81px] md:w-full">
                           {/* <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
                           <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
                             {card.data.discount}% off
@@ -339,22 +364,21 @@ export default function RecentCard() {
         </div>
 
         <Drawer
-          title="Item Added to Cart"
           placement="bottom"
           onClose={() => setIsDrawerOpen(false)}
           open={isDrawerOpen}
-          height={180}
+          height={100}
+          headerStyle={{ display: "none" }}
         >
-          <div className="mx-auto flex w-fit items-center justify-center gap-10">
-            {cartData?.items?.map((item: any, index: number) => (
+          <div className="mx-auto flex w-fit items-center justify-center gap-[10px]">
+            {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
               <div
                 key={item.id || `item-${index}`}
                 className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
-                style={{ opacity: "1" }}
               >
                 <Link
                   href={`/product/${item?.id}`}
-                  className="relative flex h-[60px] w-[40px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+                  className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
                 >
                   <img
                     alt={item.name}
@@ -366,12 +390,17 @@ export default function RecentCard() {
                 </Link>
               </div>
             ))}
+            {cartData?.items?.length > itemsToShow && (
+              <span className="flex min-w-12 text-xs font-medium">
+                +{cartData.items.length - itemsToShow} items
+              </span>
+            )}
             <Link
               href="/cart"
               onClick={() => setIsDrawerOpen(false)}
-              className="flex min-w-36 justify-center rounded bg-[#49AD91] px-6 py-2 font-medium uppercase text-white"
+              className="flex min-w-[175px] justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-medium uppercase text-white"
             >
-              Go to Cart
+              ₹ {lastItemPrice} • Go to Cart
             </Link>
           </div>
         </Drawer>
