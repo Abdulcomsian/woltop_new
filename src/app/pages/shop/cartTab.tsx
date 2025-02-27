@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import { CheckoutArrow } from "~/components/icons/CheckoutArrow";
-import coins from "../../../../public/icons/coin.svg";
 import { Cart } from "~/components/icons/Cart";
-import { ShopingCart } from "~/components/icons/ShopingCart";
-import { Payment } from "~/components/icons/Payment";
-import { Shipping } from "~/components/icons/Shipping";
 import Woltop666 from "../../../assets/product/Woltop666.png";
-
 import { RightArrow } from "~/components/icons/RightArrow";
 import { Offer } from "~/components/icons/Offer";
 import { Yay } from "~/components/icons/Yay";
@@ -15,8 +9,6 @@ import { Plus } from "~/components/icons/Plus";
 import Image from "next/image";
 import gift from "../../../../public/icons/gift.svg";
 import objectsBg from "../../../../public/objects.png";
-import bgrender from "../../../../public/bgrender.png";
-import { Gift } from "~/components/icons/Gift";
 import { useDispatch, useSelector } from "react-redux";
 import {
   applyCoupon,
@@ -88,8 +80,13 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   };
 
   const handleRemoveItem = (itemId: number, variableId: number) => {
-    dispatch(removeItemFromCart({ id: itemId, variableId }));
-    // toast.success("Item removed from cart");
+    const item = cartData.items.find(
+      (item: any) => item.id === itemId && item.variableId === variableId,
+    );
+    if (item) {
+      dispatch(removeItemFromCart({ id: itemId, variableId }));
+      toast.success("Item removed from cart");
+    }
   };
 
   return (

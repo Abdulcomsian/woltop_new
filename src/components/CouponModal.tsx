@@ -81,8 +81,11 @@ const CouponModal: React.FC<CouponModalProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative h-[400px] w-[500px] rounded-lg bg-white p-6">
-        <X className="absolute right-5 top-5 cursor-pointer" onClick={onClose} />
+      <div className="relative h-[500px] w-[600px] rounded-lg bg-white p-6">
+        <X
+          className="absolute right-5 top-5 cursor-pointer"
+          onClick={onClose}
+        />
         <h2 className="text-lg font-semibold">Offers & Coupons</h2>
         <p className="mb-4 text-sm text-gray-400">
           Below offers you can apply on your cart
@@ -94,12 +97,20 @@ const CouponModal: React.FC<CouponModalProps> = ({
             <div className="relative mb-4">
               <input
                 type="text"
-                className="w-full rounded border border-gray-300 p-2"
+                className="w-full rounded border border-gray-300 p-2 pr-20"
                 placeholder="Enter coupon code"
                 value={selectedCoupon}
                 onChange={handleInputChange}
               />
-              {filteredCoupons.length > 0 && (
+              {selectedCoupon && (
+                <button
+                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded bg-[#49AD91] px-4 py-1 text-sm text-white"
+                  onClick={handleApplyCoupon}
+                >
+                  Apply
+                </button>
+              )}
+              {/* {filteredCoupons.length > 0 && (
                 <ul className="absolute mt-1 max-h-56 w-full overflow-y-auto rounded border border-gray-300 bg-white">
                   {filteredCoupons?.map((coupon) => (
                     <li
@@ -111,25 +122,84 @@ const CouponModal: React.FC<CouponModalProps> = ({
                     </li>
                   ))}
                 </ul>
-              )}
-            </div>
-            <div className="absolute bottom-5 right-5 flex justify-end">
-              {/* <button
-                className="mr-2 rounded bg-gray-300 px-4 py-2"
-                onClick={onClose}
-              >
-                Cancel
-              </button> */}
-              <button
-                className="rounded bg-[#49AD91] px-4 py-2 text-white"
-                onClick={handleApplyCoupon}
-                disabled={!selectedCoupon}
-              >
-                Apply
-              </button>
+              )} */}
             </div>
           </>
         )}
+        <div className="h-[340px] scrollbar-hide overflow-hidden overflow-y-auto">
+          <div className="mb-1 flex overflow-hidden rounded-lg border bg-white shadow">
+            <div className="left flex items-center justify-center border-r bg-gray-50 p-4">
+              <span className="text-sm font-semibold text-gray-700">
+                Free Gift
+              </span>
+            </div>
+            <div className="flex-1 p-4">
+              <div className="flex items-center justify-between">
+                <span className="text-base font-semibold uppercase text-gray-900">
+                  FreeCOMBo
+                </span>
+                <span className="cursor-pointer border-b border-dotted border-gray-400 text-xs text-gray-600 hover:text-gray-900">
+                  Tap to Apply
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-gray-600">
+                Free{" "}
+                <span className="font-medium text-gray-900">Item_name</span>,
+                worth <span className="line-through">$878</span> Save{" "}
+                <span className="font-semibold text-green-600">$786</span> on
+                this order
+              </p>
+            </div>
+          </div>
+          <div className="mb-1 flex overflow-hidden rounded-lg border bg-white shadow">
+            <div className="left flex items-center justify-center border-r bg-gray-50 p-4">
+              <span className="text-sm font-semibold text-gray-700">
+                Free Gift
+              </span>
+            </div>
+            <div className="flex-1 p-4">
+              <div className="flex items-center justify-between">
+                <span className="text-base font-semibold uppercase text-gray-900">
+                  FreeCOMBo
+                </span>
+                <span className="cursor-pointer border-b border-dotted border-gray-400 text-xs text-gray-600 hover:text-gray-900">
+                  Tap to Apply
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-gray-600">
+                Free{" "}
+                <span className="font-medium text-gray-900">Item_name</span>,
+                worth <span className="line-through">$878</span> Save{" "}
+                <span className="font-semibold text-green-600">$786</span> on
+                this order
+              </p>
+            </div>
+          </div>
+          <div className="mb-1 flex overflow-hidden rounded-lg border bg-white shadow">
+            <div className="left flex items-center justify-center border-r bg-gray-50 p-4">
+              <span className="text-sm font-semibold text-gray-700">
+                Free Gift
+              </span>
+            </div>
+            <div className="flex-1 p-4">
+              <div className="flex items-center justify-between">
+                <span className="text-base font-semibold uppercase text-gray-900">
+                  FreeCOMBo
+                </span>
+                <span className="cursor-pointer border-b border-dotted border-gray-400 text-xs text-gray-600 hover:text-gray-900">
+                  Tap to Apply
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-gray-600">
+                Free{" "}
+                <span className="font-medium text-gray-900">Item_name</span>,
+                worth <span className="line-through">$878</span> Save{" "}
+                <span className="font-semibold text-green-600">$786</span> on
+                this order
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

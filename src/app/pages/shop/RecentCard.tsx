@@ -34,16 +34,11 @@ export default function RecentCard() {
           ? parsedProduct
           : [parsedProduct];
         setProducts(productArray);
-
-        if (
-          productArray.length > 0 &&
-          productArray[0]?.data?.variables?.length > 0
-        ) {
-        }
       }
       setIsLoading(false);
     }
   }, []);
+  console.log(products, "recent item");
 
   // useEffect(() => {
   //   if (products.length > 0 && products[0]?.data?.variables?.length > 0) {
@@ -87,16 +82,17 @@ export default function RecentCard() {
       (item) =>
         item.id === Number(product.id) && item.variableId === variableId,
     );
-  
-    console.log(existingItem, "extistj")
+
+    console.log(existingItem, "extis item");
     if (existingItem) {
       toast.info("Product is already in the cart");
       return;
     }
-  
+
+    console.log(product.id, "Product ID");
     dispatch(
       addItemToCart({
-        id: Number(product.id),
+        id: Number(product.data.id),
         name: product.data.title,
         price: price,
         sale_price: sale_price,
@@ -107,7 +103,13 @@ export default function RecentCard() {
       }),
     );
     setIsDrawerOpen(true);
+
+    console.log(cartData, "Updated Cart Data");
   };
+  useEffect(() => {
+    console.log(cartData, "Cart after dispatch Data Updated");
+  }, [cartData]);
+
 
   const handleAddToWishlist = async (productId: number) => {
     if (!isLoggedIn) {
