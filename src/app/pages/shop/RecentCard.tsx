@@ -74,7 +74,7 @@ export default function RecentCard() {
         ? Number(product.data.sale_price)
         : price;
       discount = Number(product.data.discount);
-      variableId = 0;
+      variableId = null;
       variableName = "Default";
     }
 

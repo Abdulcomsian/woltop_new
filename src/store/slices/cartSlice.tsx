@@ -30,6 +30,7 @@ interface CartState {
   totalPrice: number;
   totalDiscount: 0;
   appliedCoupon: Coupon | null;
+  originalTotalPrice: number; 
 }
 
 // Initial state
@@ -39,6 +40,7 @@ const initialState: CartState = {
   totalPrice: 0,
   totalDiscount: 0,
   appliedCoupon: null,
+  originalTotalPrice: 0,
 };
 
 const calculateTotalPrice = (items: CartItem[]): number =>
@@ -154,7 +156,9 @@ const cartSlice = createSlice({
     applyCoupon(state, action: PayloadAction<Coupon>) {
       const coupon = action.payload;
       state.appliedCoupon = coupon;
-
+    
+      state.originalTotalPrice = state.totalPrice;
+    
       if (coupon.percentage) {
         const discountPercentage = parseFloat(coupon.percentage);
         const couponDiscount = (state.totalPrice * discountPercentage) / 100;
@@ -165,10 +169,12 @@ const cartSlice = createSlice({
 
     removeCoupon(state) {
       if (state.appliedCoupon) {
+        state.totalPrice = state.originalTotalPrice;
+    
         const discountPercentage = parseFloat(state.appliedCoupon.percentage);
-        const couponDiscount = (state.totalPrice * discountPercentage) / 100;
+        const couponDiscount = (state.originalTotalPrice * discountPercentage) / 100;
         state.totalDiscount -= couponDiscount;
-        state.totalPrice += couponDiscount;
+    
         state.appliedCoupon = null;
       }
     },

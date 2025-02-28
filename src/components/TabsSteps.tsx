@@ -9,9 +9,16 @@ const { Step } = Steps;
 interface TabStepsProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  hasCartItems: boolean; // New prop to check if cart has items
+  isShippingCompleted: boolean; // New prop to check if shipping is completed
 }
 
-const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
+const TabSteps: React.FC<TabStepsProps> = ({
+  activeTab,
+  setActiveTab,
+  hasCartItems,
+  isShippingCompleted,
+}) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -28,11 +35,13 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
       title: "Shipping",
       icon: <Shipping activeTab={activeTab} />,
       key: "shipping",
+      disabled: !hasCartItems, // Disable if cart is empty
     },
     {
       title: "Payment",
       icon: <Payment activeTab={activeTab} />,
       key: "payment",
+      disabled: !isShippingCompleted, // Disable if shipping is not completed
     },
   ];
 
@@ -47,7 +56,7 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
               current={currentStep}
               onChange={(stepIndex) => {
                 const step = steps[stepIndex];
-                if (step) {
+                if (step && !step.disabled) {
                   setActiveTab(step.key);
                 }
               }}
@@ -55,81 +64,95 @@ const TabSteps: React.FC<TabStepsProps> = ({ activeTab, setActiveTab }) => {
               className="custom-stepper"
               direction="horizontal"
             >
-              {steps.map((step) => (
-                <Step
-                  key={step.key}
-                  icon={null}
-                  title={
-                    <div
-                      className={`flex items-center ${
-                        activeTab === step.key
-                          ? "font-semibold text-black"
-                          : "text-gray-400"
-                      }`}
-                    >
-                      {/* Custom Radio Button */}
+              {steps.map((step, index) => {
+                const isCompleted = index < currentStep;
+                const isActive = activeTab === step.key;
+
+                return (
+                  <Step
+                    key={step.key}
+                    icon={null}
+                    title={
                       <div
-                        className={`flex h-3 w-3 items-center justify-center rounded-full border-2 md:mt-1 md:h-4 md:w-4 ${
-                          activeTab === step.key
-                            ? "border-[#49AD91] bg-[#49AD91]"
-                            : "border-gray-400 bg-white"
+                        className={`flex items-center ${
+                          isActive
+                            ? "font-semibold text-black"
+                            : isCompleted
+                              ? "font-semibold text-[#49AD91]"
+                              : "text-gray-400"
                         }`}
                       >
+                        {/* Custom Radio Button */}
                         <div
-                          className={`h-2 w-2 rounded-full ${
-                            activeTab === step.key
-                              ? "bg-white"
-                              : "bg-transparent"
+                          className={`flex h-3 w-3 items-center justify-center rounded-full border-2 md:mt-1 md:h-4 md:w-4 ${
+                            isActive
+                              ? "border-[#49AD91] bg-[#49AD91]"
+                              : isCompleted
+                                ? "border-[#49AD91] bg-[#49AD91]"
+                                : "border-gray-400 bg-white"
                           }`}
-                        />
+                        >
+                          <div
+                            className={`h-2 w-2 rounded-full ${
+                              isActive || isCompleted
+                                ? "bg-white"
+                                : "bg-transparent"
+                            }`}
+                          />
+                        </div>
+
+                        {/* Icon */}
+                        <div className="ml-2 md:mt-1">{step.icon}</div>
+
+                        {/* Title */}
+                        <span className="ml-2 text-[10px] md:mt-1 md:text-base">
+                          {step.title}
+                        </span>
                       </div>
-
-                      {/* Icon */}
-                      <div className="ml-2 md:mt-1">{step.icon}</div>
-
-                      {/* Title */}
-                      <span className="ml-2 text-[10px] md:mt-1 md:text-base">
-                        {step.title}
-                      </span>
-                    </div>
-                  }
-                />
-              ))}
+                    }
+                    disabled={step.disabled} // Disable the step if condition is not met
+                  />
+                );
+              })}
             </Steps>
           </div>
 
           <style>
             {`
-          /* Ensure the Steps component is always horizontal */
-          .ant-steps {
-            display: flex !important;
-            flex-direction: row !important;
-          }
+              :where(.css-dev-only-do-not-override-1kf000u).ant-steps .ant-steps-item-wait .ant-steps-item-icon,
+              :where(.css-dev-only-do-not-override-1kf000u).ant-steps .ant-steps-item-finish .ant-steps-item-icon,
+              :where(.css-dev-only-do-not-override-1kf000u).ant-steps .ant-steps-item-process .ant-steps-item-icon {
+                display: none !important;
+              }
+              :where(.css-dev-only-do-not-override-1kf000u).ant-steps.ant-steps-vertical >.ant-steps-item .ant-steps-item-content{
+                min-height:0;
+              }
+              
+              .ant-steps {
+                display: flex !important;
+                flex-direction: row !important;
+              }
 
-          /* Hide the default step icons */
-          .ant-steps .ant-steps-item-icon {
-            display: none !important;
-          }
+              .ant-steps .ant-steps-item-icon {
+                display: none !important;
+              }
 
-          /* Style the connecting line */
-          .ant-steps .ant-steps-item::before {
-            border-top: 2px dotted #49AD91 !important; /* Dotted green line */
-            background-color: transparent !important; /* Remove default background */
-          }
+              .ant-steps .ant-steps-item::before {
+                border-top: 2px dotted #49AD91 !important;
+                background-color: transparent !important;
+              }
 
-          /* Align step titles */
-          .ant-steps .ant-steps-item-title {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
+              .ant-steps .ant-steps-item-title {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
 
-          /* Ensure vertical layout is never applied */
-          .ant-steps-vertical {
-            display: flex !important;
-            flex-direction: row !important;
-          }
-        `}
+              .ant-steps-vertical {
+                display: flex !important;
+                flex-direction: row !important;
+              }
+            `}
           </style>
         </div>
       )}

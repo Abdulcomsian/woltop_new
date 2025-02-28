@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CheckoutArrow } from "~/components/icons/CheckoutArrow";
 import Image from "next/image";
 import coins from "../../../../public/icons/coin.svg";
@@ -23,6 +23,10 @@ const PaymentTab = ({ chargess, shippingData }) => {
   const [checkedItems, setCheckedItems] = useState(
     cartData?.items?.map(() => true),
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleCheckboxChange = (index: number) => {
     const updatedCheckedItems = [...checkedItems];
@@ -141,7 +145,7 @@ const PaymentTab = ({ chargess, shippingData }) => {
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Cart Discount</div>
                 <div className="font-medium text-[#000000]">
-                  ₹{totalDiscount}
+                  -₹{totalDiscount}
                 </div>
               </li>
               <li className="text-body flex justify-between text-[12px] text-[#7A7474] md:text-base">
@@ -407,9 +411,13 @@ const PaymentTab = ({ chargess, shippingData }) => {
               className="focus:ring-accent-700 hover:bg-accent-hover inline-flex h-10 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-3 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1 md:h-12 md:px-5"
             >
               <div className="flex flex-col items-start">
-                <span className="text-[10px] font-medium md:text-xs">4397</span>
                 <span className="text-[10px] font-medium md:text-xs">
-                  2 items
+                  ₹{Number(finalTotalPrice)}
+                </span>
+                <span className="text-[10px] font-medium md:text-xs">
+                  {cartData?.items?.length > 1
+                    ? `${cartData?.items?.length} items`
+                    : `${cartData?.items?.length} item`}
                 </span>
               </div>
               <div className="flex items-center text-sm md:text-base">

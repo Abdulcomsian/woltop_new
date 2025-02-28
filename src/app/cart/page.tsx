@@ -3,7 +3,7 @@ import SectionBlock from "~/components/ui/section-block";
 import PaymentTab from "../pages/shop/paymentTab";
 import CartTab from "../pages/shop/cartTab";
 import ShippingTab from "../pages/shop/shippingTab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import DetailCard from "../pages/shop/detailCard";
 import TabSteps from "~/components/TabsSteps";
@@ -14,10 +14,29 @@ export default function page() {
   const [activeTab, setActiveTab] = useState("cart");
   const cartData = useSelector((state: any) => state?.cart);
   const [shippingData, setShippingData] = useState(null);
+  const [hasCartItems, setHasCartItems] = useState(false);
+  const [isShippingCompleted, setIsShippingCompleted] = useState(false);
+
+  useEffect(() => {
+    if (cartData && cartData.items && cartData.items.length > 0) {
+      setHasCartItems(true);
+    } else {
+      setHasCartItems(false);
+    }
+  }, [cartData]);
+
+  useEffect(() => {
+    if (shippingData) {
+      setIsShippingCompleted(true);
+    } else {
+      setIsShippingCompleted(false);
+    }
+  }, [shippingData]);
 
   return (
     <>
-      <TabSteps activeTab={activeTab} setActiveTab={setActiveTab} />
+      <TabSteps activeTab={activeTab} setActiveTab={setActiveTab}   hasCartItems={hasCartItems}
+  isShippingCompleted={isShippingCompleted} />
 
       <div className="mx-auto max-w-[1075px]">
         {activeTab === "cart" && (

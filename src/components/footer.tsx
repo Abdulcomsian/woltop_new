@@ -230,12 +230,12 @@ export default function footer() {
               <Link href="/faq" className="hover:text-gray-900">
                 FAQs
               </Link>
-              <span className="text-[#000000]">|</span>
+              {/* <span className="text-[#000000]">|</span>
               <Link href="#" className="hover:text-gray-900">
                 Legal
-              </Link>
+              </Link> */}
               <span className="text-[#000000]">|</span>
-              <Link href="#" className="hover:text-gray-900">
+              <Link href="/orders" className="hover:text-gray-900">
                 Order Tracking
               </Link>
               <span className="text-[#000000]">|</span>

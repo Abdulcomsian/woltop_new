@@ -21,6 +21,7 @@ import { allReviewsApi } from "./api/allReviewsApi";
 import { chargessApi } from "./api/chargessApi";
 import { contactInfoApi } from "./api/contactInfoApi";
 import { aboutApi } from "./api/aboutApi";
+import { toolkitApi } from "./api/toolkitApi";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -45,7 +46,7 @@ const rootReducer = combineReducers({
   [chargessApi.reducerPath]: chargessApi.reducer,  
   [contactInfoApi.reducerPath]: contactInfoApi.reducer,  
   [aboutApi.reducerPath]: aboutApi.reducer,  
-  
+  [toolkitApi.reducerPath]: toolkitApi.reducer,  
 });
 
 const loadState = () => {
@@ -107,7 +108,8 @@ export const store = configureStore({
       .concat(chargessApi.middleware)
       .concat(contactInfoApi.middleware)
       .concat(aboutApi.middleware)
-      .concat(wishlistApi.middleware),
+      .concat(wishlistApi.middleware)
+      .concat(toolkitApi.middleware),
 });
 
 store.subscribe(() => {

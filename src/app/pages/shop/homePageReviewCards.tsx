@@ -68,7 +68,9 @@ export default function HomePageReviewCards() {
   const { data: allReviews } = useGetAllReviewsQuery([]);
   const limitAllReviews = allReviews?.data?.slice(0, 2);
 
-  if (allReviews?.length > 0) {
+  console.log(limitAllReviews, "limitedReviews")
+
+  if (allReviews?.data?.length > 0) {
     return (
       <div className="scrollbar-hide sm mt-10 flex gap-6 overflow-x-auto md:grid md:grid-cols-2 md:overflow-hidden">
         {!limitAllReviews ? (

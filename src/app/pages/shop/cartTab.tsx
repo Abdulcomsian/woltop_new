@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Cart } from "~/components/icons/Cart";
 import Woltop666 from "../../../assets/product/Woltop666.png";
-import { RightArrow } from "~/components/icons/RightArrow";
 import { Offer } from "~/components/icons/Offer";
 import { Yay } from "~/components/icons/Yay";
 import { Minus } from "~/components/icons/Minus";
@@ -12,12 +11,15 @@ import objectsBg from "../../../../public/objects.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   applyCoupon,
+  removeCoupon,
   removeItemFromCart,
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
 import CouponModal from "~/components/CouponModal";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { ArrowRight } from "lucide-react";
+import { BiPurchaseTag } from "react-icons/bi";
 
 interface CartTabProps {
   cartData: any;
@@ -30,6 +32,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const cartData = useSelector((state: any) => state.cart);
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
   const totalDiscount = useSelector((state: any) => state.cart.totalDiscount);
+  const { appliedCoupon } = useSelector((state: any) => state.cart);
 
   const {
     shipping_charges,
@@ -48,6 +51,15 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     dispatch(applyCoupon(coupon));
     console.log("Applying coupon:", coupon);
   };
+
+  useEffect(() => {
+    if (isCouponModalOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [isCouponModalOpen]);
 
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
@@ -89,6 +101,10 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     }
   };
 
+  const handleRemoveCoupon = () => {
+    dispatch(removeCoupon());
+  };
+
   return (
     <>
       <div className="w-full bg-white">
@@ -97,7 +113,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
             (() => {
               return (
                 <div className="flex flex-col justify-between lg:flex-row">
-                  <div className="checkout-cart lg:w-auto">
+                  <div className="checkout-cart lg:w-auto lg:min-w-[387px]">
                     {cartData?.items?.map((item: any, index: number) => (
                       <div
                         key={item.id || `item-${index}`}
@@ -188,7 +204,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                       </div>
                     ))}
 
-                    <div className="save-content md:p-0">
+                    {/* <div className="save-content md:p-0">
                       <div className="flex justify-between">
                         <div className="text-content w-3/5">
                           <p className="flex items-center gap-2">
@@ -259,101 +275,142 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
-                  <div className="relative mb-10 overflow-hidden pt-3 sm:mb-12 md:pt-0 lg:mb-0 lg:w-auto">
-                    <div className="gift-wrapper relative mb-3">
-                      {/* Background Image */}
-                      <Image
-                        className="h-[197px] w-full object-cover"
-                        src={objectsBg}
-                        alt="Flower and sky"
-                      />
-
-                      {/* Content Overlay */}
-                      <div className="absolute top-1/2 w-full -translate-y-1/2 transform px-[14px] py-6">
-                        {/* Main Content Container */}
-                        <div className="mb-3 flex w-full max-w-sm lg:max-w-full">
-                          {/* Left Section: Image */}
-                          <div
-                            className="h-26 w-14 flex-none overflow-hidden rounded-t bg-cover pt-3 text-center md:h-auto lg:h-auto lg:w-14 lg:rounded-l lg:rounded-t-none"
-                            title="Woman holding a mug"
-                          >
-                            <Image
-                              src={Woltop666}
-                              className="h-[72px] w-full rounded"
-                              alt="img"
-                            />
+                  <div className="relative mb-10 overflow-hidden pt-3 sm:mb-12 md:pt-0 lg:mb-0 lg:w-auto lg:min-w-[471px]">
+                    {appliedCoupon ? (
+                      <div className="mb-4 transform overflow-hidden rounded-lg border border-gray-200 bg-gradient-to-r from-[#f9fafb] to-[#f3f4f6] shadow transition-all duration-300 hover:shadow-md">
+                        <div className="flex">
+                          {/* Left Section with Discount Percentage */}
+                          <div className="flex items-center justify-center bg-gradient-to-r from-[#49AD91] to-[#3C8D7D] p-4">
+                            <span className="text-sm font-semibold text-white">
+                              {appliedCoupon.percentage}% Off
+                            </span>
                           </div>
 
-                          {/* Right Section: Text and Links */}
-                          <div
-                            className="flex flex-col justify-between rounded-b p-2 leading-normal lg:rounded-b-none"
-                            style={{ width: "100%" }}
-                          >
-                            <div className="mb-2">
-                              {/* Free Gift Set Section */}
-                              <div className="flex items-center justify-between gap-2">
-                                <div className="flex items-center">
-                                  <span className="icon pr-2">
-                                    <Image
-                                      src={gift}
-                                      className="w-4 pt-1"
-                                      alt="img"
-                                    />
-                                  </span>
-                                  <span className="text-[12px] text-sm font-medium text-[#000000] md:text-base">
-                                    Free Gift Set
-                                  </span>
-                                </div>
-                                {/* <a
+                          {/* Right Section with Coupon Details */}
+                          <div className="flex-1 p-4">
+                            <div className="flex items-center justify-between">
+                              {/* Coupon Code */}
+                              <span className="flex items-center gap-2 text-base font-semibold uppercase text-gray-900">
+                                <BiPurchaseTag className="text-[#49AD91]" />
+                                {appliedCoupon.code}
+                              </span>
+
+                              {/* Remove Button */}
+                              <span
+                                className="cursor-pointer border-b border-dotted border-gray-400 text-xs text-gray-600 hover:text-gray-900"
+                                onClick={() => handleRemoveCoupon()}
+                              >
+                                Remove
+                              </span>
+                            </div>
+
+                            {/* Short Description */}
+                            <p className="mt-2 text-wrap text-sm text-gray-600">
+                              Yay! You have saved{" "}
+                              <span className="font-semibold">
+                                {appliedCoupon.percentage}%
+                              </span>{" "}
+                              on this order
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="gift-wrapper relative mb-3">
+                        {/* Background Image */}
+                        <Image
+                          className="h-[197px] w-full object-cover"
+                          src={objectsBg}
+                          alt="Flower and sky"
+                        />
+
+                        {/* Content Overlay */}
+                        <div className="absolute top-1/2 w-full -translate-y-1/2 transform px-[14px] py-6">
+                          {/* Main Content Container */}
+                          <div className="mb-3 flex w-full max-w-sm lg:max-w-full">
+                            {/* Left Section: Image */}
+                            <div
+                              className="h-26 w-14 flex-none overflow-hidden rounded-t bg-cover pt-3 text-center md:h-auto lg:h-auto lg:w-14 lg:rounded-l lg:rounded-t-none"
+                              title="Woman holding a mug"
+                            >
+                              <Image
+                                src={Woltop666}
+                                className="h-[72px] w-full rounded"
+                                alt="img"
+                              />
+                            </div>
+
+                            {/* Right Section: Text and Links */}
+                            <div
+                              className="flex flex-col justify-between rounded-b p-2 leading-normal lg:rounded-b-none"
+                              style={{ width: "100%" }}
+                            >
+                              <div className="mb-2">
+                                {/* Free Gift Set Section */}
+                                <div className="flex items-center justify-between gap-2">
+                                  <div className="flex items-center">
+                                    <span className="icon pr-2">
+                                      <Image
+                                        src={gift}
+                                        className="w-4 pt-1"
+                                        alt="img"
+                                      />
+                                    </span>
+                                    <span className="text-[12px] text-sm font-medium text-[#000000] md:text-base">
+                                      Free Gift Set
+                                    </span>
+                                  </div>
+                                  {/* <a
                                   className="text-black-950 text-[10px] font-medium text-[#7A7474] underline"
                                   href=""
                                 >
                                   Tap to Apply
                                 </a> */}
-                              </div>
+                                </div>
 
-                              {/* Description */}
-                              <p className="max-w-[228px] text-[10px] font-medium text-[#7A7474] md:text-[12px]">
-                                Enjoy your ultimate wallpaper tool set worth
-                                ₹799
-                              </p>
+                                {/* Description */}
+                                <p className="max-w-[228px] text-[10px] font-medium text-[#7A7474] md:text-[12px]">
+                                  Enjoy your ultimate wallpaper tool set worth
+                                  ₹799
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Offer Bar Section */}
-                        <div className="offer-bar relative flex justify-center overflow-hidden md:mt-0">
-                          <div className="m-auto flex w-full overflow-hidden">
-                            {/* Offers Box */}
-                            <div className="box-1 basis-20 border border-r-0 border-[#F11C544D] bg-white px-3 py-2">
-                              <div className="offer-text flex items-center justify-center text-[12px] text-[#FF4C7B]">
-                                <span>
-                                  <Offer />
-                                </span>
-                                OFFERS
+                          {/* Offer Bar Section */}
+                          <div className="offer-bar relative flex justify-center overflow-hidden md:mt-0">
+                            <div className="m-auto flex w-full overflow-hidden">
+                              {/* Offers Box */}
+                              <div className="box-1 basis-20 border border-r-0 border-[#F11C544D] bg-white px-3 py-2">
+                                <div className="offer-text flex items-center justify-center text-[12px] text-[#FF4C7B]">
+                                  <span>
+                                    <Offer />
+                                  </span>
+                                  OFFERS
+                                </div>
                               </div>
-                            </div>
 
-                            {/* Circular Decorations */}
-                            <div className="box-4 absolute -top-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#F11C544D] bg-[#FFF3F6]"></div>
-                            <div className="box-3 absolute -bottom-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#F11C544D] bg-[#FFF3F6]"></div>
+                              {/* Circular Decorations */}
+                              <div className="box-4 absolute -top-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#F11C544D] bg-[#FFF3F6]"></div>
+                              <div className="box-3 absolute -bottom-1 left-[80px] z-[999] h-3 w-3 rounded-full border border-[#F11C544D] bg-[#FFF3F6]"></div>
 
-                            {/* Coupon Box */}
-                            <div className="box-2 flex-grow basis-40 border border-[#F11C544D] bg-white px-2 py-2 text-[12px]">
-                              <div
-                                onClick={() => setIsCouponModalOpen(true)}
-                                className="text-center text-[9px] text-black md:text-sm"
-                              >
-                                Apply coupon or tap to explore more offers
+                              {/* Coupon Box */}
+                              <div className="box-2 flex-grow basis-40 border border-[#F11C544D] bg-white px-2 py-2 text-[12px]">
+                                <div
+                                  onClick={() => setIsCouponModalOpen(true)}
+                                  className="text-center text-[9px] text-black md:text-sm"
+                                >
+                                  Apply coupon or tap to explore more offers
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                     <div className="w-full">
                       <div className="rounded border">
                         {totalDiscount > 0 && (
@@ -398,7 +455,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                                 Cart Discount
                               </div>
                               <div className="font-medium text-[#000000]">
-                                ₹{totalDiscount}
+                                -₹{totalDiscount || 0}
                               </div>
                             </li>
                             <li className="text-body flex justify-between text-[14px]">
@@ -439,10 +496,8 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                         data-variant="normal"
                         className="focus:ring-accent-700 text-light hover:bg-accent-hover mt-5 inline-flex h-12 w-full shrink-0 items-center justify-center rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-accent outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
                       >
-                        Continue
-                        <div className="ml-1 pl-3">
-                          <RightArrow></RightArrow>
-                        </div>
+                        CHECKOUT
+                        <ArrowRight size={20} className="ml-2" />
                       </button>
                     </div>
                   </div>
