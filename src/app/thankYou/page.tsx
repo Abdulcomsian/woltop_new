@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { CheckoutArrow } from "~/components/icons/CheckoutArrow";
 import Image from "next/image";
 import coins from "../../../public/icons/coin.svg";
@@ -30,6 +30,10 @@ function ThankYouPageContent() {
   const name = searchParams.get("name");
   const phoneNumber = searchParams.get("phone_number");
   const address = searchParams.get("address");
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
 
   const cartData = useSelector((state: any) => state?.cart);
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
@@ -234,20 +238,18 @@ function ThankYouPageContent() {
             <ul>
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Total MRP</div>
-                <div className="font-medium text-[#000000]">
-                  ₹{totalPrice}
-                </div>
+                <div className="font-medium text-[#000000]">₹{totalPrice}</div>
               </li>
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Cart Discount</div>
                 <div className="font-medium text-[#000000]">
-                  ₹{totalDiscount}
+                  -₹{totalDiscount}
                 </div>
               </li>
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Shipping Charges</div>
                 <div className="font-medium text-[#000000]">
-                  {shipping_charges === null ? (
+                  {shipping_charges === 0 ? (
                     <span className="ml-1 text-[12px] text-[#49AD91] md:text-base">
                       FREE
                     </span>
@@ -306,7 +308,7 @@ function ThankYouPageContent() {
         <Link
           href="/"
           data-variant="normal"
-          className="focus:ring-accent-700 hover:bg-accent-hover m-3 md:m-0 md:mt-3 flex h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
+          className="focus:ring-accent-700 hover:bg-accent-hover m-3 flex h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1 md:m-0 md:mt-3"
         >
           <div className="flex items-center">
             <span>Continue Shopping</span>

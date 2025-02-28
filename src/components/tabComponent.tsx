@@ -25,6 +25,8 @@ const TabsComponent: FC<TabsComponentProps> = ({ tabs, content, flag }) => {
 
   const wrapperClassName = flag || "tabs-section";
 
+  const reversedTabs = [...tabs].reverse();
+
   return (
     <>
       <div className={wrapperClassName}>

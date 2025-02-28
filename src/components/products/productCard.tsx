@@ -26,27 +26,30 @@ export function ProductCard({
   discount,
   content,
   range,
+  variables,
 }: ProductCardProps) {
   return (
     <div className="card-wrapper relative">
-      {/* <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
-        <div className="flex w-11/12 justify-end">
-          <button className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9">
-            <svg
-              fill="#49AD91"
-              viewBox="0 0 24 24"
-              stroke="#49AD91"
-              className="h-5 w-5 stroke-2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              ></path>
-            </svg>
-          </button>
+      {!variables > 0 && (
+        <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
+          <div className="flex w-11/12 justify-end">
+            <button className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9">
+              <svg
+                fill="#49AD91"
+                viewBox="0 0 24 24"
+                stroke="#49AD91"
+                className="h-5 w-5 stroke-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
-      </div> */}
+      )}
 
       <Card
         style={{
@@ -61,7 +64,7 @@ export function ProductCard({
           {discount || 0}
         </div> */}
       </Card>
-      <p className="truncate text-[#505050] mt-[11px]">{content}</p>
+      <p className="mt-[11px] truncate text-[#505050]">{content}</p>
       <CardFooter>
         <CardDescription>
           {discountPrice !== null ? (

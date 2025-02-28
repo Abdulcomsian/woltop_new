@@ -274,9 +274,6 @@ export default function Navbar() {
           className={`mobile-menu ${isMobileMenuOpen ? "block" : "hidden"} md:hidden`}
         >
           <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
-            Features
-          </a>
-          <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
             New Arrival
           </a>
           <a

@@ -31,8 +31,7 @@ export default function Page() {
     isLoading,
     error,
   } = useGetProductByIdQuery(slug as string);
-  const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery({});
-  
+  const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery({});  
 
   useEffect(() => {
     if (product) {
@@ -40,20 +39,16 @@ export default function Page() {
         let storedProducts = localStorage.getItem("recentProducts");
         let recentProducts = storedProducts ? JSON.parse(storedProducts) : [];
 
-        // Remove duplicate by checking `data.id`
         recentProducts = recentProducts.filter(
-          (p: any) => p.data.id !== product.data.id, // Use `data.id`
+          (p: any) => p.data.id !== product.data.id,
         );
 
-        // Add the new product to the beginning
         recentProducts.unshift(product);
 
-        // Keep only the last 4 products
         if (recentProducts.length > 4) {
           recentProducts = recentProducts.slice(0, 4);
         }
 
-        // Save back to localStorage
         localStorage.setItem("recentProducts", JSON.stringify(recentProducts));
       }
     }

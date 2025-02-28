@@ -376,7 +376,7 @@ const ShippingTab: React.FC<ShippingTabProps> = ({
         <a
           href="#"
           onClick={() => setActiveTab("cart")}
-          className="font-regular hover:text-accent-hover mt-4 block text-center text-[#49AD91] transition-colors duration-200"
+          className="font-regular underline hover:text-accent-hover mt-4 block text-center text-[#49AD91] transition-colors duration-200"
         >
           Cancel to go back
         </a>
