@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Coins, Plus, Search, X } from "lucide-react";
 import { useGetAllProductsQuery } from "~/store/api/allProductsApi";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,14 +19,10 @@ import { PiSquaresFour } from "react-icons/pi";
 import { HiOutlineArchiveBox } from "react-icons/hi2";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { LiaCoinsSolid } from "react-icons/lia";
-import {
-  UserRound,
-  HelpCircle,
-  FileText,
-  BookOpen,
-} from "lucide-react";
+import { UserRound, HelpCircle, FileText, BookOpen } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { Drawer } from "antd";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -39,23 +35,48 @@ const MenuPage = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
+  const cartData = useSelector((state: any) => state.cart);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [itemsToShow, setItemsToShow] = useState(2);
 
-  const handleAddToCart = (product) => {
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsToShow(window.innerWidth >= 768 ? 5 : 2);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const lastItemPrice =
+    cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
+
+  const handleAddToCart = (product: Product) => {
+    const existingItem = cartData.items.find(
+      (item: any) => item.id === product.id,
+    );
+
+    if (existingItem) {
+      toast.info("Product is already in the cart");
+      return;
+    }
+
     dispatch(
       addItemToCart({
         id: product.id,
         name: product.title,
-        price: product.price,
-        sale_price: product.sale_price || product.price,
-        discount: product.discount || 0,
+        price: Number(product.price),
+        sale_price: product.sale_price
+          ? Number(product.sale_price)
+          : Number(product.price),
+        discount: Number(product.discount.replace("%", "")),
         featured_image: product.featured_image,
         variableId: 0,
         variableName: "Default",
       }),
     );
-    toast.success(`${product.title} added to cart!`);
+    setIsDrawerOpen(true);
   };
 
   const handleLoginClick = () => {
@@ -123,7 +144,7 @@ const MenuPage = () => {
   }
 
   return (
-    <div>
+    <>
       {/* Search Bar */}
       <div className="mt-[2px] bg-[#f7fcfc]">
         {isLoggedIn ? (
@@ -187,24 +208,29 @@ const MenuPage = () => {
               {allProducts?.map((product) => (
                 <SwiperSlide key={product?.id}>
                   <div className="card-wrapper relative cursor-pointer">
-                    <div className="absolute -right-3 -top-3 z-40">
-                      <div className="flex w-11/12 justify-end">
-                        <button className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9">
-                          <svg
-                            fill="#49AD91"
-                            viewBox="0 0 24 24"
-                            stroke="#49AD91"
-                            className="h-5 w-5 stroke-2"
+                    {!product?.variables.length > 0 && (
+                      <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
+                        <div className="flex w-11/12 justify-end">
+                          <button
+                            onClick={() => handleAddToCart(product)}
+                            className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                            />
-                          </svg>
-                        </button>
+                            <svg
+                              fill="#49AD91"
+                              viewBox="0 0 24 24"
+                              stroke="#49AD91"
+                              className="h-5 w-5 stroke-2"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                              ></path>
+                            </svg>
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <Link
                       href={`/product/${product.id}`}
@@ -229,22 +255,16 @@ const MenuPage = () => {
                       </CardContent>
                       <CardFooter className="flex w-full items-center justify-between px-2 pb-2">
                         <CardDescription>
-                          <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
-                            ₹{product.sale_price || 0}
-                          </span>
-                          <del className="ml-1 text-xs text-gray-500">
-                            ₹{product?.price || 0}
-                          </del>
+                          {product?.sale_price !== null ? (
+                            <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+                              ₹{product?.sale_price}
+                            </span>
+                          ) : (
+                            <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
+                              ₹{product?.range?.price || product?.range}
+                            </span>
+                          )}
                         </CardDescription>
-                        {/* <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleAddToCart(product);
-                          }}
-                          className="absolute bottom-2 right-2 flex items-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white transition-colors duration-300 hover:bg-[#388f75] md:text-[14px]"
-                        >
-                          <Plus className="h-3 w-3 md:h-4 md:w-4" /> ADD
-                        </button> */}
                       </CardFooter>
                     </Link>
                   </div>
@@ -263,7 +283,7 @@ const MenuPage = () => {
               <Link
                 key={index}
                 href={category?.path}
-                className="flex gap-2 border-t bg-white py-4 md:p-4 md:flex-col md:rounded-lg md:border"
+                className="flex gap-2 border-t bg-white py-4 md:flex-col md:rounded-lg md:border md:p-4"
               >
                 <category.icon className="h-6 w-6 text-gray-700" />
                 <div>
@@ -293,7 +313,49 @@ const MenuPage = () => {
         onClose={() => setIsConfirmationModalOpen(false)}
         onConfirm={handleLogout}
       />
-    </div>
+
+      <Drawer
+        placement="bottom"
+        onClose={() => setIsDrawerOpen(false)}
+        open={isDrawerOpen}
+        height={100}
+        headerStyle={{ display: "none" }}
+      >
+        <div className="mx-auto flex w-fit items-center justify-center gap-[10px]">
+          {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
+            <div
+              key={item.id || `item-${index}`}
+              className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
+            >
+              <Link
+                href={`/product/${item?.id}`}
+                className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+              >
+                <img
+                  alt={item.name}
+                  className="h-full w-full object-cover"
+                  src={
+                    item?.featured_image || "https://placehold.co/600x400.png"
+                  }
+                />
+              </Link>
+            </div>
+          ))}
+          {cartData?.items?.length > itemsToShow && (
+            <span className="flex min-w-12 text-xs font-medium">
+              +{cartData.items.length - itemsToShow} items
+            </span>
+          )}
+          <Link
+            href="/cart"
+            onClick={() => setIsDrawerOpen(false)}
+            className="flex min-w-[175px] justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-medium uppercase text-white"
+          >
+            ₹ {lastItemPrice} • Go to Cart
+          </Link>
+        </div>
+      </Drawer>
+    </>
   );
 };
 

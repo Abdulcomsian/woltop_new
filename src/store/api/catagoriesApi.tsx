@@ -12,7 +12,10 @@ export const catagoriesApi = createApi({
         return response.data;
       },
     }),
+    getCategoriesById: builder.query({
+      query: (categoryId: string) => `/get-category-by-id/${categoryId}`,
+    }),
   }),
 });
 
-export const { useGetCategoriesQuery } = catagoriesApi;
+export const { useGetCategoriesQuery, useGetCategoriesByIdQuery } = catagoriesApi;

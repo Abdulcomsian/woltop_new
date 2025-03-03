@@ -2,7 +2,7 @@ import React from "react";
 
 export default function VideoSection({ responseData, isLoading }) {
 
-  const videoSrc = responseData?.video || responseData?.data?.video;
+  const videoSrc = responseData?.video || responseData?.data?.video || responseData?.data?.category?.video;
   return (
     <div className="container mx-auto">
       {isLoading ? (
