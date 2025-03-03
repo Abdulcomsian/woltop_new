@@ -18,7 +18,7 @@ import {
 import CouponModal from "~/components/CouponModal";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShoppingCart } from "lucide-react";
 import { BiPurchaseTag } from "react-icons/bi";
 
 interface CartTabProps {
@@ -104,6 +104,28 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const handleRemoveCoupon = () => {
     dispatch(removeCoupon());
   };
+
+  if (cartData?.items?.length < 1) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center rounded-lg bg-gray-50 p-8 text-center shadow-sm">
+        <ShoppingCart className="mb-6 h-20 w-20 text-gray-400" />
+
+        <h2 className="mb-2 text-2xl font-semibold text-gray-800">
+          Your Cart is Empty
+        </h2>
+        <p className="mb-6 text-gray-600">
+          Looks like you haven't added anything to your cart yet.
+        </p>
+
+        <Link
+          href="/menu"
+          className="rounded bg-[#49AD91] px-6 py-2 font-medium text-white transition-colors"
+        >
+          Start Shopping
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>
