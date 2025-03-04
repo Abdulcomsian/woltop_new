@@ -2,34 +2,59 @@
 
 import { useState } from "react";
 import { MapPin, Mail, Phone } from "lucide-react";
+import { useGetContactInfoQuery } from "~/store/api/contactInfoApi";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import utils from "~/utils";
+import { toast } from "react-toastify";
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
+  const { data: contactInfoResponse } = useGetContactInfoQuery({});
+
+  const initialValues = {
     name: "",
     email: "",
+    phone: "",
     message: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission (e.g., send data to an API)
-    console.log("Form Data Submitted:", formData);
-    alert("Thank you for contacting us! We'll get back to you soon.");
-    setFormData({ name: "", email: "", message: "" }); // Reset form
+  const validationSchema = Yup.object({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    phone: Yup.string()
+      .required("Phone number is required"),
+    message: Yup.string().required("Message is required"),
+  });
+
+  const handleSubmit = async (values, { resetForm }) => {
+    try {
+      const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        formData.append(key, values[key]);
+      });
+
+      const response = await fetch(`${utils.BASE_URL}/contact`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit contact form");
+      }
+
+      toast.success("Thank you for contacting us! We'll get back to you soon.");
+      resetForm();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Something went wrong. Please try again later.");
+    }
   };
 
   return (
     <>
-      {/* Hero Section */}
-      <div className="bg-[#f7fcfc] py-12 mt-[2px]">
+      <div className="mt-[2px] bg-[#f7fcfc] py-12">
         <div className="mx-auto max-w-4xl px-4 text-center">
           <h1 className="text-4xl font-bold text-gray-800">Contact Us</h1>
           <p className="mt-4 text-lg text-gray-600">
@@ -38,106 +63,142 @@ const ContactPage = () => {
         </div>
       </div>
 
-      {/* Contact Form and Info Section */}
       <div className="mx-auto max-w-[1075px] px-4 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {/* Contact Form */}
-          <div className="rounded-lg bg-white p-8 shadow-lg">
+          <div className="rounded-lg bg-white p-4 shadow-lg md:p-8">
             <h2 className="mb-6 text-2xl font-semibold text-gray-800">
               Send Us a Message
             </h2>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-6">
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="mt-1 w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
-                  placeholder="Enter your name"
-                  required
-                />
-              </div>
-              <div className="mb-6">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="mt-1 w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-              <div className="mb-6">
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={5}
-                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
-                  placeholder="Enter your message"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full rounded-md bg-[#49AD91] px-4 py-2 text-white hover:bg-[#68d7b7]"
-              >
-                Send Message
-              </button>
-            </form>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <div className="mb-6">
+                    {/* <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Name
+                    </label> */}
+                    <Field
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="mt-1 w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Enter your name"
+                    />
+                    <ErrorMessage
+                      name="name"
+                      component="div"
+                      className="mt-1 text-sm text-red-500"
+                    />
+                  </div>
+
+                  <div className="mb-6">
+                    {/* <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Email
+                    </label> */}
+                    <Field
+                      type="email"
+                      id="email"
+                      name="email"
+                      className="mt-1 w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Enter your email"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="mt-1 text-sm text-red-500"
+                    />
+                  </div>
+                  <div className="mb-6">
+                    {/* <label className="block text-sm font-medium text-gray-700">
+                      Phone
+                    </label> */}
+                    <Field
+                      type="text"
+                      name="phone"
+                      className="mt-1 w-full rounded-md border border-gray-300 px-6 py-[17px] text-[15px] text-gray-700 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Enter your phone number"
+                    />
+                    <ErrorMessage
+                      name="phone"
+                      component="div"
+                      className="mt-1 text-sm text-red-500"
+                    />
+                  </div>
+
+                  <div className="mb-6">
+                    {/* <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Message
+                    </label> */}
+                    <Field
+                      as="textarea"
+                      id="message"
+                      name="message"
+                      rows={5}
+                      className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent"
+                      placeholder="Enter your message"
+                    />
+                    <ErrorMessage
+                      name="message"
+                      component="div"
+                      className="mt-1 text-sm text-red-500"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full rounded-md bg-[#49AD91] px-4 py-2 text-white hover:bg-[#68d7b7]"
+                  >
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </button>
+                </Form>
+              )}
+            </Formik>
           </div>
 
-          {/* Contact Information */}
-          <div className="rounded-lg bg-white p-8 shadow-lg">
+          <div className="rounded-lg bg-white h-fit p-4 shadow-lg md:p-8">
             <h2 className="mb-6 text-2xl font-semibold text-gray-800">
               Contact Information
             </h2>
             <div className="space-y-6">
-              <div className="flex items-center">
-                <MapPin className="h-6 w-6 text-[#49AD91]" />
-                <div className="ml-4">
+              <div className="flex items-center gap-4">
+                <MapPin className="h-12 w-12 text-[#49AD91]" />
+                <div>
                   <p className="text-lg font-medium text-gray-800">Address</p>
                   <p className="text-gray-600">
-                  S.F.NO. 315, Angels Garden, Nagamanaickenpalayam, Pattanam, 
+                    {contactInfoResponse?.data?.address || "Default Address"}
                   </p>
-                  <p className="text-gray-600">Coimbatore, Tamil Nadu, 641016</p>
                 </div>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center gap-4">
                 <Mail className="h-6 w-6 text-[#49AD91]" />
-                <div className="ml-4">
+                <div>
                   <p className="text-lg font-medium text-gray-800">Email</p>
-                  <p className="text-gray-600">info@wolpin.com</p>
+                  <p className="text-gray-600">
+                    {contactInfoResponse?.data?.email || "info@example.com"}
+                  </p>
                 </div>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center gap-4">
                 <Phone className="h-6 w-6 text-[#49AD91]" />
-                <div className="ml-4">
+                <div>
                   <p className="text-lg font-medium text-gray-800">Phone</p>
-                  <p className="text-gray-600">+91 1234 678 1011</p>
+                  <p className="text-gray-600">
+                    {contactInfoResponse?.data?.contact_number ||
+                      "+1 234 567 890"}
+                  </p>
                 </div>
               </div>
             </div>

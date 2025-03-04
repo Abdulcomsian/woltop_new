@@ -60,17 +60,18 @@ export default function OurTeam({ bannerData }) {
                       {member.designation}
                     </p>
                   </div>
-                  <div className="mb-10 flex gap-4">
-                    {member.x_profile && (
+                  <div className="mb-10 flex items-center gap-2">
+                    {member.linkedIn_profile && (
                       <a
-                        href={member.x_profile}
+                        href={member.linkedIn_profile}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <svg
-                          width="24"
-                          height="25"
+                          width="16"
+                          height="16"
                           viewBox="0 0 24 25"
+                          className="w-[16px] h-[16px] md:w-[21px] md:h-[21px]"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                         >
@@ -83,16 +84,17 @@ export default function OurTeam({ bannerData }) {
                         </svg>
                       </a>
                     )}
-                    {member.linkedIn_profile && (
+                    {member.x_profile && (
                       <a
-                        href={member.linkedIn_profile}
+                        href={member.x_profile}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <svg
-                          width="24"
-                          height="25"
+                          width="16"
+                          height="16"
                           viewBox="0 0 24 25"
+                          className="w-[16px] h-[16px] md:w-[21px] md:h-[21px]"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
                         >

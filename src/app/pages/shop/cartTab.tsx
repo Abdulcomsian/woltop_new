@@ -20,6 +20,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { BiPurchaseTag } from "react-icons/bi";
+import { IoMdArrowDropright } from "react-icons/io";
 
 interface CartTabProps {
   cartData: any;
@@ -434,7 +435,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                       </div>
                     )}
                     <div className="w-full">
-                      <div className="rounded border">
+                      <div className="rounded md:border">
                         {totalDiscount > 0 && (
                           <div className="header bg-[#F0F7F2] p-2">
                             <p className="flex items-center gap-2">
@@ -448,8 +449,8 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                             </p>
                           </div>
                         )}
-                        <div className="bill-detail mx-3">
-                          <div className="border-border-200 flex flex-col border-b p-2 py-3">
+                        <div className="bill-detail md:mx-3">
+                          <div className="border-border-200 flex flex-col border-b py-3 md:p-2">
                             <h4 className="text-base font-medium text-black">
                               Bill Details
                             </h4>
@@ -462,7 +463,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                             </div> */}
                           </div>
                         </div>
-                        <div className="border-border-200 mx-3 border-b p-2 py-3">
+                        <div className="border-border-200 border-b py-3 md:mx-3 md:p-2">
                           <ul>
                             <li className="text-body mb-2 flex justify-between text-[14px]">
                               <div className="text-xs text-[#7A7474]">
@@ -495,7 +496,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                             </li>
                           </ul>
                         </div>
-                        <div className="subtotal mx-3 mt-2 pb-3 pl-2 pr-2">
+                        <div className="subtotal mt-2 pb-3 md:mx-3 md:px-2">
                           <h4 className="flex items-center justify-between font-medium">
                             <span className="text-base font-medium text-[#000000]">
                               Sub Total
@@ -513,14 +514,29 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => setActiveTab("shipping")}
-                        data-variant="normal"
-                        className="focus:ring-accent-700 text-light hover:bg-accent-hover mt-5 inline-flex h-12 w-full shrink-0 items-center justify-center rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-accent outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1"
-                      >
-                        CHECKOUT
-                        <ArrowRight size={20} className="ml-2" />
-                      </button>
+                      <div className="shadow-custom-for-cartTab flex items-center justify-between md:mt-5">
+                        <span className="text-[16px] font-medium text-[#000000] md:hidden">
+                          {cartData?.items?.length > 1
+                            ? `${cartData?.items?.length} items`
+                            : `${cartData?.items?.length} item`}
+                          - ₹{totalPrice || 0}
+                        </span>
+                        <button
+                          onClick={() => setActiveTab("shipping")}
+                          data-variant="normal"
+                          className="hover:bg-accent-hover inline-flex h-10 w-auto shrink-0 items-center justify-center rounded bg-[#49AD91] px-5 py-0 text-sm font-semibold leading-none text-accent outline-none transition duration-300 ease-in-out focus:outline-0 md:h-12 md:w-full md:text-base"
+                        >
+                          CHECKOUT
+                          <ArrowRight
+                            size={20}
+                            className="ml-2 hidden md:block"
+                          />
+                          <IoMdArrowDropright
+                            size={20}
+                            className="ml-1 md:hidden"
+                          />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
