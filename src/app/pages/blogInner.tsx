@@ -1,8 +1,7 @@
 "use client";
-
 import Image from "next/image";
 import bannerImage from "../../../public/aboutbanner.jpg";
-
+import parse from "html-react-parser";
 interface ResData {
   data: {
     image: string;
@@ -13,11 +12,11 @@ interface ResData {
 }
 
 export default function BlogInner({ resData }: { resData: ResData }) {
-  console.log(resData, "blog details resData");
+  // console.log(resData, "blog details resData");
 
   return (
     <>
-      <div className="container relative mx-auto min-h-96 text-black">
+      <div className="container relative mx-auto min-h-96 text-black mb-5">
         <div className="absolute inset-0 overflow-hidden rounded-[8px] bg-opacity-30">
           <Image
             className="h-full w-full object-cover"
@@ -86,63 +85,7 @@ export default function BlogInner({ resData }: { resData: ResData }) {
         {resData?.data?.short_description}
       </p>
       <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
-        {resData?.data.description}
-      </p>
-
-      <div className="mb-[50px] flex items-start gap-2">
-        <svg
-          width="41"
-          height="38"
-          viewBox="0 0 41 38"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M28.6047 38L25.1085 34.5021C26.8036 31.5342 28.2868 28.5662 29.5581 25.5983C30.8295 22.7364 31.5711 19.9275 31.7829 17.1715L23.8372 15.4226V0H41L41 11.1297C41 17.7015 39.7287 23.0014 37.186 27.0293C34.5375 31.1632 31.677 34.8201 28.6047 38ZM4.76744 38L1.27132 34.5021C2.96641 31.5342 4.44961 28.5662 5.72093 25.5983C6.99225 22.7364 7.73385 19.9275 7.94574 17.1715L0 15.4226L0 0L17.1628 0V11.1297C17.1628 17.7015 15.8915 23.0014 13.3488 27.0293C10.7003 31.1632 7.83979 34.8201 4.76744 38Z"
-            fill="#A9A9A9"
-          />
-        </svg>
-        <span className="text-[48px] font-medium text-[#000000] leading-[72px]">
-          Knicker lining concealed back zip fasten swing style high waisted
-          double layer full pattern floral.
-        </span>
-      </div>
-
-      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
-        {resData?.data?.short_description}
-      </p>
-      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
-        {resData?.data.description}
-      </p>
-
-      <p className="mb-[20px] text-[48px] font-medium text-[#000000] leading-[72px]">
-        Eu ridiculus fringilla aenean
-      </p>
-      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
-        Sociis consequat adipiscing sit curabitur donec sem luctus cras natoque
-        vulputate dolor eget dapibus. Nec vitae eros ullamcorper laoreet dapibus
-        mus ac ante viverra. A aenean sit augue curabitur et parturient nisi sed
-        enim. Nulla nec quis sit quisque sem commodo ultricies neque. Lorem eget
-        venenatis dui ante luctus ultricies tellus montes. Quis in sapien
-        tempus.
-      </p>
-      <ul className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
-        <li>Crisp fresh iconic elegant timeless clean perfume</li>
-        <li>Neck straight sharp silhouette and dart detail</li>
-        <li>
-          Machine wash cold slim fit premium stretch selvedge denim comfortable
-          low waist
-        </li>
-      </ul>
-      <p className="mb-[50px] text-[18px] text-[#0B0A0A] font-normal">
-        See-through delicate embroidered organza blue lining luxury acetate-mix
-        stretch pleat detailing. Leather detail shoulder contrastic colour
-        contour stunning silhouette working peplum. Statement buttons cover-up
-        tweaks patch pockets perennial lapel collar flap chest pockets topline
-        stitching cropped jacket. Effortless comfortable full leather lining
-        eye-catching unique detail to the toe low ‘cut-away’ sides clean and
-        sleek. Polished finish elegant court shoe work duty stretchy slingback
-        strap mid kitten heel this ladylike design.
+        {parse(resData?.data.description || "")}
       </p>
 
       <div className="flex items-center gap-[33px] text-[18px] font-normal text-[#9497A1]">
