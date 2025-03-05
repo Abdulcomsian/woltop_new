@@ -96,7 +96,7 @@ export default function productDetailItem({
     useState(featured_image);
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn } = useSelector((state: { user: { isLoggedIn: boolean } }) => state.user);
   const cartData = useSelector((state: any) => state?.cart);
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -113,7 +113,7 @@ export default function productDetailItem({
 
   useEffect(() => {
     const handleResize = () => {
-      setItemsToShow(window.innerWidth >= 768 ? 5 : 2);
+      setItemsToShow(window.innerWidth >= 768 ? 3 : 2);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -189,10 +189,11 @@ export default function productDetailItem({
       }
 
       const existingItem = cartData.items.find(
-        (item) => item.id === responseData.data.id && item.variableId === selectedId,
+        (item) =>
+          item.id === responseData.data.id && item.variableId === selectedId,
       );
-  
-    console.log(existingItem, "extistj")
+
+      console.log(existingItem, "extistj");
 
       if (existingItem) {
         toast.info("Product is already in the cart");
@@ -423,7 +424,7 @@ export default function productDetailItem({
 
               <div className="shipping-btn mt-[14px] flex justify-start gap-3 md:gap-4">
                 <button
-                  onClick={() => handleAddToWishlist(id)}
+                  onClick={() => handleAddToWishlist(Number(id))}
                   disabled={isAddingToWishlist}
                   className="border-{#A5A1A1} bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center gap-2 rounded border-2 py-2 text-[14px] font-medium text-[#A5A1A1] lg:text-[18px]"
                 >
@@ -527,37 +528,50 @@ export default function productDetailItem({
         onClose={() => setIsDrawerOpen(false)}
         open={isDrawerOpen}
         height={100}
-        headerStyle={{ display: "none" }}
+        styles={{
+          header: { display: "none" },
+        }}
       >
-        <div className="mx-auto flex w-fit items-center justify-center gap-[10px]">
-          {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
-            <div
-              key={item.id || `item-${index}`}
-              className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
-            >
-              <Link
-                href={`/product/${item?.id}`}
-                className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+        <div className="mx-auto flex w-fit items-center justify-center gap-[10px] md:gap-10">
+          <div className="flex items-center justify-center gap-[10px]">
+            {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
+              <div
+                key={item.id || `item-${index}`}
+                className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
               >
-                <img
-                  alt={item.name}
-                  className="h-full w-full object-cover"
-                  src={
-                    item?.featured_image || "https://placehold.co/600x400.png"
-                  }
-                />
-              </Link>
-            </div>
-          ))}
-          {cartData?.items?.length > itemsToShow && (
-            <span className="flex min-w-12 text-xs font-medium">
-              +{cartData.items.length - itemsToShow} items
-            </span>
-          )}
+                <Link
+                  href={`/product/${item?.id}`}
+                  className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+                >
+                  <img
+                    alt={item.name}
+                    className="h-full w-full object-cover"
+                    src={
+                      item?.featured_image || "https://placehold.co/600x400.png"
+                    }
+                  />
+                </Link>
+              </div>
+            ))}
+            {cartData?.items?.length > itemsToShow && (
+              <span
+                className="flex min-w-12 text-xs font-semibold"
+                style={{
+                  visibility:
+                    cartData?.items?.length > itemsToShow
+                      ? "visible"
+                      : "hidden",
+                  opacity: cartData?.items?.length > itemsToShow ? 1 : 0,
+                }}
+              >
+                +{cartData.items.length - itemsToShow} items
+              </span>
+            )}
+          </div>
           <Link
             href="/cart"
             onClick={() => setIsDrawerOpen(false)}
-            className="flex min-w-[175px] justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-medium uppercase text-white"
+            className="flex h-[40px] min-w-[175px] items-center justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-bold uppercase text-white shadow-md"
           >
             ₹ {lastItemPrice} • Go to Cart
           </Link>

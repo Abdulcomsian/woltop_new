@@ -176,7 +176,21 @@ export default function footer() {
           className="w-full rounded-md border-2 border-dashed border-[#49AD91] bg-white p-6 lg:container lg:m-auto"
         >
           <div className="text-xs leading-[26px] md:text-[14px]">
-            <span className="font-bold">Wallpapers :</span> Exclusive Wallpaper
+            <span className="font-bold mr-1">Wallpapers :</span> 
+            {categories?.map((category, index) => (
+                <span key={category?.id}>
+                  <Link
+                    href={`/category/${category.id}`}
+                    className="hover:text-gray-900"
+                  >
+                    {category?.name}
+                  </Link>
+                  {index < categories?.length - 1 && (
+                    <span className="mr-1 text-[#000000]">,</span>
+                  )}
+                </span>
+              ))}
+            {/* Exclusive Wallpaper
             Designs  3D Wallpaper Kids Room Aesthetic Art & Paintings Tropical
             Vastu World Map Indian & Traditional Nature Abstract Animals Bamboo
             Beauty, Spa & Salon  Birch Tree Bohemian Botanical Brick Cartoon
@@ -187,7 +201,7 @@ export default function footer() {
             Wallpaper Peacock Wallpaper Rajasthani WallpaperRomantic 3d
             Wallpaper for Bedroom Walls Ganesha Wallpaper Buddha Krishna Bedroom
             Living Room Kitchen Pooja Room Gaming Room Dining Room Guest Room
-            Floor Wallpaper
+            Floor Wallpaper */}
           </div>
         </div>
 

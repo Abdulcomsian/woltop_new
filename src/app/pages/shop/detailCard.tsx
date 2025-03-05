@@ -6,9 +6,7 @@ import { toast } from "react-toastify";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
 } from "~/components/ui/card";
 import { useGetProductsByColorQuery } from "~/store/api/productApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
@@ -40,7 +38,7 @@ export default function DetailCard({ colorId }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setItemsToShow(window.innerWidth >= 768 ? 5 : 2);
+      setItemsToShow(window.innerWidth >= 768 ? 3 : 2);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -148,7 +146,7 @@ export default function DetailCard({ colorId }) {
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
-                        className="custom-card-class relative z-0 h-52 w-auto items-center  rounded-[8px] justify-center md:h-80"
+                        className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-[8px] md:h-80"
                       ></div>
                       <p className="mt-[11px] truncate text-[#505050]">
                         {card?.title}
@@ -176,37 +174,50 @@ export default function DetailCard({ colorId }) {
         onClose={() => setIsDrawerOpen(false)}
         open={isDrawerOpen}
         height={100}
-        headerStyle={{ display: "none" }}
+        styles={{
+          header: { display: "none" },
+        }}
       >
-        <div className="mx-auto flex w-fit items-center justify-center gap-[10px]">
-          {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
-            <div
-              key={item.id || `item-${index}`}
-              className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
-            >
-              <Link
-                href={`/product/${item?.id}`}
-                className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+        <div className="mx-auto flex w-fit items-center justify-center gap-[10px] md:gap-10">
+          <div className="flex items-center justify-center gap-[10px]">
+            {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
+              <div
+                key={item.id || `item-${index}`}
+                className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
               >
-                <img
-                  alt={item.name}
-                  className="h-full w-full object-cover"
-                  src={
-                    item?.featured_image || "https://placehold.co/600x400.png"
-                  }
-                />
-              </Link>
-            </div>
-          ))}
-          {cartData?.items?.length > itemsToShow && (
-            <span className="flex min-w-12 text-xs font-medium">
-              +{cartData.items.length - itemsToShow} items
-            </span>
-          )}
+                <Link
+                  href={`/product/${item?.id}`}
+                  className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+                >
+                  <img
+                    alt={item.name}
+                    className="h-full w-full object-cover"
+                    src={
+                      item?.featured_image || "https://placehold.co/600x400.png"
+                    }
+                  />
+                </Link>
+              </div>
+            ))}
+            {cartData?.items?.length > itemsToShow && (
+              <span
+                className="flex min-w-12 text-xs font-semibold"
+                style={{
+                  visibility:
+                    cartData?.items?.length > itemsToShow
+                      ? "visible"
+                      : "hidden",
+                  opacity: cartData?.items?.length > itemsToShow ? 1 : 0,
+                }}
+              >
+                +{cartData.items.length - itemsToShow} items
+              </span>
+            )}
+          </div>
           <Link
             href="/cart"
             onClick={() => setIsDrawerOpen(false)}
-            className="flex min-w-[175px] justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-medium uppercase text-white"
+            className="flex h-[40px] min-w-[175px] items-center justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-bold uppercase text-white shadow-md"
           >
             ₹ {lastItemPrice} • Go to Cart
           </Link>

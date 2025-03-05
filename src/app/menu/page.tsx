@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Coins, Plus, Search, X } from "lucide-react";
 import { useGetAllProductsQuery } from "~/store/api/allProductsApi";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart } from "~/store/slices/cartSlice";
@@ -19,10 +18,12 @@ import { PiSquaresFour } from "react-icons/pi";
 import { HiOutlineArchiveBox } from "react-icons/hi2";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { LiaCoinsSolid } from "react-icons/lia";
+import CoinsIcon from "../../../public/icons/nat-cash.png";
 import { UserRound, HelpCircle, FileText, BookOpen } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Drawer } from "antd";
+import Image from "next/image";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -34,7 +35,9 @@ const MenuPage = () => {
   const { data: allProducts, isLoading } = useGetAllProductsQuery({});
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn } = useSelector(
+    (state: { user: { isLoggedIn: boolean } }) => state.user,
+  );
   const dispatch = useDispatch();
   const cartData = useSelector((state: any) => state.cart);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -42,7 +45,7 @@ const MenuPage = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setItemsToShow(window.innerWidth >= 768 ? 5 : 2);
+      setItemsToShow(window.innerWidth >= 768 ? 3 : 2);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -161,7 +164,10 @@ const MenuPage = () => {
               onClick={handleLoginClick}
               className="flex cursor-pointer items-center gap-3 rounded bg-[#49AD91] px-[25px] py-3 font-medium text-[#FFFFFF] md:gap-5"
             >
-              <LiaCoinsSolid color="gold" size={28} />
+              {/* <LiaCoinsSolid color="gold" size={28} /> */}
+              <div className="relative h-10 w-10">
+                <Image fill src={CoinsIcon} alt="" className="w-full h-full" />
+              </div>
               <div className="text-right text-xs">
                 <p>₹0</p>
                 <span>Nat Cash</span>
@@ -319,37 +325,50 @@ const MenuPage = () => {
         onClose={() => setIsDrawerOpen(false)}
         open={isDrawerOpen}
         height={100}
-        headerStyle={{ display: "none" }}
+        styles={{
+          header: { display: "none" },
+        }}
       >
-        <div className="mx-auto flex w-fit items-center justify-center gap-[10px]">
-          {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
-            <div
-              key={item.id || `item-${index}`}
-              className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
-            >
-              <Link
-                href={`/product/${item?.id}`}
-                className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+        <div className="mx-auto flex w-fit items-center justify-center gap-[10px] md:gap-10">
+          <div className="flex items-center justify-center gap-[10px]">
+            {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
+              <div
+                key={item.id || `item-${index}`}
+                className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
               >
-                <img
-                  alt={item.name}
-                  className="h-full w-full object-cover"
-                  src={
-                    item?.featured_image || "https://placehold.co/600x400.png"
-                  }
-                />
-              </Link>
-            </div>
-          ))}
-          {cartData?.items?.length > itemsToShow && (
-            <span className="flex min-w-12 text-xs font-medium">
-              +{cartData.items.length - itemsToShow} items
-            </span>
-          )}
+                <Link
+                  href={`/product/${item?.id}`}
+                  className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+                >
+                  <img
+                    alt={item.name}
+                    className="h-full w-full object-cover"
+                    src={
+                      item?.featured_image || "https://placehold.co/600x400.png"
+                    }
+                  />
+                </Link>
+              </div>
+            ))}
+            {cartData?.items?.length > itemsToShow && (
+              <span
+                className="flex min-w-12 text-xs font-semibold"
+                style={{
+                  visibility:
+                    cartData?.items?.length > itemsToShow
+                      ? "visible"
+                      : "hidden",
+                  opacity: cartData?.items?.length > itemsToShow ? 1 : 0,
+                }}
+              >
+                +{cartData.items.length - itemsToShow} items
+              </span>
+            )}
+          </div>
           <Link
             href="/cart"
             onClick={() => setIsDrawerOpen(false)}
-            className="flex min-w-[175px] justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-medium uppercase text-white"
+            className="flex h-[40px] min-w-[175px] items-center justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-bold uppercase text-white shadow-md"
           >
             ₹ {lastItemPrice} • Go to Cart
           </Link>
