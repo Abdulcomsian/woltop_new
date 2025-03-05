@@ -6,6 +6,7 @@ import { Package, CheckCircle, XCircle } from "lucide-react";
 import { toast } from "react-toastify";
 import LoginModal from "~/components/LoginModal";
 import { useGetWishlistItemsQuery } from "~/store/api/wishlistApi";
+import { useGetOrdersItemsQuery } from "~/store/api/ordersApi";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -15,10 +16,14 @@ const Spinner = () => (
 
 const OrderTrackingPage = () => {
   const { isLoggedIn } = useSelector((state) => state.user);
-  const { data: orders = [], isLoading } = useGetWishlistItemsQuery([], {
+  const { data: ordersResponse = {}, isLoading } = useGetOrdersItemsQuery([], {
     skip: !isLoggedIn,
   });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const orders = ordersResponse.data || [];
+
+  console.log(orders, "orders");
 
   if (!isLoggedIn) {
     return (
@@ -64,67 +69,54 @@ const OrderTrackingPage = () => {
       </div>
 
       <div className="mx-auto max-w-[1075px] px-4 py-12">
-        {orders.length > 0 ? (
-          // <div className="space-y-6">
-          //   {orders.map((order) => (
-          //     <div
-          //       key={order.id}
-          //       className="rounded-lg bg-white p-6 shadow-lg"
-          //     >
-          //       <div className="flex justify-between items-center border-b pb-4 mb-4">
-          //         <div>
-          //           <h2 className="text-xl font-semibold text-gray-800">
-          //             Order #{order.id}
-          //           </h2>
-          //           <p className="text-sm text-gray-500">Placed on {order.date}</p>
-          //         </div>
-          //         <div>
-          //           {order.status === "Delivered" ? (
-          //             <CheckCircle className="text-green-500 h-6 w-6" />
-          //           ) : order.status === "Shipped" ? (
-          //             <Package className="text-blue-500 h-6 w-6" />
-          //           ) : (
-          //             <XCircle className="text-red-500 h-6 w-6" />
-          //           )}
-          //           <span className="ml-2 text-lg font-semibold">
-          //             {order.status}
-          //           </span>
-          //         </div>
-          //       </div>
-          //       <div className="space-y-4">
-          //         {order.items.map((item) => (
-          //           <div key={item.id} className="flex items-center space-x-4">
-          //             <img
-          //               src={item.image}
-          //               alt={item.name}
-          //               className="h-20 w-20 rounded-lg object-cover"
-          //             />
-          //             <div>
-          //               <h3 className="text-lg font-medium text-gray-800">{item.name}</h3>
-          //               <p className="text-gray-500">Qty: {item.quantity}</p>
-          //               <p className="font-semibold">₹{item.price}</p>
-          //             </div>
-          //           </div>
-          //         ))}
-          //       </div>
-          //       <div className="mt-4 text-right">
-          //         {/* <p className="text-lg font-bold">Total: ₹{order.totalPrice}</p> */}
-          //         <p className="text-lg font-bold">Total: ₹700</p>
-          //       </div>
-          //     </div>
-          //   ))}
-          // </div>
-          <div className="flex items-center justify-center p-4">
-            <div className="flex w-full max-w-md">
-              <input
-                type="text"
-                placeholder="Enter your order number"
-                className="w-full rounded-l-md border border-gray-300 px-4 py-2 focus:border-transparent outline-none focus:outline-none focus:ring-[0.5px] focus:ring-[#49AD91]"
-              />
-              <button className="rounded-r-md bg-[#49AD91] px-6 py-2 font-semibold text-white hover:bg-[#49AD91] focus:outline-none focus:ring-[0.5px] focus:ring-[#49AD91] focus:ring-opacity-50">
-                Track
-              </button>
-            </div>
+        {orders?.length > 0 ? (
+          <div className="space-y-6">
+            {orders?.map((order) => (
+              <div
+                key={order.id}
+                className="rounded-lg bg-white p-6 shadow-lg"
+              >
+                <div className="flex justify-between items-center border-b pb-4 mb-4">
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-800">
+                      Order #{order.order_id}
+                    </h2>
+                    <p className="text-sm text-gray-500">Status: {order.order_status}</p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="ml-2 text-lg font-semibold">
+                      {order.order_status}
+                    </span>
+                    {order.order_status === "Delivered" ? (
+                      <CheckCircle className="text-green-500 h-6 w-6" />
+                    ) : order.order_status === "Shipped" ? (
+                      <Package className="text-blue-500 h-6 w-6" />
+                    ) : (
+                      <XCircle className="text-red-500 h-6 w-6" />
+                    )}
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  {order?.products?.map((product) => (
+                    <div key={product.id} className="flex items-center space-x-4">
+                      <img
+                        src={product?.featured_image}
+                        alt={product.name}
+                        className="h-20 w-20 rounded-lg object-cover"
+                      />
+                      <div>
+                        <h3 className="text-lg font-medium text-gray-800">{product.title}</h3>
+                        <p className="text-gray-500">Qty: {product.quantity || 1}</p>
+                        <p className="font-semibold">₹{product.sale_price  || 0}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 text-right">
+                  <p className="text-lg font-semibold">Total: ₹{order.total_amount}</p>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="text-center">
