@@ -34,6 +34,11 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
   const totalDiscount = useSelector((state: any) => state.cart.totalDiscount);
   const { appliedCoupon } = useSelector((state: any) => state.cart);
+  const [loadingItem, setLoadingItem] = useState<{
+    itemId: number;
+    variableId: number;
+    action: "delete" | "increment" | "decrement";
+  } | null>(null);
 
   const {
     shipping_charges,
@@ -67,13 +72,17 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
       (item: any) => item.id === itemId && item.variableId === variableId,
     );
     if (item) {
-      dispatch(
-        updateItemQuantity({
-          id: itemId,
-          variableId,
-          quantity: item.quantity + 1,
-        }),
-      );
+      setLoadingItem({ itemId, variableId, action: "increment" });
+      setTimeout(() => {
+        dispatch(
+          updateItemQuantity({
+            id: itemId,
+            variableId,
+            quantity: item.quantity + 1,
+          }),
+        );
+        setLoadingItem(null);
+      }, 1000);
     }
   };
 
@@ -82,13 +91,17 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
       (item: any) => item.id === itemId && item.variableId === variableId,
     );
     if (item && item.quantity > 1) {
-      dispatch(
-        updateItemQuantity({
-          id: itemId,
-          variableId,
-          quantity: item.quantity - 1,
-        }),
-      );
+      setLoadingItem({ itemId, variableId, action: "decrement" });
+      setTimeout(() => {
+        dispatch(
+          updateItemQuantity({
+            id: itemId,
+            variableId,
+            quantity: item.quantity - 1,
+          }),
+        );
+        setLoadingItem(null);
+      }, 1000);
     }
   };
 
@@ -97,8 +110,11 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
       (item: any) => item.id === itemId && item.variableId === variableId,
     );
     if (item) {
-      dispatch(removeItemFromCart({ id: itemId, variableId }));
-      toast.success("Item removed from cart");
+      setLoadingItem({ itemId, variableId, action: "delete" });
+      setTimeout(() => {
+        dispatch(removeItemFromCart({ id: itemId, variableId }));
+        setLoadingItem(null);
+      }, 1000);
     }
   };
 
@@ -209,7 +225,18 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                                   <Minus />
                                 </button>
                                 <div className="flex items-center justify-center bg-[#49AD91] px-[20px] py-[11px] text-sm font-semibold text-[#fff]">
-                                  {item.quantity}
+                                  {loadingItem?.itemId === item.id &&
+                                  loadingItem?.variableId === item.variableId &&
+                                  (loadingItem?.action === "increment" || loadingItem?.action === "delete" ||
+                                    loadingItem?.action === "decrement") ? (
+                                    <div
+                                      className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2"
+                                      role="status"
+                                    >
+                                    </div>
+                                  ) : (
+                                    item.quantity
+                                  )}
                                 </div>
                                 <button
                                   className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"

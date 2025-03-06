@@ -2,7 +2,11 @@
 import { useEffect, useState } from "react";
 import { useGetAllProductsQuery } from "~/store/api/allProductsApi";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "~/store/slices/cartSlice";
+import {
+  addItemToCart,
+  removeItemFromCart,
+  updateItemQuantity,
+} from "~/store/slices/cartSlice";
 import {
   Card,
   CardContent,
@@ -19,7 +23,7 @@ import { HiOutlineArchiveBox } from "react-icons/hi2";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { LiaCoinsSolid } from "react-icons/lia";
 import CoinsIcon from "../../../public/icons/nat-cash.png";
-import { UserRound, HelpCircle, FileText, BookOpen } from "lucide-react";
+import { UserRound, HelpCircle, FileText, BookOpen, Minus, Plus } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Drawer } from "antd";
@@ -42,6 +46,10 @@ const MenuPage = () => {
   const cartData = useSelector((state: any) => state.cart);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [itemsToShow, setItemsToShow] = useState(2);
+  const [loadingItem, setLoadingItem] = useState<{
+    itemId: number;
+    action: "delete" | "increment" | "decrement";
+  } | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -75,11 +83,53 @@ const MenuPage = () => {
           : Number(product.price),
         discount: Number(product.discount.replace("%", "")),
         featured_image: product.featured_image,
-        variableId: 0,
+        variableId: null,
         variableName: "Default",
       }),
     );
     setIsDrawerOpen(true);
+  };
+
+  const handleIncrement = (itemId: number) => {
+    const item = cartData.items.find((item: any) => item.id === itemId);
+    if (item) {
+      setLoadingItem({ itemId, action: "increment" });
+      setTimeout(() => {
+        dispatch(
+          updateItemQuantity({
+            id: itemId,
+            variableId: null,
+            quantity: item.quantity + 1,
+          }),
+        );
+        setLoadingItem(null);
+      }, 1000);
+    }
+  };
+
+  const handleDecrement = (itemId: number) => {
+    const item = cartData.items.find((item: any) => item.id === itemId);
+    if (item) {
+      if (item.quantity === 1) {
+        setLoadingItem({ itemId, action: "delete" });
+        setTimeout(() => {
+          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+          setLoadingItem(null);
+        }, 1000);
+      } else {
+        setLoadingItem({ itemId, action: "decrement" });
+        setTimeout(() => {
+          dispatch(
+            updateItemQuantity({
+              id: itemId,
+              variableId: null,
+              quantity: item.quantity - 1,
+            }),
+          );
+          setLoadingItem(null);
+        }, 1000);
+      }
+    }
   };
 
   const handleLoginClick = () => {
@@ -166,7 +216,7 @@ const MenuPage = () => {
             >
               {/* <LiaCoinsSolid color="gold" size={28} /> */}
               <div className="relative h-10 w-10">
-                <Image fill src={CoinsIcon} alt="" className="w-full h-full" />
+                <Image fill src={CoinsIcon} alt="" className="h-full w-full" />
               </div>
               <div className="text-right text-xs">
                 <p>₹0</p>
@@ -202,7 +252,7 @@ const MenuPage = () => {
           </p>
           {allProducts?.length > 0 ? (
             <Swiper
-              spaceBetween={20}
+              spaceBetween={28}
               slidesPerView={2}
               breakpoints={{
                 640: { slidesPerView: 2 },
@@ -214,28 +264,70 @@ const MenuPage = () => {
               {allProducts?.map((product) => (
                 <SwiperSlide key={product?.id}>
                   <div className="card-wrapper relative cursor-pointer">
-                    {!product?.variables.length > 0 && (
-                      <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
-                        <div className="flex w-11/12 justify-end">
-                          <button
-                            onClick={() => handleAddToCart(product)}
-                            className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9"
-                          >
-                            <svg
-                              fill="#49AD91"
-                              viewBox="0 0 24 24"
-                              stroke="#49AD91"
-                              className="h-5 w-5 stroke-2"
+                    {!product?.variables?.length > 0 && (
+                      <>
+                        {cartData.items.some((item) => {
+                          if (item.id === product.id) {
+                            return item.id === product.id;
+                          }
+                        }) ? (
+                          <div className="absolute -right-7 top-0 z-40 flex h-[38px] -translate-y-1/2 rounded border border-[#49AD91]">
+                            <button
+                              className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded-l bg-white px-[10px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                              onClick={() => handleDecrement(product.id)}
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                              ></path>
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
+                              <span className="sr-only">minus</span>
+                              <Minus />
+                            </button>
+                            <div className="flex items-center justify-center bg-[#49AD91] px-[18px] py-[11px] text-sm font-semibold text-[#fff]">
+                              {loadingItem?.itemId === product?.id &&
+                              (loadingItem?.action === "increment" ||
+                                loadingItem?.action === "delete" ||
+                                loadingItem?.action === "decrement") ? (
+                                <div
+                                  className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2"
+                                  role="status"
+                                ></div>
+                              ) : (
+                                <div>
+                                  {cartData.items.find(
+                                    (item) => item.id === product.id,
+                                  )?.quantity || 0}
+                                </div>
+                              )}
+                            </div>
+                            <button
+                              className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded-r bg-white px-[10px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                              onClick={() => handleIncrement(product.id)}
+                            >
+                              <span className="sr-only">plus</span>
+                              <Plus />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
+                            <div className="flex w-11/12 justify-end">
+                              <button
+                                onClick={() => handleAddToCart(product)}
+                                className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9"
+                              >
+                                <svg
+                                  fill="#49AD91"
+                                  viewBox="0 0 24 24"
+                                  stroke="#49AD91"
+                                  className="h-5 w-5 stroke-2"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                  ></path>
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
 
                     <Link
