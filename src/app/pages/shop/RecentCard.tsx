@@ -1,12 +1,16 @@
 "use client";
 import { Drawer } from "antd";
-import { Check, Plus } from "lucide-react";
+import { Check, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Card, CardContent, CardDescription } from "~/components/ui/card";
-import { addItemToCart } from "~/store/slices/cartSlice";
+import {
+  addItemToCart,
+  removeItemFromCart,
+  updateItemQuantity,
+} from "~/store/slices/cartSlice";
 import utils from "~/utils";
 interface Product {
   id: number;
@@ -21,9 +25,21 @@ export default function RecentCard() {
   const dispatch = useDispatch();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { isLoggedIn } = useSelector((state: { user: { isLoggedIn: boolean } }) => state.user);
+  const { isLoggedIn } = useSelector(
+    (state: { user: { isLoggedIn: boolean } }) => state.user,
+  );
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const cartData = useSelector((state: any) => state?.cart);
+
+  const [addingToCart, setAddingToCart] = useState<{
+    productId: number;
+    variableId: number | null;
+  } | null>(null);
+  const [loadingItem, setLoadingItem] = useState<{
+    itemId: number;
+    variableId: number;
+    action: "delete" | "increment" | "decrement";
+  } | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -58,53 +74,59 @@ export default function RecentCard() {
       return;
     }
 
-    let price, sale_price, discount, variableId, variableName;
+    setAddingToCart({
+      productId: product.data.id,
+      variableId: selectedVariable?.id || null,
+    });
 
-    if (selectedVariable) {
-      price = Number(selectedVariable.price);
-      sale_price = selectedVariable.sale_price
-        ? Number(selectedVariable.sale_price)
-        : price;
-      discount = Number(selectedVariable.discount);
-      variableId = selectedVariable.id;
-      variableName = selectedVariable.name;
-    } else {
-      price = Number(product.data.price);
-      sale_price = product.data.sale_price
-        ? Number(product.data.sale_price)
-        : price;
-      discount = Number(product.data.discount);
-      variableId = null;
-      variableName = "Default";
-    }
+    setTimeout(() => {
+      let price, sale_price, discount, variableId, variableName;
 
-    const existingItem = cartData.items.find(
-      (item) =>
-        item.id === Number(product.id) && item.variableId === variableId,
-    );
+      if (selectedVariable) {
+        price = Number(selectedVariable.price);
+        sale_price = selectedVariable.sale_price
+          ? Number(selectedVariable.sale_price)
+          : price;
+        discount = Number(selectedVariable.discount);
+        variableId = selectedVariable.id;
+        variableName = selectedVariable.name;
+      } else {
+        price = Number(product.data.price);
+        sale_price = product.data.sale_price
+          ? Number(product.data.sale_price)
+          : price;
+        discount = Number(product.data.discount);
+        variableId = null;
+        variableName = "Default";
+      }
 
-    console.log(existingItem, "extis item");
-    if (existingItem) {
-      toast.info("Product is already in the cart");
-      return;
-    }
+      const existingItem = cartData.items.find(
+        (item) =>
+          item.id === Number(product.id) && item.variableId === variableId,
+      );
 
-    console.log(product.id, "Product ID");
-    dispatch(
-      addItemToCart({
-        id: Number(product.data.id),
-        name: product.data.title,
-        price: price,
-        sale_price: sale_price,
-        discount: discount,
-        featured_image: product.data.featured_image,
-        variableId: variableId,
-        variableName: variableName,
-      }),
-    );
-    setIsDrawerOpen(true);
+      if (existingItem) {
+        toast.info("Product is already in the cart");
+        setAddingToCart(null);
+        return;
+      }
 
-    console.log(cartData, "Updated Cart Data");
+      console.log(product.id, "Product ID");
+      dispatch(
+        addItemToCart({
+          id: Number(product.data.id),
+          name: product.data.title,
+          price: price,
+          sale_price: sale_price,
+          discount: discount,
+          featured_image: product.data.featured_image,
+          variableId: variableId,
+          variableName: variableName,
+        }),
+      );
+      setIsDrawerOpen(true);
+      setAddingToCart(null);
+    }, 1000);
   };
   useEffect(() => {
     console.log(cartData, "Cart after dispatch Data Updated");
@@ -153,6 +175,53 @@ export default function RecentCard() {
 
   const lastItemPrice =
     cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
+
+  const handleIncrement = (itemId: number, variableId: number) => {
+    const item = cartData.items.find(
+      (item: any) => item.id === itemId && item.variableId === variableId,
+    );
+    if (item) {
+      setLoadingItem({ itemId, variableId, action: "increment" });
+      setTimeout(() => {
+        dispatch(
+          updateItemQuantity({
+            id: itemId,
+            variableId,
+            quantity: item.quantity + 1,
+          }),
+        );
+        setLoadingItem(null);
+      }, 1000);
+    }
+  };
+
+  const handleDecrement = (itemId: number, variableId: number) => {
+    const item = cartData.items.find(
+      (item: any) => item.id === itemId && item.variableId === variableId,
+    );
+    if (item) {
+      if (item.quantity === 1) {
+        setLoadingItem({ itemId, variableId, action: "delete" });
+        setTimeout(() => {
+          dispatch(removeItemFromCart({ id: itemId, variableId }));
+          setLoadingItem(null);
+          setSelectedId(null);
+        }, 1000);
+      } else {
+        setLoadingItem({ itemId, variableId, action: "decrement" });
+        setTimeout(() => {
+          dispatch(
+            updateItemQuantity({
+              id: itemId,
+              variableId,
+              quantity: item.quantity - 1,
+            }),
+          );
+          setLoadingItem(null);
+        }, 1000);
+      }
+    }
+  };
 
   if (isLoading) {
     return (
@@ -344,18 +413,86 @@ export default function RecentCard() {
                           />
                         </svg>
                       </div>
-                      <button
-                        onClick={() => {
-                          const selectedVariable = card.data.variables.find(
-                            (v: any) => v.id === selectedId,
+
+                      {cartData.items.some((item) => {
+                        if (selectedId !== null) {
+                          return (
+                            item.id === card.data.id &&
+                            item.variableId === selectedId
                           );
-                          handleAddToCart(card, selectedVariable);
-                        }}
-                        className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center gap-1 rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
-                      >
-                        <Plus className="h-3 w-3 md:h-5 md:w-5" />
-                        ADD
-                      </button>
+                        }
+                        return (
+                          item.id === card.data.id && item.variableId === null
+                        );
+                      }) ? (
+                        <div className="flex h-[34px] w-full justify-between rounded border border-[#49AD91]">
+                          <button
+                            className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                            onClick={() =>
+                              handleDecrement(card.data.id, selectedId)
+                            }
+                          >
+                            <span className="sr-only">minus</span>
+                            <Minus />
+                          </button>
+                          <div className="flex items-center justify-center bg-[#49AD91] px-[36px] text-sm font-semibold text-[#fff]">
+                            {loadingItem?.itemId === card.data.id &&
+                            loadingItem?.variableId === selectedId &&
+                            (loadingItem?.action === "increment" ||
+                              loadingItem?.action === "delete" ||
+                              loadingItem?.action === "decrement") ? (
+                              <div
+                                className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2"
+                                role="status"
+                              ></div>
+                            ) : (
+                              <div>
+                                {cartData.items.find(
+                                  (item) =>
+                                    item.id === card.data.id &&
+                                    item.variableId === (selectedId || null),
+                                )?.quantity || 0}
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                            onClick={() =>
+                              handleIncrement(card.data.id, selectedId)
+                            }
+                          >
+                            <span className="sr-only">plus</span>
+                            <Plus />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            const selectedVariable = selectedId
+                              ? card.data.variables.find(
+                                  (v) => v.id === selectedId,
+                                )
+                              : null;
+                            handleAddToCart(card, selectedVariable);
+                          }}
+                          className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center gap-1 rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
+                        >
+                          {addingToCart?.productId === card.data.id &&
+                          addingToCart?.variableId === selectedId ? (
+                            <div
+                              className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2 border-white"
+                              role="status"
+                            >
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          ) : (
+                            <>
+                              <Plus className="h-3 w-3 md:h-5 md:w-5" />
+                              ADD
+                            </>
+                          )}
+                        </button>
+                      )}
                     </div>
                   </CardContent>
                 </div>
@@ -413,7 +550,7 @@ export default function RecentCard() {
             <Link
               href="/cart"
               onClick={() => setIsDrawerOpen(false)}
-              className="flex min-w-[175px] h-[40px] items-center justify-center rounded bg-[#49AD91] shadow-md px-4 py-2 text-sm font-bold uppercase text-white"
+              className="flex h-[40px] min-w-[175px] items-center justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-bold uppercase text-white shadow-md"
             >
               ₹ {lastItemPrice} • Go to Cart
             </Link>

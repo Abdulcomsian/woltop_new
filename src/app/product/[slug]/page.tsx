@@ -34,6 +34,10 @@ export default function Page() {
   const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery({});  
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (product) {
       if (typeof window !== "undefined") {
         let storedProducts = localStorage.getItem("recentProducts");

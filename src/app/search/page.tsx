@@ -23,6 +23,10 @@ const SearchPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
 
+   useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+    
   useEffect(() => {
     if (allProducts) {
       setFilteredProducts(allProducts);

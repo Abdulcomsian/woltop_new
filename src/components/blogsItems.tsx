@@ -107,7 +107,7 @@ export default function BlogsItems() {
             className={`flex cursor-pointer items-center pt-3 text-gray-600 ${
               currentPage === 1
                 ? "cursor-not-allowed opacity-50"
-                : "hover:text-indigo-700"
+                : "hover:text-[#49AD91]"
             }`}
             onClick={() => handlePageChange(currentPage - 1)}
           >
@@ -137,7 +137,7 @@ export default function BlogsItems() {
             className={`flex cursor-pointer items-center pt-3 text-gray-600 ${
               currentPage === 8
                 ? "cursor-not-allowed opacity-50"
-                : "hover:text-indigo-700"
+                : "hover:text-[#49AD91]"
             }`}
             onClick={() => handlePageChange(currentPage + 1)}
           >

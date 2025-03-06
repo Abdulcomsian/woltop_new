@@ -4,6 +4,7 @@ import step2 from "../../public/step2.png";
 import step3 from "../../public/step3.png";
 import step4 from "../../public/step4.png";
 import Image from "next/image";
+import Link from "next/link";
 
 type InstallationStep = {
   id: number;
@@ -44,9 +45,9 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
   return (
     <>
       <div className="flex justify-center text-center">
-        <p className="mb-[35px] md:mb-[45px] flex justify-center rounded-[8px] bg-[#AA4A00] px-5 py-2 text-base font-semibold text-white md:py-4 md:text-[22px]">
+        <Link href='/blogs' className="mb-[35px] md:mb-[45px] flex justify-center rounded-[8px] bg-[#AA4A00] px-5 py-2 text-base font-semibold text-white md:py-4 md:text-[22px]">
           How To Install
-        </p>
+        </Link>
       </div>
 
       {/* Installation Steps Section */}
@@ -66,10 +67,10 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
 
                 <div className="relative mt-[22px]">
                   <div className="mb-2 text-center">
-                    <h6 className="hover:text-[#AA4A00]-900 text-[17px] font-semibold text-[#AA4A00] hover:underline hover:underline-offset-4 md:text-2xl">
+                    <h6 className="hover:text-[#AA4A00]-900 text-[17px] font-semibold text-[#AA4A00] md:text-2xl">
                       {step.name}
                     </h6>
-                    <p className="hover:text-[#656567]-900 pt-[10px] text-xs text-[#656567] hover:underline hover:underline-offset-4 md:pt-4 md:text-base">
+                    <p className="hover:text-[#656567]-900 pt-[10px] text-xs text-[#656567] md:pt-4 md:text-base">
                       {step.description}
                     </p>
                   </div>

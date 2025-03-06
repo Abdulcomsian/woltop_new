@@ -2,9 +2,13 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetDeliveryQuery } from "~/store/api/deliveryApi";
-import { addItemToCart } from "~/store/slices/cartSlice";
+import {
+  addItemToCart,
+  removeItemFromCart,
+  updateItemQuantity,
+} from "~/store/slices/cartSlice";
 import Calculator from "./calculator";
-import { Check, Heart, Loader2 } from "lucide-react";
+import { Check, Heart, Loader2, Minus, Plus } from "lucide-react";
 import { toast } from "react-toastify";
 import utils from "~/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -96,10 +100,21 @@ export default function productDetailItem({
     useState(featured_image);
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef(null);
-  const { isLoggedIn } = useSelector((state: { user: { isLoggedIn: boolean } }) => state.user);
+  const { isLoggedIn } = useSelector(
+    (state: { user: { isLoggedIn: boolean } }) => state.user,
+  );
   const cartData = useSelector((state: any) => state?.cart);
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [addingToCart, setAddingToCart] = useState<{
+    productId: number;
+    variableId: number | null;
+  } | null>(null);
+  const [loadingItem, setLoadingItem] = useState<{
+    itemId: number;
+    variableId: number;
+    action: "delete" | "increment" | "decrement";
+  } | null>(null);
 
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
@@ -158,6 +173,12 @@ export default function productDetailItem({
   };
 
   const handleAddToCart = () => {
+
+    if (responseData.data.variables?.length > 0 && selectedId === null) {
+      toast.warning("Please select a variant before adding to cart");
+      return;
+    }
+    
     if (responseData?.data) {
       let price, sale_price, discount;
       let selectedVariable = null;
@@ -215,6 +236,52 @@ export default function productDetailItem({
       setIsDrawerOpen(true);
     } else {
       console.error("Response data missing");
+    }
+  };
+  const handleIncrement = (itemId: number, variableId: number) => {
+    const item = cartData.items.find(
+      (item: any) => item.id === itemId && item.variableId === variableId,
+    );
+    if (item) {
+      setLoadingItem({ itemId, variableId, action: "increment" });
+      setTimeout(() => {
+        dispatch(
+          updateItemQuantity({
+            id: itemId,
+            variableId,
+            quantity: item.quantity + 1,
+          }),
+        );
+        setLoadingItem(null);
+      }, 1000);
+    }
+  };
+
+  const handleDecrement = (itemId: number, variableId: number) => {
+    const item = cartData.items.find(
+      (item: any) => item.id === itemId && item.variableId === variableId,
+    );
+    if (item) {
+      if (item.quantity === 1) {
+        setLoadingItem({ itemId, variableId, action: "delete" });
+        setTimeout(() => {
+          dispatch(removeItemFromCart({ id: itemId, variableId }));
+          setLoadingItem(null);
+          setSelectedId(null);
+        }, 1000);
+      } else {
+        setLoadingItem({ itemId, variableId, action: "decrement" });
+        setTimeout(() => {
+          dispatch(
+            updateItemQuantity({
+              id: itemId,
+              variableId,
+              quantity: item.quantity - 1,
+            }),
+          );
+          setLoadingItem(null);
+        }, 1000);
+      }
     }
   };
 
@@ -437,7 +504,94 @@ export default function productDetailItem({
                     </>
                   )}
                 </button>
-                <button
+
+                {cartData.items.some((item) => {
+                  if (selectedId !== null) {
+                    return (
+                      item.id === Number(id) && item.variableId === selectedId
+                    );
+                  }
+                  return item.id === Number(id) && item.variableId === null;
+                }) ? (
+                  <div className="flex h-[50px] w-[50%] justify-between rounded border border-[#49AD91]">
+                    <button
+                      className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                      onClick={() =>
+                        handleDecrement(Number(id), selectedId || 0)
+                      }
+                    >
+                      <span className="sr-only">minus</span>
+                      <Minus />
+                    </button>
+                    <div className="flex items-center justify-center bg-[#49AD91] px-[36px] text-sm font-semibold text-[#fff]">
+                      {loadingItem?.itemId === Number(id) &&
+                      loadingItem?.variableId === selectedId &&
+                      (loadingItem?.action === "increment" ||
+                        loadingItem?.action === "delete" ||
+                        loadingItem?.action === "decrement") ? (
+                        <div
+                          className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2"
+                          role="status"
+                        ></div>
+                      ) : (
+                        <div>
+                          {cartData.items.find(
+                            (item) =>
+                              item.id === Number(id) &&
+                              item.variableId === (selectedId || null),
+                          )?.quantity || 0}
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                      onClick={() =>
+                        handleIncrement(Number(id), selectedId || 0)
+                      }
+                    >
+                      <span className="sr-only">plus</span>
+                      <Plus />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleAddToCart}
+                    className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91] py-2 text-[14px] font-medium text-white lg:text-[18px]"
+                  >
+                    <svg
+                      width="25"
+                      height="24"
+                      className="mr-3"
+                      viewBox="0 0 25 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.5 22C10.0523 22 10.5 21.5523 10.5 21C10.5 20.4477 10.0523 20 9.5 20C8.94772 20 8.5 20.4477 8.5 21C8.5 21.5523 8.94772 22 9.5 22Z"
+                        stroke="#FAFAFA"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M20.5 22C21.0523 22 21.5 21.5523 21.5 21C21.5 20.4477 21.0523 20 20.5 20C19.9477 20 19.5 20.4477 19.5 21C19.5 21.5523 19.9477 22 20.5 22Z"
+                        stroke="#FAFAFA"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M1.5 1H5.5L8.18 14.39C8.27144 14.8504 8.52191 15.264 8.88755 15.5583C9.25318 15.8526 9.7107 16.009 10.18 16H19.9C20.3693 16.009 20.8268 15.8526 21.1925 15.5583C21.5581 15.264 21.8086 14.8504 21.9 14.39L23.5 6H6.5"
+                        stroke="#FAFAFA"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    ADD TO CART
+                  </button>
+                )}
+                {/* <button
                   onClick={handleAddToCart}
                   className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91] py-2 text-[14px] font-medium text-white lg:text-[18px]"
                 >
@@ -472,7 +626,7 @@ export default function productDetailItem({
                     />
                   </svg>
                   ADD TO CART
-                </button>
+                </button> */}
               </div>
 
               <Calculator responseData={responseData}></Calculator>
