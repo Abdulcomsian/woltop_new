@@ -1,17 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Heart, ShoppingCart, X } from "lucide-react";
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LoginModal from "~/components/LoginModal";
 import { toast } from "react-toastify";
-
-import {
-  useDeleteWishlistItemMutation,
-  useGetWishlistItemsQuery,
-} from "~/store/api/wishlistApi";
 import { addItemToCart } from "~/store/slices/cartSlice";
 import { Button } from "antd";
+import utils from "~/utils";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -21,42 +17,83 @@ const Spinner = () => (
 
 const WishlistPage = () => {
   const { isLoggedIn } = useSelector((state) => state.user);
-  const {
-    data: wishlistItems = [],
-    isLoading,
-    refetch,
-  } = useGetWishlistItemsQuery([], {
-    skip: !isLoggedIn,
-  });
-  const [deleteWishlistItem] = useDeleteWishlistItemMutation();
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleRemoveItem = async (id) => {
+  // Fetch Wishlist Items
+  const fetchWishlistItems = async () => {
+    setIsLoading(true);
     try {
-      await deleteWishlistItem(id).unwrap();
-      toast.success("Item removed from wishlist!");
-      refetch();
+      const token = localStorage.getItem("token"); // Get token from localStorage
+      const response = await fetch(`${utils.BASE_URL}/show-wishlist-items`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      if (data.status) {
+        setWishlistItems(data.data);
+      } else {
+        console.log("Failed to fetch wishlist items.");
+      }
     } catch (error) {
-      console.error("Error deleting wishlist item:", error);
-      toast.error("Failed to remove item. Please try again.");
+      console.error("Error fetching wishlist items:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchWishlistItems();
+    }
+  }, [isLoggedIn]);
+
+  // Handle Remove Item
+  const handleRemoveItem = async (id) => {
+    try {
+      const token = localStorage.getItem("token"); // Get token from localStorage
+      const response = await fetch(
+        `${utils.BASE_URL}/delete-wishlist-item/${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const data = await response.json();
+      if (data.status) {
+        setWishlistItems((prev) => prev.filter((item) => item.id !== id));
+      } else {
+        toast.error("Failed to remove item.");
+      }
+    } catch (error) {
+      console.error("Error deleting wishlist item:", error);
+    }
+  };
+
+  // Handle Move to Cart
   const handleMoveToCart = (item) => {
     dispatch(
       addItemToCart({
         id: item.id,
-        name: item.name,
+        name: item.title,
         price: item.price,
         sale_price: item.sale_price || item.price,
         discount: item.discount || 0,
         featured_image: item.image,
-        variableId: 0,
+        variableId: null,
         variableName: "Default",
       }),
     );
-    toast.success(`${item.name} added to cart!`);
     handleRemoveItem(item.id);
   };
 
@@ -76,9 +113,7 @@ const WishlistPage = () => {
             You need to log in to view your wishlist.
           </p>
           <button
-            onClick={() => {
-              setIsLoginModalOpen(true);
-            }}
+            onClick={() => setIsLoginModalOpen(true)}
             className="mt-4 rounded-md bg-[#49AD91] px-4 py-2 text-white hover:bg-[#49ad91]"
           >
             Go to Login
@@ -94,7 +129,6 @@ const WishlistPage = () => {
 
   return (
     <>
-      {/* Hero Section */}
       <div className="mt-[2px] bg-[#f7fcfc] py-12">
         <div className="mx-auto max-w-4xl px-4 text-center">
           <h1 className="text-4xl font-bold text-gray-800">Your Wishlist</h1>
@@ -104,42 +138,28 @@ const WishlistPage = () => {
         </div>
       </div>
 
-      {/* Wishlist Items Section */}
       <div className="mx-auto max-w-[1075px] px-4 py-12">
-        {wishlistItems?.length > 0 ? (
+        {wishlistItems.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {wishlistItems.map((item) => (
               <div
                 key={item.id}
                 className="flex flex-col rounded-lg border border-gray-200 bg-white p-4 shadow-md transition-shadow duration-300 hover:shadow-lg"
               >
-                {/* Product Image */}
                 <div className="relative h-40 w-full md:h-48">
                   <img
                     src={item.image}
-                    alt={item.name}
+                    alt={item.title}
                     className="h-full w-full rounded-md object-cover"
                   />
-                  {!item.inStock && (
-                    <span className="absolute left-2 top-2 rounded bg-red-500 px-2 py-1 text-xs font-semibold text-white">
-                      Out of Stock
-                    </span>
-                  )}
                 </div>
 
-                {/* Product Details */}
                 <div className="flex flex-grow flex-col space-y-2 p-4">
                   <h2 className="truncate text-lg font-semibold text-gray-900">
-                    {item.name}
+                    {item.title}
                   </h2>
-                  <div className="flex items-center space-x-2 text-gray-700">
-                    <span className="text-lg font-semibold">
-                      ₹{item.sale_price !== null ? item.sale_price : item.range}
-                    </span>
-                  </div>
                 </div>
 
-                {/* Actions */}
                 <div className="flex flex-col items-center gap-3 p-4 md:flex-row">
                   <Button
                     onClick={() => handleMoveToCart(item)}
@@ -147,7 +167,7 @@ const WishlistPage = () => {
                     variant="filled"
                   >
                     <ShoppingCart className="mr-2 h-5 w-5" />
-                    {item.inStock ? "Move to Cart" : "Out of Stock"}
+                    Move to Cart
                   </Button>
 
                   <Button

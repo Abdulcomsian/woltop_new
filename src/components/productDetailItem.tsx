@@ -9,6 +9,7 @@ import {
 } from "~/store/slices/cartSlice";
 import Calculator from "./calculator";
 import { Check, Heart, Loader2, Minus, Plus } from "lucide-react";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { toast } from "react-toastify";
 import utils from "~/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,6 +20,7 @@ import "../styles/custom.css";
 import ToolkitBar from "./toolkitBar";
 import { Drawer } from "antd";
 import Link from "next/link";
+import LoginModal from "./LoginModal";
 interface ProductImage {
   id: string;
   image_path: string;
@@ -106,6 +108,10 @@ export default function productDetailItem({
   const cartData = useSelector((state: any) => state?.cart);
   const [isAddingToWishlist, setIsAddingToWishlist] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
   const [addingToCart, setAddingToCart] = useState<{
     productId: number;
     variableId: number | null;
@@ -138,47 +144,85 @@ export default function productDetailItem({
   const lastItemPrice =
     cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchWishlistItems();
+    }
+  }, [isLoggedIn]);
+
+  const fetchWishlistItems = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${utils.BASE_URL}/show-wishlist-items`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.status) {
+        setWishlistItems(data.data);
+      } else {
+        console.log("Failed to fetch wishlist items.");
+      }
+    } catch (error) {
+      console.error("Error fetching wishlist items:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleAddToWishlist = async (productId: number) => {
     if (!isLoggedIn) {
-      toast.warning("You need to login first add to wishlist");
+      setIsLoginModalOpen(true);
       return;
     }
-
-    setIsAddingToWishlist(true);
 
     try {
       const token = localStorage.getItem("token");
 
-      const formData = new FormData();
-      formData.append("product_id", productId.toString());
+      if (isProductInWishlist(productId)) {
+        setWishlistItems((prev) =>
+          prev.filter((item) => item.id !== productId),
+        );
 
-      const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        toast.success("Product added to wishlist");
+        await fetch(`${utils.BASE_URL}/delete-wishlist-item/${productId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
       } else {
-        toast.error("Failed to add to wishlist");
+        setWishlistItems((prev) => [...prev, { id: productId }]);
+
+        const formData = new FormData();
+        formData.append("product_id", productId.toString());
+
+        const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
       }
     } catch (error) {
-      console.error("Error adding to wishlist:", error);
-    } finally {
-      setIsAddingToWishlist(false);
+      console.error("Error updating wishlist:", error);
     }
+  };
+  const isProductInWishlist = (productId: number) => {
+    return wishlistItems.some((item) => item.id === productId);
   };
 
   const handleAddToCart = () => {
-
     if (responseData.data.variables?.length > 0 && selectedId === null) {
       toast.warning("Please select a variant before adding to cart");
       return;
     }
-    
+
     if (responseData?.data) {
       let price, sale_price, discount;
       let selectedVariable = null;
@@ -499,7 +543,11 @@ export default function productDetailItem({
                     <Loader2 className="animate-spin" />
                   ) : (
                     <>
-                      <Heart />
+                      {isProductInWishlist(Number(id)) ? (
+                        <IoMdHeart size={22} color="red" />
+                      ) : (
+                        <IoMdHeartEmpty size={22} color="gray" />
+                      )}
                       ADD TO WISHLIST
                     </>
                   )}
@@ -676,6 +724,11 @@ export default function productDetailItem({
           </div>
         </div>
       </div>
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
 
       <Drawer
         placement="bottom"

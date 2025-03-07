@@ -227,13 +227,13 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                                 <div className="flex items-center justify-center bg-[#49AD91] px-[20px] py-[11px] text-sm font-semibold text-[#fff]">
                                   {loadingItem?.itemId === item.id &&
                                   loadingItem?.variableId === item.variableId &&
-                                  (loadingItem?.action === "increment" || loadingItem?.action === "delete" ||
+                                  (loadingItem?.action === "increment" ||
+                                    loadingItem?.action === "delete" ||
                                     loadingItem?.action === "decrement") ? (
                                     <div
                                       className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2"
                                       role="status"
-                                    >
-                                    </div>
+                                    ></div>
                                   ) : (
                                     item.quantity
                                   )}
@@ -340,12 +340,15 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                           </div>
 
                           {/* Right Section with Coupon Details */}
-                          <div className="flex-1 p-4">
+                          <div className="flex-1 px-4 py-3">
                             <div className="flex items-center justify-between">
                               {/* Coupon Code */}
                               <span className="flex items-center gap-2 text-base font-semibold uppercase text-gray-900">
                                 <BiPurchaseTag className="text-[#49AD91]" />
-                                {appliedCoupon.code}
+                                {appliedCoupon.percentage}%{" "}
+                                <span className="text-xs font-normal">
+                                  saved on this order
+                                </span>
                               </span>
 
                               {/* Remove Button */}
@@ -356,15 +359,18 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                                 Remove
                               </span>
                             </div>
-
-                            {/* Short Description */}
-                            <p className="mt-2 text-wrap text-sm text-gray-600">
-                              Yay! You have saved{" "}
-                              <span className="font-semibold">
-                                {appliedCoupon.percentage}%
-                              </span>{" "}
-                              on this order
-                            </p>
+                            <div className="ml-5 mt-1">
+                              <p className="mb-1 text-sm">
+                                {appliedCoupon.code}
+                              </p>
+                              <span onClick={()=>setIsCouponModalOpen(true)} className="text-wrap text-xs text-gray-600">
+                                View all coupons
+                                <IoMdArrowDropright
+                                  size={16}
+                                  className="inline"
+                                />
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>

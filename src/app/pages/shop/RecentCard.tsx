@@ -3,9 +3,15 @@ import { Drawer } from "antd";
 import { Check, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import LoginModal from "~/components/LoginModal";
 import { Card, CardContent, CardDescription } from "~/components/ui/card";
+import {
+  useDeleteWishlistItemMutation,
+  useGetWishlistItemsQuery,
+} from "~/store/api/wishlistApi";
 import {
   addItemToCart,
   removeItemFromCart,
@@ -30,6 +36,8 @@ export default function RecentCard() {
   );
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const cartData = useSelector((state: any) => state?.cart);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   const [addingToCart, setAddingToCart] = useState<{
     productId: number;
@@ -56,11 +64,11 @@ export default function RecentCard() {
   }, []);
   console.log(products, "recent item");
 
-  // useEffect(() => {
-  //   if (products.length > 0 && products[0]?.data?.variables?.length > 0) {
-  //     setSelectedId(products[0].data.variables[0].id);
-  //   }
-  // }, [products]);
+  useEffect(() => {
+    if (products.length > 0 && products[0]?.data?.variables?.length > 0) {
+      setSelectedId(products[0].data.variables[0].id);
+    }
+  }, [products]);
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -128,39 +136,6 @@ export default function RecentCard() {
       setAddingToCart(null);
     }, 1000);
   };
-  useEffect(() => {
-    console.log(cartData, "Cart after dispatch Data Updated");
-  }, [cartData]);
-
-  const handleAddToWishlist = async (productId: number) => {
-    if (!isLoggedIn) {
-      toast.warning("You need to login first add to wishlist");
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem("token");
-
-      const formData = new FormData();
-      formData.append("product_id", productId.toString());
-
-      const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        toast.success("Product added to wishlist");
-      } else {
-        toast.error("Failed to add to wishlist");
-      }
-    } catch (error) {
-      console.error("Error adding to wishlist:", error);
-    }
-  };
 
   const [itemsToShow, setItemsToShow] = useState(2);
 
@@ -205,7 +180,6 @@ export default function RecentCard() {
         setTimeout(() => {
           dispatch(removeItemFromCart({ id: itemId, variableId }));
           setLoadingItem(null);
-          setSelectedId(null);
         }, 1000);
       } else {
         setLoadingItem({ itemId, variableId, action: "decrement" });
@@ -221,6 +195,80 @@ export default function RecentCard() {
         }, 1000);
       }
     }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchWishlistItems();
+    }
+  }, [isLoggedIn]);
+
+  const fetchWishlistItems = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${utils.BASE_URL}/show-wishlist-items`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.status) {
+        setWishlistItems(data.data);
+      } else {
+        console.log("Failed to fetch wishlist items.");
+      }
+    } catch (error) {
+      console.error("Error fetching wishlist items:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddToWishlist = async (productId: number) => {
+    if (!isLoggedIn) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+
+      if (isProductInWishlist(productId)) {
+        setWishlistItems((prev) =>
+          prev.filter((item) => item.id !== productId),
+        );
+
+        await fetch(`${utils.BASE_URL}/delete-wishlist-item/${productId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } else {
+        setWishlistItems((prev) => [...prev, { id: productId }]);
+
+        const formData = new FormData();
+        formData.append("product_id", productId.toString());
+
+        const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+      }
+    } catch (error) {
+      console.error("Error updating wishlist:", error);
+    }
+  };
+
+  const isProductInWishlist = (productId: number) => {
+    return wishlistItems.some((item) => item.id === productId);
   };
 
   if (isLoading) {
@@ -371,12 +419,6 @@ export default function RecentCard() {
                         ))
                       ) : (
                         <div className="border-[#00000]-900 product-price-wrapper relative h-[79px] w-full rounded-sm border-dashed px-[11px] py-[6px] md:h-[81px] md:w-full">
-                          {/* <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
-                          <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
-                            {card.data.discount}% off
-                          </span>
-                        </div> */}
-
                           <div className="price-wrapper flex items-center gap-1">
                             <div className="real-price text-base text-[#49AD91] md:text-lg">
                               ₹{card.data.sale_price}
@@ -385,51 +427,41 @@ export default function RecentCard() {
                               ₹{card.data.price}
                             </div>
                           </div>
-                          {/* 
-                        <div className="product-size text-[9px]">
-                          ₹{(card.data.sale_price / 6).toFixed(2)}/ft²
-                        </div> */}
                         </div>
                       )}
                     </CardDescription>
                     <div className="mt-2 flex items-center gap-3">
                       <div
                         onClick={() => handleAddToWishlist(card.data.id)}
-                        className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-1.5"
+                        className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-[2px] md:p-1"
                       >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M17.3651 3.84172C16.9395 3.41589 16.4342 3.0781 15.8779 2.84763C15.3217 2.61716 14.7255 2.49854 14.1235 2.49854C13.5214 2.49854 12.9252 2.61716 12.369 2.84763C11.8128 3.0781 11.3074 3.41589 10.8818 3.84172L9.99847 4.72506L9.11514 3.84172C8.25539 2.98198 7.08933 2.49898 5.87347 2.49898C4.65761 2.49898 3.49155 2.98198 2.6318 3.84172C1.77206 4.70147 1.28906 5.86753 1.28906 7.08339C1.28906 8.29925 1.77206 9.46531 2.6318 10.3251L3.51514 11.2084L9.99847 17.6917L16.4818 11.2084L17.3651 10.3251C17.791 9.89943 18.1288 9.39407 18.3592 8.83785C18.5897 8.28164 18.7083 7.68546 18.7083 7.08339C18.7083 6.48132 18.5897 5.88514 18.3592 5.32893C18.1288 4.77271 17.791 4.26735 17.3651 3.84172Z"
-                            stroke="#A5A1A1"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        {isProductInWishlist(card.data.id) ? (
+                          <IoMdHeart size={22} color="red" />
+                        ) : (
+                          <IoMdHeartEmpty size={22} color="gray" />
+                        )}
                       </div>
 
                       {cartData.items.some((item) => {
-                        if (selectedId !== null) {
+                        if (card.data.variables?.length > 0) {
                           return (
                             item.id === card.data.id &&
                             item.variableId === selectedId
                           );
+                        } else {
+                          return item.id === card.data.id;
                         }
-                        return (
-                          item.id === card.data.id && item.variableId === null
-                        );
                       }) ? (
                         <div className="flex h-[34px] w-full justify-between rounded border border-[#49AD91]">
                           <button
                             className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                             onClick={() =>
-                              handleDecrement(card.data.id, selectedId)
+                              handleDecrement(
+                                card.data.id,
+                                card.data.variables?.length > 0
+                                  ? selectedId
+                                  : null,
+                              )
                             }
                           >
                             <span className="sr-only">minus</span>
@@ -437,7 +469,10 @@ export default function RecentCard() {
                           </button>
                           <div className="flex items-center justify-center bg-[#49AD91] px-[36px] text-sm font-semibold text-[#fff]">
                             {loadingItem?.itemId === card.data.id &&
-                            loadingItem?.variableId === selectedId &&
+                            loadingItem?.variableId ===
+                              (card.data.variables?.length > 0
+                                ? selectedId
+                                : null) &&
                             (loadingItem?.action === "increment" ||
                               loadingItem?.action === "delete" ||
                               loadingItem?.action === "decrement") ? (
@@ -450,7 +485,10 @@ export default function RecentCard() {
                                 {cartData.items.find(
                                   (item) =>
                                     item.id === card.data.id &&
-                                    item.variableId === (selectedId || null),
+                                    item.variableId ===
+                                      (card.data.variables?.length > 0
+                                        ? selectedId
+                                        : null),
                                 )?.quantity || 0}
                               </div>
                             )}
@@ -458,7 +496,12 @@ export default function RecentCard() {
                           <button
                             className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                             onClick={() =>
-                              handleIncrement(card.data.id, selectedId)
+                              handleIncrement(
+                                card.data.id,
+                                card.data.variables?.length > 0
+                                  ? selectedId
+                                  : null,
+                              )
                             }
                           >
                             <span className="sr-only">plus</span>
@@ -469,7 +512,7 @@ export default function RecentCard() {
                         <button
                           onClick={() => {
                             const selectedVariable = selectedId
-                              ? card.data.variables.find(
+                              ? card.data.variables?.find(
                                   (v) => v.id === selectedId,
                                 )
                               : null;
@@ -500,6 +543,11 @@ export default function RecentCard() {
             </div>
           </div>
         </div>
+
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+        />
 
         <Drawer
           placement="bottom"
