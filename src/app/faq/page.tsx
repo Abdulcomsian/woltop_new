@@ -1,11 +1,14 @@
-"use client";
 import Faqs from "../pages/shop/faqs";
+
+// export const metadata = {
+//   title: "FAQs",
+// };
 
 export default function Page() {
 
   return (
-    <main className="px-3">
+    <>
       <Faqs />
-    </main>
+    </>
   );
 }
