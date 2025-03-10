@@ -217,7 +217,7 @@ export default function productDetailItem({
     return wishlistItems.some((item) => item.id === productId);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (responseData.data.variables?.length > 0 && selectedId === null) {
       toast.warning("Please select a variant before adding to cart");
       return;
@@ -258,13 +258,12 @@ export default function productDetailItem({
           item.id === responseData.data.id && item.variableId === selectedId,
       );
 
-      console.log(existingItem, "extistj");
-
       if (existingItem) {
         toast.info("Product is already in the cart");
         return;
       }
 
+      // Dispatch the action to add the item to the cart
       dispatch(
         addItemToCart({
           id: Number(responseData.data.id),
@@ -277,11 +276,31 @@ export default function productDetailItem({
           variableName: selectedVariable ? selectedVariable.name : "Default",
         }),
       );
+
+      try {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("product_id", responseData.data.id.toString());
+
+        const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+
+        const data = await response.json();
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+      }
+
       setIsDrawerOpen(true);
     } else {
       console.error("Response data missing");
     }
   };
+
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
       (item: any) => item.id === itemId && item.variableId === variableId,
@@ -571,7 +590,7 @@ export default function productDetailItem({
                       <span className="sr-only">minus</span>
                       <Minus />
                     </button>
-                    <div className="flex items-center justify-center bg-[#49AD91] px-[36px] text-sm font-semibold text-[#fff]">
+                    <div className="flex items-center justify-center bg-[#49AD91] px-[28px] md:px-[36px] text-sm font-semibold text-[#fff]">
                       {loadingItem?.itemId === Number(id) &&
                       loadingItem?.variableId === selectedId &&
                       (loadingItem?.action === "increment" ||
@@ -639,42 +658,6 @@ export default function productDetailItem({
                     ADD TO CART
                   </button>
                 )}
-                {/* <button
-                  onClick={handleAddToCart}
-                  className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex h-[50px] w-[50%] items-center justify-center rounded bg-[#49AD91] py-2 text-[14px] font-medium text-white lg:text-[18px]"
-                >
-                  <svg
-                    width="25"
-                    height="24"
-                    className="mr-3"
-                    viewBox="0 0 25 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.5 22C10.0523 22 10.5 21.5523 10.5 21C10.5 20.4477 10.0523 20 9.5 20C8.94772 20 8.5 20.4477 8.5 21C8.5 21.5523 8.94772 22 9.5 22Z"
-                      stroke="#FAFAFA"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M20.5 22C21.0523 22 21.5 21.5523 21.5 21C21.5 20.4477 21.0523 20 20.5 20C19.9477 20 19.5 20.4477 19.5 21C19.5 21.5523 19.9477 22 20.5 22Z"
-                      stroke="#FAFAFA"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M1.5 1H5.5L8.18 14.39C8.27144 14.8504 8.52191 15.264 8.88755 15.5583C9.25318 15.8526 9.7107 16.009 10.18 16H19.9C20.3693 16.009 20.8268 15.8526 21.1925 15.5583C21.5581 15.264 21.8086 14.8504 21.9 14.39L23.5 6H6.5"
-                      stroke="#FAFAFA"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  ADD TO CART
-                </button> */}
               </div>
 
               <Calculator responseData={responseData}></Calculator>

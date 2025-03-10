@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { BiPurchaseTag } from "react-icons/bi";
 import { IoMdArrowDropright } from "react-icons/io";
+import utils from "~/utils";
 
 interface CartTabProps {
   cartData: any;
@@ -39,6 +40,9 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     variableId: number;
     action: "delete" | "increment" | "decrement";
   } | null>(null);
+  const [cartItemsFromApi, setCartItemsFromApi] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     shipping_charges,
@@ -66,6 +70,50 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     }
     return () => document.body.classList.remove("overflow-hidden");
   }, [isCouponModalOpen]);
+
+  const fetchCartItems = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${utils.BASE_URL}/show-cart-items`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.status) {
+        setCartItemsFromApi(data.data); // Store API data in state
+      } else {
+        setError("Failed to fetch cart items");
+      }
+    } catch (error) {
+      setError("Error fetching cart items");
+      console.error("Error fetching cart items:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  // Fetch cart items when the component mounts
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+  console.log(cartItemsFromApi, "cartItems");
+
+  const combinedCartItems = cartItemsFromApi.map((apiItem) => {
+    const reduxItem = cartData.items.find(
+      (reduxItem: any) => reduxItem.id === apiItem.id
+    );
+  
+    return {
+      ...apiItem, // Data from API
+      quantity: reduxItem ? reduxItem.quantity : 1, // Quantity from Redux store
+      variableId: reduxItem ? reduxItem.variableId : null, // Variable ID from Redux store
+    };
+  });
 
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
@@ -122,6 +170,16 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     dispatch(removeCoupon());
   };
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   if (cartData?.items?.length < 1) {
     return (
       <div className="flex h-full flex-col items-center justify-center rounded-lg bg-gray-50 p-8 text-center shadow-sm">
@@ -155,7 +213,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                   <div className="checkout-cart lg:w-auto lg:min-w-[387px]">
                     {cartData?.items?.map((item: any, index: number) => (
                       <div
-                        key={item.id || `item-${index}`}
+                        key={`item-${index}`}
                         className="border-border-200 mb-5 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
                         style={{ opacity: "1" }}
                       >
@@ -363,7 +421,10 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                               <p className="mb-1 text-sm">
                                 {appliedCoupon.code}
                               </p>
-                              <span onClick={()=>setIsCouponModalOpen(true)} className="text-wrap text-xs text-gray-600">
+                              <span
+                                onClick={() => setIsCouponModalOpen(true)}
+                                className="text-wrap text-xs text-gray-600"
+                              >
                                 View all coupons
                                 <IoMdArrowDropright
                                   size={16}

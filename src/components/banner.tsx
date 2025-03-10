@@ -2,9 +2,11 @@ import Image from "next/image";
 import bannerImage from "../../public/aboutbanner.jpg";
 
 interface BannerData {
-  heading: string;
-  subHeading: string;
-  desc: string;
+  title: string;
+  name: string;
+  description: string;
+  logo: string;
+  banner: string;
 }
 
 interface BannerProps {
