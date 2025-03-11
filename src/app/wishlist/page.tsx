@@ -81,7 +81,7 @@ const WishlistPage = () => {
   };
 
   // Handle Move to Cart
-  const handleMoveToCart = (item) => {
+  const handleMoveToCart = async (item) => {
     dispatch(
       addItemToCart({
         id: item.id,
@@ -94,6 +94,23 @@ const WishlistPage = () => {
         variableName: "Default",
       }),
     );
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("product_id", item.id.toString());
+
+      const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
     handleRemoveItem(item.id);
   };
 

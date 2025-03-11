@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { Drawer } from "antd";
 import { Minus, Plus } from "lucide-react";
+import utils from "~/utils";
 
 interface Product {
   id: number;
@@ -66,7 +67,7 @@ export default function PopularWallpaper({
     variables: product.variables?.length,
   }));
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = async (product: Product) => {
     const existingItem = cartData.items.find(
       (item: any) => item.id === product.id,
     );
@@ -90,18 +91,37 @@ export default function PopularWallpaper({
         variableName: "Default",
       }),
     );
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("product_id", product.id.toString());
+
+      const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
     setIsDrawerOpen(true);
   };
 
   const handleIncrement = (itemId: number) => {
-    const item = cartData.items.find(
-      (item: any) => item.id === itemId
-    );
+    const item = cartData.items.find((item: any) => item.id === itemId);
     if (item) {
       setLoadingItem({ itemId, action: "increment" });
       setTimeout(() => {
         dispatch(
-          updateItemQuantity({id: itemId, variableId: null, quantity: item.quantity + 1}),
+          updateItemQuantity({
+            id: itemId,
+            variableId: null,
+            quantity: item.quantity + 1,
+          }),
         );
         setLoadingItem(null);
       }, 1000);
@@ -109,21 +129,44 @@ export default function PopularWallpaper({
   };
 
   const handleDecrement = (itemId: number) => {
-    const item = cartData.items.find(
-      (item: any) => item.id === itemId
-    );
+    const item = cartData.items.find((item: any) => item.id === itemId);
     if (item) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, action: "delete" });
-        setTimeout(() => {
-          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-          setLoadingItem(null);
+  
+        setTimeout(async () => {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`${utils.BASE_URL}/delete-cart-item/${itemId}`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            });
+  
+            if (response.ok) {
+              dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+            } else {
+              const data = await response.json();
+              console.error("Failed to delete item:", data);
+            }
+          } catch (error) {
+            console.error("Error removing item:", error);
+          } finally {
+            setLoadingItem(null);
+          }
         }, 1000);
       } else {
         setLoadingItem({ itemId, action: "decrement" });
+  
         setTimeout(() => {
           dispatch(
-            updateItemQuantity({id: itemId, variableId: null, quantity: item.quantity - 1}),
+            updateItemQuantity({
+              id: itemId,
+              variableId: null,
+              quantity: item.quantity - 1,
+            })
           );
           setLoadingItem(null);
         }, 1000);
@@ -166,12 +209,12 @@ export default function PopularWallpaper({
               <div key={card.id} className="card-wrapper relative">
                 {!card?.variables && (
                   <>
-                  {cartData.items.some((item) => {
+                    {cartData.items.some((item) => {
                       if (item.id === card.id) {
                         return item.id === card.id;
                       }
                     }) ? (
-                      <div className="absolute -right-7 top-0 z-40 flex -translate-y-1/2 h-[38px] rounded border border-[#49AD91]">
+                      <div className="absolute -right-7 top-0 z-40 flex h-[38px] -translate-y-1/2 rounded border border-[#49AD91]">
                         <button
                           className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded-l bg-white px-[15px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                           onClick={() => handleDecrement(card.id)}

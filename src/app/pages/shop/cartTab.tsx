@@ -10,6 +10,7 @@ import gift from "../../../../public/icons/gift.svg";
 import objectsBg from "../../../../public/objects.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addItemToCart,
   applyCoupon,
   removeCoupon,
   removeItemFromCart,
@@ -17,7 +18,6 @@ import {
 } from "~/store/slices/cartSlice";
 import CouponModal from "~/components/CouponModal";
 import Link from "next/link";
-import { toast } from "react-toastify";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { BiPurchaseTag } from "react-icons/bi";
 import { IoMdArrowDropright } from "react-icons/io";
@@ -40,7 +40,6 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     variableId: number;
     action: "delete" | "increment" | "decrement";
   } | null>(null);
-  const [cartItemsFromApi, setCartItemsFromApi] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -83,9 +82,36 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
           "Content-Type": "application/json",
         },
       });
+  
       const data = await response.json();
       if (data.status) {
-        setCartItemsFromApi(data.data); // Store API data in state
+        if (data.data && data.data.length > 0) {
+          data.data.forEach((item: any) => {
+            const existingItem = cartData.items.find(
+              (cartItem: any) =>
+                cartItem.id === item.id
+            );
+  
+            if (!existingItem) {
+              dispatch(
+                addItemToCart({
+                  id: item.id,
+                  name: item.title,
+                  price: Number(item.price),
+                  sale_price: item.sale_price
+                    ? Number(item.sale_price)
+                    : Number(item.price),
+                  discount: Number(item.discount),
+                  featured_image: item.image,
+                  variableId: null,
+                  variableName: "Default",
+                }),
+              );
+            }
+          });
+        } else {
+          setError("Your cart is empty");
+        }
       } else {
         setError("Failed to fetch cart items");
       }
@@ -96,24 +122,9 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
       setIsLoading(false);
     }
   };
-  
-  // Fetch cart items when the component mounts
   useEffect(() => {
     fetchCartItems();
   }, []);
-  console.log(cartItemsFromApi, "cartItems");
-
-  const combinedCartItems = cartItemsFromApi.map((apiItem) => {
-    const reduxItem = cartData.items.find(
-      (reduxItem: any) => reduxItem.id === apiItem.id
-    );
-  
-    return {
-      ...apiItem, // Data from API
-      quantity: reduxItem ? reduxItem.quantity : 1, // Quantity from Redux store
-      variableId: reduxItem ? reduxItem.variableId : null, // Variable ID from Redux store
-    };
-  });
 
   const handleIncrement = (itemId: number, variableId: number) => {
     const item = cartData.items.find(
@@ -134,34 +145,90 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
     }
   };
 
-  const handleDecrement = (itemId: number, variableId: number) => {
+  const handleDecrement = async (itemId: number, variableId: number) => {
     const item = cartData.items.find(
       (item: any) => item.id === itemId && item.variableId === variableId,
     );
-    if (item && item.quantity > 1) {
-      setLoadingItem({ itemId, variableId, action: "decrement" });
-      setTimeout(() => {
-        dispatch(
-          updateItemQuantity({
-            id: itemId,
-            variableId,
-            quantity: item.quantity - 1,
-          }),
-        );
-        setLoadingItem(null);
-      }, 1000);
+
+    if (item) {
+      if (item.quantity === 1) {
+        setLoadingItem({ itemId, variableId, action: "delete" });
+
+        setTimeout(async () => {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(
+              `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              },
+            );
+
+            if (response.ok) {
+              dispatch(removeItemFromCart({ id: itemId, variableId }));
+            } else {
+              const data = await response.json();
+              console.error("Failed to delete item:", data);
+            }
+          } catch (error) {
+            console.error("Error removing item:", error);
+          } finally {
+            setLoadingItem(null);
+          }
+        }, 1000);
+      } else {
+        setLoadingItem({ itemId, variableId, action: "decrement" });
+
+        setTimeout(() => {
+          dispatch(
+            updateItemQuantity({
+              id: itemId,
+              variableId,
+              quantity: item.quantity - 1,
+            }),
+          );
+          setLoadingItem(null);
+        }, 1000);
+      }
     }
   };
 
-  const handleRemoveItem = (itemId: number, variableId: number) => {
+  const handleRemoveItem = async (itemId: number, variableId: number) => {
     const item = cartData.items.find(
       (item: any) => item.id === itemId && item.variableId === variableId,
     );
+
     if (item) {
       setLoadingItem({ itemId, variableId, action: "delete" });
-      setTimeout(() => {
-        dispatch(removeItemFromCart({ id: itemId, variableId }));
-        setLoadingItem(null);
+
+      setTimeout(async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            },
+          );
+
+          if (response.ok) {
+            dispatch(removeItemFromCart({ id: itemId, variableId }));
+          } else {
+            const data = await response.json();
+          }
+        } catch (error) {
+          console.error("Error removing item:", error);
+        } finally {
+          setLoadingItem(null);
+        }
       }, 1000);
     }
   };

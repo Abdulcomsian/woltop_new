@@ -9,10 +9,6 @@ import { toast } from "react-toastify";
 import LoginModal from "~/components/LoginModal";
 import { Card, CardContent, CardDescription } from "~/components/ui/card";
 import {
-  useDeleteWishlistItemMutation,
-  useGetWishlistItemsQuery,
-} from "~/store/api/wishlistApi";
-import {
   addItemToCart,
   removeItemFromCart,
   updateItemQuantity,
@@ -87,7 +83,7 @@ export default function RecentCard() {
       variableId: selectedVariable?.id || null,
     });
 
-    setTimeout(() => {
+    setTimeout(async () => {
       let price, sale_price, discount, variableId, variableName;
 
       if (selectedVariable) {
@@ -119,7 +115,6 @@ export default function RecentCard() {
         return;
       }
 
-      console.log(product.id, "Product ID");
       dispatch(
         addItemToCart({
           id: Number(product.data.id),
@@ -132,6 +127,25 @@ export default function RecentCard() {
           variableName: variableName,
         }),
       );
+      try {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("product_id", product.data.id.toString());
+        formData.append("variable_id", selectedVariable?.id.toString());
+
+        const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+
+        const data = await response.json();
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+      }
+
       setIsDrawerOpen(true);
       setAddingToCart(null);
     }, 1000);
@@ -170,19 +184,44 @@ export default function RecentCard() {
     }
   };
 
-  const handleDecrement = (itemId: number, variableId: number) => {
+  const handleDecrement = async (itemId: number, variableId: number) => {
     const item = cartData.items.find(
       (item: any) => item.id === itemId && item.variableId === variableId,
     );
+
     if (item) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, variableId, action: "delete" });
-        setTimeout(() => {
-          dispatch(removeItemFromCart({ id: itemId, variableId }));
-          setLoadingItem(null);
+
+        setTimeout(async () => {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(
+              `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              },
+            );
+
+            if (response.ok) {
+              dispatch(removeItemFromCart({ id: itemId, variableId }));
+            } else {
+              const data = await response.json();
+              console.error("Failed to delete item:", data);
+            }
+          } catch (error) {
+            console.error("Error removing item:", error);
+          } finally {
+            setLoadingItem(null);
+          }
         }, 1000);
       } else {
         setLoadingItem({ itemId, variableId, action: "decrement" });
+
         setTimeout(() => {
           dispatch(
             updateItemQuantity({
@@ -419,6 +458,11 @@ export default function RecentCard() {
                         ))
                       ) : (
                         <div className="border-[#00000]-900 product-price-wrapper relative h-[79px] w-full rounded-sm border-dashed px-[11px] py-[6px] md:h-[81px] md:w-full">
+                          <div className="inline rounded-[50px] bg-[#49AD911A] bg-opacity-10">
+                            <span className="px-[7px] py-[2px] text-[10px] text-[#49AD91] md:text-xs">
+                              {card.data.discount}% off
+                            </span>
+                          </div>
                           <div className="price-wrapper flex items-center gap-1">
                             <div className="real-price text-base text-[#49AD91] md:text-lg">
                               ₹{card.data.sale_price}
