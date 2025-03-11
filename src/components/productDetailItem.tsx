@@ -272,7 +272,7 @@ export default function productDetailItem({
           sale_price: sale_price,
           discount: discount,
           featured_image: responseData.data.featured_image,
-          variableId: selectedId ?? 0,
+          variableId: selectedId ?? null,
           variableName: selectedVariable ? selectedVariable.name : "Default",
         }),
       );
@@ -281,6 +281,7 @@ export default function productDetailItem({
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("product_id", responseData.data.id.toString());
+        formData.append("variable_id", selectedVariable?.id.toString());
 
         const response = await fetch(`${utils.BASE_URL}/store-cart`, {
           method: "POST",
@@ -320,33 +321,55 @@ export default function productDetailItem({
     }
   };
 
-  const handleDecrement = (itemId: number, variableId: number) => {
+  const handleDecrement = async (itemId: number, variableId: number) => {
     const item = cartData.items.find(
-      (item: any) => item.id === itemId && item.variableId === variableId,
+      (item: any) => item.id === itemId && item.variableId === variableId
     );
+  
     if (item) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, variableId, action: "delete" });
-        setTimeout(() => {
-          dispatch(removeItemFromCart({ id: itemId, variableId }));
-          setLoadingItem(null);
-          setSelectedId(null);
+  
+        setTimeout(async () => {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`${utils.BASE_URL}/delete-cart-item/${itemId}`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            });
+  
+            if (response.ok) {
+              dispatch(removeItemFromCart({ id: itemId, variableId }));
+            } else {
+              const data = await response.json();
+              console.error("Failed to delete item:", data);
+            }
+          } catch (error) {
+            console.error("Error removing item:", error);
+          } finally {
+            setLoadingItem(null);
+          }
         }, 1000);
       } else {
         setLoadingItem({ itemId, variableId, action: "decrement" });
+  
         setTimeout(() => {
           dispatch(
             updateItemQuantity({
               id: itemId,
               variableId,
               quantity: item.quantity - 1,
-            }),
+            })
           );
           setLoadingItem(null);
         }, 1000);
       }
     }
   };
+  
 
   return (
     <>

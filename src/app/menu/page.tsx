@@ -23,11 +23,19 @@ import { HiOutlineArchiveBox } from "react-icons/hi2";
 import { FaSquareWhatsapp } from "react-icons/fa6";
 import { LiaCoinsSolid } from "react-icons/lia";
 import CoinsIcon from "../../../public/icons/nat-cash.png";
-import { UserRound, HelpCircle, FileText, BookOpen, Minus, Plus } from "lucide-react";
+import {
+  UserRound,
+  HelpCircle,
+  FileText,
+  BookOpen,
+  Minus,
+  Plus,
+} from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Drawer } from "antd";
 import Image from "next/image";
+import utils from "~/utils";
 
 const Spinner = () => (
   <div className="flex items-center justify-center">
@@ -63,7 +71,7 @@ const MenuPage = () => {
   const lastItemPrice =
     cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = async (product: Product) => {
     const existingItem = cartData.items.find(
       (item: any) => item.id === product.id,
     );
@@ -87,6 +95,23 @@ const MenuPage = () => {
         variableName: "Default",
       }),
     );
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("product_id", product.id.toString());
+
+      const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
     setIsDrawerOpen(true);
   };
 
@@ -112,12 +137,36 @@ const MenuPage = () => {
     if (item) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, action: "delete" });
-        setTimeout(() => {
-          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-          setLoadingItem(null);
+
+        setTimeout(async () => {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(
+              `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              },
+            );
+
+            if (response.ok) {
+              dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+            } else {
+              const data = await response.json();
+              console.error("Failed to delete item:", data);
+            }
+          } catch (error) {
+            console.error("Error removing item:", error);
+          } finally {
+            setLoadingItem(null);
+          }
         }, 1000);
       } else {
         setLoadingItem({ itemId, action: "decrement" });
+
         setTimeout(() => {
           dispatch(
             updateItemQuantity({

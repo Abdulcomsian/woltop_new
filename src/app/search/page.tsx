@@ -13,6 +13,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { Drawer } from "antd";
 import { useGetBlogsQuery } from "~/store/api/blogsApi";
+import utils from "~/utils";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -78,7 +79,7 @@ const SearchPage = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = async (product) => {
     dispatch(
       addItemToCart({
         id: product.id,
@@ -91,6 +92,23 @@ const SearchPage = () => {
         variableName: "Default",
       }),
     );
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("product_id", product.id.toString());
+
+      const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
     setIsDrawerOpen(true);
   };
 
@@ -116,12 +134,36 @@ const SearchPage = () => {
     if (item) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, action: "delete" });
-        setTimeout(() => {
-          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-          setLoadingItem(null);
+
+        setTimeout(async () => {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(
+              `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              },
+            );
+
+            if (response.ok) {
+              dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+            } else {
+              const data = await response.json();
+              console.error("Failed to delete item:", data);
+            }
+          } catch (error) {
+            console.error("Error removing item:", error);
+          } finally {
+            setLoadingItem(null);
+          }
         }, 1000);
       } else {
         setLoadingItem({ itemId, action: "decrement" });
+
         setTimeout(() => {
           dispatch(
             updateItemQuantity({
@@ -289,7 +331,9 @@ const SearchPage = () => {
           {LimitedBlogs?.map((blog) => (
             <div key={blog?.id} className="mb-2 rounded-lg border bg-white p-6">
               <h1 className="font-semibold">{blog?.title}</h1>
-              <p className="my-2 text-gray-600 line-clamp-2">{blog?.short_description}</p>
+              <p className="my-2 line-clamp-2 text-gray-600">
+                {blog?.short_description}
+              </p>
               <Link href="/blogs" className="font-semibold text-[#49AD91]">
                 Read More
               </Link>
