@@ -513,7 +513,7 @@ export default function RecentCard() {
                             <span className="sr-only">minus</span>
                             <Minus />
                           </button>
-                          <div className="flex items-center justify-center bg-[#49AD91] px-[36px] text-sm font-semibold text-[#fff]">
+                          <div className="flex items-center justify-center bg-[#49AD91] px-[26px] md:px-[36px] text-sm font-semibold text-[#fff]">
                             {loadingItem?.itemId === card.data.id &&
                             loadingItem?.variableId ===
                               (card.data.variables?.length > 0

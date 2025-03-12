@@ -463,7 +463,7 @@ export default function CategoriesPopularCard({
                             <span className="sr-only">minus</span>
                             <Minus />
                           </button>
-                          <div className="flex items-center justify-center bg-[#49AD91] px-[36px] text-sm font-semibold text-[#fff]">
+                          <div className="flex items-center justify-center bg-[#49AD91] px-[26px] md:px-[36px] text-sm font-semibold text-[#fff]">
                             {loadingItem?.itemId === card.id &&
                             loadingItem?.variableId ===
                               (card.variables?.length > 0
