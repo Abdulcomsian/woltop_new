@@ -5,9 +5,9 @@ import CartTab from "../pages/shop/cartTab";
 import ShippingTab from "../pages/shop/shippingTab";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import DetailCard from "../pages/shop/detailCard";
 import TabSteps from "~/components/TabsSteps";
 import { useGetChargesQuery } from "~/store/api/chargessApi";
+import UpsellingCard from "../pages/shop/upsellingCard";
 
 export default function page() {
   const { data: chargess } = useGetChargesQuery({});
@@ -54,12 +54,12 @@ export default function page() {
               />
             </SectionBlock>
             <SectionBlock
-              title="Your Last Minute Addons"
+              title=""
               subtitle=""
               className="px-3"
               position="left"
             >
-              <DetailCard colorId={0} />
+              <UpsellingCard />
             </SectionBlock>
           </>
         )}

@@ -281,7 +281,7 @@ export default function productDetailItem({
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("product_id", responseData.data.id.toString());
-        formData.append("variable_id", selectedVariable?.id.toString());
+        formData.append("variable_id", selectedVariable ? selectedVariable.id.toString() : "");
 
         const response = await fetch(`${utils.BASE_URL}/store-cart`, {
           method: "POST",
@@ -323,53 +323,79 @@ export default function productDetailItem({
 
   const handleDecrement = async (itemId: number, variableId: number) => {
     const item = cartData.items.find(
-      (item: any) => item.id === itemId && item.variableId === variableId
+      (item: any) => item.id === itemId && item.variableId === variableId,
     );
-  
-    if (item) {
-      if (item.quantity === 1) {
-        setLoadingItem({ itemId, variableId, action: "delete" });
-  
-        setTimeout(async () => {
-          try {
-            const token = localStorage.getItem("token");
-            const response = await fetch(`${utils.BASE_URL}/delete-cart-item/${itemId}`, {
+
+    if (!item) return;
+
+    if (item.quantity === 1) {
+      
+      setLoadingItem({ itemId, variableId, action: "delete" });
+      setTimeout(() => {
+        dispatch(removeItemFromCart({ id: itemId, variableId }));
+      }, 1000);
+      
+      setTimeout(async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+            {
               method: "GET",
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
               },
-            });
-  
-            if (response.ok) {
-              dispatch(removeItemFromCart({ id: itemId, variableId }));
-            } else {
-              const data = await response.json();
-              console.error("Failed to delete item:", data);
-            }
-          } catch (error) {
-            console.error("Error removing item:", error);
-          } finally {
-            setLoadingItem(null);
-          }
-        }, 1000);
-      } else {
-        setLoadingItem({ itemId, variableId, action: "decrement" });
-  
-        setTimeout(() => {
-          dispatch(
-            updateItemQuantity({
-              id: itemId,
-              variableId,
-              quantity: item.quantity - 1,
-            })
+            },
           );
+
+          if (!response.ok) {
+            console.warn("Failed to delete item from API");
+          }
+        } catch (error) {
+          console.error("Error removing item:", error);
+        } finally {
           setLoadingItem(null);
-        }, 1000);
-      }
+        }
+      }, 1000);
+    } else {
+      // Decrement in Redux first
+      dispatch(
+        updateItemQuantity({
+          id: itemId,
+          variableId,
+          quantity: item.quantity - 1,
+        }),
+      );
+
+      setLoadingItem({ itemId, variableId, action: "decrement" });
+      
+      setTimeout(async () => {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            `${utils.BASE_URL}/update-cart-item/${itemId}`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ quantity: item.quantity - 1 }),
+            },
+          );
+
+          if (!response.ok) {
+            console.warn("Failed to update quantity in API");
+          }
+        } catch (error) {
+          console.error("Error updating quantity:", error);
+        } finally {
+          setLoadingItem(null);
+        }
+      }, 1000);
     }
   };
-  
 
   return (
     <>
@@ -613,7 +639,7 @@ export default function productDetailItem({
                       <span className="sr-only">minus</span>
                       <Minus />
                     </button>
-                    <div className="flex items-center justify-center bg-[#49AD91] px-[28px] md:px-[36px] text-sm font-semibold text-[#fff]">
+                    <div className="flex items-center justify-center bg-[#49AD91] px-[28px] text-sm font-semibold text-[#fff] md:px-[36px]">
                       {loadingItem?.itemId === Number(id) &&
                       loadingItem?.variableId === selectedId &&
                       (loadingItem?.action === "increment" ||

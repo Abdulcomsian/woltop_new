@@ -131,7 +131,7 @@ export default function RecentCard() {
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("product_id", product.data.id.toString());
-        formData.append("variable_id", selectedVariable?.id.toString());
+        formData.append("variable_id", selectedVariable ? selectedVariable.id.toString() : "");
 
         const response = await fetch(`${utils.BASE_URL}/store-cart`, {
           method: "POST",
@@ -193,6 +193,10 @@ export default function RecentCard() {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, variableId, action: "delete" });
 
+        setTimeout(() => {
+          dispatch(removeItemFromCart({ id: itemId, variableId }));
+                }, 1000);
+
         setTimeout(async () => {
           try {
             const token = localStorage.getItem("token");
@@ -207,11 +211,9 @@ export default function RecentCard() {
               },
             );
 
-            if (response.ok) {
-              dispatch(removeItemFromCart({ id: itemId, variableId }));
-            } else {
-              const data = await response.json();
-              console.error("Failed to delete item:", data);
+            
+            if (!response.ok) {
+              console.warn("Failed to delete item from API");
             }
           } catch (error) {
             console.error("Error removing item:", error);

@@ -138,6 +138,10 @@ const MenuPage = () => {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, action: "delete" });
 
+        setTimeout(() => {
+                  dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+                }, 1000);
+
         setTimeout(async () => {
           try {
             const token = localStorage.getItem("token");
@@ -152,11 +156,8 @@ const MenuPage = () => {
               },
             );
 
-            if (response.ok) {
-              dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-            } else {
-              const data = await response.json();
-              console.error("Failed to delete item:", data);
+           if (!response.ok) {
+              console.warn("Failed to delete item from API");
             }
           } catch (error) {
             console.error("Error removing item:", error);

@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import utils from "~/utils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, register } from "~/store/slices/userSlice";
 import { toast } from "react-toastify";
 
@@ -13,6 +13,8 @@ const LoginModal = ({ isOpen, onClose }) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const modalRef = useRef(null);
   const dispatch = useDispatch();
+  const cartData = useSelector((state) => state.cart);
+  console.log(cartData, "cartData");
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -93,6 +95,29 @@ const LoginModal = ({ isOpen, onClose }) => {
           );
     
           toast.success("Login successful!");
+          const formattedCartData = cartData.items.map((item) => ({
+            product_id: item.id || null,
+            variable_id: item.variableId || null,
+          }));
+  
+          if (formattedCartData.length > 0) {
+            await fetch(`${utils.BASE_URL}/store-cart-array`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${result.access_token}`,
+              },
+              body: JSON.stringify(formattedCartData),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log("Cart API Response:", data);
+              })
+              .catch((err) => {
+                console.error("Cart API Error:", err);
+              });
+          }
+
         } else {
           dispatch(
             register({

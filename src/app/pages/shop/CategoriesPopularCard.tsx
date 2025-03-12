@@ -1,22 +1,42 @@
 "use client";
 import { Drawer } from "antd";
-import { Check, Plus } from "lucide-react";
+import { Check, Minus, Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import LoginModal from "~/components/LoginModal";
 import { Card, CardContent, CardDescription } from "~/components/ui/card";
-import { addItemToCart } from "~/store/slices/cartSlice";
+import {
+  addItemToCart,
+  removeItemFromCart,
+  updateItemQuantity,
+} from "~/store/slices/cartSlice";
 import utils from "~/utils";
 
-export default function CategoriesPopularCard({ responseData, isLoading }) {
+export default function CategoriesPopularCard({
+  responseData,
+  isLoading: isLoadingProduct,
+}) {
   const products = responseData;
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.user);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const cartData = useSelector((state: any) => state?.cart);
-
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [addingToCart, setAddingToCart] = useState<{
+    productId: number;
+    variableId: number | null;
+  } | null>(null);
+  const [loadingItem, setLoadingItem] = useState<{
+    itemId: number;
+    variableId: number;
+    action: "delete" | "increment" | "decrement";
+  } | null>(null);
 
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
@@ -28,81 +48,148 @@ export default function CategoriesPopularCard({ responseData, isLoading }) {
       return;
     }
 
-    let price, sale_price, discount, variableId, variableName;
+    setAddingToCart({
+      productId: product.id,
+      variableId: selectedVariable?.id || null,
+    });
 
-    if (selectedVariable) {
-      price = Number(selectedVariable.price);
-      sale_price = selectedVariable.sale_price
-        ? Number(selectedVariable.sale_price)
-        : price;
-      discount = Number(selectedVariable.discount);
-      variableId = selectedVariable.id;
-      variableName = selectedVariable.name;
-    } else {
-      price = Number(product.data.price);
-      sale_price = product.data.sale_price
-        ? Number(product.data.sale_price)
-        : price;
-      discount = Number(product.data.discount);
-      variableId = null;
-      variableName = "Default";
-    }
+    setTimeout(async () => {
+      let price, sale_price, discount, variableId, variableName;
 
-    const existingItem = cartData.items.find(
-      (item) =>
-        item.id === Number(product.id) && item.variableId === variableId,
-    );
+      if (selectedVariable) {
+        price = Number(selectedVariable.price);
+        sale_price = selectedVariable.sale_price
+          ? Number(selectedVariable.sale_price)
+          : price;
+        discount = Number(selectedVariable.discount);
+        variableId = selectedVariable.id;
+        variableName = selectedVariable.name;
+      } else {
+        price = Number(product.price);
+        sale_price = product.sale_price ? Number(product.sale_price) : price;
+        discount = Number(product.discount);
+        variableId = null;
+        variableName = "Default";
+      }
 
-    console.log(existingItem, "extis item");
-    if (existingItem) {
-      toast.info("Product is already in the cart");
-      return;
-    }
+      const existingItem = cartData.items.find(
+        (item) =>
+          item.id === Number(product.id) && item.variableId === variableId,
+      );
 
-    console.log(product.id, "Product ID");
-    dispatch(
-      addItemToCart({
-        id: Number(product.id),
-        name: product.title,
-        price: price,
-        sale_price: sale_price,
-        discount: discount,
-        featured_image: product.featured_image,
-        variableId: variableId,
-        variableName: variableName,
-      }),
-    );
-    setIsDrawerOpen(true);
+      if (existingItem) {
+        toast.info("Product is already in the cart");
+        setAddingToCart(null);
+        return;
+      }
+
+      dispatch(
+        addItemToCart({
+          id: Number(product.id),
+          name: product.title,
+          price: price,
+          sale_price: sale_price,
+          discount: discount,
+          featured_image: product.featured_image,
+          variableId: variableId,
+          variableName: variableName,
+        }),
+      );
+      try {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("product_id", product.id.toString());
+        formData.append("variable_id", selectedVariable ? selectedVariable.id.toString() : "");
+
+        const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+
+        const data = await response.json();
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+      }
+
+      setIsDrawerOpen(true);
+      setAddingToCart(null);
+    }, 1000);
   };
+
+  const fetchWishlistItems = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${utils.BASE_URL}/show-wishlist-items`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.status) {
+        setWishlistItems(data.data);
+      } else {
+        console.log("Failed to fetch wishlist items.");
+      }
+    } catch (error) {
+      console.error("Error fetching wishlist items:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchWishlistItems();
+    }
+  }, [isLoggedIn]);
 
   const handleAddToWishlist = async (productId: number) => {
     if (!isLoggedIn) {
-      toast.warning("You need to login first add to wishlist");
+      setIsLoginModalOpen(true);
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
 
-      const formData = new FormData();
-      formData.append("product_id", productId.toString());
+      if (isProductInWishlist(productId)) {
+        setWishlistItems((prev) =>
+          prev.filter((item) => item.id !== productId),
+        );
 
-      const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      if (response.ok) {
-        toast.success("Product added to wishlist");
+        await fetch(`${utils.BASE_URL}/delete-wishlist-item/${productId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
       } else {
-        toast.error("Failed to add to wishlist");
+        setWishlistItems((prev) => [...prev, { id: productId }]);
+
+        const formData = new FormData();
+        formData.append("product_id", productId.toString());
+
+        const response = await fetch(`${utils.BASE_URL}/store-wishlist`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
       }
     } catch (error) {
-      console.error("Error adding to wishlist:", error);
+      console.error("Error updating wishlist:", error);
     }
+  };
+
+  const isProductInWishlist = (productId: number) => {
+    return wishlistItems.some((item) => item.id === productId);
   };
 
   const [itemsToShow, setItemsToShow] = useState(2);
@@ -118,6 +205,78 @@ export default function CategoriesPopularCard({ responseData, isLoading }) {
 
   const lastItemPrice =
     cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
+
+  const handleIncrement = (itemId: number, variableId: number) => {
+    const item = cartData.items.find(
+      (item: any) => item.id === itemId && item.variableId === variableId,
+    );
+    if (item) {
+      setLoadingItem({ itemId, variableId, action: "increment" });
+      setTimeout(() => {
+        dispatch(
+          updateItemQuantity({
+            id: itemId,
+            variableId,
+            quantity: item.quantity + 1,
+          }),
+        );
+        setLoadingItem(null);
+      }, 1000);
+    }
+  };
+
+  const handleDecrement = async (itemId: number, variableId: number) => {
+    const item = cartData.items.find(
+      (item: any) => item.id === itemId && item.variableId === variableId,
+    );
+
+    if (item) {
+      if (item.quantity === 1) {
+        setLoadingItem({ itemId, variableId, action: "delete" });
+
+        setTimeout(() => {
+          dispatch(removeItemFromCart({ id: itemId, variableId }));
+        }, 1000);
+
+        setTimeout(async () => {
+          try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(
+              `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              },
+            );
+
+            if (!response.ok) {
+              console.warn("Failed to delete item from API");
+            }
+          } catch (error) {
+            console.error("Error removing item:", error);
+          } finally {
+            setLoadingItem(null);
+          }
+        }, 1000);
+      } else {
+        setLoadingItem({ itemId, variableId, action: "decrement" });
+
+        setTimeout(() => {
+          dispatch(
+            updateItemQuantity({
+              id: itemId,
+              variableId,
+              quantity: item.quantity - 1,
+            }),
+          );
+          setLoadingItem(null);
+        }, 1000);
+      }
+    }
+  };
 
   if (isLoading) {
     return (
@@ -275,34 +434,100 @@ export default function CategoriesPopularCard({ responseData, isLoading }) {
                         onClick={() => handleAddToWishlist(card.id)}
                         className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-1.5"
                       >
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M17.3651 3.84172C16.9395 3.41589 16.4342 3.0781 15.8779 2.84763C15.3217 2.61716 14.7255 2.49854 14.1235 2.49854C13.5214 2.49854 12.9252 2.61716 12.369 2.84763C11.8128 3.0781 11.3074 3.41589 10.8818 3.84172L9.99847 4.72506L9.11514 3.84172C8.25539 2.98198 7.08933 2.49898 5.87347 2.49898C4.65761 2.49898 3.49155 2.98198 2.6318 3.84172C1.77206 4.70147 1.28906 5.86753 1.28906 7.08339C1.28906 8.29925 1.77206 9.46531 2.6318 10.3251L3.51514 11.2084L9.99847 17.6917L16.4818 11.2084L17.3651 10.3251C17.791 9.89943 18.1288 9.39407 18.3592 8.83785C18.5897 8.28164 18.7083 7.68546 18.7083 7.08339C18.7083 6.48132 18.5897 5.88514 18.3592 5.32893C18.1288 4.77271 17.791 4.26735 17.3651 3.84172Z"
-                            stroke="#A5A1A1"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
+                        {isProductInWishlist(card.id) ? (
+                          <IoMdHeart size={22} color="red" />
+                        ) : (
+                          <IoMdHeartEmpty size={22} color="gray" />
+                        )}
                       </div>
-                      <button
-                        onClick={() => {
-                          const selectedVariable = card.variables.find(
-                            (v: any) => v.id === selectedId,
+                      {cartData.items.some((item) => {
+                        if (card.variables?.length > 0) {
+                          return (
+                            item.id === card.id &&
+                            item.variableId === selectedId
                           );
-                          handleAddToCart(card, selectedVariable);
-                        }}
-                        className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center gap-1 rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
-                      >
-                        <Plus className="h-3 w-3 md:h-5 md:w-5" />
-                        ADD
-                      </button>
+                        } else {
+                          return item.id === card.id;
+                        }
+                      }) ? (
+                        <div className="flex h-[34px] w-full justify-between rounded border border-[#49AD91]">
+                          <button
+                            className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                            onClick={() =>
+                              handleDecrement(
+                                card.id,
+                                card.variables?.length > 0 ? selectedId : null,
+                              )
+                            }
+                          >
+                            <span className="sr-only">minus</span>
+                            <Minus />
+                          </button>
+                          <div className="flex items-center justify-center bg-[#49AD91] px-[36px] text-sm font-semibold text-[#fff]">
+                            {loadingItem?.itemId === card.id &&
+                            loadingItem?.variableId ===
+                              (card.variables?.length > 0
+                                ? selectedId
+                                : null) &&
+                            (loadingItem?.action === "increment" ||
+                              loadingItem?.action === "delete" ||
+                              loadingItem?.action === "decrement") ? (
+                              <div
+                                className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2"
+                                role="status"
+                              ></div>
+                            ) : (
+                              <div>
+                                {cartData.items.find(
+                                  (item) =>
+                                    item.id === card.id &&
+                                    item.variableId ===
+                                      (card.variables?.length > 0
+                                        ? selectedId
+                                        : null),
+                                )?.quantity || 0}
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
+                            onClick={() =>
+                              handleIncrement(
+                                card.id,
+                                card.variables?.length > 0 ? selectedId : null,
+                              )
+                            }
+                          >
+                            <span className="sr-only">plus</span>
+                            <Plus />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            const selectedVariable = selectedId
+                              ? card.variables?.find((v) => v.id === selectedId)
+                              : null;
+                            handleAddToCart(card, selectedVariable);
+                          }}
+                          className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 flex w-full items-center justify-center gap-1 rounded bg-[#49AD91] p-1.5 text-xs font-medium text-white md:text-[18px]"
+                        >
+                          {addingToCart?.productId === card.id &&
+                          addingToCart?.variableId === selectedId ? (
+                            <div
+                              className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2 border-white"
+                              role="status"
+                            >
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          ) : (
+                            <>
+                              <Plus className="h-3 w-3 md:h-5 md:w-5" />
+                              ADD
+                            </>
+                          )}
+                        </button>
+                      )}
                     </div>
                   </CardContent>
                 </div>
@@ -310,6 +535,11 @@ export default function CategoriesPopularCard({ responseData, isLoading }) {
             </div>
           </div>
         </div>
+
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+        />
 
         <Drawer
           placement="bottom"

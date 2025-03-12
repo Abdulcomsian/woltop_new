@@ -133,23 +133,27 @@ export default function PopularWallpaper({
     if (item) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, action: "delete" });
-  
+
+        setTimeout(() => {
+          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+        }, 1000);
+
         setTimeout(async () => {
           try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`${utils.BASE_URL}/delete-cart-item/${itemId}`, {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
+            const response = await fetch(
+              `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
               },
-            });
-  
-            if (response.ok) {
-              dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-            } else {
-              const data = await response.json();
-              console.error("Failed to delete item:", data);
+            );
+
+            if (!response.ok) {
+              console.warn("Failed to delete item from API");
             }
           } catch (error) {
             console.error("Error removing item:", error);
@@ -159,14 +163,14 @@ export default function PopularWallpaper({
         }, 1000);
       } else {
         setLoadingItem({ itemId, action: "decrement" });
-  
+
         setTimeout(() => {
           dispatch(
             updateItemQuantity({
               id: itemId,
               variableId: null,
               quantity: item.quantity - 1,
-            })
+            }),
           );
           setLoadingItem(null);
         }, 1000);
