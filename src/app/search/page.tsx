@@ -33,6 +33,7 @@ const SearchPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const dispatch = useDispatch();
+  const [addingToCartId, setAddingToCartId] = useState<number | null>(null);
   const [loadingItem, setLoadingItem] = useState<{
     itemId: number;
     action: "delete" | "increment" | "decrement";
@@ -80,36 +81,41 @@ const SearchPage = () => {
   };
 
   const handleAddToCart = async (product) => {
-    dispatch(
-      addItemToCart({
-        id: product.id,
-        name: product.title,
-        price: product.price,
-        sale_price: product.sale_price || product.price,
-        discount: product.discount || 0,
-        featured_image: product.featured_image,
-        variableId: null,
-        variableName: "Default",
-      }),
-    );
-    try {
-      const token = localStorage.getItem("token");
-      const formData = new FormData();
-      formData.append("product_id", product.id.toString());
+    setAddingToCartId(product.id);
+    setTimeout(async() => {
+      dispatch(
+        addItemToCart({
+          id: product.id,
+          name: product.title,
+          price: product.price,
+          sale_price: product.sale_price || product.price,
+          discount: product.discount || 0,
+          featured_image: product.featured_image,
+          variableId: null,
+          variableName: "Default",
+        }),
+      );
+      try {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("product_id", product.id.toString());
 
-      const response = await fetch(`${utils.BASE_URL}/store-cart`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+        const response = await fetch(`${utils.BASE_URL}/store-cart`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
 
-      const data = await response.json();
-    } catch (error) {
-      console.error("Error adding item to cart:", error);
-    }
-    setIsDrawerOpen(true);
+        const data = await response.json();
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+      } finally {
+        setAddingToCartId(null);
+      }
+      setIsDrawerOpen(true);
+    }, 1000);
   };
 
   const handleIncrement = (itemId: number) => {
@@ -134,6 +140,9 @@ const SearchPage = () => {
     if (item) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, action: "delete" });
+        setTimeout(() => {
+          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+        }, 1000);
 
         setTimeout(async () => {
           try {
@@ -149,11 +158,8 @@ const SearchPage = () => {
               },
             );
 
-            if (response.ok) {
-              dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-            } else {
-              const data = await response.json();
-              console.error("Failed to delete item:", data);
+            if (!response.ok) {
+              console.warn("Failed to delete item from API");
             }
           } catch (error) {
             console.error("Error removing item:", error);
@@ -308,10 +314,21 @@ const SearchPage = () => {
                           e.stopPropagation();
                           handleAddToCart(product);
                         }}
-                        className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 absolute bottom-2 right-2 flex w-auto items-center justify-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white transition-colors duration-300 md:px-6 md:text-[18px]"
+                        className="bg-[#49AD91]-500 hover:bg-[#49AD91]-700 min-w-[110px] absolute bottom-2 right-2 flex w-auto items-center justify-center gap-1 rounded bg-[#49AD91] px-3 py-1.5 text-xs font-medium text-white transition-colors duration-300 md:px-6 md:text-[18px]"
                       >
-                        <Plus className="h-3 w-3 md:h-5 md:w-5" />
-                        ADD
+                        {addingToCartId === product.id ? (
+                          <div
+                            className="spinner-border inline-block h-4 w-4 my-[2px] animate-spin rounded-full border-2 border-white border-t-transparent"
+                            role="status"
+                          >
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        ) : (
+                          <>
+                            <Plus className="h-3 w-3 md:h-5 md:w-5" />
+                            ADD
+                          </>
+                        )}
                       </button>
                     )}
                   </>

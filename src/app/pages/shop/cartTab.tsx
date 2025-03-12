@@ -32,6 +32,7 @@ interface CartTabProps {
 const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const dispatch = useDispatch();
   const cartData = useSelector((state: any) => state.cart);
+  console.log(cartData, "cartData");
   const totalPrice = useSelector((state: any) => state.cart.totalPrice);
   const totalDiscount = useSelector((state: any) => state.cart.totalDiscount);
   const { appliedCoupon } = useSelector((state: any) => state.cart);
@@ -53,7 +54,6 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   const isShippingFree = totalPrice > threshold_charges;
   const finalShippingCharges = isShippingFree ? 0 : shipping_charges;
 
-  console.log(cartData, "cartData");
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
 
   const handleApplyCoupon = (coupon: Coupon) => {
@@ -198,40 +198,35 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
   };
 
   const handleRemoveItem = async (itemId: number, variableId: number) => {
-    const item = cartData.items.find(
-      (item: any) => item.id === itemId && item.variableId === variableId,
-    );
-
-    if (item) {
-      setLoadingItem({ itemId, variableId, action: "delete" });
-
-      setTimeout(async () => {
-        try {
-          const token = localStorage.getItem("token");
-          const response = await fetch(
-            `${utils.BASE_URL}/delete-cart-item/${itemId}`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-              },
+    dispatch(removeItemFromCart({ id: itemId, variableId }));
+  
+    setLoadingItem({ itemId, variableId, action: "delete" });
+  
+    setTimeout(async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `${utils.BASE_URL}/delete-cart-item/${itemId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
             },
-          );
-
-          if (response.ok) {
-            dispatch(removeItemFromCart({ id: itemId, variableId }));
-          } else {
-            const data = await response.json();
           }
-        } catch (error) {
-          console.error("Error removing item:", error);
-        } finally {
-          setLoadingItem(null);
+        );
+  
+        if (!response.ok) {
+          console.warn("Failed to delete from API");
         }
-      }, 1000);
-    }
+      } catch (error) {
+        console.error("Error removing item:", error);
+      } finally {
+        setLoadingItem(null);
+      }
+    }, 1000);
   };
+  
 
   const handleRemoveCoupon = () => {
     dispatch(removeCoupon());
@@ -281,7 +276,7 @@ const CartTab: React.FC<CartTabProps> = ({ setActiveTab, chargess }) => {
                     {cartData?.items?.map((item: any, index: number) => (
                       <div
                         key={`item-${index}`}
-                        className="border-border-200 mb-5 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
+                        className="border-b border-[#DBDBDB] pb-5 mb-5 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
                         style={{ opacity: "1" }}
                       >
                         <Link

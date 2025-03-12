@@ -4,24 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
-import { useGetProductsByTagQuery } from "~/store/api/productApi";
+import { Card, CardContent, CardFooter } from "~/components/ui/card";
+import { useGetCartItemsQuery } from "~/store/api/cartItemsApi";
+import { useGetProductsByColorQuery } from "~/store/api/productApi";
 import {
   addItemToCart,
   removeItemFromCart,
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
 import utils from "~/utils";
-type DetailCardProps = {
-  rating?: boolean;
-  tagId: number;
-};
+
 interface Product {
   id: number;
   title: string;
@@ -31,14 +23,14 @@ interface Product {
   discount: string;
 }
 
-export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
-  // console.log("Color id", tagId);
-
+export default function UpsellingCard() {
   const {
     data: products,
     isLoading,
     error,
-  } = useGetProductsByTagQuery((tagId as unknown as string) || "1");
+    refetch,
+  } = useGetCartItemsQuery([]);
+
   const dispatch = useDispatch();
   const cartData = useSelector((state: any) => state.cart);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -60,17 +52,19 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
   const lastItemPrice =
     cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
 
-  const TagCardData = products?.data.map((product: Product) => ({
-    id: product?.id,
-    title: product?.title,
-    featured_image: product.featured_image,
-    price: product.price,
-    sale_price: product.sale_price,
-    discount: `${product.discount}%`,
-    range: product.range?.sale_price,
-    content: `${product.title}`,
-    variables: product.variables?.length,
-  }));
+  const UpSellingCardData = products?.upsell_products?.map(
+    (product: Product) => ({
+      id: product?.id,
+      title: product?.title,
+      featured_image: product.featured_image,
+      price: product.price,
+      sale_price: product.sale_price,
+      discount: `${product.discount}%`,
+      range: product.range?.sale_price,
+      content: `${product.title}`,
+      variables: product.variables?.length,
+    }),
+  );
 
   const handleAddToCart = async (product: Product) => {
     const existingItem = cartData.items.find(
@@ -110,6 +104,7 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
       });
 
       const data = await response.json();
+      refetch();
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
@@ -139,10 +134,6 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
       if (item.quantity === 1) {
         setLoadingItem({ itemId, action: "delete" });
 
-        setTimeout(() => {
-          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-        }, 1000);
-
         setTimeout(async () => {
           try {
             const token = localStorage.getItem("token");
@@ -155,10 +146,13 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
                   "Content-Type": "application/json",
                 },
               },
-            ); 
+            );
 
-            if (!response.ok) {
-              console.warn("Failed to delete item from API");
+            if (response.ok) {
+              dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+            } else {
+              const data = await response.json();
+              console.error("Failed to delete item:", data);
             }
           } catch (error) {
             console.error("Error removing item:", error);
@@ -197,15 +191,23 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
 
   return (
     <>
-      <div className="w-full">
-        <div className="grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
-          {isLoading
-            ? Array(TagCardData?.length)
-                .fill(0)
-                .map((_, index) => <SkeletonCard key={index} />)
-            : TagCardData?.map((card: any) => (
-                <div key={card.id}>
-                  <div className="card-wrapper relative">
+      <div className="flex w-full flex-col">
+        <div className="w-full">
+          {UpSellingCardData?.length > 0 && (
+            <h1 className="mb-5 text-[22px] font-semibold text-[#000000] md:mb-8 md:text-[34px]">
+              Your Last Minute Addons
+            </h1>
+          )}
+          <div className="grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
+            {isLoading
+              ? Array(UpSellingCardData?.length)
+                  .fill(0)
+                  .map((_, index) => <SkeletonCard key={index} />)
+              : UpSellingCardData?.map((card: any) => (
+                  <div
+                    key={card?.id}
+                    className="card-wrapper relative cursor-pointer"
+                  >
                     {!card?.variables && (
                       <>
                         {cartData.items.some((item) => {
@@ -274,10 +276,14 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
 
                     <Link href={`/product/${card.id}`}>
                       <div
+                        key={card.id}
                         style={{
                           backgroundImage: `url(${card.featured_image})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
                         }}
-                        className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
+                        className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-[8px] md:h-80"
                       ></div>
                       <p className="mt-[11px] truncate text-[#505050]">
                         {card?.title}
@@ -295,8 +301,8 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
                       </div>
                     </Link>
                   </div>
-                </div>
-              ))}
+                ))}
+          </div>
         </div>
       </div>
 

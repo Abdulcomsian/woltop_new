@@ -25,6 +25,7 @@ import { toolkitApi } from "./api/toolkitApi";
 import { careersApi } from "./api/careersApi";
 import { ordersApi } from "./api/ordersApi";
 import { faviconApi } from "./api/faviconApi";
+import { cartItemsApi } from "./api/cartItemsApi";
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -51,6 +52,7 @@ const rootReducer = combineReducers({
   [aboutApi.reducerPath]: aboutApi.reducer,  
   [faviconApi.reducerPath]: faviconApi.reducer,  
   [ordersApi.reducerPath]: ordersApi.reducer,
+  [cartItemsApi.reducerPath]: cartItemsApi.reducer,
   [careersApi.reducerPath]: careersApi.reducer,  
   [toolkitApi.reducerPath]: toolkitApi.reducer,
 });
@@ -116,6 +118,7 @@ export const store = configureStore({
       .concat(aboutApi.middleware)
       .concat(faviconApi.middleware)
       .concat(ordersApi.middleware)
+      .concat(cartItemsApi.middleware)
       .concat(careersApi.middleware)
       .concat(wishlistApi.middleware)
       .concat(toolkitApi.middleware),
