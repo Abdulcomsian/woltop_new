@@ -5,6 +5,7 @@ const initialState = {
   userInfo: null,
   token: null,
   isRegistered: false,
+  purchasedProducts: [], 
 };
 
 const userSlice = createSlice({
@@ -15,6 +16,7 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
       state.userInfo = action.payload.user;
       state.token = action.payload.access_token;
+      state.purchasedProducts = action.payload.products?.ids || [];
     },
     register(state, action) {
       state.isRegistered = true;
@@ -25,6 +27,7 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.token = null;
       state.isRegistered = false;
+      state.purchasedProducts = [];
     },
   },
 });

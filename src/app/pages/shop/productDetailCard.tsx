@@ -57,12 +57,14 @@ export default function ProductDetailCard({
     (product) => ({
       id: product.id,
       title: product.title,
-      featured_image: product.image,
+      featured_image: product.featured_image,
       description: product.price,
       price: product.price,
       sale_price: product.sale_price,
+      range: product.range?.sale_price,
+      variables: product.variables?.length,
       discount: `${product.discount}%`,
-      content: `${product.content} - Description`,
+      content: `${product.content}`,
     }),
   );
 
