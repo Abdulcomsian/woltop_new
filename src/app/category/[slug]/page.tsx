@@ -41,7 +41,7 @@ export default function page() {
       <SectionBlock
         title=""
         subtitle=""
-        className="mx-auto mt-5 max-w-[1075px] px-3 pt-14"
+        className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-14"
         position="left"
       >
         <Categorybanner responseData={categories} isLoading={isLoading} />
