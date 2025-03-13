@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import utils from "~/utils";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import LoginModal from "./LoginModal";
 
 interface ReviewData {
   average: number;
@@ -27,10 +28,13 @@ interface RatedReviewProps {
 
 export default function RatedReview({ responseData, slug }: RatedReviewProps) {
   const { reviews } = responseData?.data;
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn, purchasedProducts } = useSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  console.log(purchasedProducts, "isLoggedIn products");
 
   if (!reviews) return null;
 
@@ -49,7 +53,7 @@ export default function RatedReview({ responseData, slug }: RatedReviewProps) {
       <svg
         key={index}
         xmlns="http://www.w3.org/2000/svg"
-        className={`h-[23px] w-[23px] md:h-[36px] md:w-[36px] fill-current ${index < rating ? "text-yellow-400" : "text-gray-300"}`}
+        className={`h-[23px] w-[23px] fill-current md:h-[36px] md:w-[36px] ${index < rating ? "text-yellow-400" : "text-gray-300"}`}
         viewBox="0 0 24 24"
       >
         <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
@@ -59,7 +63,11 @@ export default function RatedReview({ responseData, slug }: RatedReviewProps) {
 
   const handleAddReview = () => {
     if (!isLoggedIn) {
-      toast.warning("You need to login first to submit a review.");
+      setIsLoginModalOpen(true);
+      return;
+    }
+    if (!purchasedProducts?.includes(Number(slug))) {
+      toast.warning("You can only review products you have purchased.");
       return;
     }
     setIsModalOpen(true);
@@ -113,20 +121,24 @@ export default function RatedReview({ responseData, slug }: RatedReviewProps) {
       <div className="flex justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <h6 className="text-[18px] md:text-[34px] text-[#000000] font-semibold">Rated {average}</h6>
+            <h6 className="text-[18px] font-semibold text-[#000000] md:text-[34px]">
+              Rated {average}
+            </h6>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-[23px] w-[23px] md:h-[36px] md:w-[36px] fill-current ${average ? "text-yellow-400" : "text-gray-300"}`}
+              className={`h-[23px] w-[23px] fill-current md:h-[36px] md:w-[36px] ${average ? "text-yellow-400" : "text-gray-300"}`}
               viewBox="0 0 24 24"
             >
               <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.884 1.458 8.229L12 18.897l-7.394 4.522L6.064 15.19.001 9.306l8.332-1.151z"></path>
             </svg>
           </div>
-          <p className="mt-3 text-[14px] md:text-[22px]">{total_count} verified reviews</p>
+          <p className="mt-3 text-[14px] md:text-[22px]">
+            {total_count} verified reviews
+          </p>
         </div>
         <button
           onClick={handleAddReview}
-          className="btn flex h-[32px] md:h-[50px] items-center justify-center rounded bg-[#49AD91] p-[10px] font-medium text-xs md:text-xl md:px-[35px] text-white"
+          className="btn flex h-[32px] items-center justify-center rounded bg-[#49AD91] p-[10px] text-xs font-medium text-white md:h-[50px] md:px-[35px] md:text-xl"
         >
           ADD A REVIEW
         </button>
@@ -134,25 +146,35 @@ export default function RatedReview({ responseData, slug }: RatedReviewProps) {
 
       {/* Breakdown of star counts */}
       <div className="mt-4">
-        <div className="flex gap-[5px] md:gap-[7px] items-center">
+        <div className="flex items-center gap-[5px] md:gap-[7px]">
           {fillStars(5)}
-          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({five_star_count})</div>
+          <div className="ml-3 text-[14px] text-[#A5A1A1] md:text-[22px]">
+            ({five_star_count})
+          </div>
         </div>
-        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+        <div className="mt-2 flex items-center gap-[5px] md:gap-[7px]">
           {fillStars(4)}
-          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({four_star_count})</div>
+          <div className="ml-3 text-[14px] text-[#A5A1A1] md:text-[22px]">
+            ({four_star_count})
+          </div>
         </div>
-        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+        <div className="mt-2 flex items-center gap-[5px] md:gap-[7px]">
           {fillStars(3)}
-          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({three_star_count})</div>
+          <div className="ml-3 text-[14px] text-[#A5A1A1] md:text-[22px]">
+            ({three_star_count})
+          </div>
         </div>
-        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+        <div className="mt-2 flex items-center gap-[5px] md:gap-[7px]">
           {fillStars(2)}
-          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({two_star_count})</div>
+          <div className="ml-3 text-[14px] text-[#A5A1A1] md:text-[22px]">
+            ({two_star_count})
+          </div>
         </div>
-        <div className="mt-2 flex gap-[5px] md:gap-[7px] items-center">
+        <div className="mt-2 flex items-center gap-[5px] md:gap-[7px]">
           {fillStars(1)}
-          <div className="ml-3 text-[14px] md:text-[22px] text-[#A5A1A1]">({one_star_count})</div>
+          <div className="ml-3 text-[14px] text-[#A5A1A1] md:text-[22px]">
+            ({one_star_count})
+          </div>
         </div>
       </div>
 
@@ -210,6 +232,11 @@ export default function RatedReview({ responseData, slug }: RatedReviewProps) {
           </div>
         </div>
       )}
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </div>
   );
 }

@@ -8,6 +8,7 @@ import utils from "~/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { login, register } from "~/store/slices/userSlice";
 import { toast } from "react-toastify";
+import { addItemToCart } from "~/store/slices/cartSlice";
 
 const LoginModal = ({ isOpen, onClose }) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -16,6 +17,49 @@ const LoginModal = ({ isOpen, onClose }) => {
   const cartData = useSelector((state) => state.cart);
   console.log(cartData, "cartData");
 
+  const fetchCartItems = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${utils.BASE_URL}/show-cart-items`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      if (data.status) {
+        if (data.data && data.data.length > 0) {
+          data.data.forEach((item: any) => {
+            const existingItem = cartData.items.find(
+              (cartItem: any) => cartItem.id === item.id,
+            );
+
+            if (!existingItem) {
+              dispatch(
+                addItemToCart({
+                  id: item.id,
+                  name: item.title,
+                  price: Number(item.price),
+                  sale_price: item.sale_price
+                    ? Number(item.sale_price)
+                    : Number(item.price),
+                  discount: Number(item.discount),
+                  featured_image: item.image,
+                  variableId: null,
+                  variableName: "Default",
+                }),
+              );
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+    }
+  };
+  
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -59,7 +103,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       const formData = new FormData();
-    
+
       if (isLoginForm) {
         formData.append("email", values.email);
         formData.append("password", values.password);
@@ -68,38 +112,39 @@ const LoginModal = ({ isOpen, onClose }) => {
         formData.append("email", values.email);
         formData.append("password", values.password);
       }
-    
+
       const endpoint = isLoginForm ? "/login" : "/register";
-    
+
       try {
         const response = await fetch(`${utils.BASE_URL}${endpoint}`, {
           method: "POST",
           body: formData,
         });
-    
+
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-    
+
         const result = await response.json();
         console.log("API Response:", result);
-    
+
         if (isLoginForm) {
           localStorage.setItem("token", result.access_token);
-    
+
           dispatch(
             login({
               user: result.user,
               token: result.access_token,
-            })
+              products: result.products,
+            }),
           );
-    
+
           toast.success("Login successful!");
           const formattedCartData = cartData.items.map((item) => ({
             product_id: item.id || null,
             variable_id: item.variableId || null,
           }));
-  
+
           if (formattedCartData.length > 0) {
             await fetch(`${utils.BASE_URL}/store-cart-array`, {
               method: "POST",
@@ -117,17 +162,17 @@ const LoginModal = ({ isOpen, onClose }) => {
                 console.error("Cart API Error:", err);
               });
           }
-
+          await fetchCartItems();
         } else {
           dispatch(
             register({
               user: result.user,
-            })
+            }),
           );
-    
+
           toast.success("Registration successful!");
         }
-    
+
         onClose();
       } catch (error) {
         console.error("Error submitting form:", error);
@@ -140,7 +185,10 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div ref={modalRef} className="relative w-full max-w-md rounded-lg bg-white px-6 py-12 m-2 shadow-lg">
+      <div
+        ref={modalRef}
+        className="relative m-2 w-full max-w-md rounded-lg bg-white px-6 py-12 shadow-lg"
+      >
         <button
           className="absolute right-3 top-3"
           onClick={onClose}
