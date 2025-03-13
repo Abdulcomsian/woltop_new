@@ -498,7 +498,7 @@ export default function RecentCard() {
                           return item.id === card.data.id;
                         }
                       }) ? (
-                        <div className="flex h-[34px] w-full justify-between rounded border border-[#49AD91]">
+                        <div className="flex h-[29px] md:h-[34px] w-full justify-between rounded border border-[#49AD91]">
                           <button
                             className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                             onClick={() =>

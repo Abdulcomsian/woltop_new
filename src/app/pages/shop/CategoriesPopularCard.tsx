@@ -432,7 +432,7 @@ export default function CategoriesPopularCard({
                     <div className="mt-2 flex items-center gap-3">
                       <div
                         onClick={() => handleAddToWishlist(card.id)}
-                        className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-1 md:p-1.5"
+                        className="cursor-pointer rounded-full border-[0.5px] border-[#A5A1A1] p-[2px] md:p-1"
                       >
                         {isProductInWishlist(card.id) ? (
                           <IoMdHeart size={22} color="red" />
@@ -450,7 +450,7 @@ export default function CategoriesPopularCard({
                           return item.id === card.id;
                         }
                       }) ? (
-                        <div className="flex h-[34px] w-full justify-between rounded border border-[#49AD91]">
+                        <div className="flex  h-[29px] md:h-[34px] w-full justify-between rounded border border-[#49AD91]">
                           <button
                             className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                             onClick={() =>

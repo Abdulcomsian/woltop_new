@@ -276,8 +276,11 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
                       <div
                         style={{
                           backgroundImage: `url(${card.featured_image})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
                         }}
-                        className="custom-card-class relative z-0 h-52 w-auto items-center justify-center md:h-80"
+                        className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-[8px] md:h-80"
                       ></div>
                       <p className="mt-[11px] truncate text-[#505050]">
                         {card?.title}
