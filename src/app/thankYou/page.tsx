@@ -181,7 +181,7 @@ function ThankYouPageContent() {
                   {cartData?.items?.map((item: any) => (
                     <div
                       key={`${item.id}-${item.variableId}`}
-                      className="border-border-200 flex w-full border-b-[1px] border-opacity-75 py-4 text-sm"
+                      className={`border-border-200 flex w-full ${cartData?.items?.length > 1 && "border-b-2 pb-4"} border-opacity-75  text-sm`}
                       style={{ opacity: "1" }}
                     >
                       <div className="relative flex h-[102px] w-[71px] shrink-0 items-center justify-center overflow-hidden rounded-[6px] bg-gray-100 md:h-[179] md:w-1/4">
@@ -225,14 +225,14 @@ function ThankYouPageContent() {
           </Accordion>
         </div>
         <div className="bill-detail px-3">
-          <div className="border-border-200 flex flex-col border-b py-3">
-            <h4 className="font-medium">Bill Details</h4>
-            <div className="mt-2 flex">
+          <div className="border-border-200 flex flex-col mt-3">
+            <h4 className="font-medium text-black">Bill Details</h4>
+            {/* <div className="mt-2 flex">
               <Image src={coins || null} className="w-4" alt="" />
               <p className="ml-2 text-[8px] text-base text-[#7A7474]">
                 Total Wol Cash <span className="font-semibold">₹0</span>
               </p>
-            </div>
+            </div> */}
           </div>
           <div className="border-border-200 border-b py-3">
             <ul>
@@ -249,7 +249,7 @@ function ThankYouPageContent() {
               <li className="text-body mb-2 flex justify-between text-[12px] text-[#7A7474] md:text-base">
                 <div>Shipping Charges</div>
                 <div className="font-medium text-[#000000]">
-                  {shipping_charges === 0 ? (
+                  {shipping_charges == 0 ? (
                     <span className="ml-1 text-[12px] text-[#49AD91] md:text-base">
                       FREE
                     </span>
@@ -267,8 +267,8 @@ function ThankYouPageContent() {
             </ul>
           </div>
           <div className="subtotal mt-2 border-b pb-3">
-            <h4 className="flex items-center justify-between font-bold">
-              <span className="font-bold">Subtotal</span>
+            <h4 className="flex items-center justify-between text-[#000000] font-medium">
+              <span className="">Subtotal</span>
               <span>₹{total_amount || 0}</span>
             </h4>
           </div>
@@ -279,7 +279,7 @@ function ThankYouPageContent() {
               </p>
               <div className="flex items-center gap-2">
                 <WhatsApp />
-                <span className="text-[#7A7474]">+91 123456789</span>
+                <span className="text-[#7A7474] text-xs">+91 123456789</span>
               </div>
             </div>
           </div>
@@ -300,8 +300,8 @@ function ThankYouPageContent() {
                 ></path>
               </svg>
             </span>
-            <span className="text-[12px] text-[#7A7474]">
-              Yay! You have saved ₹799 on this order
+            <span className="text-[13px] text-[#749362]">
+              Yay! You have saved <span className="font-semibold">₹{totalDiscount}</span> on this order
             </span>
           </p>
         </div>
@@ -310,9 +310,8 @@ function ThankYouPageContent() {
           data-variant="normal"
           className="focus:ring-accent-700 hover:bg-accent-hover m-3 flex h-12 shrink-0 items-center justify-center gap-[9px] rounded border border-transparent bg-[#49AD91] px-5 py-0 font-semibold leading-none text-white outline-none transition duration-300 ease-in-out focus:shadow focus:outline-0 focus:ring-1 md:m-0 md:mt-3"
         >
-          <div className="flex items-center">
+          <div className="flex items-center uppercase">
             <span>Continue Shopping</span>
-            <CheckoutArrow></CheckoutArrow>
           </div>
         </Link>
       </div>
