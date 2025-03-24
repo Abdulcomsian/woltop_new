@@ -7,7 +7,6 @@ import FeaturedImages from "../pages/shop/featuredImages";
 import Faqs from "../pages/shop/faqs";
 import LandingAbout from "../pages/shop/landingAbout";
 export default function page() {
-
   return (
     <>
       <SectionBlock
@@ -49,15 +48,7 @@ export default function page() {
           <Reeling></Reeling>
         </SectionBlock>
       </div>
-
-      <SectionBlock
-        title=""
-        subtitle=""
-        className="mx-auto max-w-[1075px] px-3 "
-        position="left"
-      >
-        <Faqs />
-      </SectionBlock>
+      <Faqs />
     </>
   );
 }

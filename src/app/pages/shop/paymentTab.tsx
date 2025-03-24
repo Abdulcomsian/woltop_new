@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CheckoutArrow } from "~/components/icons/CheckoutArrow";
 import Image from "next/image";
 import coins from "../../../../public/icons/coin.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import installationIcon from "../../../../public/installationIcon.png";
 
 import {
@@ -13,8 +13,10 @@ import {
 } from "../../../components/ui/accordion";
 import utils from "~/utils";
 import { useRouter } from "next/navigation";
+import { removeItemFromCart } from "~/store/slices/cartSlice";
 const PaymentTab = ({ chargess, shippingData }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { totalPrice, totalDiscount, appliedCoupon } = useSelector(
     (state: any) => state.cart,
   );
@@ -96,6 +98,26 @@ const PaymentTab = ({ chargess, shippingData }) => {
 
       const result = await response.json();
       console.log("Order placed successfully:", result);
+      try {
+        cartData.items.forEach((item: any) => {
+          dispatch(removeItemFromCart({ id: item.id, variableId: item.variableId }));
+        });
+  
+        const token = localStorage.getItem("token");
+        await Promise.all(
+          cartData?.items?.map((item: any) =>
+            fetch(`${utils.BASE_URL}/delete-cart-item/${item.id}`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            })
+          )
+        );
+      } catch (cleanupError) {
+        console.error("Error cleaning up cart:", cleanupError);
+      }
 
       const query = new URLSearchParams({
         order_id: result?.order_id,
@@ -385,8 +407,8 @@ const PaymentTab = ({ chargess, shippingData }) => {
                     ></path>
                   </svg>
                 </span>
-                <span className="text-[12px] text-[#7A7474]">
-                  Yay! You have saved ₹{totalDiscount} on this order
+                <span className="text-[12px] text-[#749362]">
+                  Yay! You have saved <span className="font-semibold">₹{totalDiscount}</span> on this order
                 </span>
               </p>
             </div>
