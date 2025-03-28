@@ -3,13 +3,14 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ["127.0.0.1", "localhost", "woltop.accrualdev.com", 'web.wolpin.in', 'dashboard.wolpin.in'], // Add your external domain here
+    domains: ["127.0.0.1", "localhost", 'dashboard.wolpin.app'],
+    unoptimized: true,
   },
   typescript: {
-    ignoreBuildErrors: true, // Disable TypeScript errors during build
+    ignoreBuildErrors: true,
   },
   eslint: {
-    ignoreDuringBuilds: true, // Disable ESLint errors during build
+    ignoreDuringBuilds: true,
   },
 };
 
