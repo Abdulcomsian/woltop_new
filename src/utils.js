@@ -1,5 +1,5 @@
 const utils = {
-  BASE_URL: "https://dashboard.wolpin.in/api",
+  BASE_URL: "https://dashboard.wolpin.app/api",
 };
 
 export default utils;
