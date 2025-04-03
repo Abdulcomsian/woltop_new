@@ -281,7 +281,10 @@ export default function productDetailItem({
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("product_id", responseData.data.id.toString());
-        formData.append("variable_id", selectedVariable ? selectedVariable.id.toString() : "");
+        formData.append(
+          "variable_id",
+          selectedVariable ? selectedVariable.id.toString() : "",
+        );
 
         const response = await fetch(`${utils.BASE_URL}/store-cart`, {
           method: "POST",
@@ -329,12 +332,11 @@ export default function productDetailItem({
     if (!item) return;
 
     if (item.quantity === 1) {
-      
       setLoadingItem({ itemId, variableId, action: "delete" });
       setTimeout(() => {
         dispatch(removeItemFromCart({ id: itemId, variableId }));
       }, 1000);
-      
+
       setTimeout(async () => {
         try {
           const token = localStorage.getItem("token");
@@ -369,7 +371,7 @@ export default function productDetailItem({
       );
 
       setLoadingItem({ itemId, variableId, action: "decrement" });
-      
+
       setTimeout(async () => {
         try {
           const token = localStorage.getItem("token");
@@ -397,6 +399,8 @@ export default function productDetailItem({
     }
   };
 
+  console.log(responseData?.data.featured_image, "sdhjghsdgj");
+
   return (
     <>
       <div className="max-w-[944px]">
@@ -423,7 +427,8 @@ export default function productDetailItem({
                     <div className="swiper-zoom-container h-full">
                       <img
                         className="h-full object-cover"
-                        src={image.image_path}
+                        // src={image.image_path}
+                        src={`https://dashboard.wolpin.app/cdn-cgi/image/width=800,format=auto${image.image_path.replace("https://dashboard.wolpin.app", "")}`}
                         alt={`Product Image ${image.id}`}
                       />
                     </div>
