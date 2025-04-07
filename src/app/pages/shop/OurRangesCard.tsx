@@ -42,7 +42,7 @@ export default function OurRangesCard({ cardData, isLoading }) {
               <Image
                 src={card?.image}
                 loader={cloudflareLoader}
-                className="rounded-lg object-cover md:h-80 lg:block"
+                className="rounded-lg object-cover h-full"
                 width={470}
                 height={550}
                 alt=""

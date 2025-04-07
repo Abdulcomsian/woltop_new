@@ -287,7 +287,7 @@ export default function TagsProductCard({ rating, tagId }: DetailCardProps) {
                         <Image
                           src={card.featured_image}
                           loader={cloudflareLoader}
-                          className="rounded-lg object-cover md:h-80 lg:block"
+                          className="rounded-lg object-cover h-full"
                           width={470}
                           height={550}
                           alt=""

@@ -5,6 +5,7 @@ import step3 from "../../public/step3.png";
 import step4 from "../../public/step4.png";
 import Image from "next/image";
 import Link from "next/link";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 
 type InstallationStep = {
   id: number;
@@ -62,6 +63,7 @@ export default function EasySteps({ responseData }: EasyStepsProps) {
                     alt={step.name}
                     className="h-full w-full object-cover"
                     fill
+                    loader={cloudflareLoader}
                   />
                 </div>
 
