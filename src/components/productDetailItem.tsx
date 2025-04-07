@@ -411,10 +411,10 @@ export default function productDetailItem({
             <div className="mb-4 flex h-[751px] max-h-[751px] w-full items-center justify-center overflow-hidden md:rounded-[6px]">
               <Swiper
                 autoplay={{
-                  delay: 5000,
+                  delay: 7000,
                   disableOnInteraction: false,
                 }}
-                speed={300}
+                speed={400}
                 pagination={{
                   clickable: true,
                 }}
@@ -422,6 +422,22 @@ export default function productDetailItem({
                 modules={[Autoplay, Pagination, Zoom]}
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                 onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                onTouchStart={(swiper) => {
+                  const scale = swiper.zoom.scale;
+                  if (scale > 1) {
+                    swiper.autoplay.stop();
+                    swiper.allowSlideNext = false;
+                    swiper.allowSlidePrev = false;
+                  }
+                }}
+                onTouchEnd={(swiper) => {
+                  const scale = swiper.zoom.scale;
+                  if (scale <= 1) {
+                    swiper.autoplay.start();
+                    swiper.allowSlideNext = true;
+                    swiper.allowSlidePrev = true;
+                  }
+                }}
                 className="mySwiper h-full"
               >
                 {product_images?.map((image) => (
