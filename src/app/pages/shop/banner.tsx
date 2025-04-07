@@ -4,6 +4,7 @@ import homeBannerWings from "../../../../public/homeBannerWings.png";
 import placeholderImage from "../../../../public/aboutbanner.jpg";
 import { useGetHomeBannerQuery } from "~/store/api/homeBannerApi";
 import Link from "next/link";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 
 export default function Banner() {
   const { data: homeBanner, isLoading } = useGetHomeBannerQuery({});
@@ -15,25 +16,26 @@ export default function Banner() {
   return (
     <div className="container mx-auto">
       {isLoading ? (
-        <div className="relative rounded-[10px] overflow-hidden py-[49px] md:py-[106px] animate-pulse">
+        <div className="relative animate-pulse overflow-hidden rounded-[10px] py-[49px] md:py-[106px]">
           <div className="container relative z-20 mx-auto text-center text-white">
-            <div className="mb-3 md:mb-5 flex justify-center">
-              <div className="h-12 w-20 bg-gray-300 rounded"></div>
+            <div className="mb-3 flex justify-center md:mb-5">
+              <div className="h-12 w-20 rounded bg-gray-300"></div>
             </div>
-            <div className="h-10 w-48 bg-gray-300 mx-auto rounded mb-4"></div>
-            <div className="h-10 w-32 bg-gray-300 mx-auto rounded"></div>
+            <div className="mx-auto mb-4 h-10 w-48 rounded bg-gray-300"></div>
+            <div className="mx-auto h-10 w-32 rounded bg-gray-300"></div>
           </div>
           <div className="absolute inset-0 z-10">
             <div className="h-full w-full bg-gray-300"></div>
           </div>
         </div>
       ) : (
-        <div className="relative rounded-[10px] overflow-hidden py-[49px] md:py-[106px]">
+        <div className="relative overflow-hidden rounded-[10px] py-[49px] md:py-[106px]">
           <div className="container relative z-20 mx-auto text-center text-white">
-            <div className="mb-3 md:mb-5 flex justify-center">
+            <div className="mb-3 flex justify-center md:mb-5">
               <Image
                 src={homeBanner?.logo || homeBannerWings.src}
                 alt="img"
+                loader={cloudflareLoader}
                 width={76}
                 height={46}
                 onError={handleImageError}
@@ -49,7 +51,7 @@ export default function Banner() {
             >
               <button
                 data-variant="outline"
-                className="focus:ring-accent-700 border-border-400 text-body px-6 md:px-12 py-2 md:py-3 mt-3 md:mt-5 inline-flex shrink-0 items-center justify-center rounded border bg-transparent text-[16px] leading-none text-white outline-none transition duration-300 ease-in-out hover:border-accent hover:text-black hover:bg-white focus:shadow focus:outline-0 focus:ring-1"
+                className="focus:ring-accent-700 border-border-400 text-body mt-3 inline-flex shrink-0 items-center justify-center rounded border bg-transparent px-6 py-2 text-[16px] leading-none text-white outline-none transition duration-300 ease-in-out hover:border-accent hover:bg-white hover:text-black focus:shadow focus:outline-0 focus:ring-1 md:mt-5 md:px-12 md:py-3"
               >
                 <span className="font-normal tracking-[1%]">Shop Now</span>
               </button>
@@ -69,9 +71,12 @@ export default function Banner() {
               }}
               fill
               src={homeBanner?.banner || banner.src}
+              loader={cloudflareLoader}
               className="h-full w-full object-cover object-center"
               alt="img"
               onError={handleImageError}
+              sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+              quality={80}
             />
           </div>
         </div>

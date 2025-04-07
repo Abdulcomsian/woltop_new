@@ -10,7 +10,8 @@ import { useEffect, useState } from "react";
 import { Drawer } from "antd";
 import { Minus, Plus } from "lucide-react";
 import utils from "~/utils";
-
+import Image from "next/image";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 interface Product {
   id: number;
   title: string;
@@ -59,7 +60,9 @@ export default function PopularWallpaper({
   const PopularcardData = products?.data?.map((product) => ({
     id: product.id,
     title: product.title,
+
     featured_image: product.featured_image,
+
     price: product.price,
     sale_price: product.sale_price,
     discount: `${product.discount}%`,
@@ -279,14 +282,29 @@ export default function PopularWallpaper({
 
                 <Link href={`/product/${card.id}`}>
                   <div
-                    style={{
-                      backgroundImage: `url(${card?.featured_image})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
+                    // style={{
+                    //   backgroundImage: `url(${cloudflareLoader({
+                    //     src: card?.featured_image,
+                    //     width: 1200, // Use an appropriate width based on your design
+                    //     quality: 80, // Set your desired quality
+                    //   })})`,
+                    //   backgroundRepeat: "no-repeat",
+                    //   backgroundSize: "cover",
+                    //   backgroundPosition: "center",
+                    // }}
                     className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-lg md:h-80"
-                  ></div>
+                  >
+                    <Image
+                      src={card?.featured_image}
+                      loader={cloudflareLoader}
+                      className="absolute bottom-0 h-52 rounded-lg object-cover md:h-80"
+                      width={470}
+                      height={550}
+                      alt=""
+                      sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                      quality={80}
+                    />
+                  </div>
                   <p className="mt-[11px] truncate text-[#505050]">
                     {card?.title}
                   </p>
@@ -327,7 +345,8 @@ export default function PopularWallpaper({
                   href={`/product/${item?.id}`}
                   className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
                 >
-                  <img
+                  <Image
+                    loader={cloudflareLoader}
                     alt={item.name}
                     className="h-full w-full object-cover"
                     src={

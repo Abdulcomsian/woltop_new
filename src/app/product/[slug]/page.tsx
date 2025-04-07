@@ -17,10 +17,10 @@ import RecentCard from "~/app/pages/shop/RecentCard";
 import { useParams } from "next/navigation";
 import SwiperCard from "~/components/swiperCard";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
-
+import Image from "next/image";
 const Spinner = () => (
-  <div className="flex justify-center items-center">
-    <div className="animate-spin rounded-full h-8 w-8 border-4 border-[#49AD91] border-t-transparent"></div>
+  <div className="flex items-center justify-center">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#49AD91] border-t-transparent"></div>
   </div>
 );
 
@@ -31,7 +31,8 @@ export default function Page() {
     isLoading,
     error,
   } = useGetProductByIdQuery(slug as string);
-  const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery({});  
+  const { data: categories, isLoading: isLoadingCategories } =
+    useGetCategoriesQuery({});
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -58,17 +59,20 @@ export default function Page() {
     }
   }, [product]);
 
-  
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         <Spinner />
       </div>
     );
   }
 
   if (error || !product) {
-    return <div className="text-center py-10">Something went wrong or product not found.</div>;
+    return (
+      <div className="py-10 text-center">
+        Something went wrong or product not found.
+      </div>
+    );
   }
 
   return (
@@ -88,7 +92,10 @@ export default function Page() {
           className="mx-auto max-w-[1075px] px-3 pt-[13px] md:pt-[33px]"
           position="left"
         >
-          <VideoSection responseData={product} isLoading={isLoading}></VideoSection>
+          <VideoSection
+            responseData={product}
+            isLoading={isLoading}
+          ></VideoSection>
         </SectionBlock>
       </div>
 
@@ -156,7 +163,7 @@ export default function Page() {
           className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-[70px]"
           position="left"
         >
-          <RatedReview responseData={product}  slug={slug} ></RatedReview>
+          <RatedReview responseData={product} slug={slug}></RatedReview>
           <ReviewCard
             //@ts-ignore
             slug={slug}

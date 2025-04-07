@@ -14,7 +14,8 @@ import {
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
 import utils from "~/utils";
-
+import Image from "next/image";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 export default function CategoriesPopularCard({
   responseData,
   isLoading: isLoadingProduct,
@@ -99,7 +100,10 @@ export default function CategoriesPopularCard({
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("product_id", product.id.toString());
-        formData.append("variable_id", selectedVariable ? selectedVariable.id.toString() : "");
+        formData.append(
+          "variable_id",
+          selectedVariable ? selectedVariable.id.toString() : "",
+        );
 
         const response = await fetch(`${utils.BASE_URL}/store-cart`, {
           method: "POST",
@@ -322,14 +326,25 @@ export default function CategoriesPopularCard({
                     className="relative cursor-pointer"
                   >
                     <Card
-                      style={{
-                        backgroundImage: `url(${card?.featured_image})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}
+                      // style={{
+                      //   backgroundImage: `url(${card?.featured_image})`,
+                      //   backgroundRepeat: "no-repeat",
+                      //   backgroundSize: "cover",
+                      //   backgroundPosition: "center",
+                      // }}
                       className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover sm:w-auto md:h-[305px]"
-                    ></Card>
+                    >
+                      <Image
+                        src={card?.featured_image}
+                        loader={cloudflareLoader}
+                        className="h-full w-full rounded-lg object-cover"
+                        width={470}
+                        height={550}
+                        alt=""
+                        sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                        quality={80}
+                      />
+                    </Card>
                   </Link>
                   <CardContent className="w-full" style={{ paddingTop: "0px" }}>
                     <p className="truncate text-xs font-normal text-[#000000] md:text-base">
@@ -450,7 +465,7 @@ export default function CategoriesPopularCard({
                           return item.id === card.id;
                         }
                       }) ? (
-                        <div className="flex  h-[29px] md:h-[34px] w-full justify-between rounded border border-[#49AD91]">
+                        <div className="flex h-[29px] w-full justify-between rounded border border-[#49AD91] md:h-[34px]">
                           <button
                             className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                             onClick={() =>
@@ -463,7 +478,7 @@ export default function CategoriesPopularCard({
                             <span className="sr-only">minus</span>
                             <Minus />
                           </button>
-                          <div className="flex items-center justify-center bg-[#49AD91] px-[26px] md:px-[36px] text-sm font-semibold text-[#fff]">
+                          <div className="flex items-center justify-center bg-[#49AD91] px-[26px] text-sm font-semibold text-[#fff] md:px-[36px]">
                             {loadingItem?.itemId === card.id &&
                             loadingItem?.variableId ===
                               (card.variables?.length > 0

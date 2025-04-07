@@ -1,6 +1,7 @@
 import Image from "next/image";
 import banner from "../../../assets/banner/banner.png";
 import Link from "next/link";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 
 export default function Categorybanner({ responseData, isLoading }) {
   const { name, banner } = responseData?.data?.category || {};
@@ -57,6 +58,7 @@ export default function Categorybanner({ responseData, isLoading }) {
                 color: "transparent",
               }}
               fill
+              loader={cloudflareLoader}
               src={banner}
               className="h-full w-full object-cover object-center"
               alt="img"

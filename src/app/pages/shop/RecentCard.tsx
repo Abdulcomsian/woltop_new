@@ -1,6 +1,7 @@
 "use client";
 import { Drawer } from "antd";
 import { Check, Minus, Plus } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
@@ -8,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import LoginModal from "~/components/LoginModal";
 import { Card, CardContent, CardDescription } from "~/components/ui/card";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 import {
   addItemToCart,
   removeItemFromCart,
@@ -131,7 +133,10 @@ export default function RecentCard() {
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("product_id", product.data.id.toString());
-        formData.append("variable_id", selectedVariable ? selectedVariable.id.toString() : "");
+        formData.append(
+          "variable_id",
+          selectedVariable ? selectedVariable.id.toString() : "",
+        );
 
         const response = await fetch(`${utils.BASE_URL}/store-cart`, {
           method: "POST",
@@ -195,7 +200,7 @@ export default function RecentCard() {
 
         setTimeout(() => {
           dispatch(removeItemFromCart({ id: itemId, variableId }));
-                }, 1000);
+        }, 1000);
 
         setTimeout(async () => {
           try {
@@ -211,7 +216,6 @@ export default function RecentCard() {
               },
             );
 
-            
             if (!response.ok) {
               console.warn("Failed to delete item from API");
             }
@@ -364,14 +368,25 @@ export default function RecentCard() {
                     className="relative cursor-pointer"
                   >
                     <Card
-                      style={{
-                        backgroundImage: `url(${card.data.featured_image})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}
+                      // style={{
+                      //   backgroundImage: `url(${card.data.featured_image})`,
+                      //   backgroundRepeat: "no-repeat",
+                      //   backgroundSize: "cover",
+                      //   backgroundPosition: "center",
+                      // }}
                       className="relative z-0 h-[199px] w-[133px] items-center justify-center bg-cover sm:w-auto md:h-[305px]"
-                    ></Card>
+                    >
+                      <Image
+                        src={card.data.featured_image}
+                        loader={cloudflareLoader}
+                        className="h-[199px rounded-lg object-cover md:h-[305px] lg:block"
+                        width={470}
+                        height={305}
+                        alt=""
+                        sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                        quality={80}
+                      />
+                    </Card>
                   </Link>
                   <CardContent className="w-full" style={{ paddingTop: "0px" }}>
                     <p className="truncate text-xs font-normal text-[#000000] md:text-base">
@@ -498,7 +513,7 @@ export default function RecentCard() {
                           return item.id === card.data.id;
                         }
                       }) ? (
-                        <div className="flex h-[29px] md:h-[34px] w-full justify-between rounded border border-[#49AD91]">
+                        <div className="flex h-[29px] w-full justify-between rounded border border-[#49AD91] md:h-[34px]">
                           <button
                             className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded px-[15px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                             onClick={() =>
@@ -513,7 +528,7 @@ export default function RecentCard() {
                             <span className="sr-only">minus</span>
                             <Minus />
                           </button>
-                          <div className="flex items-center justify-center bg-[#49AD91] px-[26px] md:px-[36px] text-sm font-semibold text-[#fff]">
+                          <div className="flex items-center justify-center bg-[#49AD91] px-[26px] text-sm font-semibold text-[#fff] md:px-[36px]">
                             {loadingItem?.itemId === card.data.id &&
                             loadingItem?.variableId ===
                               (card.data.variables?.length > 0
@@ -615,13 +630,18 @@ export default function RecentCard() {
                     href={`/product/${item?.id}`}
                     className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
                   >
-                    <img
+                    <Image
+                      loader={cloudflareLoader}
                       alt={item.name}
                       className="h-full w-full object-cover"
                       src={
                         item?.featured_image ||
                         "https://placehold.co/600x400.png"
                       }
+                      width={470}
+                      height={550}
+                      sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                      quality={80}
                     />
                   </Link>
                 </div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import consultantgirl from "../../../assets/img/consultation-girl.png";
 import logoSrc from "../../../assets/img/consultation-bg.png";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 
 const ConsultationSection = () => {
   //   const logoSrc = '../../../assets/img/consultation-bg.png';
@@ -9,24 +10,29 @@ const ConsultationSection = () => {
 
   return (
     <div
-      className="relative mt-8 flex h-[598px] md:h-[481px] justify-end md:rounded-lg bg-cover md:bg-center p-8 bg-no-repeat"
+      className="relative mt-8 flex h-[598px] justify-end bg-cover bg-no-repeat p-8 md:h-[481px] md:rounded-lg md:bg-center"
       style={{ backgroundImage: `url(${logoSrc.src})` }}
     >
-      <img
+      <Image
         src={consultantgirl.src}
+        loader={cloudflareLoader}
         className="absolute bottom-0 left-20 hidden object-cover lg:block"
         width={470}
         height={550}
         alt=""
+        sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+        quality={80}
       />
       {/* Right Side - Content */}
-      <div className="relative z-10 w-full p-6 pl-0 sm:w-[36%] text-left">
-        <p className="text-base md:text-[20px] text-[#000000] ">In-Home</p>
-        <h2 className="mb-4 text-[34px] font-bold text-[#000000]">Consultation</h2>
-        <p className="mb-[22px] text-base md:text-[20px] text-[#000000]">
+      <div className="relative z-10 w-full p-6 pl-0 text-left sm:w-[36%]">
+        <p className="text-base text-[#000000] md:text-[20px]">In-Home</p>
+        <h2 className="mb-4 text-[34px] font-bold text-[#000000]">
+          Consultation
+        </h2>
+        <p className="mb-[22px] text-base text-[#000000] md:text-[20px]">
           Tailored Wallpaper Consultation Brought to Your Doorstep
         </p>
-        <ul className="mb-[28px] md:mb-[40px] list-disc text-left text-base md:text-[20px] text-[#000000]">
+        <ul className="mb-[28px] list-disc text-left text-base text-[#000000] md:mb-[40px] md:text-[20px]">
           <li className="mb-5 flex items-center gap-2">
             <svg
               width="32"
@@ -118,7 +124,7 @@ const ConsultationSection = () => {
             Measurement
           </li>
         </ul>
-        <button className="rounded-md bg-[#49AD91] px-[18px] py-[8px] text-[18px] md:text-[20px] font-semibold tracking-[-2%] text-white hover:bg-[#498f7b]">
+        <button className="rounded-md bg-[#49AD91] px-[18px] py-[8px] text-[18px] font-semibold tracking-[-2%] text-white hover:bg-[#498f7b] md:text-[20px]">
           Book Now
         </button>
       </div>

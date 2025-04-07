@@ -10,7 +10,8 @@ import {
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
 import utils from "~/utils";
-
+import Image from "next/image";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 interface Product {
   id: number;
   title: string;
@@ -254,14 +255,25 @@ export default function ProductDetailCard({
                 )}
                 <Link href={`/product/${card.id}`}>
                   <div
-                    style={{
-                      backgroundImage: `url(${card?.featured_image})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
+                    // style={{
+                    //   backgroundImage: `url(${card?.featured_image})`,
+                    //   backgroundRepeat: "no-repeat",
+                    //   backgroundSize: "cover",
+                    //   backgroundPosition: "center",
+                    // }}
                     className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-lg md:h-80"
-                  ></div>
+                  >
+                    <Image
+                      src={card?.featured_image}
+                      loader={cloudflareLoader}
+                      className="h-52 rounded-lg object-cover md:h-80 lg:block"
+                      width={470}
+                      height={550}
+                      alt=""
+                      sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                      quality={80}
+                    />
+                  </div>
                   <p className="mt-[11px] truncate text-[#505050]">
                     {card?.title}
                   </p>
@@ -303,7 +315,8 @@ export default function ProductDetailCard({
                   href={`/product/${item?.id}`}
                   className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
                 >
-                  <img
+                  <Image
+                    loader={cloudflareLoader}
                     alt={item.name}
                     className="h-full w-full object-cover"
                     src={

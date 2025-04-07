@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Card, CardContent, CardFooter } from "~/components/ui/card";
 import { useGetProductsByColorQuery } from "~/store/api/productApi";
+import Image from "next/image";
 import {
   addItemToCart,
   removeItemFromCart,
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
 import utils from "~/utils";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 
 type DetailCardProps = {
   rating?: boolean;
@@ -272,14 +274,25 @@ export default function DetailCard({ colorId }) {
                     <Link href={`/product/${card.id}`}>
                       <div
                         key={card.id}
-                        style={{
-                          backgroundImage: `url(${card.featured_image})`,
-                          backgroundRepeat: "no-repeat",
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                        }}
+                        // style={{
+                        //   backgroundImage: `url(${card.featured_image})`,
+                        //   backgroundRepeat: "no-repeat",
+                        //   backgroundSize: "cover",
+                        //   backgroundPosition: "center",
+                        // }}
                         className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-[8px] md:h-80"
-                      ></div>
+                      >
+                        <Image
+                          src={card.featured_image}
+                          loader={cloudflareLoader}
+                          className="rounded-lg object-cover md:h-80 lg:block"
+                          width={470}
+                          height={550}
+                          alt=""
+                          sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                          quality={80}
+                        />
+                      </div>
                       <p className="mt-[11px] truncate text-[#505050]">
                         {card?.title}
                       </p>

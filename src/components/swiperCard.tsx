@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import Swiper from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
-
+import Image from "next/image";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 const SwiperCard = ({ categories, isLoading }) => {
   useEffect(() => {
     if (!isLoading) {
@@ -66,10 +67,10 @@ const SwiperCard = ({ categories, isLoading }) => {
                     className="swiper-slide"
                     style={{ width: "142.8px", marginRight: "0px !important" }}
                   >
-                    <div className="flex flex-col items-center w-[110px] justify-between">
-                      <div className="h-[62px] w-[62px] md:h-[98px] md:w-[98px] rounded-full bg-gray-300 animate-pulse"></div>
+                    <div className="flex w-[110px] flex-col items-center justify-between">
+                      <div className="h-[62px] w-[62px] animate-pulse rounded-full bg-gray-300 md:h-[98px] md:w-[98px]"></div>
                       <div className="mt-2 block text-center">
-                        <div className="h-4 w-16 bg-gray-300 animate-pulse rounded-md"></div>
+                        <div className="h-4 w-16 animate-pulse rounded-md bg-gray-300"></div>
                       </div>
                     </div>
                   </div>
@@ -84,18 +85,23 @@ const SwiperCard = ({ categories, isLoading }) => {
                   }}
                 >
                   <Link href={`/category/${category.id}`}>
-                    <div className="flex flex-col items-center w-[110px] justify-between">
+                    <div className="flex w-[110px] flex-col items-center justify-between">
                       <div>
-                        <img
+                        <Image
                           src={category.image}
                           alt={category.name}
+                          loader={cloudflareLoader}
                           loading="lazy"
                           decoding="async"
-                          className="h-[62px] w-[62px] md:h-[98px] md:w-[98px] rounded-full border border-[#D237604D] p-1 object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                          quality={80}
+                          width={98} // maximum width expected (matches md breakpoint)
+                          height={98}
+                          className="h-[62px] w-[62px] rounded-full border border-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
                         />
                       </div>
                       <div className="mt-2 block text-center">
-                        <span className="text-heading text-center text-[#000000] text-xs md:text-base font-normal transition-colors group-hover:text-orange-500">
+                        <span className="text-heading text-center text-xs font-normal text-[#000000] transition-colors group-hover:text-orange-500 md:text-base">
                           {category.name}
                         </span>
                       </div>

@@ -7,6 +7,7 @@ import {
   removeItemFromCart,
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
+
 import Calculator from "./calculator";
 import { Check, Heart, Loader2, Minus, Plus } from "lucide-react";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
@@ -21,6 +22,7 @@ import ToolkitBar from "./toolkitBar";
 import { Drawer } from "antd";
 import Link from "next/link";
 import LoginModal from "./LoginModal";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 interface ProductImage {
   id: string;
   image_path: string;
@@ -281,7 +283,10 @@ export default function productDetailItem({
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("product_id", responseData.data.id.toString());
-        formData.append("variable_id", selectedVariable ? selectedVariable.id.toString() : "");
+        formData.append(
+          "variable_id",
+          selectedVariable ? selectedVariable.id.toString() : "",
+        );
 
         const response = await fetch(`${utils.BASE_URL}/store-cart`, {
           method: "POST",
@@ -329,12 +334,11 @@ export default function productDetailItem({
     if (!item) return;
 
     if (item.quantity === 1) {
-      
       setLoadingItem({ itemId, variableId, action: "delete" });
       setTimeout(() => {
         dispatch(removeItemFromCart({ id: itemId, variableId }));
       }, 1000);
-      
+
       setTimeout(async () => {
         try {
           const token = localStorage.getItem("token");
@@ -369,7 +373,7 @@ export default function productDetailItem({
       );
 
       setLoadingItem({ itemId, variableId, action: "decrement" });
-      
+
       setTimeout(async () => {
         try {
           const token = localStorage.getItem("token");
@@ -421,10 +425,15 @@ export default function productDetailItem({
                 {product_images?.map((image) => (
                   <SwiperSlide key={image.id}>
                     <div className="swiper-zoom-container h-full">
-                      <img
+                      <Image
+                        loader={cloudflareLoader}
                         className="h-full object-cover"
                         src={image.image_path}
                         alt={`Product Image ${image.id}`}
+                        sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                        quality={80}
+                        width={470}
+                        height={550}
                       />
                     </div>
                   </SwiperSlide>
@@ -434,7 +443,8 @@ export default function productDetailItem({
             <div className="hidden md:flex">
               {product_images?.map((image, index) => (
                 <div key={image.id} onClick={() => handleThumbnailClick(index)}>
-                  <img
+                  <Image
+                    loader={cloudflareLoader}
                     className={`mr-2 h-[117px] w-[82px] cursor-pointer rounded object-cover ${
                       activeIndex === index
                         ? "border-[1px] border-[#655F5F] p-[2px]"
@@ -442,6 +452,10 @@ export default function productDetailItem({
                     }`}
                     src={image.image_path}
                     alt={`Product Image ${image.id}`}
+                    sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                    quality={80}
+                    width={470}
+                    height={550}
                   />
                 </div>
               ))}
@@ -741,11 +755,14 @@ export default function productDetailItem({
                         className="relative h-[68px] w-[62px] rounded-full md:h-[99px] md:w-[91px]"
                       >
                         <Image
+                          loader={cloudflareLoader}
                           className="h-full w-full"
                           src={feature.image}
                           alt={feature.name}
                           width={100}
                           height={100}
+                          sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                          quality={80}
                         />
                       </div>
                     ),
@@ -782,12 +799,17 @@ export default function productDetailItem({
                   href={`/product/${item?.id}`}
                   className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
                 >
-                  <img
+                  <Image
+                    loader={cloudflareLoader}
                     alt={item.name}
                     className="h-full w-full object-cover"
                     src={
                       item?.featured_image || "https://placehold.co/600x400.png"
                     }
+                    sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                    quality={80}
+                    width={470}
+                    height={550}
                   />
                 </Link>
               </div>

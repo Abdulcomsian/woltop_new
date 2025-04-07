@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import desImg from "../../public/productdescription.png";
 import parse from "html-react-parser";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 
 interface ProductData {
   featured_image: any;
@@ -23,18 +24,18 @@ export default function ProductDescription({
   // Function to parse and render the description
   const renderDescription = () => {
     if (!description) return null;
-  
+
     // Parse the existing HTML and wrap each li with the icon
     const modifiedDescription = parse(description, {
       replace: (domNode) => {
         if (domNode.name === "li") {
           return (
-            <li className="mt-3 flex items-center gap-[10px] md:gap-[15px] w-full text-xs text-[#49AD91] md:text-lg">
+            <li className="mt-3 flex w-full items-center gap-[10px] text-xs text-[#49AD91] md:gap-[15px] md:text-lg">
               <svg
                 width="22"
                 height="17"
                 viewBox="0 0 22 17"
-                className="w-5 h-5 shrink-0"
+                className="h-5 w-5 shrink-0"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -51,8 +52,10 @@ export default function ProductDescription({
         }
       },
     });
-  
-    return <ul className="mb-2 w-full max-w-[90%] p-4">{modifiedDescription}</ul>;
+
+    return (
+      <ul className="mb-2 w-full max-w-[90%] p-4">{modifiedDescription}</ul>
+    );
   };
 
   return (
@@ -68,6 +71,7 @@ export default function ProductDescription({
         </div>
         <div className="relative mx-5 h-[147.88px] w-auto overflow-hidden rounded-[6px] md:h-[291.1px] md:w-[260px]">
           <Image
+            loader={cloudflareLoader}
             className="h-full w-full object-cover"
             src={featured_image}
             alt="Banner Background2"
@@ -96,7 +100,7 @@ export default function ProductDescription({
             HOW TO CARE
           </span>
         </h6>
-        <p className="md:ml-9 mt-1 text-xs text-[#49AD91] md:max-w-[80%] md:text-base">
+        <p className="mt-1 text-xs text-[#49AD91] md:ml-9 md:max-w-[80%] md:text-base">
           Use a damp cloth to clean the wallpaper. Avoid pasting the wallpaper
           on a cracked, textured or wall surface with moisture.
         </p>
