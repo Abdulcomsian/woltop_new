@@ -176,20 +176,20 @@ export default function footer() {
           className="w-full rounded-md border-2 border-dashed border-[#49AD91] bg-white p-6 lg:container lg:m-auto"
         >
           <div className="text-xs leading-[26px] md:text-[14px]">
-            <span className="font-bold mr-1">Wallpapers :</span> 
+            <span className="mr-1 font-bold">Wallpapers :</span>
             {categories?.map((category, index) => (
-                <span key={category?.id}>
-                  <Link
-                    href={`/category/${category.id}`}
-                    className="hover:text-gray-900"
-                  >
-                    {category?.name}
-                  </Link>
-                  {index < categories?.length - 1 && (
-                    <span className="mr-1 text-[#000000]">,</span>
-                  )}
-                </span>
-              ))}
+              <span key={category?.id}>
+                <Link
+                  href={`/category/${category.id}`}
+                  className="hover:text-gray-900"
+                >
+                  {category?.name}
+                </Link>
+                {index < categories?.length - 1 && (
+                  <span className="mr-1 text-[#000000]">,</span>
+                )}
+              </span>
+            ))}
             {/* Exclusive Wallpaper
             Designs  3D Wallpaper Kids Room Aesthetic Art & Paintings Tropical
             Vastu World Map Indian & Traditional Nature Abstract Animals Bamboo
@@ -206,10 +206,10 @@ export default function footer() {
         </div>
 
         <div className="lg:container lg:m-auto">
-          <p className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
+          <p className="mb-[14px] font-poppins text-xl font-medium md:mb-6 md:text-[28px]">
             About Us
           </p>
-          <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[28.8px]">
+          <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[28.8px]">
             {aboutDescription?.data?.description ||
               "Welcome to Wolpin, your premier destination for exquisite wallpapers and decorative designs. At Wolpin, we believe that every space tells a story, and our mission is to help you create environments that reflect your unique style and personality."}
           </p>
@@ -217,10 +217,10 @@ export default function footer() {
 
         <div className="flex flex-col gap-10 pt-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
           <div className="lg:w-3/4">
-            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
+            <h3 className="mb-[14px] font-poppins text-xl font-medium md:mb-6 md:text-[28px]">
               Quick Links
             </h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
+            <div className="flex flex-wrap gap-x-4 gap-y-2 font-poppins text-xs font-normal text-[#656567] md:text-[18px]">
               <Link href="/" className="hover:text-gray-900">
                 Home
               </Link>
@@ -263,13 +263,13 @@ export default function footer() {
             </div>
           </div>
           <div className="hidden lg:block lg:w-1/4">
-            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
+            <h3 className="mb-[14px] font-poppins text-xl font-medium md:mb-6 md:text-[28px]">
               Contact Us
             </h3>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
+            <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
               WhatsApp: {contactInfo?.contact_number || "+91 1234 678 1011"}
             </p>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
+            <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
               Email: {contactInfo?.email || "info@wolpin.com"}
             </p>
           </div>
@@ -277,10 +277,10 @@ export default function footer() {
 
         <div className="flex flex-col gap-10 pt-8 lg:container lg:m-auto lg:flex-row lg:justify-between">
           <div className="lg:w-3/4">
-            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
+            <h3 className="mb-[14px] font-poppins text-xl font-medium md:mb-6 md:text-[28px]">
               Shop For
             </h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-[#656567] md:text-[18px]">
+            <div className="flex flex-wrap gap-x-4 gap-y-2 font-poppins text-xs font-normal text-[#656567] md:text-[18px]">
               {categories?.map((category, index) => (
                 <div key={category.id}>
                   <Link
@@ -297,27 +297,27 @@ export default function footer() {
             </div>
           </div>
           <div className="block lg:hidden lg:w-1/4">
-            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
+            <h3 className="mb-[14px] font-poppins text-xl font-medium md:mb-6 md:text-[28px]">
               Contact Us
             </h3>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
+            <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
               WhatsApp: {contactInfo?.contact_number || "+91 1234 678 1011"}
             </p>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
+            <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.8px]">
               Email: {contactInfo?.email || "info@wolpin.com"}
             </p>
           </div>
           <div className="lg:w-1/4">
-            <h3 className="mb-[14px] text-xl font-semibold md:mb-6 md:text-[28px]">
+            <h3 className="mb-[14px] font-poppins text-xl font-medium md:mb-6 md:text-[28px]">
               Address
             </h3>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
+            <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
               S.F.NO. 315, Angels Garden,
             </p>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
+            <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
               Nagamanaickenpalayam, Pattanam,
             </p>
-            <p className="text-xs leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
+            <p className="font-poppins text-xs font-normal leading-[18.8px] text-[#656567] md:text-[18px] md:leading-[23.4px]">
               Coimbatore, Tamil Nadu, 641016
             </p>
           </div>
