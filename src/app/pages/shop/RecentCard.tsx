@@ -379,7 +379,7 @@ export default function RecentCard() {
                       <Image
                         src={card.data.featured_image}
                         loader={cloudflareLoader}
-                        className="h-[199px rounded-lg object-cover md:h-[305px] lg:block"
+                        className="h-[199px] rounded-lg object-cover md:h-[305px] lg:block"
                         width={470}
                         height={305}
                         alt=""
