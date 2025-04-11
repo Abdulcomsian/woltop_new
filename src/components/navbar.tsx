@@ -53,13 +53,13 @@ export default function Navbar() {
     >
       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
         <Image
-          src={footerLogo}
+          src={Main_Logo}
           width={236}
           height={37}
           className="object-contain"
           alt="Company Logo"
-          loader={isRemoteImage(footerLogo.src) ? cloudflareLoader : undefined}
-          unoptimized={!isRemoteImage(footerLogo.src)}
+          loader={isRemoteImage(Main_Logo) ? cloudflareLoader : undefined}
+          unoptimized={!isRemoteImage(Main_Logo)}
         />
       </span>
     </Link>
@@ -108,15 +108,7 @@ export default function Navbar() {
                     className="flex items-center text-gray-700 hover:text-gray-900"
                   >
                     <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                      <img
-                        src={Main_Logo || null}
-                        className="object-contain"
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                        }}
-                        alt=""
-                      />
+                      {renderLogo()}
                     </span>
                   </Link>
                 </div>
@@ -171,6 +163,7 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
+                        {renderLogo()}
                         {/* <img
                           src={Main_Logo}
                           className="object-contain"
@@ -187,7 +180,7 @@ export default function Navbar() {
                 {/* <!-- primary nav --> */}
                 <div className="hidden items-center text-[18px] md:flex md:gap-2.5 lg:gap-10">
                   <a href="#" className="text-[#000000] hover:text-gray-900">
-                    New Arrival
+                    New Arrivals
                   </a>
                   <a
                     href="/about"
