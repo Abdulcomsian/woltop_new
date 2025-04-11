@@ -53,13 +53,13 @@ export default function Navbar() {
     >
       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
         <Image
-          src={Main_Logo}
+          src={footerLogo}
           width={236}
           height={37}
           className="object-contain"
           alt="Company Logo"
-          loader={isRemoteImage(Main_Logo) ? cloudflareLoader : undefined}
-          unoptimized={!isRemoteImage(Main_Logo)}
+          loader={isRemoteImage(footerLogo.src) ? cloudflareLoader : undefined}
+          unoptimized={!isRemoteImage(footerLogo.src)}
         />
       </span>
     </Link>
@@ -108,7 +108,15 @@ export default function Navbar() {
                     className="flex items-center text-gray-700 hover:text-gray-900"
                   >
                     <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                      {renderLogo()}
+                      <img
+                        src={Main_Logo || null}
+                        className="object-contain"
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                        }}
+                        alt=""
+                      />
                     </span>
                   </Link>
                 </div>
@@ -163,8 +171,7 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                        {renderLogo()}
-                        {/* <img
+                        <img
                           src={Main_Logo}
                           className="object-contain"
                           style={{
@@ -172,7 +179,7 @@ export default function Navbar() {
                             width: "100%",
                           }}
                           alt=""
-                        /> */}
+                        />
                       </span>
                     </Link>
                   </div>
@@ -180,7 +187,7 @@ export default function Navbar() {
                 {/* <!-- primary nav --> */}
                 <div className="hidden items-center text-[18px] md:flex md:gap-2.5 lg:gap-10">
                   <a href="#" className="text-[#000000] hover:text-gray-900">
-                    New Arrivals
+                    New Arrival
                   </a>
                   <a
                     href="/about"
@@ -296,7 +303,7 @@ export default function Navbar() {
           className={`mobile-menu ${isMobileMenuOpen ? "block" : "hidden"} md:hidden`}
         >
           <a href="#" className="block px-4 py-2 text-sm hover:bg-gray-200">
-            New Arrivals
+            New Arrival
           </a>
           <a
             href="/about"
