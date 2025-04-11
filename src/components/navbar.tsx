@@ -5,8 +5,12 @@ import { SearchIcon } from "./icons/searchIcon";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useGetFaviconQuery } from "~/store/api/faviconApi";
 
 export default function Navbar() {
+  const { data: faviconData } = useGetFaviconQuery({});
+  const Main_Logo = faviconData?.data?.main_logo || "";
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartItemsLength = useSelector((state: any) => state.cart.items.length);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -80,7 +84,7 @@ export default function Navbar() {
                   >
                     <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
                       <img
-                        src={footerLogo.src || null}
+                        src={Main_Logo || null}
                         className="object-contain"
                         style={{
                           height: "100%",
@@ -143,7 +147,7 @@ export default function Navbar() {
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
                         <img
-                          src={footerLogo.src || null}
+                          src={Main_Logo || null}
                           className="object-contain"
                           style={{
                             height: "100%",
