@@ -171,7 +171,7 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                        <img
+                        {/* <img
                           src={Main_Logo}
                           className="object-contain"
                           style={{
@@ -179,7 +179,7 @@ export default function Navbar() {
                             width: "100%",
                           }}
                           alt=""
-                        />
+                        /> */}
                       </span>
                     </Link>
                   </div>
