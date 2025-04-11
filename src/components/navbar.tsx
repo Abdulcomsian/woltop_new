@@ -171,8 +171,11 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                        <img
+                        <Image
+                          loader={cloudflareLoader}
                           src={Main_Logo}
+                          width={236}
+                          height={37}
                           className="object-contain"
                           style={{
                             height: "100%",
