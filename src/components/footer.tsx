@@ -9,11 +9,14 @@ import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 import Link from "next/link";
 import { useGetContactInfoQuery } from "~/store/api/contactInfoApi";
 import { useGetAboutQuery } from "~/store/api/aboutApi";
+import { useGetFaviconQuery } from "~/store/api/faviconApi";
 // export const icon: any = {
 //     paypal: <PayPalIcon />,
 //   };
 
 export default function footer() {
+  const { data: faviconData } = useGetFaviconQuery({});
+  const Main_Logo = faviconData?.data?.main_logo || "";
   const { data: categories } = useGetCategoriesQuery({});
   const { data: contactInfoResponse } = useGetContactInfoQuery({});
   const { data: aboutDescription } = useGetAboutQuery({});
@@ -28,7 +31,7 @@ export default function footer() {
           <a className="inline-flex" href="/">
             <span className="relative h-[20px] w-[124px] md:h-[42px] md:w-[263.45px]">
               <img
-                src={footerLogo.src}
+                src={Main_Logo}
                 style={{
                   position: "absolute",
                   height: "100%",
