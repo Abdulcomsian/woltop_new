@@ -53,13 +53,15 @@ export default function Navbar() {
     >
       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
         <Image
-          src={footerLogo}
+          src={Main_Logo}
+          sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+          quality={80}
           width={236}
           height={37}
           className="object-contain"
           alt="Company Logo"
-          loader={isRemoteImage(footerLogo.src) ? cloudflareLoader : undefined}
-          unoptimized={!isRemoteImage(footerLogo.src)}
+          loader={cloudflareLoader}
+          unoptimized={!isRemoteImage(Main_Logo)}
         />
       </span>
     </Link>
@@ -108,7 +110,7 @@ export default function Navbar() {
                     className="flex items-center text-gray-700 hover:text-gray-900"
                   >
                     <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                      <img
+                      {/* <img
                         src={Main_Logo || null}
                         className="object-contain"
                         style={{
@@ -116,7 +118,8 @@ export default function Navbar() {
                           width: "100%",
                         }}
                         alt=""
-                      />
+                      /> */}
+                      {renderLogo()}
                     </span>
                   </Link>
                 </div>
@@ -171,18 +174,7 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                        <Image
-                          loader={cloudflareLoader}
-                          src={Main_Logo}
-                          width={236}
-                          height={37}
-                          className="object-contain"
-                          style={{
-                            height: "100%",
-                            width: "100%",
-                          }}
-                          alt=""
-                        />
+                        {renderLogo()}
                       </span>
                     </Link>
                   </div>

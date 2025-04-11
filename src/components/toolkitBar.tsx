@@ -58,7 +58,7 @@ export default function ToolkitBar() {
 
   return (
     <>
-      {toolkit ? (
+      {toolkit && (
         <>
           <div className="border-1 mt-5 w-full rounded border-b border-l border-r border-t border-gray-400">
             <div className="flex w-full">
@@ -102,8 +102,6 @@ export default function ToolkitBar() {
             </div>
           </div>
         </>
-      ) : (
-        <p className="p-4 text-center text-gray-500">Loading...</p>
       )}
 
       <Drawer

@@ -446,8 +446,8 @@ export default function productDetailItem({
                       <Image
                         loader={cloudflareLoader}
                         className="h-full object-cover"
-                        // src={image.image_path}
-                        src={`https://dashboard.wolpin.app/cdn-cgi/image/width=800,format=auto${image.image_path.replace("https://dashboard.wolpin.app", "")}`}
+                        src={image.image_path}
+                        // src={`https://dashboard.wolpin.app/cdn-cgi/image/width=800,format=auto${image.image_path.replace("https://dashboard.wolpin.app", "")}`}
                         alt={`Product Image ${image.id}`}
                         sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
                         quality={80}
