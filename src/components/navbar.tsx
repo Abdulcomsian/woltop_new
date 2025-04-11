@@ -5,6 +5,8 @@ import { SearchIcon } from "./icons/searchIcon";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import cloudflareLoader from "~/lib/cloudflare-loader";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -35,6 +37,29 @@ export default function Navbar() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const isRemoteImage = (src: string) => {
+    return src.startsWith("http://") || src.startsWith("https://");
+  };
+
+  // Use this for both SimpleHeader and regular header
+  const renderLogo = () => (
+    <Link
+      href="/"
+      className="flex items-center text-gray-700 hover:text-gray-900"
+    >
+      <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
+        <Image
+          src={footerLogo}
+          width={236}
+          height={37}
+          className="object-contain"
+          alt="Company Logo"
+          loader={isRemoteImage(footerLogo.src) ? cloudflareLoader : undefined}
+          unoptimized={!isRemoteImage(footerLogo.src)}
+        />
+      </span>
+    </Link>
+  );
 
   return (
     <>
@@ -142,8 +167,11 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                        <img
-                          src={footerLogo.src || null}
+                        <Image
+                          loader={cloudflareLoader}
+                          src={footerLogo.src}
+                          width={236}
+                          height={37}
                           className="object-contain"
                           style={{
                             height: "100%",

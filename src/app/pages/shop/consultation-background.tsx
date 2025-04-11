@@ -19,6 +19,7 @@ const ConsultationSection = () => {
         className="absolute bottom-0 left-20 hidden object-cover lg:block"
         width={470}
         height={550}
+        unoptimized={false}
         alt=""
         sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
         quality={80}
