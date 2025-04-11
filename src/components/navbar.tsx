@@ -119,7 +119,7 @@ export default function Navbar() {
                         }}
                         alt=""
                       /> */}
-                      {/* {renderLogo()} */}
+                      {renderLogo()}
                     </span>
                   </Link>
                 </div>
@@ -174,7 +174,7 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                        {/* {renderLogo()} */}
+                        {renderLogo()}
                       </span>
                     </Link>
                   </div>
