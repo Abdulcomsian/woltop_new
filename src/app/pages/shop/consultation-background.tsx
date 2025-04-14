@@ -1,20 +1,26 @@
 import Image from "next/image";
 
-import consultantgirl from "../../../assets/img/consultation-girl.png";
-import logoSrc from "../../../assets/img/consultation-bg.png";
 import cloudflareLoader from "~/lib/cloudflare-loader";
 
-const ConsultationSection = () => {
-  //   const logoSrc = '../../../assets/img/consultation-bg.png';
-  //   const consultantgirl = '../../../assets/img/consultation-girl.png';
+const ConsultationSection = ({ responseData, isLoading }) => {
+  const logoSrc = responseData?.first_consultation_img || null;
+  const consultantgirl = responseData?.second_consultation_img || null;
 
+  console.log(consultantgirl, logoSrc, "test");
   return (
-    <div
-      className="relative mt-8 flex h-[598px] justify-end bg-cover bg-no-repeat p-8 md:h-[481px] md:rounded-lg md:bg-center"
-      style={{ backgroundImage: `url(${logoSrc.src})` }}
-    >
+    <div className="relative mt-8 flex h-[598px] justify-end p-8 md:h-[481px] md:rounded-lg">
       <Image
-        src={consultantgirl.src}
+        src={logoSrc}
+        loader={cloudflareLoader}
+        fill
+        alt="Background"
+        className="rounded-lg object-cover object-center"
+        unoptimized={false}
+        quality={80}
+        priority
+      />
+      <Image
+        src={consultantgirl}
         loader={cloudflareLoader}
         className="absolute bottom-0 left-20 hidden object-cover lg:block"
         width={470}

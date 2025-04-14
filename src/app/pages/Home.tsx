@@ -127,7 +127,7 @@ export default function Home() {
         className="mx-auto max-w-[1075px] md:px-3"
         position="left"
       >
-        <ConsultationSection></ConsultationSection>
+        <ConsultationSection responseData={homeVideo} isLoading={isLoading}></ConsultationSection>
       </SectionBlock>
 
       <div className="mb-10 mt-10 bg-[#FFF3F6] md:mb-[70px]">
