@@ -10,7 +10,7 @@ import cloudflareLoader from "~/lib/cloudflare-loader";
 import { useGetFaviconQuery } from "~/store/api/faviconApi";
 
 export default function Navbar() {
-  const { data: faviconData } = useGetFaviconQuery({});
+  const { data: faviconData, isLoading: isLogoLoading } = useGetFaviconQuery({});
   const Main_Logo = faviconData?.data?.main_logo || "";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -45,6 +45,11 @@ export default function Navbar() {
     return src.startsWith("http://") || src.startsWith("https://");
   };
 
+  const LogoPlaceholder = () => (
+    <div className="animate-pulse">
+      <div className="h-[20px] w-32 rounded bg-gray-200 md:h-[37px] md:w-[236px]"></div>
+    </div>
+  );
   // Use this for both SimpleHeader and regular header
   const renderLogo = () => (
     <Link
@@ -52,17 +57,21 @@ export default function Navbar() {
       className="flex items-center text-gray-700 hover:text-gray-900"
     >
       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-        <Image
-          src={Main_Logo}
-          sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
-          quality={80}
-          width={236}
-          height={37}
-          className="object-contain"
-          alt="Company Logo"
-          loader={cloudflareLoader}
-          unoptimized={!isRemoteImage(Main_Logo)}
-        />
+        {isLogoLoading ? (
+          <LogoPlaceholder />
+        ) : (
+          <Image
+            src={Main_Logo}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            quality={80}
+            width={236}
+            height={37}
+            className="object-contain"
+            alt="Logo"
+            loader={cloudflareLoader}
+            unoptimized={!isRemoteImage(Main_Logo)}
+          />
+        )}
       </span>
     </Link>
   );
@@ -110,16 +119,7 @@ export default function Navbar() {
                     className="flex items-center text-gray-700 hover:text-gray-900"
                   >
                     <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                      {/* <img
-                        src={Main_Logo || null}
-                        className="object-contain"
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                        }}
-                        alt=""
-                      /> */}
-                      {renderLogo()}
+                    {isLogoLoading ? <LogoPlaceholder /> : renderLogo()}
                     </span>
                   </Link>
                 </div>
@@ -174,7 +174,7 @@ export default function Navbar() {
                       className="flex items-center text-gray-700 hover:text-gray-900"
                     >
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                        {renderLogo()}
+                      {isLogoLoading ? <LogoPlaceholder /> : renderLogo()}
                       </span>
                     </Link>
                   </div>
