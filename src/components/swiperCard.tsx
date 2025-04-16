@@ -22,15 +22,19 @@ const SwiperCard = ({ categories, isLoading }) => {
         },
         breakpoints: {
           320: {
-            slidesPerView: 5,
+            slidesPerView: 4,
             spaceBetween: 8,
           },
-          375: {
+          420: {
             slidesPerView: 5,
             spaceBetween: 8,
           },
           480: {
-            slidesPerView: 7,
+            slidesPerView: 5,
+            spaceBetween: 8,
+          },
+          540: {
+            slidesPerView: 6,
             spaceBetween: 8,
           },
           768: {
@@ -72,7 +76,7 @@ const SwiperCard = ({ categories, isLoading }) => {
                     style={{ width: "142.8px", marginRight: "0px !important" }}
                   >
                     <div className="flex w-[110px] flex-col items-center justify-between">
-                      <div className="h-[62px] w-[62px] animate-pulse rounded-full bg-gray-300 md:h-[98px] md:w-[98px]"></div>
+                      <div className="h-[80px] w-[80px] animate-pulse rounded-full bg-gray-300 md:h-[98px] md:w-[98px]"></div>
                       <div className="mt-2 block text-center">
                         <div className="h-4 w-16 animate-pulse rounded-md bg-gray-300"></div>
                       </div>
@@ -89,7 +93,7 @@ const SwiperCard = ({ categories, isLoading }) => {
                   }}
                 >
                   <Link href={`/category/${category.id}`}>
-                    <div className="flex w-[110px] flex-col items-center justify-between">
+                    <div className="flex flex-col w-[110px] items-center justify-between">
                       <div>
                         <Image
                           src={category.image}
@@ -101,10 +105,10 @@ const SwiperCard = ({ categories, isLoading }) => {
                           quality={80}
                           width={98} // maximum width expected (matches md breakpoint)
                           height={98}
-                          className="h-[62px] w-[62px] rounded-full border border-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
+                          className="h-[78px] w-[78px] min-h-[78px] min-w-[78px] rounded-full border border-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
                         />
                       </div>
-                      <div className="mt-2 block  text-center">
+                      <div className="md:mt-2 block  text-center">
                         <span className="text-heading text-center text-[11.5px] font-normal text-[#000000] transition-colors group-hover:text-orange-500 md:text-base">
                           {category.name}
                         </span>
