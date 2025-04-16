@@ -16,7 +16,7 @@ import { useGetFaviconQuery } from "~/store/api/faviconApi";
 
 export default function footer() {
   const { data: faviconData } = useGetFaviconQuery({});
-  const Main_Logo = faviconData?.data?.main_logo || "";
+  const Main_Logo = faviconData?.data?.main_logo || null;
   const { data: categories } = useGetCategoriesQuery({});
   const { data: contactInfoResponse } = useGetContactInfoQuery({});
   const { data: aboutDescription } = useGetAboutQuery({});
@@ -30,20 +30,22 @@ export default function footer() {
         <div className="flex items-center justify-between pt-7 lg:container md:pt-12 lg:m-auto">
           <a className="inline-flex" href="/">
             <span className="relative h-[20px] w-[124px] md:h-[42px] md:w-[263.45px]">
-              <img
-                src={Main_Logo}
-                style={{
-                  position: "absolute",
-                  height: "100%",
-                  width: "100%",
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  color: "transparent",
-                }}
-                alt=""
-              />
+              {Main_Logo && (
+                <img
+                  src={Main_Logo}
+                  style={{
+                    position: "absolute",
+                    height: "100%",
+                    width: "100%",
+                    left: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    color: "transparent",
+                  }}
+                  alt="Company Logo"
+                />
+              )}
             </span>
           </a>
           <div className="flex items-center gap-4">
