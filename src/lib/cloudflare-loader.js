@@ -17,7 +17,6 @@ export default function cloudflareLoader({ src, width, quality }) {
     quality: (quality || 65).toString(),
     format: "auto",
     fit: "cover",
-    cf: "nopolish,notransform",
   });
 
   return `${src}?${params}`;
