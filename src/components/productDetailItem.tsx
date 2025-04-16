@@ -420,7 +420,11 @@ export default function productDetailItem({
                 }}
                 zoom={true}
                 modules={[Autoplay, Pagination, Zoom]}
-                onSwiper={(swiper) => (swiperRef.current = swiper)}
+                onSwiper={(swiper) => {
+                  swiperRef.current = swiper;
+                  swiper.autoplay.stop();
+                  setTimeout(() => swiper.autoplay.start(), 1000);
+                }}
                 onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                 onTouchStart={(swiper) => {
                   const scale = swiper.zoom.scale;
@@ -453,6 +457,7 @@ export default function productDetailItem({
                         quality={80}
                         width={470}
                         height={550}
+                        unoptimized
                       />
                     </div>
                   </SwiperSlide>
