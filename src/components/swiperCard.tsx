@@ -22,11 +22,15 @@ const SwiperCard = ({ categories, isLoading }) => {
         },
         breakpoints: {
           320: {
-            slidesPerView: 4,
+            slidesPerView: 5,
+            spaceBetween: 8,
+          },
+          375: {
+            slidesPerView: 5,
             spaceBetween: 8,
           },
           480: {
-            slidesPerView: 5,
+            slidesPerView: 7,
             spaceBetween: 8,
           },
           768: {
@@ -100,8 +104,8 @@ const SwiperCard = ({ categories, isLoading }) => {
                           className="h-[62px] w-[62px] rounded-full border border-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
                         />
                       </div>
-                      <div className="mt-2 block text-center">
-                        <span className="text-heading text-center text-xs font-normal text-[#000000] transition-colors group-hover:text-orange-500 md:text-base">
+                      <div className="mt-2 block  text-center">
+                        <span className="text-heading text-center text-[11.5px] font-normal text-[#000000] transition-colors group-hover:text-orange-500 md:text-base">
                           {category.name}
                         </span>
                       </div>
