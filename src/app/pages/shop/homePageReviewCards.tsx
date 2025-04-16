@@ -68,7 +68,7 @@ export default function HomePageReviewCards() {
   const { data: allReviews } = useGetAllReviewsQuery([]);
   const limitAllReviews = allReviews?.data?.slice(0, 2);
 
-  console.log(limitAllReviews, "limitedReviews")
+  // console.log(limitAllReviews, "limitedReviews")
 
   if (allReviews?.data?.length > 0) {
     return (

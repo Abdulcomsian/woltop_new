@@ -60,7 +60,7 @@ export default function RecentCard() {
       setIsLoading(false);
     }
   }, []);
-  console.log(products, "recent item");
+  // console.log(products, "recent item");
 
   useEffect(() => {
     if (products.length > 0 && products[0]?.data?.variables?.length > 0) {

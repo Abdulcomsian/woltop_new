@@ -6,7 +6,7 @@ const ConsultationSection = ({ responseData, isLoading }) => {
   const logoSrc = responseData?.first_consultation_img || null;
   const consultantgirl = responseData?.second_consultation_img || null;
 
-  console.log(consultantgirl, logoSrc, "test");
+  // console.log(consultantgirl, logoSrc, "test");
   return (
     <div className="relative mt-8 flex h-[598px] justify-end p-8 md:h-[481px] md:rounded-lg">
       <Image
