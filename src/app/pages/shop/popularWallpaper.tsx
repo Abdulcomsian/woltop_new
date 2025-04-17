@@ -302,7 +302,7 @@ export default function PopularWallpaper({
                       height={550}
                       alt=""
                       sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
-                      quality={80}
+                      quality={65}
                     />
                   </div>
                   <p className="mt-[11px] truncate text-[#505050]">
