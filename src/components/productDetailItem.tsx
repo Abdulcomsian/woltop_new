@@ -457,7 +457,7 @@ export default function productDetailItem({
                         quality={80}
                         width={470}
                         height={550}
-                        unoptimized
+                        // unoptimized
                       />
                     </div>
                   </SwiperSlide>

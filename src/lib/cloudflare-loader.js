@@ -14,10 +14,9 @@ export default function cloudflareLoader({ src, width, quality }) {
   // Only process remote images with Cloudflare parameters
   const params = new URLSearchParams({
     width: width.toString(),
-    quality: (quality || 65).toString(),
+    quality: (quality || 75).toString(),
     format: "auto",
     fit: "cover",
-    cf: "nopolish,notransform",
   });
 
   return `${src}?${params}`;
