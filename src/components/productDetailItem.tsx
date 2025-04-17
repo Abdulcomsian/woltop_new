@@ -113,6 +113,7 @@ export default function productDetailItem({
   const [wishlistItems, setWishlistItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
 
   const [addingToCart, setAddingToCart] = useState<{
     productId: number;
@@ -431,6 +432,7 @@ export default function productDetailItem({
                 }}
                 onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                 onZoomChange={(swiper, scale) => {
+                  setZoomScale(scale);
                   if (scale < 1) {
                     swiper.zoom?.scaleTo(1, 0); // blocks zooming out
                   }
@@ -447,7 +449,11 @@ export default function productDetailItem({
               >
                 {product_images?.map((image) => (
                   <SwiperSlide key={image.id}>
-                    <div className="swiper-zoom-container flex h-full w-full items-center justify-center">
+                    <div
+                      className={`swiper-zoom-container flex h-full w-full items-center justify-center ${
+                        zoomScale <= 1 ? "pointer-events-none touch-none" : ""
+                      }`}
+                    >
                       <Image
                         loader={cloudflareLoader}
                         className="h-full object-cover"
