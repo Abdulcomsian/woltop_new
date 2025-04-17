@@ -10,7 +10,9 @@ import cloudflareLoader from "~/lib/cloudflare-loader";
 import { useGetFaviconQuery } from "~/store/api/faviconApi";
 
 export default function Navbar() {
-  const { data: faviconData, isLoading: isLogoLoading } = useGetFaviconQuery({});
+  const { data: faviconData, isLoading: isLogoLoading } = useGetFaviconQuery(
+    {},
+  );
   const Main_Logo = faviconData?.data?.main_logo || "";
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -114,14 +116,11 @@ export default function Navbar() {
                   </Link>
                 </div>
                 <div className="flex items-center">
-                  <Link
-                    href="/"
-                    className="flex items-center text-gray-700 hover:text-gray-900"
-                  >
+                  <div className="flex items-center text-gray-700 hover:text-gray-900">
                     <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                    {isLogoLoading ? <LogoPlaceholder /> : renderLogo()}
+                      {isLogoLoading ? <LogoPlaceholder /> : renderLogo()}
                     </span>
-                  </Link>
+                  </div>
                 </div>
                 <div></div> {/* Empty div to balance the flex layout */}
               </>
@@ -150,33 +149,35 @@ export default function Navbar() {
                         </svg>
                       ) : (
                         <svg
-                          className="h-6 w-6"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 6h16M4 12h16M4 18h16"
-                          />
-                        </svg>
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0"
+                        y="0"
+                        enableBackground="new 0 0 22 22"
+                        version="1.1"
+                        viewBox="0 0 22 22"
+                        xmlSpace="preserve"
+                        width="26"
+                        height="26"
+                        fill="#404543"
+                      >
+                        <title id="menu">menu</title>
+                        <path d="M3.4 4.2h15.2v1.7H3.4V4.2zm0 6h10.1v1.7H3.4v-1.7zm0 5.9h15.2v1.7H3.4v-1.7z"></path>
+                        <path
+                          d="M-7.1 5.2c.8-.6 1.4-1.5 1.7-2.5s.3-2.1-.1-3c-.3-1-1-1.8-1.8-2.4-.8-.6-1.9-.9-2.9-.9s-2.1.3-2.9.9c-.9.5-1.5 1.3-1.9 2.3s-.4 2-.1 3c.3 1 .9 1.9 1.7 2.5-1.4.6-2.6 1.5-3.5 2.7-.9 1.2-1.5 2.6-1.6 4.1v.3c0 .1.1.2.2.3.1.2.3.3.6.3.2 0 .4 0 .6-.2.2-.1.3-.3.3-.6.2-1.6 1-3.1 2.2-4.2 1.2-1.1 2.8-1.7 4.4-1.7 1.6 0 3.2.6 4.4 1.7 1.2 1.1 2 2.6 2.2 4.2 0 .2.1.4.3.5.2.1.4.2.6.2h.1c.2 0 .4-.1.6-.3.1-.2.2-.4.2-.6-.3-1.3-.9-2.8-1.8-4-.9-1.2-2.1-2.1-3.5-2.6zm-3.1-.6c-.7 0-1.3-.2-1.9-.6-.5-.4-1-.9-1.2-1.5-.3-.6-.3-1.3-.2-1.9.1-.6.4-1.2.9-1.7s1.1-.8 1.7-.9c.6-.1 1.3-.1 1.9.2.6.3 1.1.7 1.5 1.2.4.5.6 1.2.6 1.9 0 .9-.4 1.7-1 2.4-.6.5-1.4.9-2.3.9z"
+                          className="st0"
+                        ></path>
+                      </svg>
                       )}
                     </button>
                   )}
 
                   {/* <!-- logo --> */}
                   <div>
-                    <Link
-                      href="/"
-                      className="flex items-center text-gray-700 hover:text-gray-900"
-                    >
+                    <div className="flex items-center text-gray-700 hover:text-gray-900">
                       <span className="relative h-[20px] w-32 overflow-hidden md:h-[37px] md:w-[236px]">
-                      {isLogoLoading ? <LogoPlaceholder /> : renderLogo()}
+                        {isLogoLoading ? <LogoPlaceholder /> : renderLogo()}
                       </span>
-                    </Link>
+                    </div>
                   </div>
                 </div>
                 {/* <!-- primary nav --> */}
@@ -208,82 +209,83 @@ export default function Navbar() {
                 </div>
 
                 {/* <!-- secondary nav --> */}
-                <div className="flex shrink-0 items-center space-x-2 md:space-x-4 rtl:space-x-reverse">
+                <div className="flex shrink-0 items-center gap-[10px]">
                   <Link href="/search">
-                    <SearchIcon />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      x="0"
+                      y="0"
+                      enableBackground="new 0 0 23 23"
+                      version="1.1"
+                      viewBox="0 0 24 24"
+                      xmlSpace="preserve"
+                      height="28"
+                      width="28"
+                      fill="#404543"
+                    >
+                      <title id="search-icon">search-icon</title>
+                      <path d="M16.4 15.2l3.6 3.6-1.2 1.2-3.6-3.6c-1.3 1-2.9 1.7-4.7 1.7-4.2 0-7.6-3.4-7.6-7.6S6.4 3 10.5 3s7.6 3.4 7.6 7.6c0 1.7-.6 3.4-1.7 4.6zm-1.7-.6c1-1.1 1.7-2.5 1.7-4.1 0-3.2-2.6-5.9-5.9-5.9s-5.9 2.6-5.9 5.9 2.6 5.9 5.9 5.9c1.6 0 3-.6 4.1-1.7l.1-.1z"></path>
+                      <path d="M25.2-11.9c.8-.6 1.4-1.5 1.7-2.5s.3-2.1-.1-3-1-1.8-1.8-2.4c-.8-.6-1.9-.9-2.9-.9s-2.1.3-2.9.9c-.8.6-1.5 1.5-1.8 2.4s-.4 2-.1 3c.3 1 .9 1.9 1.7 2.5-1.4.6-2.6 1.5-3.5 2.7-.9 1.2-1.5 2.6-1.7 4.1v.3c0 .1.1.2.2.3.1.2.3.3.6.3.2 0 .4 0 .6-.2.2-.1.3-.3.3-.6.2-1.6 1-3.1 2.2-4.2 1.2-1.1 2.8-1.7 4.4-1.7 1.6 0 3.2.6 4.4 1.7 1.2 1.1 2 2.6 2.2 4.2 0 .2.1.4.3.5.2.1.4.2.6.2h.1c.2 0 .4-.1.6-.3.1-.2.2-.4.2-.6-.2-1.5-.7-2.9-1.7-4.1-1-1.1-2.2-2-3.6-2.6zm-3.1-.6c-.7 0-1.3-.2-1.9-.6-.5-.4-1-.9-1.2-1.5-.3-.6-.3-1.3-.2-1.9.1-.6.4-1.2.9-1.7s1.1-.8 1.7-.9 1.3-.1 1.9.2c.6.3 1.1.7 1.5 1.2.4.5.6 1.2.6 1.9 0 .9-.4 1.7-1 2.4-.6.6-1.4.9-2.3.9z"></path>
+                    </svg>
                   </Link>
                   <Link href="/wishlist">
                     <svg
-                      width="24"
-                      height="25"
-                      viewBox="0 0 24 25"
-                      fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      x="0"
+                      y="0"
+                      enableBackground="new 0 0 24 24"
+                      version="1.1"
+                      viewBox="0 0 24 24"
+                      xmlSpace="preserve"
+                      height="28"
+                      width="28"
+                      fill="#404543"
                     >
-                      <path
-                        d="M20.8401 5.11012C20.3294 4.59912 19.7229 4.19376 19.0555 3.9172C18.388 3.64064 17.6726 3.49829 16.9501 3.49829C16.2276 3.49829 15.5122 3.64064 14.8448 3.9172C14.1773 4.19376 13.5709 4.59912 13.0601 5.11012L12.0001 6.17012L10.9401 5.11012C9.90843 4.07842 8.50915 3.49883 7.05012 3.49883C5.59109 3.49883 4.19181 4.07842 3.16012 5.11012C2.12843 6.14181 1.54883 7.54108 1.54883 9.00012C1.54883 10.4591 2.12843 11.8584 3.16012 12.8901L4.22012 13.9501L12.0001 21.7301L19.7801 13.9501L20.8401 12.8901C21.3511 12.3794 21.7565 11.7729 22.033 11.1055C22.3096 10.438 22.4519 9.7226 22.4519 9.00012C22.4519 8.27763 22.3096 7.56222 22.033 6.89476C21.7565 6.2273 21.3511 5.62087 20.8401 5.11012Z"
-                        stroke="#0B0A0A"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
+                      <title id="heart-icon">heart-icon</title>
+                      <path d="M15.8 4.1c2.6 0 4.7 2.1 4.7 5.1 0 6-6.4 9.4-8.5 10.7-2.1-1.3-8.5-4.7-8.5-10.7 0-3 2.1-5.1 4.7-5.1 1.6 0 3 .9 3.8 1.7.9-.9 2.3-1.7 3.8-1.7zm-3 13.3c.8-.5 1.4-.9 2.1-1.5 2.5-2 4-4.2 4-6.8 0-2-1.3-3.4-3-3.4-.9 0-1.9.5-2.6 1.2L12 8.2 10.8 7c-.7-.7-1.7-1.2-2.6-1.2-1.7 0-3 1.4-3 3.4 0 2.5 1.4 4.7 4 6.8.6.5 1.3 1 2.1 1.5.3.2.5.3.8.5.2-.3.4-.4.7-.6z"></path>
                     </svg>
                   </Link>
                   <Link href="/cart" className="product-cart relative lg:flex">
                     <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      x="0"
+                      y="0"
+                      enableBackground="new 0 0 24 24"
+                      version="1.1"
+                      viewBox="0 0 24 24"
+                      xmlSpace="preserve"
+                      height="28"
+                      width="28"
+                      fill="#404543"
                     >
-                      <path
-                        d="M9 22.5C9.55228 22.5 10 22.0523 10 21.5C10 20.9477 9.55228 20.5 9 20.5C8.44772 20.5 8 20.9477 8 21.5C8 22.0523 8.44772 22.5 9 22.5Z"
-                        stroke="#0B0A0A"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                      <path
-                        d="M20 22.5C20.5523 22.5 21 22.0523 21 21.5C21 20.9477 20.5523 20.5 20 20.5C19.4477 20.5 19 20.9477 19 21.5C19 22.0523 19.4477 22.5 20 22.5Z"
-                        stroke="#0B0A0A"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
-                      <path
-                        d="M1 1.5H5L7.68 14.89C7.77144 15.3504 8.02191 15.764 8.38755 16.0583C8.75318 16.3526 9.2107 16.509 9.68 16.5H19.4C19.8693 16.509 20.3268 16.3526 20.6925 16.0583C21.0581 15.764 21.3086 15.3504 21.4 14.89L23 6.5H6"
-                        stroke="#0B0A0A"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      ></path>
+                      <title id="cart-icon">cart-icon</title>
+                      <path d="M7.4 3.6h9.3c.3 0 .5.1.7.3l2.3 3v12.6c0 .5-.4.8-.8.8H5.3c-.5 0-.8-.4-.8-.8V6.9l2.3-3c.1-.2.3-.3.6-.3zm10.5 5H6.1v10.1h11.8V8.6zm-.4-1.7l-1.3-1.7H7.8L6.5 6.9h11zm-8 3.4V12c0 1.4 1.1 2.5 2.5 2.5s2.5-1.1 2.5-2.5v-1.7h1.7V12c0 2.3-1.9 4.2-4.2 4.2-2.3 0-4.2-1.9-4.2-4.2v-1.7h1.7z"></path>
+                      <path d="M40.5 12.2c.8-.6 1.4-1.5 1.7-2.5.3-1 .3-2.1-.1-3-.3-1-1-1.8-1.8-2.4-.8-.6-1.9-.9-2.9-.9s-2.1.3-2.9.9c-.8.6-1.5 1.5-1.8 2.4-.3 1-.4 2-.1 3 .3 1 .9 1.9 1.7 2.5-1.4.6-2.6 1.5-3.5 2.7-.9 1.2-1.5 2.6-1.6 4.1v.3c0 .1.1.2.2.3.1.2.3.3.6.3.2 0 .4 0 .6-.2.2-.1.3-.3.3-.6.2-1.6 1-3.1 2.2-4.2 1.2-1.1 2.8-1.7 4.4-1.7 1.6 0 3.2.6 4.4 1.7 1.2 1.1 2 2.6 2.2 4.2 0 .2.1.4.3.5.2.1.4.2.6.2.2 0 .4-.1.6-.3.1-.2.2-.4.2-.6-.2-1.5-.7-2.9-1.7-4.1-1-1.1-2.2-2-3.6-2.6zm-3.1-.6c-.7 0-1.3-.2-1.9-.6-.5-.4-1-.9-1.2-1.5-.2-.5-.3-1.2-.2-1.9.2-.6.5-1.2.9-1.7.5-.5 1.1-.8 1.7-.9.6-.1 1.3-.1 1.9.2.6.3 1.1.7 1.5 1.2.4.5.6 1.2.6 1.9 0 .9-.4 1.7-1 2.4-.6.6-1.4.9-2.3.9z"></path>
                     </svg>
-                    <span className="absolute -right-[3px] -top-[3px] flex h-[12px] w-[12px] items-center justify-center rounded-full bg-[#49AD91] text-[10px] text-white md:-right-[6px] md:-top-[6px] md:h-[19px] md:w-[19px]">
-                      {isMounted ? cartItemsLength : 0}
+                    {cartItemsLength > 0 && (
+                    <span className="absolute -right-[3px] -top-[3px] flex h-[17px] w-[17px] items-center justify-center rounded-full bg-[#49AD91] text-[10px] text-white md:-right-[6px] md:-top-[6px] md:h-[17px] md:w-[17px]">
+                      {isMounted ? cartItemsLength : ""}
                     </span>
+                    )}
                   </Link>
                   <Link className="" href="/menu">
                     <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 14 19"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.6"
                       xmlns="http://www.w3.org/2000/svg"
+                      x="0"
+                      y="0"
+                      enableBackground="new 0 0 24 24"
+                      version="1.1"
+                      viewBox="0 0 24 24"
+                      xmlSpace="preserve"
+                      height="28"
+                      width="28"
+                      fill="#404543"
                     >
+                      <title id="account-icon">account-icon</title>
+                      <path d="M12 3.6c4.6 0 8.4 3.7 8.4 8.4 0 4.6-3.7 8.4-8.4 8.4-4.6 0-8.4-3.7-8.4-8.4 0-4.6 3.8-8.4 8.4-8.4zm.1 11.7c-1.7 0-3.2.7-4.3 1.9 1.1.9 2.6 1.5 4.2 1.5s3.2-.6 4.3-1.6c-1-1.1-2.5-1.8-4.2-1.8zm-.1-10c-3.7 0-6.7 3-6.7 6.7 0 1.5.5 2.9 1.3 4 1.4-1.5 3.3-2.4 5.5-2.4 2.1 0 4 .8 5.3 2.2.8-1.1 1.2-2.4 1.2-3.9.1-3.6-2.9-6.6-6.6-6.6zm0 .9c1.8 0 3.3 1.5 3.3 3.3 0 1.8-1.5 3.3-3.3 3.3-1.8 0-3.3-1.5-3.3-3.3 0-1.8 1.5-3.3 3.3-3.3zm0 1.6c-.9 0-1.7.7-1.7 1.7 0 .9.7 1.7 1.7 1.7s1.7-.7 1.7-1.7c0-.9-.8-1.7-1.7-1.7z"></path>
                       <path
-                        d="M6.99984 8.33342C8.84079 8.33342 10.3332 6.84103 10.3332 5.00008C10.3332 3.15913 8.84079 1.66675 6.99984 1.66675C5.15889 1.66675 3.6665 3.15913 3.6665 5.00008C3.6665 6.84103 5.15889 8.33342 6.99984 8.33342Z"
-                        stroke="#121212"
-                        strokeWidth="1.5"
-                      ></path>
-                      <path
-                        d="M6.99984 17.5002C10.2215 17.5002 12.8332 16.0078 12.8332 14.1668C12.8332 12.3259 10.2215 10.8335 6.99984 10.8335C3.77818 10.8335 1.1665 12.3259 1.1665 14.1668C1.1665 16.0078 3.77818 17.5002 6.99984 17.5002Z"
-                        stroke="#121212"
-                        strokeWidth="1.5"
+                        d="M-13.2 19.6c.8-.6 1.4-1.5 1.7-2.5.3-1 .3-2.1-.1-3-.3-1-1-1.8-1.8-2.4-.8-.6-1.9-.9-2.9-.9s-2.1.3-2.9.9c-.8.5-1.4 1.3-1.8 2.3-.3 1-.4 2-.1 3 .3 1 .9 1.9 1.7 2.5-1.4.6-2.6 1.5-3.5 2.7-.9 1.2-1.5 2.6-1.6 4.1v.3c0 .1.1.2.2.3.1.2.3.3.6.3.2 0 .4 0 .6-.2.2-.1.3-.3.3-.6.2-1.6 1-3.1 2.2-4.2 1.2-1.1 2.8-1.7 4.4-1.7 1.6 0 3.2.6 4.4 1.7 1.2 1.1 2 2.6 2.2 4.2 0 .2.1.4.3.5.2.1.4.2.6.2h.1c.2 0 .4-.1.6-.3.1-.2.2-.4.2-.6-.2-1.5-.7-2.9-1.7-4.1-1-1-2.3-2-3.7-2.5zm-3.1-.6c-.7 0-1.3-.2-1.9-.6-.5-.4-1-.9-1.2-1.5-.3-.6-.3-1.3-.2-1.9.1-.6.4-1.2.9-1.7s1.1-.8 1.7-.9 1.3-.1 1.9.2c.6.3 1.1.7 1.5 1.2.4.5.6 1.2.6 1.9 0 .9-.4 1.7-1 2.4-.5.5-1.4.9-2.3.9z"
+                        className="st0"
                       ></path>
                     </svg>
                   </Link>

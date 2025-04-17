@@ -3,33 +3,38 @@ import Image from "next/image";
 import cloudflareLoader from "~/lib/cloudflare-loader";
 
 const ConsultationSection = ({ responseData, isLoading }) => {
-  const logoSrc = responseData?.first_consultation_img || null;
-  const consultantgirl = responseData?.second_consultation_img || null;
+  const logoSrc = responseData?.first_consultation_img || "";
+  const consultantgirl = responseData?.second_consultation_img || "";
 
   // console.log(consultantgirl, logoSrc, "test");
   return (
     <div className="relative mt-8 flex h-[598px] justify-end p-8 md:h-[481px] md:rounded-lg">
-      <Image
-        src={logoSrc}
-        loader={cloudflareLoader}
-        fill
-        alt="Background"
-        className="rounded-lg object-cover object-center"
-        unoptimized={false}
-        quality={80}
-        priority
-      />
-      <Image
-        src={consultantgirl}
-        loader={cloudflareLoader}
-        className="absolute bottom-0 left-20 hidden object-cover lg:block"
-        width={470}
-        height={550}
-        unoptimized={false}
-        alt=""
-        sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
-        quality={80}
-      />
+     {logoSrc && (
+        <Image
+          src={logoSrc}
+          loader={cloudflareLoader}
+          fill
+          alt="Background"
+          className="rounded-lg object-cover object-center"
+          unoptimized={false}
+          quality={80}
+          priority
+        />
+      )}
+      
+      {consultantgirl && (
+        <Image
+          src={consultantgirl}
+          loader={cloudflareLoader}
+          className="absolute bottom-0 left-20 hidden object-cover lg:block"
+          width={470}
+          height={550}
+          unoptimized={false}
+          alt="Consultant"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          quality={80}
+        />
+      )}
       {/* Right Side - Content */}
       <div className="relative z-10 w-full p-6 pl-0 text-left sm:w-[36%]">
         <p className="text-base text-[#000000] md:text-[20px]">In-Home</p>

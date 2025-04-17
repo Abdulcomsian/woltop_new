@@ -113,6 +113,7 @@ export default function productDetailItem({
   const [wishlistItems, setWishlistItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [zoomScale, setZoomScale] = useState(1);
 
   const [addingToCart, setAddingToCart] = useState<{
     productId: number;
@@ -418,7 +419,11 @@ export default function productDetailItem({
                 pagination={{
                   clickable: true,
                 }}
-                zoom={true}
+                zoom={{
+                  maxRatio: 3,
+                  minRatio: 1,
+                  toggle: false,
+                }}
                 modules={[Autoplay, Pagination, Zoom]}
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper;
@@ -426,16 +431,14 @@ export default function productDetailItem({
                   setTimeout(() => swiper.autoplay.start(), 1000);
                 }}
                 onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-                onTouchStart={(swiper) => {
-                  const scale = swiper.zoom.scale;
-                  if (scale > 1) {
-                    swiper.autoplay.stop();
-                    swiper.allowSlideNext = false;
-                    swiper.allowSlidePrev = false;
+                onZoomChange={(swiper, scale) => {
+                  setZoomScale(scale);
+                  if (scale < 1) {
+                    swiper.zoom?.scaleTo(1, 0); // blocks zooming out
                   }
                 }}
                 onTouchEnd={(swiper) => {
-                  const scale = swiper.zoom.scale;
+                  const scale = swiper.zoom?.scale ?? 1;
                   if (scale <= 1) {
                     swiper.autoplay.start();
                     swiper.allowSlideNext = true;
@@ -446,14 +449,17 @@ export default function productDetailItem({
               >
                 {product_images?.map((image) => (
                   <SwiperSlide key={image.id}>
-                    <div className="swiper-zoom-container h-full">
+                    <div
+                      className={`swiper-zoom-container flex h-full w-full items-center justify-center ${
+                        zoomScale <= 1 ? "pointer-events-none touch-none" : ""
+                      }`}
+                    >
                       <Image
                         loader={cloudflareLoader}
                         className="h-full object-cover"
                         src={image.image_path}
-                        // src={`https://dashboard.wolpin.app/cdn-cgi/image/width=800,format=auto${image.image_path.replace("https://dashboard.wolpin.app", "")}`}
                         alt={`Product Image ${image.id}`}
-                        sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         quality={80}
                         width={470}
                         height={550}

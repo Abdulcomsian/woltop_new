@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="mx-auto mt-[22px] mb-[36px] max-w-[1075px] px-3 md:mt-[41px] mb:mt-[46px]">
+      <div className="mx-auto mb-[24px] max-w-[1075px] px-3 md:pt-[22px]">
         <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
       </div>
       <SectionBlock className="mx-auto max-w-[1075px] px-3" position="center">

@@ -22,24 +22,28 @@ const SwiperCard = ({ categories, isLoading }) => {
         },
         breakpoints: {
           320: {
-            slidesPerView: 5,
-            spaceBetween: 8,
+            slidesPerView: 4,
+            spaceBetween: 20,
           },
-          375: {
+          450: {
             slidesPerView: 5,
-            spaceBetween: 8,
+            spaceBetween: 20,
           },
           480: {
-            slidesPerView: 7,
-            spaceBetween: 8,
+            slidesPerView: 5,
+            spaceBetween: 20,
+          },
+          540: {
+            slidesPerView: 6,
+            spaceBetween: 20,
           },
           768: {
             slidesPerView: 6,
-            spaceBetween: 8,
+            spaceBetween: 20,
           },
           1024: {
             slidesPerView: 7,
-            spaceBetween: 12,
+            spaceBetween: 20,
           },
           1440: {
             slidesPerView: 8,
@@ -59,7 +63,7 @@ const SwiperCard = ({ categories, isLoading }) => {
   }, [isLoading]);
 
   return (
-    <div className="container mx-auto overflow-hidden">
+    <div className="container mx-auto overflow-hidden pt-[16px]">
       <div className="slider-cards-js">
         <div className="swiper-wrapper">
           {isLoading
@@ -72,7 +76,7 @@ const SwiperCard = ({ categories, isLoading }) => {
                     style={{ width: "142.8px", marginRight: "0px !important" }}
                   >
                     <div className="flex w-[110px] flex-col items-center justify-between">
-                      <div className="h-[62px] w-[62px] animate-pulse rounded-full bg-gray-300 md:h-[98px] md:w-[98px]"></div>
+                      <div className="h-[80px] w-[80px] animate-pulse rounded-full bg-gray-300 md:h-[98px] md:w-[98px]"></div>
                       <div className="mt-2 block text-center">
                         <div className="h-4 w-16 animate-pulse rounded-md bg-gray-300"></div>
                       </div>
@@ -89,8 +93,7 @@ const SwiperCard = ({ categories, isLoading }) => {
                   }}
                 >
                   <Link href={`/category/${category.id}`}>
-                    <div className="flex w-[110px] flex-col items-center justify-between">
-                      <div>
+                    <div className="flex flex-col w-[110px] items-center justify-between ">
                         <Image
                           src={category.image}
                           alt={category.name}
@@ -101,10 +104,9 @@ const SwiperCard = ({ categories, isLoading }) => {
                           quality={80}
                           width={98} // maximum width expected (matches md breakpoint)
                           height={98}
-                          className="h-[62px] w-[62px] rounded-full border border-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
+                          className="h-[78px] w-[78px] min-h-[78px] min-w-[78px] rounded-full ring-[2px] ring-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
                         />
-                      </div>
-                      <div className="mt-2 block  text-center">
+                      <div className="md:mt-2 block  text-center">
                         <span className="text-heading text-center text-[11.5px] font-normal text-[#000000] transition-colors group-hover:text-orange-500 md:text-base">
                           {category.name}
                         </span>
