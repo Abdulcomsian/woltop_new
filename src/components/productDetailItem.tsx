@@ -421,6 +421,7 @@ export default function productDetailItem({
                 zoom={{
                   maxRatio: 3,
                   minRatio: 1,
+                  toggle: false,
                 }}
                 modules={[Autoplay, Pagination, Zoom]}
                 onSwiper={(swiper) => {
@@ -429,19 +430,13 @@ export default function productDetailItem({
                   setTimeout(() => swiper.autoplay.start(), 1000);
                 }}
                 onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-                onTouchStart={(swiper) => {
-                  const scale = swiper.zoom?.scale ?? 1;
-                  if (scale > 1) {
-                    swiper.autoplay.stop();
-                    swiper.allowSlideNext = false;
-                    swiper.allowSlidePrev = false;
+                onZoomChange={(swiper, scale) => {
+                  if (scale < 1) {
+                    swiper.zoom?.scaleTo(1, 0); // blocks zooming out
                   }
                 }}
                 onTouchEnd={(swiper) => {
                   const scale = swiper.zoom?.scale ?? 1;
-                  if (scale < 1) {
-                    swiper.zoom.out();
-                  }
                   if (scale <= 1) {
                     swiper.autoplay.start();
                     swiper.allowSlideNext = true;
@@ -457,9 +452,8 @@ export default function productDetailItem({
                         loader={cloudflareLoader}
                         className="h-full object-cover"
                         src={image.image_path}
-                        // src={`https://dashboard.wolpin.app/cdn-cgi/image/width=800,format=auto${image.image_path.replace("https://dashboard.wolpin.app", "")}`}
                         alt={`Product Image ${image.id}`}
-                        sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         quality={80}
                         width={470}
                         height={550}
