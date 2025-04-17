@@ -23,27 +23,27 @@ const SwiperCard = ({ categories, isLoading }) => {
         breakpoints: {
           320: {
             slidesPerView: 4,
-            spaceBetween: 8,
+            spaceBetween: 20,
           },
-          420: {
+          450: {
             slidesPerView: 5,
-            spaceBetween: 8,
+            spaceBetween: 20,
           },
           480: {
             slidesPerView: 5,
-            spaceBetween: 8,
+            spaceBetween: 20,
           },
           540: {
             slidesPerView: 6,
-            spaceBetween: 8,
+            spaceBetween: 20,
           },
           768: {
             slidesPerView: 6,
-            spaceBetween: 8,
+            spaceBetween: 20,
           },
           1024: {
             slidesPerView: 7,
-            spaceBetween: 12,
+            spaceBetween: 20,
           },
           1440: {
             slidesPerView: 8,
@@ -63,7 +63,7 @@ const SwiperCard = ({ categories, isLoading }) => {
   }, [isLoading]);
 
   return (
-    <div className="container mx-auto overflow-hidden">
+    <div className="container mx-auto overflow-hidden pt-[16px]">
       <div className="slider-cards-js">
         <div className="swiper-wrapper">
           {isLoading
@@ -93,8 +93,7 @@ const SwiperCard = ({ categories, isLoading }) => {
                   }}
                 >
                   <Link href={`/category/${category.id}`}>
-                    <div className="flex flex-col w-[110px] items-center justify-between">
-                      <div>
+                    <div className="flex flex-col w-[110px] items-center justify-between ">
                         <Image
                           src={category.image}
                           alt={category.name}
@@ -105,9 +104,8 @@ const SwiperCard = ({ categories, isLoading }) => {
                           quality={80}
                           width={98} // maximum width expected (matches md breakpoint)
                           height={98}
-                          className="h-[78px] w-[78px] min-h-[78px] min-w-[78px] rounded-full border border-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
+                          className="h-[78px] w-[78px] min-h-[78px] min-w-[78px] rounded-full ring-[2px] ring-[#D237604D] object-cover p-1 md:h-[98px] md:w-[98px]"
                         />
-                      </div>
                       <div className="md:mt-2 block  text-center">
                         <span className="text-heading text-center text-[11.5px] font-normal text-[#000000] transition-colors group-hover:text-orange-500 md:text-base">
                           {category.name}

@@ -418,7 +418,10 @@ export default function productDetailItem({
                 pagination={{
                   clickable: true,
                 }}
-                zoom={true}
+                zoom={{
+                  maxRatio: 3,
+                  minRatio: 1,
+                }}
                 modules={[Autoplay, Pagination, Zoom]}
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper;
@@ -427,7 +430,7 @@ export default function productDetailItem({
                 }}
                 onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                 onTouchStart={(swiper) => {
-                  const scale = swiper.zoom.scale;
+                  const scale = swiper.zoom?.scale ?? 1;
                   if (scale > 1) {
                     swiper.autoplay.stop();
                     swiper.allowSlideNext = false;
@@ -435,7 +438,10 @@ export default function productDetailItem({
                   }
                 }}
                 onTouchEnd={(swiper) => {
-                  const scale = swiper.zoom.scale;
+                  const scale = swiper.zoom?.scale ?? 1;
+                  if (scale < 1) {
+                    swiper.zoom.out();
+                  }
                   if (scale <= 1) {
                     swiper.autoplay.start();
                     swiper.allowSlideNext = true;
@@ -446,7 +452,7 @@ export default function productDetailItem({
               >
                 {product_images?.map((image) => (
                   <SwiperSlide key={image.id}>
-                    <div className="swiper-zoom-container h-full">
+                    <div className="swiper-zoom-container flex h-full w-full items-center justify-center">
                       <Image
                         loader={cloudflareLoader}
                         className="h-full object-cover"
