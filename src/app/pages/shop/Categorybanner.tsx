@@ -67,6 +67,15 @@ export default function Categorybanner({ responseData, isLoading }) {
           </div>
         </div>
       )}
+      <div className="mt-4 max-w-5xl">
+        <p className="text-content-2 text-center text-sm sm:text-base md:text-[22px] font-bold leading-[28px] mb-2">
+          Lorem ipsum dolor sit amet consectetur a
+        </p>
+        <p className="text-center text-[16px] leading-[20px] text-[#8F5A17]">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorem,
+           explicabo voluptate id neque nam excepturi sunt libero ex repelle.
+        </p>
+      </div>
     </div>
   );
 }
