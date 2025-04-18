@@ -4,10 +4,11 @@ import Link from "next/link";
 import cloudflareLoader from "~/lib/cloudflare-loader";
 
 export default function Categorybanner({ responseData, isLoading }) {
-  const { name, banner } = responseData?.data?.category || {};
+  const { name, banner, intro_heading, intro_description } = responseData?.data?.category || {};
   const handleImageError = (event) => {
     event.target.src = banner.src;
   };
+  console.log(responseData, "responseData")
 
   const handleShopNowClick = () => {
     const targetElement = document.getElementById("categoryPopluarProducts");
@@ -69,11 +70,10 @@ export default function Categorybanner({ responseData, isLoading }) {
       )}
       <div className="mt-4 max-w-5xl">
         <p className="text-content-2 text-center text-sm sm:text-base md:text-[22px] font-bold leading-[28px] mb-2">
-          Lorem ipsum dolor sit amet consectetur a
+         {intro_heading}
         </p>
         <p className="text-center text-[16px] leading-[20px] text-[#8F5A17]">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorem,
-           explicabo voluptate id neque nam excepturi sunt libero ex repelle.
+          {intro_description}
         </p>
       </div>
     </div>
