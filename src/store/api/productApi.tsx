@@ -13,7 +13,7 @@ export const productsApi = createApi({
         "public, s-maxage=3600, stale-while-revalidate=1800",
       );
       headers.set("Accept-Encoding", "gzip, deflate, br");
-      headers.set("CDN-Cache-Control", "public, max-age=3600");
+      // headers.set("CDN-Cache-Control", "public, max-age=3600");
       return headers;
     },
   }),

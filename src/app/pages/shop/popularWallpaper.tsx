@@ -258,6 +258,7 @@ export default function PopularWallpaper({
                       <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
                         <div className="flex w-11/12 justify-end">
                           <button
+                            //@ts-ignore
                             onClick={() => handleAddToCart(card)}
                             className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9"
                           >
