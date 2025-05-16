@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import cartReducer from "~/store/slices/cartSlice";
 import userReducer from "~/store/slices/userSlice";
@@ -47,13 +47,13 @@ const rootReducer = combineReducers({
   [roomCatagoriesApi.reducerPath]: roomCatagoriesApi.reducer,
   [paramApi.reducerPath]: paramApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,
-  [chargessApi.reducerPath]: chargessApi.reducer,  
-  [contactInfoApi.reducerPath]: contactInfoApi.reducer,  
-  [aboutApi.reducerPath]: aboutApi.reducer,  
-  [faviconApi.reducerPath]: faviconApi.reducer,  
+  [chargessApi.reducerPath]: chargessApi.reducer,
+  [contactInfoApi.reducerPath]: contactInfoApi.reducer,
+  [aboutApi.reducerPath]: aboutApi.reducer,
+  [faviconApi.reducerPath]: faviconApi.reducer,
   [ordersApi.reducerPath]: ordersApi.reducer,
   [cartItemsApi.reducerPath]: cartItemsApi.reducer,
-  [careersApi.reducerPath]: careersApi.reducer,  
+  [careersApi.reducerPath]: careersApi.reducer,
   [toolkitApi.reducerPath]: toolkitApi.reducer,
 });
 

@@ -5,19 +5,45 @@ import utils from "~/utils";
 // Define the API service
 export const productsApi = createApi({
   reducerPath: "productsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: utils.BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: utils.BASE_URL,
+    prepareHeaders: (headers) => {
+      headers.set(
+        "Cache-Control",
+        "public, s-maxage=3600, stale-while-revalidate=1800",
+      );
+      headers.set("Accept-Encoding", "gzip, deflate, br");
+      headers.set("CDN-Cache-Control", "public, max-age=3600");
+      return headers;
+    },
+  }),
+  tagTypes: ["Products", "Popular", "ColorProducts", "TagProducts"],
   endpoints: (builder) => ({
     getPopularProducts: builder.query({
       query: () => "/popular-products",
+      providesTags: ["Popular"],
+      keepUnusedDataFor: 3600,
     }),
     getProductsByColor: builder.query({
       query: (colorId: string) => `/products-by-color/${colorId}`,
+      providesTags: (result, error, colorId) => [
+        { type: "ColorProducts", id: colorId },
+        "Products",
+      ],
     }),
     getProductsByTag: builder.query({
       query: (tagId: string) => `/products-by-tag/${tagId}`,
+      providesTags: (result, error, tagId) => [
+        { type: "TagProducts", id: tagId },
+        "Products",
+      ],
+      keepUnusedDataFor: 300,
     }),
     getProductById: builder.query({
       query: (productId: string) => `/get-product-by-id/${productId}`,
+      providesTags: (result, error, productId) => [
+        { type: "Products", id: productId },
+      ],
     }),
   }),
 });

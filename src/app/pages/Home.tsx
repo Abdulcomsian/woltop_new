@@ -20,9 +20,16 @@ import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 import { useGetRoomCategoriesQuery } from "~/store/api/roomCatagoriesApi";
 import OurRangesCard from "./shop/OurRangesCard";
 import { useGetHomeBannerQuery } from "~/store/api/homeBannerApi";
+import { useMemo } from "react";
 export default function Home() {
   const { data: popularProducts, isLoading: isLoadingPopularProducts } =
-    useGetPopularProductsQuery({});
+    useGetPopularProductsQuery(undefined, {
+      // Prefer cache if available
+      refetchOnMountOrArgChange: false,
+      // Only refetch when cache is older than 1 hour
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    });
   const { data: colors, isLoading: isLoadingColors } = useGetColorsQuery({});
   const { data: tags, isLoading: isLoadingTags } = useGetTagsQuery({});
   const { data: categories, isLoading } = useGetCategoriesQuery({});
@@ -31,31 +38,45 @@ export default function Home() {
   const { data: homeVideo, isLoading: isLoadingHomeVideo } =
     useGetHomeBannerQuery({});
 
-  const colorTabs =
-    colors?.data.map((color: any) => ({
-      value: color.id,
-      label: color.name,
-    })) || [];
+  const colorTabs = useMemo(
+    () =>
+      colors?.data?.map((color: any) => ({
+        value: color.id,
+        label: color.name,
+      })) || [],
+    [colors?.data],
+  );
 
-  const colorContent = colorTabs.map((tab: any) => ({
-    value: tab.value,
-    component: <DetailCard colorId={tab.value} />,
-  }));
+  const colorContent = useMemo(
+    () =>
+      colorTabs.map((tab: any) => ({
+        value: tab.value,
+        component: <DetailCard colorId={tab.value} />,
+      })),
+    [colorTabs],
+  );
 
-  const productTabs =
-    tags?.data.map((tags: any) => ({
-      value: tags.id,
-      label: tags.name,
-    })) || [];
+  const productTabs = useMemo(
+    () =>
+      tags?.data?.map((tag: any) => ({
+        value: tag.id,
+        label: tag.name,
+      })) || [],
+    [tags?.data],
+  );
 
-  const productContent = productTabs.map((tab: any) => ({
-    value: tab.value,
-    component: <TagsProductCard tagId={tab.value} />,
-  }));
+  const productContent = useMemo(
+    () =>
+      productTabs.map((tab: any) => ({
+        value: tab.value,
+        component: <TagsProductCard tagId={tab.value} />,
+      })),
+    [productTabs],
+  );
 
   return (
     <>
-      <div className="mx-auto mb-[24px] max-w-[1075px] px-3 mt-4 md:mt-[22px]">
+      <div className="mx-auto mb-[24px] mt-4 max-w-[1075px] px-3 md:mt-[22px]">
         <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
       </div>
       <SectionBlock className="mx-auto max-w-[1075px] px-3" position="center">
@@ -127,7 +148,10 @@ export default function Home() {
         className="mx-auto max-w-[1075px] md:px-3"
         position="left"
       >
-        <ConsultationSection responseData={homeVideo} isLoading={isLoading}></ConsultationSection>
+        <ConsultationSection
+          responseData={homeVideo}
+          isLoading={isLoading}
+        ></ConsultationSection>
       </SectionBlock>
 
       <div className="mb-10 mt-10 bg-[#FFF3F6] md:mb-[70px]">

@@ -8,7 +8,10 @@ export const catagoriesApi = createApi({
   endpoints: (builder) => ({
     getCategories: builder.query({
       query: () => "/categories",
-      transformResponse: (response: { data: { id: number; name: string; image: string }[]; status: boolean }) => {
+      transformResponse: (response: {
+        data: { id: number; name: string; image: string }[];
+        status: boolean;
+      }) => {
         return response.data;
       },
     }),
@@ -18,4 +21,5 @@ export const catagoriesApi = createApi({
   }),
 });
 
-export const { useGetCategoriesQuery, useGetCategoriesByIdQuery } = catagoriesApi;
+export const { useGetCategoriesQuery, useGetCategoriesByIdQuery } =
+  catagoriesApi;
