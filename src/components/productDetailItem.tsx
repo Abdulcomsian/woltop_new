@@ -432,8 +432,6 @@ export default function productDetailItem({
     }
   };
 
-  console.log(responseData?.data.featured_image, "sdhjghsdgj");
-
   return (
     <>
       <div className="max-w-[944px]">
