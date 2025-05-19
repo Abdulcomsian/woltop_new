@@ -30,6 +30,7 @@ export const productsApi = createApi({
         { type: "ColorProducts", id: colorId },
         "Products",
       ],
+      keepUnusedDataFor: 3600,
     }),
     getProductsByTag: builder.query({
       query: (tagId: string) => `/products-by-tag/${tagId}`,
@@ -37,13 +38,21 @@ export const productsApi = createApi({
         { type: "TagProducts", id: tagId },
         "Products",
       ],
-      keepUnusedDataFor: 300,
+      keepUnusedDataFor: 3600,
     }),
     getProductById: builder.query({
-      query: (productId: string) => `/get-product-by-id/${productId}`,
+      query: (productId: string) => ({
+        url: `/get-product-by-id/${productId}`,
+        headers: {
+          "Cache-Control": "public, max-age=3600, stale-while-revalidate=1800",
+        },
+      }),
       providesTags: (result, error, productId) => [
         { type: "Products", id: productId },
       ],
+      keepUnusedDataFor: 3600, // 1 hour cache
+      // Add this for Next.js optimization
+      extraOptions: { next: { revalidate: 3600 } },
     }),
   }),
 });

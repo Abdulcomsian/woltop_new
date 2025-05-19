@@ -75,10 +75,12 @@ interface ProductDetailItemProps {
   responseData: {
     data: ProductData;
   };
+  cachedFeaturedImage?: string;
 }
 
 export default function productDetailItem({
   responseData,
+  cachedFeaturedImage,
 }: ProductDetailItemProps) {
   console.log(responseData, "Response Data");
   const {
@@ -93,6 +95,18 @@ export default function productDetailItem({
     price,
     id,
   } = responseData?.data || {};
+  const [sliderImages, setSliderImages] = useState<ProductImage[]>(() => {
+    const initialImages = [];
+
+    if (cachedFeaturedImage) {
+      initialImages.push({
+        id: "featured-cached",
+        image_path: cachedFeaturedImage,
+      });
+    }
+
+    return initialImages;
+  });
   const { data: delivery_detail } = useGetDeliveryQuery({});
   const [selectedId, setSelectedId] = useState<number | null>(
     responseData?.data?.variables?.length > 0
@@ -114,7 +128,7 @@ export default function productDetailItem({
   const [isLoading, setIsLoading] = useState(true);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [zoomScale, setZoomScale] = useState(1);
-
+  // const [sliderImages, setSliderImages] = useState<ProductImage[]>([]);
   const [addingToCart, setAddingToCart] = useState<{
     productId: number;
     variableId: number | null;
@@ -124,7 +138,23 @@ export default function productDetailItem({
     variableId: number;
     action: "delete" | "increment" | "decrement";
   } | null>(null);
+  useEffect(() => {
+    console.log("sliderImages", sliderImages);
 
+    if (responseData?.data) {
+      // Create a new array with featured image first, then product images
+      const mergedImages = [
+        {
+          id: "featured", // Unique ID for featured image
+          image_path: responseData.data.featured_image,
+        },
+        ...(responseData.data.product_images || []),
+      ];
+      if (JSON.stringify(mergedImages) !== JSON.stringify(sliderImages)) {
+        setSliderImages(mergedImages);
+      }
+    }
+  }, [responseData]);
   const handleCardClick = (id: number) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
   };
@@ -447,7 +477,7 @@ export default function productDetailItem({
                 }}
                 className="mySwiper h-full"
               >
-                {product_images?.map((image) => (
+                {sliderImages?.map((image) => (
                   <SwiperSlide key={image.id}>
                     <div
                       className={`swiper-zoom-container flex h-full w-full items-center justify-center ${
@@ -471,7 +501,7 @@ export default function productDetailItem({
               </Swiper>
             </div>
             <div className="hidden md:flex">
-              {product_images?.map((image, index) => (
+              {sliderImages?.map((image, index) => (
                 <div key={image.id} onClick={() => handleThumbnailClick(index)}>
                   <Image
                     loader={cloudflareLoader}

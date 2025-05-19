@@ -12,7 +12,10 @@ import Reeling from "../../pages/shop/reeling";
 import StandsOut from "~/components/standsOut";
 import MoreInformationSteps from "~/components/moreInformationSteps";
 import ProductDetailCard from "../../pages/shop/productDetailCard";
-import { useGetProductByIdQuery } from "~/store/api/productApi";
+import {
+  useGetProductByIdQuery,
+  useGetPopularProductsQuery,
+} from "~/store/api/productApi";
 import RecentCard from "~/app/pages/shop/RecentCard";
 import { useParams } from "next/navigation";
 import SwiperCard from "~/components/swiperCard";
@@ -26,29 +29,70 @@ const Spinner = () => (
 
 export default function Page() {
   const { slug } = useParams();
+  const { data: popularProducts } = useGetPopularProductsQuery(undefined, {
+    skip: true, // Don't fetch, just access cache
+  });
+  console.log("Cached Data", popularProducts);
+
+  // Find the product in popular products cache
+  const cachedProduct = popularProducts?.data?.find(
+    (p: any) => p.id.toString() === slug,
+  );
+  const cachedFeaturedImage = cachedProduct?.featured_image;
+
   const {
     data: product,
     isLoading,
     error,
-  } = useGetProductByIdQuery(slug as string);
+  } = useGetProductByIdQuery(slug as string, {
+    refetchOnMountOrArgChange: false,
+    // Only refetch when cache is older than 1 hour
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
+
+  const initialProductData = {
+    data: {
+      ...(product?.data || {}),
+      featured_image: cachedFeaturedImage || product?.data?.featured_image,
+      // Initialize other required fields to prevent undefined errors
+      product_images: product?.data?.product_images || [],
+      variables: product?.data?.variables || [],
+      products_features: product?.data?.products_features || [],
+      design_application_details:
+        product?.data?.design_application_details || [],
+      storage_usage_details: product?.data?.storage_usage_details || [],
+      reviews: product?.data?.reviews || { average: 0, total_count: 0 },
+      delivery_detail: product?.data?.delivery_detail || [],
+    },
+  };
   const { data: categories, isLoading: isLoadingCategories } =
     useGetCategoriesQuery({});
-
+  const mergedProduct = product
+    ? {
+        ...product,
+        data: {
+          ...product.data,
+          // Use cached featured image if available, otherwise use the one from product detail
+          featured_image: cachedFeaturedImage || product.data.featured_image,
+        },
+      }
+    : null;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (product) {
+    if (mergedProduct) {
       if (typeof window !== "undefined") {
         let storedProducts = localStorage.getItem("recentProducts");
         let recentProducts = storedProducts ? JSON.parse(storedProducts) : [];
 
         recentProducts = recentProducts.filter(
-          (p: any) => p.data.id !== product.data.id,
+          (p: any) => p.data.id !== mergedProduct.data.id,
         );
 
-        recentProducts.unshift(product);
+        recentProducts.unshift(mergedProduct);
 
         if (recentProducts.length > 4) {
           recentProducts = recentProducts.slice(0, 4);
@@ -57,8 +101,7 @@ export default function Page() {
         localStorage.setItem("recentProducts", JSON.stringify(recentProducts));
       }
     }
-  }, [product]);
-
+  }, [mergedProduct]);
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -67,7 +110,7 @@ export default function Page() {
     );
   }
 
-  if (error || !product) {
+  if (error || !mergedProduct) {
     return (
       <div className="py-10 text-center">
         Something went wrong or product not found.
@@ -83,7 +126,10 @@ export default function Page() {
         className="mx-auto max-w-[1075px] md:mt-[60px] md:pl-3"
         position="left"
       >
-        <ProductDetailItem responseData={product}></ProductDetailItem>
+        <ProductDetailItem
+          responseData={initialProductData}
+          cachedFeaturedImage={cachedFeaturedImage}
+        ></ProductDetailItem>
       </SectionBlock>
       <div className="bg-[#FFF3F6]">
         <SectionBlock
@@ -93,7 +139,7 @@ export default function Page() {
           position="left"
         >
           <VideoSection
-            responseData={product}
+            responseData={mergedProduct}
             isLoading={isLoading}
           ></VideoSection>
         </SectionBlock>
@@ -106,7 +152,7 @@ export default function Page() {
           className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-[70px]"
           position="left"
         >
-          <ProductDescription responseData={product}></ProductDescription>
+          <ProductDescription responseData={mergedProduct}></ProductDescription>
         </SectionBlock>
       </div>
 
@@ -118,7 +164,7 @@ export default function Page() {
             className="mx-auto max-w-[1075px] px-3 pt-[32px] md:pt-[69px]"
             position="center"
           >
-            <EasySteps responseData={product}></EasySteps>
+            <EasySteps responseData={mergedProduct}></EasySteps>
           </SectionBlock>
         )}
       </div>
@@ -131,7 +177,9 @@ export default function Page() {
             className="mx-auto max-w-[1075px] px-3 pt-6"
             position="center"
           >
-            <MoreInformationSteps responseData={product}></MoreInformationSteps>
+            <MoreInformationSteps
+              responseData={mergedProduct}
+            ></MoreInformationSteps>
           </SectionBlock>
         )}
       </div>
@@ -163,7 +211,11 @@ export default function Page() {
           className="mx-auto max-w-[1075px] px-3 pt-10 md:pt-[70px]"
           position="left"
         >
-          <RatedReview responseData={product} slug={slug}></RatedReview>
+          <RatedReview
+            responseData={mergedProduct}
+            //@ts-ignore
+            slug={slug}
+          ></RatedReview>
           <ReviewCard
             //@ts-ignore
             slug={slug}
@@ -176,7 +228,7 @@ export default function Page() {
         className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
-        <ProductDetailCard responseData={product}></ProductDetailCard>
+        <ProductDetailCard responseData={mergedProduct}></ProductDetailCard>
       </SectionBlock>
       <SectionBlock
         title="Explore Our Other Categories"
