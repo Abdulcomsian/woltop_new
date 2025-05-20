@@ -3,44 +3,26 @@ import Banner from "./shop/banner";
 import dynamic from "next/dynamic";
 import PopularWallpaper from "./shop/popularWallpaper";
 import { Card, CardContent, CardFooter } from "~/components/ui/card";
-// import Reeling from "./shop/reeling";
+import Reeling from "./shop/reeling";
 import DetailCard from "./shop/detailCard";
 import TagsProductCard from "./shop/tagsProduct";
-// import CategorieCard from "./shop/categorieCard";
+import CategorieCard from "./shop/categorieCard";
 import VideoSection from "./shop/videoSection";
 import SectionBlock from "~/components/ui/section-block";
-// import StepSection from "./shop/stepSection";
-// import ConsultationSection from "./shop/consultation-background";
+import StepSection from "./shop/stepSection";
+import ConsultationSection from "./shop/consultation-background";
 import { useGetPopularProductsQuery } from "~/store/api/productApi";
 import { useGetColorsQuery, useGetTagsQuery } from "~/store/api/paramApi";
-// import TabsComponent from "~/components/tabComponent";
+import TabsComponent from "~/components/tabComponent";
 import SwiperCard from "~/components/swiperCard";
-// import HomePageReviewCards from "./shop/homePageReviewCards";
+import HomePageReviewCards from "./shop/homePageReviewCards";
 import RecentCard from "./shop/RecentCard";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 import { useGetRoomCategoriesQuery } from "~/store/api/roomCatagoriesApi";
-// import OurRangesCard from "./shop/OurRangesCard";
+import OurRangesCard from "./shop/OurRangesCard";
 import { useGetHomeBannerQuery } from "~/store/api/homeBannerApi";
 import { useMemo } from "react";
-const Reeling = dynamic(() => import("./shop/reeling"), { ssr: false });
-const OurRangesCard = dynamic(() => import("./shop/OurRangesCard"), {
-  ssr: false,
-});
-const CategorieCard = dynamic(() => import("./shop/categorieCard"), {
-  ssr: false,
-});
-const ConsultationSection = dynamic(
-  () => import("./shop/consultation-background"),
-  { ssr: false },
-);
-const TabsComponent = dynamic(() => import("~/components/tabComponent"), {
-  ssr: false,
-});
-const StepSection = dynamic(() => import("./shop/stepSection"), { ssr: false });
-const HomePageReviewCards = dynamic(
-  () => import("./shop/homePageReviewCards"),
-  { ssr: false },
-);
+// const Reeling = dynamic(() => import("./shop/reeling"), { ssr: false });
 export default function Home() {
   const { data: popularProducts, isLoading: isLoadingPopularProducts } =
     useGetPopularProductsQuery(undefined, {
