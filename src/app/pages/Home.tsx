@@ -1,43 +1,85 @@
 "use client";
-import Banner from "./shop/banner";
-import PopularWallpaper from "./shop/popularWallpaper";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
 import { Card, CardContent, CardFooter } from "~/components/ui/card";
-import Reeling from "./shop/reeling";
-import DetailCard from "./shop/detailCard";
-import TagsProductCard from "./shop/tagsProduct";
-import CategorieCard from "./shop/categorieCard";
-import VideoSection from "./shop/videoSection";
 import SectionBlock from "~/components/ui/section-block";
-import StepSection from "./shop/stepSection";
-import ConsultationSection from "./shop/consultation-background";
 import { useGetPopularProductsQuery } from "~/store/api/productApi";
 import { useGetColorsQuery, useGetTagsQuery } from "~/store/api/paramApi";
-import TabsComponent from "~/components/tabComponent";
-import SwiperCard from "~/components/swiperCard";
-import HomePageReviewCards from "./shop/homePageReviewCards";
-import RecentCard from "./shop/RecentCard";
 import { useGetCategoriesQuery } from "~/store/api/catagoriesApi";
 import { useGetRoomCategoriesQuery } from "~/store/api/roomCatagoriesApi";
-import OurRangesCard from "./shop/OurRangesCard";
 import { useGetHomeBannerQuery } from "~/store/api/homeBannerApi";
-import { useMemo } from "react";
+
+// Dynamically import components that use browser APIs or have client-side behavior
+const Banner = dynamic(() => import("./shop/banner"), { ssr: false });
+const PopularWallpaper = dynamic(() => import("./shop/popularWallpaper"), {
+  ssr: false,
+});
+const Reeling = dynamic(() => import("./shop/reeling"), { ssr: false });
+const DetailCard = dynamic(() => import("./shop/detailCard"), { ssr: false });
+const TagsProductCard = dynamic(() => import("./shop/tagsProduct"), {
+  ssr: false,
+});
+const CategorieCard = dynamic(() => import("./shop/categorieCard"), {
+  ssr: false,
+});
+const VideoSection = dynamic(() => import("./shop/videoSection"), {
+  ssr: false,
+});
+const StepSection = dynamic(() => import("./shop/stepSection"), { ssr: false });
+const ConsultationSection = dynamic(
+  () => import("./shop/consultation-background"),
+  { ssr: false },
+);
+const TabsComponent = dynamic(() => import("~/components/tabComponent"), {
+  ssr: false,
+});
+const SwiperCard = dynamic(() => import("~/components/swiperCard"), {
+  ssr: false,
+});
+const HomePageReviewCards = dynamic(
+  () => import("./shop/homePageReviewCards"),
+  { ssr: false },
+);
+const RecentCard = dynamic(() => import("./shop/RecentCard"), { ssr: false });
+const OurRangesCard = dynamic(() => import("./shop/OurRangesCard"), {
+  ssr: false,
+});
+
 export default function Home() {
+  // Modify API hooks to skip during SSR
   const { data: popularProducts, isLoading: isLoadingPopularProducts } =
     useGetPopularProductsQuery(undefined, {
-      // Prefer cache if available
       refetchOnMountOrArgChange: false,
-      // Only refetch when cache is older than 1 hour
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
+      skip: typeof window === "undefined",
     });
-  const { data: colors, isLoading: isLoadingColors } = useGetColorsQuery({});
-  const { data: tags, isLoading: isLoadingTags } = useGetTagsQuery({});
-  const { data: categories, isLoading } = useGetCategoriesQuery({});
-  const { data: roomCategories, isLoading: isLoadingRoomCategories } =
-    useGetRoomCategoriesQuery({});
-  const { data: homeVideo, isLoading: isLoadingHomeVideo } =
-    useGetHomeBannerQuery({});
 
+  const { data: colors, isLoading: isLoadingColors } = useGetColorsQuery(
+    undefined,
+    {
+      skip: typeof window === "undefined",
+    },
+  );
+
+  const { data: tags, isLoading: isLoadingTags } = useGetTagsQuery(undefined, {
+    skip: typeof window === "undefined",
+  });
+
+  const { data: categories, isLoading: isLoadingCategories } =
+    useGetCategoriesQuery(undefined, {
+      skip: typeof window === "undefined",
+    });
+
+  const { data: roomCategories, isLoading: isLoadingRoomCategories } =
+    useGetRoomCategoriesQuery(undefined, {
+      skip: typeof window === "undefined",
+    });
+
+  const { data: homeVideo, isLoading: isLoadingHomeVideo } =
+    useGetHomeBannerQuery(undefined, {
+      skip: typeof window === "undefined",
+    });
+
+  // Memoized tab data (client-side only)
   const colorTabs = useMemo(
     () =>
       colors?.data?.map((color: any) => ({
@@ -74,13 +116,44 @@ export default function Home() {
     [productTabs],
   );
 
+  // Skeleton loader component
+  const TabSkeleton = () => (
+    <>
+      <div className="-mt-[39px] flex space-x-4">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div
+            key={index}
+            className="h-10 w-32 animate-pulse rounded-t-md bg-gray-300"
+          />
+        ))}
+      </div>
+      <div className="grid grid-cols-2 gap-5 pt-[58px] md:grid-cols-3 xl:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Card
+            key={index}
+            className="custom-card-class relative z-0 h-52 w-auto animate-pulse items-center justify-center bg-gray-200 md:h-80"
+          >
+            <CardContent>
+              <div className="mb-2 h-4 w-3/4 rounded-md bg-gray-300" />
+              <div className="h-4 w-1/2 rounded-md bg-gray-300" />
+            </CardContent>
+            <CardFooter>
+              <div className="h-5 w-1/4 rounded-md bg-gray-300" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </>
+  );
+
   return (
     <>
       <div className="mx-auto mb-[24px] mt-4 max-w-[1075px] px-3 md:mt-[22px]">
-        <SwiperCard categories={categories} isLoading={isLoading}></SwiperCard>
+        <SwiperCard categories={categories} isLoading={isLoadingCategories} />
       </div>
+
       <SectionBlock className="mx-auto max-w-[1075px] px-3" position="center">
-        <Banner></Banner>
+        <Banner />
       </SectionBlock>
 
       <SectionBlock
@@ -91,8 +164,8 @@ export default function Home() {
       >
         <PopularWallpaper
           products={popularProducts}
-          isLoading={isLoading}
-        ></PopularWallpaper>
+          isLoading={isLoadingPopularProducts}
+        />
       </SectionBlock>
       <SectionBlock
         title="Unreeling Some Wolpin Reels"
@@ -112,7 +185,7 @@ export default function Home() {
         <OurRangesCard
           //@ts-ignore
           cardData={categories}
-          isLoading={isLoading}
+          isLoading={isLoadingCategories}
         ></OurRangesCard>
       </SectionBlock>
 
@@ -124,7 +197,7 @@ export default function Home() {
       >
         <VideoSection
           responseData={homeVideo}
-          isLoading={isLoading}
+          isLoading={isLoadingCategories}
         ></VideoSection>
       </SectionBlock>
       <div className="mb-10 bg-[#F1FBFF] pt-10 md:mb-[70px] md:pt-[70px]">
@@ -137,7 +210,7 @@ export default function Home() {
           <CategorieCard
             //@ts-ignore
             cardData={roomCategories}
-            isLoading={isLoading}
+            isLoading={isLoadingRoomCategories}
           ></CategorieCard>
         </SectionBlock>
       </div>
@@ -150,7 +223,7 @@ export default function Home() {
       >
         <ConsultationSection
           responseData={homeVideo}
-          isLoading={isLoading}
+          isLoading={isLoadingCategories}
         ></ConsultationSection>
       </SectionBlock>
 
@@ -282,17 +355,11 @@ export default function Home() {
       >
         <SwiperCard
           categories={roomCategories}
-          isLoading={isLoading}
+          isLoading={isLoadingRoomCategories}
         ></SwiperCard>
       </SectionBlock>
-      {/* <SectionBlock
-        title="@wolpinwallpaper.in"
-        subtitle="Follow Us on Instagram"
-        className="pt-14 lg:container lg:m-auto"
-        position="center"
-      >
-        <WolpinWallpaper />
-      </SectionBlock> */}
+      {/* Rest of your component remains the same */}
+      {/* ... */}
     </>
   );
 }
