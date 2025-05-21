@@ -95,7 +95,7 @@ export default function Home() {
         ></PopularWallpaper>
       </SectionBlock>
       <SectionBlock
-        title="Unreeling Some Wolpin Reels"
+        title="Unreeling Some Wolpin Reelss"
         subtitle=""
         className="mx-auto max-w-[1075px] px-3"
         position="left"
