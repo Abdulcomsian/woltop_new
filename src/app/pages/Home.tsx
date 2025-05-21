@@ -50,33 +50,33 @@ export default function Home() {
   const { data: popularProducts, isLoading: isLoadingPopularProducts } =
     useGetPopularProductsQuery(undefined, {
       refetchOnMountOrArgChange: false,
-      skip: typeof window === "undefined",
+      skip: true,
     });
 
   const { data: colors, isLoading: isLoadingColors } = useGetColorsQuery(
     undefined,
     {
-      skip: typeof window === "undefined",
+      skip: true,
     },
   );
 
   const { data: tags, isLoading: isLoadingTags } = useGetTagsQuery(undefined, {
-    skip: typeof window === "undefined",
+    skip: true,
   });
 
   const { data: categories, isLoading: isLoadingCategories } =
     useGetCategoriesQuery(undefined, {
-      skip: typeof window === "undefined",
+      skip: true,
     });
 
   const { data: roomCategories, isLoading: isLoadingRoomCategories } =
     useGetRoomCategoriesQuery(undefined, {
-      skip: typeof window === "undefined",
+      skip: true,
     });
 
   const { data: homeVideo, isLoading: isLoadingHomeVideo } =
     useGetHomeBannerQuery(undefined, {
-      skip: typeof window === "undefined",
+      skip: true,
     });
 
   // Memoized tab data (client-side only)
