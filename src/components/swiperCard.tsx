@@ -10,7 +10,7 @@ const SwiperCard = ({ categories, isLoading }) => {
     <div className="container mx-auto">
       <div
         ref={containerRef}
-        className="scrollbar-hide flex overflow-x-auto py-1 px-1"
+        className="scrollbar-hide flex overflow-x-auto px-1 py-1"
         style={{
           scrollBehavior: "smooth",
           WebkitOverflowScrolling: "touch",
@@ -45,7 +45,7 @@ const SwiperCard = ({ categories, isLoading }) => {
                         loading="lazy"
                         decoding="async"
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        quality={80}
+                        quality={75}
                         width={98}
                         height={98}
                         className="h-[78px] min-h-[78px] w-[78px] min-w-[78px] rounded-full object-cover p-1 ring-[2px] ring-[#D237604D] md:h-[98px] md:w-[98px]"

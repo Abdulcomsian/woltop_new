@@ -69,6 +69,7 @@ export default function Banner() {
                 width={76}
                 height={46}
                 quality={75}
+                priority
               />
             </div>
             <h1 className="lovelace text-[28px] font-normal tracking-[1%] text-white md:text-4xl lg:text-7xl xl:text-7xl">
@@ -76,7 +77,7 @@ export default function Banner() {
             </h1>
             <Link href="#" passHref legacyBehavior>
               <button className="focus:ring-accent-700 mt-3 inline-flex shrink-0 items-center justify-center rounded border border-white bg-transparent px-6 py-2 text-[16px] leading-none text-white outline-none transition duration-300 ease-in-out hover:border-accent hover:bg-white hover:text-black focus:shadow focus:outline-0 focus:ring-1 md:mt-5 md:px-12 md:py-3">
-                <span className="font-normal tracking-[1%]">Shop Nows</span>
+                <span className="font-normal tracking-[1%]">Shop Now</span>
               </button>
             </Link>
           </div>
@@ -113,7 +114,7 @@ export default function Banner() {
               legacyBehavior
             >
               <button className="focus:ring-accent-700 mt-3 inline-flex shrink-0 items-center justify-center rounded border border-white bg-transparent px-6 py-2 text-[16px] leading-none text-white outline-none transition duration-300 ease-in-out hover:border-accent hover:bg-white hover:text-black focus:shadow focus:outline-0 focus:ring-1 md:mt-5 md:px-12 md:py-3">
-                <span className="font-normal tracking-[1%]">Shop Nows</span>
+                <span className="font-normal tracking-[1%]">Shop Now</span>
               </button>
             </Link>
           )}

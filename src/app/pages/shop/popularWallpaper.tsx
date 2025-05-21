@@ -6,12 +6,13 @@ import {
   updateItemQuantity,
 } from "~/store/slices/cartSlice";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { Drawer } from "antd";
 import { Minus, Plus } from "lucide-react";
 import utils from "~/utils";
 import Image from "next/image";
 import cloudflareLoader from "~/lib/cloudflare-loader";
+
 interface Product {
   id: number;
   title: string;
@@ -45,6 +46,7 @@ export default function PopularWallpaper({
     action: "delete" | "increment" | "decrement";
   } | null>(null);
 
+  // Responsive items to show
   useEffect(() => {
     const handleResize = () => {
       setItemsToShow(window.innerWidth >= 768 ? 3 : 2);
@@ -54,133 +56,133 @@ export default function PopularWallpaper({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const lastItemPrice =
-    cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
+  // Memoized product data
+  const PopularcardData = useMemo(() => {
+    return products?.data?.map((product) => ({
+      id: product.id,
+      title: product.title,
+      featured_image: product.featured_image,
+      price: product.price,
+      sale_price: product.sale_price,
+      discount: `${product.discount}%`,
+      range: product.range?.sale_price,
+      variables: product.variables?.length,
+    }));
+  }, [products?.data]);
 
-  const PopularcardData = products?.data?.map((product) => ({
-    id: product.id,
-    title: product.title,
+  const lastItemPrice = useMemo(() => {
+    return cartData?.items?.[cartData.items.length - 1]?.sale_price || 0;
+  }, [cartData.items]);
 
-    featured_image: product.featured_image,
+  // Optimized cart item handlers
+  const handleAddToCart = useCallback(
+    async (product: Product) => {
+      const existingItem = cartData.items.find(
+        (item: any) => item.id === product.id,
+      );
+      if (existingItem) {
+        toast.info("Product is already in the cart");
+        return;
+      }
 
-    price: product.price,
-    sale_price: product.sale_price,
-    discount: `${product.discount}%`,
-    range: product.range?.sale_price,
-    variables: product.variables?.length,
-  }));
+      dispatch(
+        addItemToCart({
+          id: product.id,
+          name: product.title,
+          price: Number(product.price),
+          sale_price: product.sale_price
+            ? Number(product.sale_price)
+            : Number(product.price),
+          discount: Number(product.discount.replace("%", "")),
+          featured_image: product.featured_image,
+          variableId: null,
+          variableName: "Default",
+        }),
+      );
 
-  const handleAddToCart = async (product: Product) => {
-    const existingItem = cartData.items.find(
-      (item: any) => item.id === product.id,
-    );
+      try {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("product_id", product.id.toString());
 
-    if (existingItem) {
-      toast.info("Product is already in the cart");
-      return;
-    }
+        await fetch(`${utils.BASE_URL}/store-cart`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+      } catch (error) {
+        console.error("Error adding item to cart:", error);
+      }
+      setIsDrawerOpen(true);
+    },
+    [cartData.items, dispatch],
+  );
 
-    dispatch(
-      addItemToCart({
-        id: product.id,
-        name: product.title,
-        price: Number(product.price),
-        sale_price: product.sale_price
-          ? Number(product.sale_price)
-          : Number(product.price),
-        discount: Number(product.discount.replace("%", "")),
-        featured_image: product.featured_image,
-        variableId: null,
-        variableName: "Default",
-      }),
-    );
-    try {
-      const token = localStorage.getItem("token");
-      const formData = new FormData();
-      formData.append("product_id", product.id.toString());
-
-      const response = await fetch(`${utils.BASE_URL}/store-cart`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
-    } catch (error) {
-      console.error("Error adding item to cart:", error);
-    }
-    setIsDrawerOpen(true);
-  };
-
-  const handleIncrement = (itemId: number) => {
-    const item = cartData.items.find((item: any) => item.id === itemId);
-    if (item) {
-      setLoadingItem({ itemId, action: "increment" });
-      setTimeout(() => {
-        dispatch(
-          updateItemQuantity({
-            id: itemId,
-            variableId: null,
-            quantity: item.quantity + 1,
-          }),
-        );
-        setLoadingItem(null);
-      }, 1000);
-    }
-  };
-
-  const handleDecrement = (itemId: number) => {
-    const item = cartData.items.find((item: any) => item.id === itemId);
-    if (item) {
-      if (item.quantity === 1) {
-        setLoadingItem({ itemId, action: "delete" });
-
-        setTimeout(() => {
-          dispatch(removeItemFromCart({ id: itemId, variableId: null }));
-        }, 1000);
-
-        setTimeout(async () => {
-          try {
-            const token = localStorage.getItem("token");
-            const response = await fetch(
-              `${utils.BASE_URL}/delete-cart-item/${itemId}`,
-              {
-                method: "GET",
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                  "Content-Type": "application/json",
-                },
-              },
-            );
-
-            if (!response.ok) {
-              console.warn("Failed to delete item from API");
-            }
-          } catch (error) {
-            console.error("Error removing item:", error);
-          } finally {
-            setLoadingItem(null);
-          }
-        }, 1000);
-      } else {
-        setLoadingItem({ itemId, action: "decrement" });
-
+  const handleIncrement = useCallback(
+    (itemId: number) => {
+      const item = cartData.items.find((item: any) => item.id === itemId);
+      if (item) {
+        setLoadingItem({ itemId, action: "increment" });
         setTimeout(() => {
           dispatch(
             updateItemQuantity({
               id: itemId,
               variableId: null,
-              quantity: item.quantity - 1,
+              quantity: item.quantity + 1,
             }),
           );
           setLoadingItem(null);
-        }, 1000);
+        }, 500); // Reduced timeout
       }
-    }
-  };
+    },
+    [cartData.items, dispatch],
+  );
 
+  const handleDecrement = useCallback(
+    (itemId: number) => {
+      const item = cartData.items.find((item: any) => item.id === itemId);
+      if (item) {
+        if (item.quantity === 1) {
+          setLoadingItem({ itemId, action: "delete" });
+          setTimeout(() => {
+            dispatch(removeItemFromCart({ id: itemId, variableId: null }));
+          }, 500); // Reduced timeout
+
+          setTimeout(async () => {
+            try {
+              const token = localStorage.getItem("token");
+              await fetch(`${utils.BASE_URL}/delete-cart-item/${itemId}`, {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              });
+            } catch (error) {
+              console.error("Error removing item:", error);
+            } finally {
+              setLoadingItem(null);
+            }
+          }, 500); // Reduced timeout
+        } else {
+          setLoadingItem({ itemId, action: "decrement" });
+          setTimeout(() => {
+            dispatch(
+              updateItemQuantity({
+                id: itemId,
+                variableId: null,
+                quantity: item.quantity - 1,
+              }),
+            );
+            setLoadingItem(null);
+          }, 500); // Reduced timeout
+        }
+      }
+    },
+    [cartData.items, dispatch],
+  );
+
+  // Loading state
   if (isLoading) {
     return (
       <div className="flex w-full flex-col">
@@ -216,51 +218,40 @@ export default function PopularWallpaper({
               <div key={card.id} className="card-wrapper relative">
                 {!card?.variables && (
                   <>
-                    {cartData.items.some((item) => {
-                      if (item.id === card.id) {
-                        return item.id === card.id;
-                      }
-                    }) ? (
+                    {cartData.items.some((item) => item.id === card.id) ? (
                       <div className="absolute -right-7 top-0 z-40 flex h-[38px] -translate-y-1/2 rounded border border-[#49AD91]">
                         <button
                           className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded-l bg-white px-[15px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                           onClick={() => handleDecrement(card.id)}
+                          aria-label="Decrease quantity"
                         >
-                          <span className="sr-only">minus</span>
-                          <Minus />
+                          <Minus size={16} />
                         </button>
                         <div className="flex items-center justify-center bg-[#49AD91] px-[20px] py-[11px] text-sm font-semibold text-[#fff]">
-                          {loadingItem?.itemId === card?.id &&
-                          (loadingItem?.action === "increment" ||
-                            loadingItem?.action === "delete" ||
-                            loadingItem?.action === "decrement") ? (
-                            <div
-                              className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2"
-                              role="status"
-                            ></div>
+                          {loadingItem?.itemId === card?.id ? (
+                            <div className="spinner-border inline-block h-4 w-4 animate-spin rounded-full border-2" />
                           ) : (
-                            <div>
-                              {cartData.items.find(
-                                (item) => item.id === card.id,
-                              )?.quantity || 0}
-                            </div>
+                            cartData.items.find((item) => item.id === card.id)
+                              ?.quantity || 0
                           )}
                         </div>
                         <button
                           className="hover:bg-accent-hover flex cursor-pointer items-center justify-center rounded-r bg-white px-[15px] py-[11px] text-[#49AD91] transition-colors duration-200 hover:!bg-gray-100 focus:outline-0"
                           onClick={() => handleIncrement(card.id)}
+                          aria-label="Increase quantity"
                         >
-                          <span className="sr-only">plus</span>
-                          <Plus />
+                          <Plus size={16} />
                         </button>
                       </div>
                     ) : (
                       <div className="absolute right-0 top-0 z-40 -translate-y-1/2 translate-x-1/2">
                         <div className="flex w-11/12 justify-end">
                           <button
-                            //@ts-ignore
-                            onClick={() => handleAddToCart(card)}
+                            onClick={() =>
+                              handleAddToCart(card as unknown as Product)
+                            }
                             className="text-heading hover:text-light focus:text-light flex h-7 w-7 items-center justify-center rounded border border-blue-200 bg-[#F5FFFC] text-sm transition-colors hover:border-accent hover:bg-accent focus:border-accent focus:bg-accent focus:outline-0 md:h-9 md:w-9"
+                            aria-label="Add to cart"
                           >
                             <svg
                               fill="#49AD91"
@@ -272,7 +263,7 @@ export default function PopularWallpaper({
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                              ></path>
+                              />
                             </svg>
                           </button>
                         </div>
@@ -281,93 +272,78 @@ export default function PopularWallpaper({
                   </>
                 )}
 
-                <Link href={`/product/${card.id}`}>
-                  <div
-                    // style={{
-                    //   backgroundImage: `url(${cloudflareLoader({
-                    //     src: card?.featured_image,
-                    //     width: 1200, // Use an appropriate width based on your design
-                    //     quality: 80, // Set your desired quality
-                    //   })})`,
-                    //   backgroundRepeat: "no-repeat",
-                    //   backgroundSize: "cover",
-                    //   backgroundPosition: "center",
-                    // }}
-                    className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-lg md:h-80"
-                  >
-                    <Image
-                      src={card?.featured_image}
-                      loader={cloudflareLoader}
-                      className="absolute bottom-0 h-52 rounded-lg object-cover md:h-80"
-                      width={470}
-                      height={550}
-                      alt=""
-                      sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
-                      quality={65}
-                    />
-                  </div>
-                  <p className="mt-[11px] truncate text-[#505050]">
-                    {card?.title}
-                  </p>
-                  <div className="mt-2">
-                    {card?.sale_price !== null ? (
+                <Link href={`/product/${card.id}`} passHref legacyBehavior>
+                  <a className="block">
+                    <div className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-lg md:h-80">
+                      <Image
+                        src={card.featured_image}
+                        loader={cloudflareLoader}
+                        className="absolute h-full w-full rounded-lg object-cover"
+                        width={470}
+                        height={550}
+                        alt={card.title}
+                        priority={false} // Changed to false for lazy loading
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        quality={65}
+                        loading="lazy"
+                      />
+                    </div>
+                    <p className="mt-[11px] truncate text-[#505050]">
+                      {card.title}
+                    </p>
+                    <div className="mt-2">
                       <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
-                        ₹{card?.sale_price}
+                        ₹{card.sale_price || card.range}
                       </span>
-                    ) : (
-                      <span className="text-heading text-sm font-semibold text-[#121212] md:text-base">
-                        ₹{card?.range}
-                      </span>
-                    )}
-                  </div>
+                    </div>
+                  </a>
                 </Link>
               </div>
             ))}
           </div>
         </div>
       </div>
+
       <Drawer
         placement="bottom"
         onClose={() => setIsDrawerOpen(false)}
         open={isDrawerOpen}
         height={100}
-        styles={{
-          header: { display: "none" },
-        }}
+        styles={{ header: { display: "none" } }}
+        destroyOnClose
       >
         <div className="mx-auto flex w-fit items-center justify-center gap-[10px] md:gap-10">
           <div className="flex items-center justify-center gap-[10px]">
-            {cartData?.items?.slice(0, itemsToShow).map((item, index) => (
+            {cartData?.items?.slice(0, itemsToShow).map((item) => (
               <div
-                key={item.id || `item-${index}`}
+                key={item.id}
                 className="border-border-200 flex w-full gap-3 border-opacity-75 text-sm md:gap-[18px]"
               >
                 <Link
-                  href={`/product/${item?.id}`}
+                  href={`/product/${item.id}`}
                   className="relative flex h-[48px] w-[30px] shrink-0 items-center justify-center overflow-hidden rounded bg-gray-100"
+                  passHref
+                  legacyBehavior
                 >
-                  <Image
-                    loader={cloudflareLoader}
-                    alt={item.name}
-                    className="h-full w-full object-cover"
-                    src={
-                      item?.featured_image || "https://placehold.co/600x400.png"
-                    }
-                  />
+                  <a>
+                    <Image
+                      loader={cloudflareLoader}
+                      alt={item.name}
+                      className="h-full w-full object-cover"
+                      src={
+                        item.featured_image ||
+                        "https://placehold.co/600x400.png"
+                      }
+                      width={30}
+                      height={48}
+                      loading="lazy"
+                    />
+                  </a>
                 </Link>
               </div>
             ))}
             {cartData?.items?.length > itemsToShow && (
-              <span
-                className="flex min-w-12 text-xs font-semibold"
-                style={{
-                  visibility:
-                    cartData?.items?.length > itemsToShow
-                      ? "visible"
-                      : "hidden",
-                  opacity: cartData?.items?.length > itemsToShow ? 1 : 0,
-                }}
-              >
+              <span className="flex min-w-12 text-xs font-semibold">
                 +{cartData.items.length - itemsToShow} items
               </span>
             )}
@@ -376,8 +352,10 @@ export default function PopularWallpaper({
             href="/cart"
             onClick={() => setIsDrawerOpen(false)}
             className="flex h-[40px] min-w-[175px] items-center justify-center rounded bg-[#49AD91] px-4 py-2 text-sm font-bold uppercase text-white shadow-md"
+            passHref
+            legacyBehavior
           >
-            ₹ {lastItemPrice} • Go to Cart
+            <a>₹ {lastItemPrice} • Go to Cart</a>
           </Link>
         </div>
       </Drawer>
