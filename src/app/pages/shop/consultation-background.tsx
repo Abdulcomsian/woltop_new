@@ -9,7 +9,7 @@ const ConsultationSection = ({ responseData, isLoading }) => {
   // console.log(consultantgirl, logoSrc, "test");
   return (
     <div className="relative mt-8 flex h-[598px] justify-end p-8 md:h-[481px] md:rounded-lg">
-     {logoSrc && (
+      {logoSrc && (
         <Image
           src={logoSrc}
           loader={cloudflareLoader}
@@ -17,11 +17,11 @@ const ConsultationSection = ({ responseData, isLoading }) => {
           alt="Background"
           className="rounded-lg object-cover object-center"
           unoptimized={false}
-          quality={80}
+          quality={65}
           priority
         />
       )}
-      
+
       {consultantgirl && (
         <Image
           src={consultantgirl}
@@ -32,7 +32,8 @@ const ConsultationSection = ({ responseData, isLoading }) => {
           unoptimized={false}
           alt="Consultant"
           sizes="(max-width: 768px) 100vw, 50vw"
-          quality={80}
+          quality={65}
+          priority
         />
       )}
       {/* Right Side - Content */}

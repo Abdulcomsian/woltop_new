@@ -35,12 +35,13 @@ export default function CategorieCard({ cardData, isLoading }) {
                     <Image
                       src={card?.image}
                       loader={cloudflareLoader}
-                      className="rounded-lg object-cover h-full"
+                      className="h-full rounded-lg object-cover"
                       width={470}
                       height={550}
                       alt=""
                       sizes="(max-width: 768px) 100vw, 50vw" // Responsive breakpoints
-                      quality={80}
+                      quality={65}
+                      priority
                     />
                   </Card>
 
