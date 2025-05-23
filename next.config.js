@@ -1,5 +1,4 @@
 import "./src/env.js";
-import webpack from "webpack";
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -17,7 +16,9 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Add these new configurations
   generateBuildId: async () => {
+    // Use git commit hash or timestamp for unique build ID
     return process.env.GIT_COMMIT_SHA || Date.now().toString();
   },
   headers: async () => {
@@ -43,79 +44,11 @@ const config = {
     ];
   },
   onDemandEntries: {
+    // Period (in ms) where the server will keep pages in the buffer
     maxInactiveAge: 3600 * 1000,
+    // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 10,
   },
-  // Webpack customizations (only needed if you have specific optimizations)
-  webpack: (config, { isServer, dev }) => {
-    config.optimization.usedExports = true;
-
-    if (!dev && !isServer) {
-      config.optimization.concatenateModules = true;
-      config.optimization.minimizer.forEach((plugin) => {
-        if (plugin.constructor.name === "TerserPlugin") {
-          plugin.options.terserOptions.compress.drop_console = true;
-        }
-      });
-    }
-
-    config.optimization.splitChunks = {
-      chunks: "all",
-      maxSize: 244 * 1024,
-      minSize: 20 * 1024,
-      cacheGroups: {
-        default: false,
-        vendors: false,
-        vendor: {
-          name: "vendor",
-          test: /[\\/]node_modules[\\/]/,
-          chunks: "all",
-          priority: 20,
-          reuseExistingChunk: true,
-        },
-        framework: {
-          test: /[\\/]node_modules[\\/](react|react-dom|next|@next)[\\/]/,
-          name: "framework",
-          chunks: "all",
-          priority: 30,
-          enforce: true,
-        },
-        commons: {
-          name: "commons",
-          minChunks: 2,
-          chunks: "async",
-          priority: 10,
-          reuseExistingChunk: true,
-        },
-      },
-    };
-
-    config.experiments = {
-      ...config.experiments,
-      topLevelAwait: true,
-      layers: true,
-    };
-
-    config.snapshot = {
-      ...config.snapshot,
-      managedPaths: [/^(.+?[\\/]node_modules[\\/])/],
-      immutablePaths: [/^(.+?[\\/]public[\\/])/],
-    };
-
-    config.devtool = dev ? "eval-cheap-module-source-map" : false;
-
-    config.plugins.push(
-      new webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/,
-      }),
-    );
-
-    return config;
-  },
-  reactStrictMode: true,
-  productionBrowserSourceMaps: false,
-  compress: true,
 };
 
 export default config;
