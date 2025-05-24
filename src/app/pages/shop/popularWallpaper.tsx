@@ -272,8 +272,8 @@ export default function PopularWallpaper({
                   </>
                 )}
 
-                <Link href={`/product/${card.id}`} passHref legacyBehavior>
-                  <a className="block">
+                <Link href={`/product/${card.id}`} passHref>
+                  <div className="block">
                     <div className="custom-card-class relative z-0 h-52 w-auto items-center justify-center rounded-lg md:h-80">
                       <Image
                         src={card.featured_image}
@@ -296,7 +296,7 @@ export default function PopularWallpaper({
                         ₹{card.sale_price || card.range}
                       </span>
                     </div>
-                  </a>
+                  </div>
                 </Link>
               </div>
             ))}

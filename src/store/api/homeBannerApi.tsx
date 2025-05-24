@@ -36,6 +36,7 @@ export const homeBannerApi = createApi({
         return Array.isArray(response.data) ? response.data[0] : response.data;
       },
       // Optionally add cache invalidation tags
+      //@ts-ignore
       invalidatesTags: ["HomeBanner"],
     }),
   }),
