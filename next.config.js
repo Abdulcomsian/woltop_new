@@ -12,8 +12,8 @@ const config = {
   },
   experimental: {
     ppr: true,
-    optimizeCss: true,
-    scrollRestoration: true,
+    // optimizeCss: true,
+    // scrollRestoration: true,
     // Enable Turbopack
     // turbo: true
   },
