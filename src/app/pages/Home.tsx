@@ -217,7 +217,11 @@ export default function Home() {
         className="mx-auto max-w-[1075px] px-3"
         position="left"
       >
-        <VideoSection responseData={homeVideo} isLoading={isLoadingHomeVideo} />
+        <VideoSection
+          //@ts-ignore
+          responseData={homeVideo}
+          isLoading={isLoadingHomeVideo}
+        />
       </SectionBlock>
 
       <div className="mb-10 bg-[#F1FBFF] pt-10 md:mb-[70px] md:pt-[70px]">
