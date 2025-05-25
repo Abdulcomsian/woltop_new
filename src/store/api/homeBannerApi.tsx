@@ -23,6 +23,7 @@ export const homeBannerApi = createApi({
       }),
       transformResponse: (response: {
         data: {
+          banner: boolean;
           id: number;
           name: string;
           image: string;

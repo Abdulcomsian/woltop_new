@@ -25,6 +25,7 @@ export default function Banner({ bannerData }: BannerProps) {
             alt="Banner Background"
             width={1200}
             height={500}
+            priority
           />
         </div>
         <div className="relative mx-auto w-full px-0 py-4 sm:px-4 md:px-4 md:py-20 lg:px-8">
@@ -36,6 +37,7 @@ export default function Banner({ bannerData }: BannerProps) {
                 alt=""
                 width={100}
                 height={50}
+                priority
               />
             </div>
             <p className="mt-4 text-lg font-light tracking-[5%] sm:my-6 sm:text-xl">
@@ -45,7 +47,8 @@ export default function Banner({ bannerData }: BannerProps) {
               {bannerData?.title || "Lorem ipsum dolor sit amet"}
             </h1>
             <p className="mx-auto mt-4 max-w-[730.8px] text-lg text-[#4E4949] sm:mt-6 sm:text-[18px]">
-              {bannerData?.description || "Welcome to Wolpin, your premier destination for exquisite wallpapers and decorative designs."}
+              {bannerData?.description ||
+                "Welcome to Wolpin, your premier destination for exquisite wallpapers and decorative designs."}
             </p>
           </div>
         </div>
